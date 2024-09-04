@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+#Comandos que precisam ser executados: 
+# npm install react-bootstrap 
