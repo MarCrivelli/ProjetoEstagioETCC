@@ -9,7 +9,7 @@ export default function Header() {
                 width={1000}
                 height={1000}
                 class="imagensLinksDoHeader"
-                src="informacoes.png"
+                src="adocao.png"
             />
           </div>
           <h1>Quero Adotar!</h1>
@@ -20,7 +20,7 @@ export default function Header() {
                 width={1000}
                 height={1000}
                 class="imagensLinksDoHeader"
-                src="adocao.png"
+                src="doacao.png"
             />
           </div>
           <h1>Como Doar?</h1>

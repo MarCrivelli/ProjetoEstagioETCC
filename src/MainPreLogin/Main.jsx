@@ -18,7 +18,6 @@ export default function Main() {
                 </div>
             </div>
             <div class="carrossel">
-                <h4>React-Bootstrap Carousel Component</h4>
                 <Carousel>
                     <Carousel.Item interval={5000}>
                     <img
