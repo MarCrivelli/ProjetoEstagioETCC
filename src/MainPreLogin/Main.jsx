@@ -1,7 +1,8 @@
 import "./main.css";
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import Carousel from 'react-bootstrap/Carousel';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from 'react-responsive-carousel';
 
 export default function Main() {
     return (
@@ -9,36 +10,27 @@ export default function Main() {
             <div class="logoPreLogin">
                 <img
                     src="logo.png"
-                    width={200}
-                    height={200}
+                    width={450}
+                    height={400}
                 />
                 <div class="textoLogoPreLogin">
                     <h1>Instituto Esperança</h1>
                     <p>A voz dos animais</p>
                 </div>
             </div>
-            <div class="carrossel">
-                <Carousel>
-                    <Carousel.Item interval={5000}>
-                    <img
-                        width={1000}
-                        height={1000}
-                        class="imagemCarrossel"
-                        src="logo.png"
-                        alt="Image One"
-                    />
-                    </Carousel.Item>
-                    <Carousel.Item>
-                    <img
-                        width={1000}
-                        height={1000}
-                        class="imagemCarrossel"
-                        src="https://media.geeksforgeeks.org/wp-content/uploads/20210425122716/1-300x115.png"
-                        alt="Image Two"
-                    />
-                    </Carousel.Item>
-                </Carousel>
-            </div>
+            <Carousel>
+                <div>
+                    <img  class="imagem" src="logo.png" />
+                    <p className="legend">Legend 1</p>
+                </div>
+                <div>
+                    <img src="logo.png" />
+                </div>
+                <div>
+                    <img src="logo.png" />
+                    <p className="legend">Legend 3</p>
+                </div>
+            </Carousel>
         </div>
     );
 }
