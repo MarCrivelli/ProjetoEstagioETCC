@@ -1,5 +1,5 @@
-import Main from './MainPreLogin/Main';
-import Header from './HeaderPreLogin/Header';
+import Main from './app/componentes/MainPreLogin/app';
+import Header from './app/componentes/HeaderPreLogin/app';
 import "./App.css";
 
 export default function App() {
