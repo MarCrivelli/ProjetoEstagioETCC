@@ -27,6 +27,13 @@
     text-align: center;
 }
 
+.imagemLogo{
+    width: 50%;
+    height: auto;
+    min-width: 200px;
+    max-width: 400px;
+}
+
 .logoPreLogin div{
     display: flex;
     flex-direction: column;
@@ -42,7 +49,83 @@
     font-size: 23px;
 }
 
-.imagemCarrossel{
-    width: 600px;
-    height: 500px;
+.carrossel{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.blocoCarrossel{
+    display: flex;
+    position: relative;
+    transform: translateX(-50%);
+    width: 60%;
+    min-width: 200px;
+    left: 50%;
+    background-color: rgb(228, 125, 51);
+    max-width: 1200px;
+    max-height: 700px;
+}
+
+.imagem{
+    object-fit: scale-down;
+}
+
+/* Estiliza o botão de navegação esquerda */
+.control-arrow.control-prev {
+    background-color: rgba(0, 0, 0, 0.5) !important; 
+    position: relative;
+    top: 50% !important;
+    margin-left: 5px;
+    border-radius: 50%; 
+    width: 50px; 
+    height: 50px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; 
+    font-size: 24px; 
+    transition: background-color 0.3s ease; 
+}
+
+/* Hover no botão de navegação esquerda */
+.control-arrow.control-prev:hover {
+    background-color: rgba(0, 0, 0, 0.8); 
+}
+
+/* Estiliza o botão de navegação direita */
+.control-arrow.control-next {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    position: relative;
+    top: 50% !important;
+    margin-right: 5px;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 24px;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover no botão de navegação direita */
+.control-arrow.control-next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.carousel .slide .legend{
+    display: none;
+}
+
+.carousel .thumb {
+    display: none !important;
+}
+
+@media (max-width: 1100px){
+    .textoLogoPreLogin .titulo{
+        font-size: 45px;
+    }
 }

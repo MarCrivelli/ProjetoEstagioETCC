@@ -4,6 +4,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a lo
 import { Carousel } from 'react-responsive-carousel';
 
 export default function Main() {
+    
     return (
         <div className="mainPreLogin">
             <div className="logoPreLogin">
@@ -11,25 +12,28 @@ export default function Main() {
                     src="logo.png"
                     width={450}
                     height={400}
+                    className="imagemLogo"
                 />
                 <div className="textoLogoPreLogin">
-                    <h1>Instituto Esperança</h1>
+                    <h1 className="titulo">Instituto Esperança</h1>
                     <p>A voz dos animais</p>
                 </div>
             </div>
-            <Carousel>
-                <div>
-                    <img  className="imagem" src="logo.png" />
-                    <p className="legend">Legend 1</p>
+            <Carousel className="carrossel">
+                <div className="blocoCarrossel">
+                    <img className="imagem" src="avatar.png" />
+                    <p className="legend">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</p>
                 </div>
-                <div>
-                    <img src="logo.png" />
+                <div className="blocoCarrossel">
+                    <img className="imagem" src="avatar.png" />
+                    <p className="legend">Legend 2</p>
                 </div>
-                <div>
-                    <img src="logo.png" />
+                <div className="blocoCarrossel">
+                    <img className="imagem" src="avatar.png" />
                     <p className="legend">Legend 3</p>
                 </div>
             </Carousel>
+             n
         </div>
     );
 }

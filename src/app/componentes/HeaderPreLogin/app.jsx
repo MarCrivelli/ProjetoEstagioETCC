@@ -2,6 +2,7 @@ import "./header.css";
 import { useEffect, useState } from 'react';
 
 export default function Header() {
+  //O código abaixo cuida dos eventos do header responsivo com botão de hambúrguer.
   const [isActive, setIsActive] = useState(false);
 
   const toggleMenu = (event) => {
@@ -19,15 +20,35 @@ export default function Header() {
       button.removeEventListener('touchstart', toggleMenu);
     };
   }, [isActive]);
+
+
+  //O código abaixo cuida da função que eu pensei para o navbar ganhar uma borda quando o usuário rolar a tela para baixo
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll); // Cleanup
+  }, []);
+
+
+
     return(
       <div className="fundoHeader">
-        <header id="header" className="header">
-          <a id="logo" href="/">
-          <img src="avatar.png" className="iconeAvatar"/>
+        <header id="header" className={scrolled ? 'scrolled' : ''}>
+          <a id="logo" href="/" title="usuário">
+            <img src="avatar.png" alt="Botão que leva à página de autenticação" className="iconeAvatar"/>
           </a>
             <nav 
             id="nav"
-            className={isActive ? 'active' : ''}
+            className={isActive ? 'active' : '' }
             >
               <button 
               id="btnMobile"
