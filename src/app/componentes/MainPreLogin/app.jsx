@@ -33,7 +33,6 @@ export default function Main() {
                     <p className="legend">Legend 3</p>
                 </div>
             </Carousel>
-             n
         </div>
     );
 }
