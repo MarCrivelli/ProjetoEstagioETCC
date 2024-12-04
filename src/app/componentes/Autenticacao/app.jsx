@@ -1,10 +1,9 @@
 'use client'
 import React, { useState } from "react";
 import "./autenticacao.css"; // Arquivo de estilo padrão
-import { useRouter } from 'next/navigation';
+
 
 export default function Autenticacao() {
-  const router = useRouter();
 
   const [usuario, setUsuario] = useState({
     nome: '',
@@ -82,7 +81,6 @@ export default function Autenticacao() {
       console.log(data);
       if (response.ok) {
         alert("Login realizado com sucesso!");
-        router.push('/dashboard'); // Redireciona para o dashboard ou página principal
       } else {
         alert(`Erro: ${data.mensagem}`);
       }

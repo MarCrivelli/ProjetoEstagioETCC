@@ -17,12 +17,12 @@
 #header{
     display: flex;
     align-items: center;
-    min-height: 90px;
+    min-height: 126px;
     padding: 1rem;
     justify-content: space-between;
     position: fixed;
     width: 100%;
-    background-color: white;
+    background-color: rgb(255, 255, 255);
     z-index: 10000;
 }
 

@@ -2,11 +2,21 @@ import "./main.css";
 import 'bootstrap/dist/css/bootstrap.css';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
+import Header from "../HeaderPreLogin/app";
 
 export default function Main() {
+
+    var erro = false
+
+    if(erro){
+        return(
+            <h1>Erro</h1>
+        )
+    }
     
     return (
         <div className="mainPreLogin">
+            <Header/>
             <div className="logoPreLogin">
                 <img
                     src="logo.png"
@@ -22,15 +32,12 @@ export default function Main() {
             <Carousel className="carrossel">
                 <div className="blocoCarrossel">
                     <img className="imagem" src="avatar.png" />
-                    <p className="legend">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</p>
                 </div>
                 <div className="blocoCarrossel">
                     <img className="imagem" src="avatar.png" />
-                    <p className="legend">Legend 2</p>
                 </div>
                 <div className="blocoCarrossel">
                     <img className="imagem" src="avatar.png" />
-                    <p className="legend">Legend 3</p>
                 </div>
             </Carousel>
         </div>

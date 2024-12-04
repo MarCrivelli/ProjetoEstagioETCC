@@ -1,0 +1,17 @@
+.pagDenuncia{
+    min-height: 100vh;
+    width: 100%;
+    background-color: aqua;
+}
+
+.fundoDenuncia{
+    display: flex;
+    background-color: red;
+    width: 100vw;
+    min-height: 86.7vh;
+    margin-top: 36px;
+}
+
+.fundoDenuncia h1{
+    background-color: aqua;
+}
