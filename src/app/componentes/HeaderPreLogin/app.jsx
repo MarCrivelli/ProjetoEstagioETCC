@@ -1,5 +1,4 @@
 import "./header.css";
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
@@ -46,7 +45,7 @@ export default function Header() {
       <div className="fundoHeader">
         <header id="header" className={scrolled ? 'scrolled' : ''}>
           <Link id="logo" to="/" title="usuário">
-            <img src="avatar.png" alt="Botão que leva à página de autenticação" className="iconeAvatar"/>
+            <img src="header/woman.png" alt="Botão que leva à página de autenticação" className="iconeAvatar"/>
           </Link>
             <nav 
             id="nav"

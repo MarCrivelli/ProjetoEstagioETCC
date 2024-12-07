@@ -4,7 +4,7 @@
 }
 
 .a{
-    color: black;
+    color: rgb(255, 255, 255);
     text-decoration: none;
     width: 300px;
     height: 300px;
@@ -14,22 +14,28 @@
     cursor: pointer;
 }
 
+.a:hover .textoLink{
+    opacity: 1;
+    transition: 0.5s;
+}
+
 #header{
     display: flex;
     align-items: center;
     min-height: 126px;
-    padding: 1rem;
     justify-content: space-between;
     position: fixed;
     width: 100%;
-    background-color: rgb(255, 255, 255);
     z-index: 10000;
+    background-color: rgb(255, 255, 255);
 }
 
 #menu{
     display: flex;
     list-style: none;
     gap: 50px;
+    height: auto;
+    margin: 0;
 }
 
 #menu a{
@@ -46,22 +52,25 @@
 .iconeAvatar{
     width: 70px;
     height: 70px;
+    margin-left: 30%;
 }
 
 .alinharLinks{
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
     gap: 10px;
 }
 
 .iconeLink{
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
 }
 
 .textoLink{
     font-size: 20px;
+    color: aliceblue;
+    opacity: 1;
 }
 
 .scrolled {
@@ -76,11 +85,17 @@
     #btnMobile{
         display: block;
     }
+    .alinharLinks{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
     #menu{
         display: block;
         position: absolute;
         width: 100%;
-        top: 100px;
+        top: 126px;
         right: 0px;
         background-color: rgb(255, 255, 255);
         height: 0px;
@@ -107,6 +122,7 @@
         border: none;
         background: none;
         cursor: pointer;
+        margin-right: 15px;
     }
     #hamburguer{
         display: block;

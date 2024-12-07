@@ -5,7 +5,6 @@ import SaudeUnica from '../componentes/SaudeUnica/app';
 import SobreNos from '../componentes/SobreNos/app';
 import Denuncie from '../componentes/Denuncie/app';
 import { BrowserRouter, Route, Routes} from 'react-router-dom';
-import React from "react";
 
 export default function Rotas() {
   return(
