@@ -20,7 +20,7 @@ export default function Main() {
             <div className="logoPreLogin">
                 <img
                     src="logo.png"
-                    width={450}
+                    width={800}
                     height={400}
                     className="imagemLogo"
                 />
@@ -32,13 +32,24 @@ export default function Main() {
             <Carousel className="carrossel">
                 <div className="blocoCarrossel">
                     <img className="imagem" src="mainVisitantes/cachorro.png" />
-                    <h1>Oi</h1>
+                    <div className="textoCarrossel">
+                        <h1>Olá</h1>
+                        <p>Insto é um teste daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaqaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaae responsividade, então vou enrolar aqui só para ter um texto grande.</p>
+                    </div>
                 </div>
                 <div className="blocoCarrossel">
                     <img className="imagem" src="avatar.png" />
+                    <div className="textoCarrossel">
+                        <h1>Olá</h1>
+                        <p>Insto é um teste daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaqaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaae responsividade, então vou enrolar aqui só para ter um texto grande.</p>
+                    </div>
                 </div>
                 <div className="blocoCarrossel">
                     <img className="imagem" src="avatar.png" />
+                    <div className="textoCarrossel">
+                        <h1>Olá</h1>
+                        <p>Insto é um teste daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaqaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaae responsividade, então vou enrolar aqui só para ter um texto grande.</p>
+                    </div>
                 </div>
             </Carousel>
         </div>

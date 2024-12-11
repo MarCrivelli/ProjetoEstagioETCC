@@ -45,7 +45,7 @@ export default function Header() {
       <div className="fundoHeader">
         <header id="header" className={scrolled ? 'scrolled' : ''}>
           <Link id="logo" to="/" title="Instituto Esperança">
-            <img src="logo.png" alt="Botão que leva à página de autenticação" className="iconeAvatar"/>
+            <img src="logo.png" className="iconeAvatar"/>
           </Link>
             <nav 
             id="nav"
