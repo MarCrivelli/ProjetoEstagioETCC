@@ -44,9 +44,10 @@ export default function Header() {
     return(
       <div className="fundoHeader">
         <header id="header" className={scrolled ? 'scrolled' : ''}>
-          <Link id="logo" to="/" title="usuário">
-            <img src="header/woman.png" alt="Botão que leva à página de autenticação" className="iconeAvatar"/>
+          <Link id="logo" to="/" title="Instituto Esperança">
+            <img src="logo.png" alt="Botão que leva à página de autenticação" className="iconeAvatar"/>
           </Link>
+          <div className="testando">
             <nav 
             id="nav"
             className={isActive ? 'active' : '' }
@@ -63,7 +64,7 @@ export default function Header() {
                 <li>
                   <Link to={"/quero_adotar"} className="a">
                     <div className="alinharLinks">
-                      <img className="iconeLink" src="adocao.png"></img>
+                      <img className="iconeLink" src="header/pata.png"></img>
                       <h1 className="textoLink">Quero adotar!</h1>
                     </div>
                   </Link>
@@ -71,7 +72,7 @@ export default function Header() {
                 <li>
                   <Link to={"/como_doar"} className="a">
                     <div className="alinharLinks">
-                      <img className="iconeLink" src="doacao.png"></img>
+                      <img className="iconeLink" src="header/doar.png"></img>
                       <h1 className="textoLink">Como doar?</h1>
                     </div>
                   </Link>
@@ -102,6 +103,10 @@ export default function Header() {
                 </li>
               </ul>
             </nav>
+            <Link id="logo" to="/" title="usuário">
+              <img src="header/woman.png" alt="Botão que leva à página de autenticação" className="iconeAvatar"/>
+            </Link>
+          </div>
         </header>
       </div>
     );

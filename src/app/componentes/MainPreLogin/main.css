@@ -4,6 +4,8 @@
     align-items: center;
     flex-direction: column;
     width: 100%;
+    /* background: radial-gradient(circle, #444848ce, #003734, #13002c); */
+    background-color: #03051b;
 }
 
 .logoPreLogin{
@@ -51,7 +53,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     width: 100%;
+    filter: drop-shadow(0px 0px 15px #21f6e4);
 }
 
 .blocoCarrossel{
@@ -61,13 +65,15 @@
     width: 60%;
     min-width: 200px;
     left: 50%;
-    background-color: rgb(228, 125, 51);
-    max-width: 1200px;
-    max-height: 700px;
+    filter: drop-shadow(0px 0px 90px #0c66cd);
+    max-width: 1800px;
+    max-height: 900px;
+    padding-block: 10%;
 }
 
 .imagem{
     object-fit: scale-down;
+    z-index: 100;
 }
 
 /* Estiliza o botão de navegação esquerda */

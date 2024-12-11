@@ -31,7 +31,8 @@ export default function Main() {
             </div>
             <Carousel className="carrossel">
                 <div className="blocoCarrossel">
-                    <img className="imagem" src="avatar.png" />
+                    <img className="imagem" src="mainVisitantes/cachorro.png" />
+                    <h1>Oi</h1>
                 </div>
                 <div className="blocoCarrossel">
                     <img className="imagem" src="avatar.png" />
