@@ -47,7 +47,6 @@ export default function Header() {
           <Link id="logo" to="/" title="Instituto Esperança">
             <img src="logo.png" alt="Botão que leva à página de autenticação" className="iconeAvatar"/>
           </Link>
-          <div className="testando">
             <nav 
             id="nav"
             className={isActive ? 'active' : '' }
@@ -101,12 +100,13 @@ export default function Header() {
                     </div>
                   </Link>
                 </li>
+                <li>
+                  <Link className="linkUsuario" to="/" title="usuário">
+                    <img src="header/woman.png" alt="Botão que leva à página de autenticação" className="iconeAvatar"/>
+                  </Link>
+                </li>
               </ul>
             </nav>
-            <Link id="logo" to="/" title="usuário">
-              <img src="header/woman.png" alt="Botão que leva à página de autenticação" className="iconeAvatar"/>
-            </Link>
-          </div>
         </header>
       </div>
     );

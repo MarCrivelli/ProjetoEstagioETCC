@@ -30,12 +30,6 @@
     border-bottom: 1px solid rgba(138, 138, 138, 0.712);
 }
 
-.testando{
-    display: flex;
-    align-items: center;
-    padding-right: 2.5rem;
-}
-
 #menu{
     display: flex;
     list-style: none;
@@ -58,10 +52,13 @@
     display: none;
 }
 
+.linkUsuario{
+    border: 0 !important;
+}
+
 .iconeAvatar{
     width: 70px;
     height: 70px;
-    margin-left: 30%;
 }
 
 .alinharLinks{
