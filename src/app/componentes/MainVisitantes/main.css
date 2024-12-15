@@ -4,7 +4,6 @@
     align-items: center;
     flex-direction: column;
     width: 100%;
-    /* background: radial-gradient(circle, #444848ce, #003734, #13002c); */
     background-color: #03051b;
 }
 
@@ -13,11 +12,33 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    margin-top: 100px;
     margin-bottom: 2%;
     width: 100%;
     flex-wrap: wrap;
+    background-size: cover;
+    gap: 50px; 
+    min-height: 515px;
+    overflow: hidden;  
+    z-index: 1;
 }
+
+.logoPreLogin::before {
+    content: ''; 
+    position: absolute;
+    top: 12%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 50%;
+    background-image: url(mainVisitantes/teste.jpg); 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.3; 
+    z-index: -1; 
+    border-bottom: 10px solid #03051b7e;
+  }
 
 .textoLogoPreLogin{
     display: flex;
@@ -25,28 +46,23 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    z-index: 1;
 }
 
 .imagemLogo{
-    width: 50% !important;
-    height: auto !important;
+    width: 50%;
+    height: auto;
     min-width: 200px;
     max-width: 400px;
-}
-
-.logoPreLogin div{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.logoPreLogin div h1{
-    font-size: 65px;
+    z-index: 1;
 }
 
 .logoPreLogin div p{
-    font-size: 23px;
+    font-size: 1.5rem;
+}
+
+.logoPreLogin div h1, p{
+    color: rgb(255, 255, 255);
 }
 
 .carrossel{
@@ -139,9 +155,24 @@
     display: none !important;
 }
 
+.sobreNos{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-block: 1.5rem;
+    color: white;
+    min-height: 600px;
+}
+
 @media (max-width: 1100px){
+    .logoPreLogin{
+        gap: 0px; 
+    }
+    .textoLogoPreLogin{
+        width: 100%;
+    }
     .textoLogoPreLogin .titulo{
-        font-size: 45px;
+        font-size: 2.5rem;
     }
     .blocoCarrossel{
         flex-wrap: wrap;
@@ -154,4 +185,7 @@
     .imagem{
         height: 40vh;
     }
+    .logoPreLogin::before {
+        height: 35%;
+      }
 }

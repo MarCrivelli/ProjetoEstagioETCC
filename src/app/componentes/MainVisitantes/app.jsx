@@ -19,7 +19,7 @@ export default function Main() {
             <Header/>
             <div className="logoPreLogin">
                 <img
-                    src="logo.png"
+                    src="logos/logoBranca.png"
                     width={800}
                     height={400}
                     className="imagemLogo"
@@ -33,25 +33,28 @@ export default function Main() {
                 <div className="blocoCarrossel">
                     <img className="imagem" src="mainVisitantes/cachorro.png" />
                     <div className="textoCarrossel">
-                        <h1>Olá</h1>
-                        <p>Insto é um teste daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaqaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaae responsividade, então vou enrolar aqui só para ter um texto grande.</p>
+                        <h1>Aqui, os animais são a nossa família.</h1>
+                        <p>Se encontrou um animalzinho abandonado, traga para nós, que nós cuidaremos dele até ele achar um novo lar. Se quiser adotar, também podemos te dar boas dicas de como cuidar do seu pet</p>
+                    </div>
+                </div>
+                <div className="blocoCarrossel">
+                    <img className="imagem" src="mainVisitantes/gato.png" />
+                    <div className="textoCarrossel">
+                        <h1>Recebemos diversos tipos de animais de quatro patar!</h1>
+                        <p>Cuidamos não apenas de animais domésticos, como gatos ou cachorros, mas também cuidamos de animais silvestres, como cavalos, papagaios e muitos outros.</p>
                     </div>
                 </div>
                 <div className="blocoCarrossel">
                     <img className="imagem" src="avatar.png" />
                     <div className="textoCarrossel">
                         <h1>Olá</h1>
-                        <p>Insto é um teste daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaqaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaae responsividade, então vou enrolar aqui só para ter um texto grande.</p>
-                    </div>
-                </div>
-                <div className="blocoCarrossel">
-                    <img className="imagem" src="avatar.png" />
-                    <div className="textoCarrossel">
-                        <h1>Olá</h1>
-                        <p>Insto é um teste daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaqaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaae responsividade, então vou enrolar aqui só para ter um texto grande.</p>
+                        <p></p>
                     </div>
                 </div>
             </Carousel>
+            <div className="sobreNos">
+                <h1>Quem somos?</h1>
+            </div>
         </div>
     );
 }

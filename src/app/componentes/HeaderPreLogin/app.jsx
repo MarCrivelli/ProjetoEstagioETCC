@@ -44,9 +44,11 @@ export default function Header() {
     return(
       <div className="fundoHeader">
         <header id="header" className={scrolled ? 'scrolled' : ''}>
-          <Link id="logo" to="/" title="Instituto Esperança">
-            <img src="logo.png" className="iconeAvatar"/>
-          </Link>
+          <div className="containerLogo">
+            <Link id="logo" to="/" title="Instituto Esperança">
+              <img src="logos/logoBranca.png" className="logoHeader"/>
+            </Link>
+          </div>
             <nav 
             id="nav"
             className={isActive ? 'active' : '' }
@@ -89,14 +91,6 @@ export default function Header() {
                     <div className="alinharLinks">
                       <img className="iconeLink" src="saude.png"></img>
                       <h1 className="textoLink">Saúde única</h1>
-                    </div>
-                  </Link>
-                </li>
-                <li>
-                  <Link to={"/sobre_nos"} className="a">
-                    <div className="alinharLinks">
-                      <img className="iconeLink" src="info.png"></img>
-                      <h1 className="textoLink">Sobre nós</h1>
                     </div>
                   </Link>
                 </li>
