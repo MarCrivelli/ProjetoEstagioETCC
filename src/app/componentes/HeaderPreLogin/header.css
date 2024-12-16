@@ -1,6 +1,7 @@
 .fundoHeader{
     min-height: 90px;
     width: 100%;
+    z-index: 90000;
 }
 
 .a{

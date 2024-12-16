@@ -22,15 +22,16 @@
     z-index: 1;
 }
 
-.logoPreLogin::before {
+.logoPreLogin::after {
     content: ''; 
     position: absolute;
-    top: 12%;
+    top: 0;
     left: 0;
     right: 0;
     bottom: 0;
+    margin-top: 125px;
     width: 100%;
-    height: 50%;
+    height: 600px;
     background-image: url(mainVisitantes/teste.jpg); 
     background-position: center;
     background-repeat: no-repeat;
@@ -38,7 +39,7 @@
     opacity: 0.3; 
     z-index: -1; 
     border-bottom: 10px solid #03051b7e;
-  }
+}
 
 .textoLogoPreLogin{
     display: flex;
@@ -167,17 +168,24 @@
 @media (max-width: 1100px){
     .logoPreLogin{
         gap: 0px; 
+        margin-bottom: 100px;
     }
     .textoLogoPreLogin{
-        width: 100%;
+        justify-content: flex-start;
+        height: 270px;
+        margin-bottom: 20px;
     }
     .textoLogoPreLogin .titulo{
         font-size: 2.5rem;
     }
+    /* .carrossel{
+        
+    } */
     .blocoCarrossel{
         flex-wrap: wrap;
         width: 100%;
         justify-content: center;
+        padding-block: 150px;
     }
     .textoCarrossel{
         width: 80%;
@@ -185,7 +193,7 @@
     .imagem{
         height: 40vh;
     }
-    .logoPreLogin::before {
-        height: 35%;
+    .logoPreLogin::after {
+        height: 430px;
       }
 }
