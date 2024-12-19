@@ -54,6 +54,11 @@ export default function Main() {
             </Carousel>
             <div className="sobreNos">
                 <h1>Quem somos?</h1>
+                <p>  
+                    Somos uma instituição não-remunerada que resgata, trata, cuida e se encarrega de encontrar um lar adequado a animais abandonados ou que simplesmente foram entregues 
+                em nossas mãos. 
+                    Além disso, tratamos de animais silvestres, então se tem conhecimento de algum animal silvestre que esteja machucado, nós podemos ajudar.
+                </p>
             </div>
         </div>
     );

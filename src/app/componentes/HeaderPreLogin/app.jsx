@@ -22,28 +22,9 @@ export default function Header() {
     };
   }, [isActive]);
 
-
-  //O código abaixo cuida da função que eu pensei para o navbar ganhar uma borda quando o usuário rolar a tela para baixo
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll); // Cleanup
-  }, []);
-
-
-
     return(
       <div className="fundoHeader">
-        <header id="header" className={scrolled ? 'scrolled' : ''}>
+        <header id="header">
           <div className="containerLogo">
             <Link id="logo" to="/" title="Instituto Esperança">
               <img src="logos/logoBranca.png" className="logoHeader"/>
@@ -65,7 +46,7 @@ export default function Header() {
                 <li>
                   <Link to={"/quero_adotar"} className="a">
                     <div className="alinharLinks">
-                      <img className="iconeLink" src="header/pata.png"></img>
+                      <img className="iconeLink" src="header/adotar.png"></img>
                       <h1 className="textoLink">Quero adotar!</h1>
                     </div>
                   </Link>
@@ -81,7 +62,7 @@ export default function Header() {
                 <li>
                   <Link to={"/denuncie"} className="a">
                     <div className="alinharLinks">
-                    <img className="iconeLink" src="denuncia.png"></img>
+                    <img className="iconeLink" src="header/denuncie.png"></img>
                       <h1 className="textoLink">Denuncie</h1>
                     </div>
                   </Link>
@@ -89,7 +70,7 @@ export default function Header() {
                 <li>
                   <Link to={"/saude_unica"} className="a">
                     <div className="alinharLinks">
-                      <img className="iconeLink" src="saude.png"></img>
+                      <img className="iconeLink" src="header/saude.png"></img>
                       <h1 className="textoLink">Saúde única</h1>
                     </div>
                   </Link>

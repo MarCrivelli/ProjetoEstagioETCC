@@ -1,0 +1,55 @@
+.mainAdms{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.fundoMainAdm{
+    display: flex;
+    border-radius: 25px;
+    min-height: 850px;
+    width: 93%;
+    background-color: #ecdcecbe;
+}
+
+.painel {
+    width: 90vw; /* 90% da largura da tela */
+    height: 90vh; /* 90% da altura da tela */
+    margin: auto; /* Centraliza a div no container */
+    display: grid; /* Se necessário para o layout dos cards */
+    grid-template-columns: 1fr 1fr; /* Configura o grid para os cards */
+    grid-template-rows: auto auto; /* Ajusta as linhas ao conteúdo */
+    gap: 16px; /* Espaço entre os cards */
+  }
+  
+  
+  .card {
+    background-color: #c76d6d;
+    padding: 16px;
+    text-align: center;
+    font-size: 1rem;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card1 {
+    grid-column: 1 / 2; /* Ocupa a primeira coluna */
+    grid-row: 1 / 2;    /* Ocupa a primeira linha */
+  }
+  
+  .card2 {
+    grid-column: 2 / 3; /* Ocupa a segunda coluna */
+    grid-row: 1 / 2;    /* Ocupa a primeira linha */
+  }
+  
+  .card3 {
+    grid-column: 1 / 2; /* Ocupa a primeira coluna */
+    grid-row: 2 / 3;    /* Ocupa a segunda linha */
+  }
+  
+  .card4 {
+    grid-column: 2 / 3; /* Ocupa a segunda coluna */
+    grid-row: 2 / 2;    /* Ocupa as duas linhas (vertical) */
+  }
+  
