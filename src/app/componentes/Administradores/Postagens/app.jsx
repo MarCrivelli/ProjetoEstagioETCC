@@ -1,16 +1,7 @@
-import styles from "./mainAdm.module.css";
-import 'bootstrap/dist/css/bootstrap.css';
+import styles from "./postagem.module.css";
 import HeaderAdms from "../HeaderAdms/app";
 
-export default function MainAdms() {
-
-    var erro = false;
-
-    if (erro) {
-        return (
-            <h1>Erro</h1>
-        );
-    }
+export default function ProgramarPostagem() {
 
     return (
         <div className={styles.mainAdms}>

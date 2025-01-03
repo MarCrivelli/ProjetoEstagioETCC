@@ -1,4 +1,4 @@
-import Header from "../HeaderPreLogin/app";
+import Header from "../HeaderVisitantes/app";
 import "./denuncie.css";
 
 export default function Denuncie() {

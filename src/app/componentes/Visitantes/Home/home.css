@@ -73,6 +73,7 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    margin-top: 45px;
 }
 
 .blocoCarrossel{
@@ -173,7 +174,6 @@
     font-size: 4rem;
     padding-bottom: 3%;
     text-align: center;
-    text-shadow: #00685a 2px 5px;
 }
 
 .sobreNos p{
@@ -185,7 +185,9 @@
 @media (max-width: 1100px){
     .logoPreLogin{
         gap: 0px; 
-        margin-bottom: 100px;
+        margin-bottom: 0px;
+        min-height: 0px;
+        height: 420px;
     }
     .textoLogoPreLogin{
         justify-content: flex-start;
