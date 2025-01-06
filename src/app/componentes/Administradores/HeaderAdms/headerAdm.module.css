@@ -130,7 +130,6 @@
       position: relative;
       left: 50%;
       transform: translateX(-50%);
-      border: 1px solid red;
     }
     .btnMobile {
       display: flex;
@@ -139,5 +138,33 @@
       border: none;
       background: none;
       cursor: pointer;
+      padding: 15px;
+    }
+    .hamburguerVisitantes {
+      display: block;
+      border-top: 2px solid;
+      color: rgb(0, 0, 0);
+      width: 35px;
+    }
+    .hamburguerVisitantes::after,
+    .hamburguerVisitantes:before {
+      content: "";
+      display: block;
+      width: 35px;
+      height: 2px;
+      background-color: currentColor;
+      margin-top: 10px;
+      transition: 0.3s;
+      position: relative;
+    }
+    .nav.active .hamburguerVisitantes {
+      border-top-color: transparent;
+    }
+    .nav.active .hamburguerVisitantes::before {
+      transform: rotate(135deg);
+    }
+    .nav.active .hamburguerVisitantes::after {
+      transform: rotate(-135deg);
+      top: -12px;
     }
 }  

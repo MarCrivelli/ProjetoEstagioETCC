@@ -90,7 +90,7 @@ export default function HeaderAdms() {
                 title="usuário"
               >
                 <img
-                  src="header/user.png"
+                  src="/usuario.png"
                   alt="Botão que leva à página de autenticação"
                   className={styles.iconeAvatar}
                 />

@@ -102,7 +102,7 @@ export default function Header() {
             <li>
               <Link className={styles.linkUsuario} to="/" title="usuário">
                 <img
-                  src="header/user.png"
+                  src="/usuario.png"
                   alt="Botão que leva à página de autenticação"
                   className={styles.iconeAvatar}
                 />
