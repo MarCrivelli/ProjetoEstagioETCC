@@ -1,8 +1,10 @@
-import styles from "./mainAdm.module.css";
 import 'bootstrap/dist/css/bootstrap.css';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
+import styles from "./mainAdm.module.css";
 import HeaderAdms from "../HeaderAdms/app";
+import BotaoPagInicial from "../BotaoPagInicial/app";
+
 
 export default function HomeAdms() {
 
@@ -15,8 +17,11 @@ export default function HomeAdms() {
     }
 
     return (
-        <div className={styles.mainAdms}>
+        <div>
             <HeaderAdms />
+            {/* Importações que não alteram outras coisas na página */}
+            <BotaoPagInicial/>
+
             <div className={styles.painel}>
                 <div className={`${styles.card} ${styles.card1}`}>
                 </div>
@@ -29,7 +34,7 @@ export default function HomeAdms() {
                 <div className={`${styles.card} ${styles.card3}`}>
                     <Carousel className={styles.carrossel}>
                         <div className={styles.blocoCarrossel}>
-                            <h1>olá</h1>
+                            <div></div>
                         </div>
                         <div className={styles.blocoCarrossel}>
                             <h1>olá</h1>
@@ -50,10 +55,10 @@ export default function HomeAdms() {
                         <p><strong>Última alteração:</strong> há 999 dias</p>
                         <p><strong>Nível de acesso:</strong> administrador</p>
                     </div>
-                    <button className={`${styles.padraoBotao} ${styles.botaoEscuro}`}>
-                        Funções de administrador
-                    </button>
-                    <button className={`${styles.padraoBotao} ${styles.botaoClaro}`}></button>
+                    <div className={styles.alinharBotoesCard4}>
+                        <button className={`${styles.padraoBotao} ${styles.botaoEscuro}`}>Funções de administrador</button>
+                        <button className={`${styles.padraoBotao} ${styles.botaoClaro}`}>Configurar Perfil</button>
+                    </div>
                 </div>
             </div>
         </div>

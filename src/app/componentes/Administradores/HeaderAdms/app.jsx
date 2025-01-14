@@ -1,4 +1,4 @@
-import styles from "./headerAdm.module.css"; // Importando o CSS Module
+import styles from "./headerAdm.module.css"; 
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -24,15 +24,17 @@ export default function HeaderAdms() {
   return (
     <div className={styles.fundoHeader}>
       <header id="headerAdm" className={styles.headerAdm}>
-        <div className={styles.containerLogo}>
-          <Link id="logo" to="/" title="Instituto Esperança">
-            <img
-              src="logos/logoPreta.png"
-              className={styles.logoHeader}
-              alt="Logo do Instituto Esperança"
-            />
+          <Link className={styles.containerLogo} to="/administracao" title="Instituto Esperança">
+              <img
+                src="logos/logoPreta.png"
+                className={styles.logoHeader}
+                alt="Logo do Instituto Esperança"
+              />
+              <div className={styles.textoLogo}>
+                <h1 className={styles.tituloLogo}>Instituto Esperança</h1>
+                <p className={styles.subtituloLogo}>A voz dos animais</p>
+              </div>
           </Link>
-        </div>
         <nav
           id="nav"
           className={`${styles.nav} ${isActive ? styles.active : ""}`}

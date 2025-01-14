@@ -25,7 +25,28 @@
   }
   
   .containerLogo {
+    display: flex;
+    align-items: center;
     padding-left: 25px;
+    flex-direction: row;
+    width: auto;
+    height: 100%;
+    gap: 40px;
+    text-decoration: none;
+  }
+
+  .containerLogo .tituloLogo, .subtituloLogo{
+    margin: 0;
+    color: rgb(0, 0, 0);
+    text-align: center;
+  }
+
+  .containerLogo h1{
+    font-size: 2rem;
+  }
+
+  .containerLogo p{
+    font-size: 1.4rem;
   }
   
   .menu {
@@ -84,6 +105,12 @@
     display: block;
     margin-bottom: 0px;
   }
+
+  @media (max-width: 1400px) {
+    .textoLogo{
+      display: none;
+    }
+  }
   
   @media (max-width: 1100px) {
     .btnMobile {
@@ -140,14 +167,14 @@
       cursor: pointer;
       padding: 15px;
     }
-    .hamburguerVisitantes {
+    .hamburguer {
       display: block;
       border-top: 2px solid;
       color: rgb(0, 0, 0);
       width: 35px;
     }
-    .hamburguerVisitantes::after,
-    .hamburguerVisitantes:before {
+    .hamburguer::after,
+    .hamburguer:before {
       content: "";
       display: block;
       width: 35px;
@@ -157,13 +184,13 @@
       transition: 0.3s;
       position: relative;
     }
-    .nav.active .hamburguerVisitantes {
+    .nav.active .hamburguer {
       border-top-color: transparent;
     }
-    .nav.active .hamburguerVisitantes::before {
+    .nav.active .hamburguer::before {
       transform: rotate(135deg);
     }
-    .nav.active .hamburguerVisitantes::after {
+    .nav.active .hamburguer::after {
       transform: rotate(-135deg);
       top: -12px;
     }
