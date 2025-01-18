@@ -1,19 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat");
 
-.conteudoDoSite {
+.alinharFormulario{
   display: flex;
+  min-height: calc(100vh - 126px);
   justify-content: center;
   align-items: center;
-  min-height: 84vh;
-  background-color: rgb(240, 237, 237);
 }
 
-.h1 {
-  font-weight: bold;
+.tituloAutenticacao {
   margin: 0;
 }
 
-.p {
+.textoAutenticar{
   font-size: 14px;
   font-weight: 100;
   line-height: 20px;

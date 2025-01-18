@@ -100,7 +100,7 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link className={styles.linkUsuario} to="/" title="usuário">
+              <Link className={styles.linkUsuario} to="/autenticar" title="usuário">
                 <img
                   src="/usuario.png"
                   alt="Botão que leva à página de autenticação"

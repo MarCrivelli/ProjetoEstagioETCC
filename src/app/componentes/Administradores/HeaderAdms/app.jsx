@@ -88,7 +88,7 @@ export default function HeaderAdms() {
             <li>
               <Link
                 className={styles.linkUsuario}
-                to="/"
+                to="/autenticar"
                 title="usuário"
               >
                 <img

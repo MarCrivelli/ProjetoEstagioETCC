@@ -6,7 +6,9 @@ export default function ProgramarPostagem() {
     return (
         <div>
             <HeaderAdms />
-            <div className={styles.algo}></div>
+            <div className={styles.fundoPostagem}>
+                <div className={styles.painel}></div>
+            </div>
         </div>
     );
 }

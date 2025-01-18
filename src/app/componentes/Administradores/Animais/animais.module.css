@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Cherry+Swash&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Honk&family=Outfit:wght@100..900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Rubik+Wet+Paint&family=Tiny5&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Cherry+Swash&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Honk&family=Oswald:wght@200..700&family=Outfit:wght@100..900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Rubik+Wet+Paint&family=Tiny5&display=swap');
 
 .alinharPainel {
   display: flex;
@@ -46,7 +46,10 @@
 
 .tituloAcordeao {
   font-size: 1.5rem;
-  font-family: "Exo 2", serif;
+  font-family: "Oswald", serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .corpoAcordeao {
@@ -70,7 +73,6 @@
   display: flex;
   border-radius: 5px;
   height: auto;
-  background-color: rgb(0, 195, 255);
   max-width: 640px;
 }
 
@@ -136,7 +138,7 @@
   width: 300px;
   height: auto;
   max-height: 300px;
-  min-height: 150px;
+  min-height: 170px;
   object-fit: scale-down;
   border: 2px dashed #ccc;
   border-radius: 10px;

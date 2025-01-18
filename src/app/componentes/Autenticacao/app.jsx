@@ -1,14 +1,13 @@
-'use client'
+"use client";
 import React, { useState } from "react";
-import "./autenticacao.css"; // Arquivo de estilo padrão
-
+import styles from "../Autenticacao/autenticacao.module.css";
+import Header from "../Visitantes/HeaderVisitantes/app";
 
 export default function Autenticacao() {
-
   const [usuario, setUsuario] = useState({
-    nome: '',
-    email: '',
-    password: ''
+    nome: "",
+    email: "",
+    password: "",
   });
 
   const [isRightPanelActive, setIsRightPanelActive] = useState(false);
@@ -16,21 +15,21 @@ export default function Autenticacao() {
   const alterarNome = (novoNome) => {
     setUsuario((valoresAnteriores) => ({
       ...valoresAnteriores,
-      nome: novoNome
+      nome: novoNome,
     }));
   };
 
   const alterarEmail = (novoEmail) => {
     setUsuario((valoresAnteriores) => ({
       ...valoresAnteriores,
-      email: novoEmail
+      email: novoEmail,
     }));
   };
 
   const alterarSenha = (novaSenha) => {
     setUsuario((valoresAnteriores) => ({
       ...valoresAnteriores,
-      password: novaSenha
+      password: novaSenha,
     }));
   };
 
@@ -38,13 +37,16 @@ export default function Autenticacao() {
   const handleCadastro = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/cadastro`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(usuario),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/cadastro`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(usuario),
+        }
+      );
 
       const data = await response.json();
       console.log(data);
@@ -66,16 +68,19 @@ export default function Autenticacao() {
     event.preventDefault();
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: usuario.email,
-          password: usuario.password,
-        }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: usuario.email,
+            password: usuario.password,
+          }),
+        }
+      );
 
       const data = await response.json();
       console.log(data);
@@ -91,68 +96,98 @@ export default function Autenticacao() {
   };
 
   return (
-    <div className="conteudo-do-site">
-      <div className={`container ${isRightPanelActive ? "right-panel-active" : ""}`}>
-        <div className="form-container sign-up-container">
-          <form className="form" onSubmit={handleCadastro}>
-            <h1 className="h1">Crie sua Conta</h1>
-            <input
-              className="input"
-              type="text"
-              placeholder="digite seu nome"
-              value={usuario.nome}
-              onChange={(e) => alterarNome(e.target.value)}
-            />
-            <input
-              className="input"
-              type="email"
-              placeholder="digite seu e-mail"
-              value={usuario.email}
-              onChange={(e) => alterarEmail(e.target.value)}
-            />
-            <input
-              className="input"
-              type="password"
-              placeholder="digite sua senha"
-              value={usuario.password}
-              onChange={(e) => alterarSenha(e.target.value)}
-            />
-            <button className="button" type="submit">Cadastrar</button>
-          </form>
-        </div>
+    <div>
+      <Header />
+      <div className={styles.alinharFormulario}>
+        <div
+          className={`${styles.container} ${
+            styles.isRightPanelActive ? styles.rightPanelActive : ""
+          }`}
+        >
+          <div className={`${styles.formContainer} ${styles.signUpContainer}`}>
+            <form className={styles.form} onSubmit={handleCadastro}>
+              <h1 className={styles.tituloAutenticacao}>Crie sua Conta</h1>
+              <input
+                className={styles.input}
+                type="text"
+                placeholder="digite seu nome"
+                value={usuario.nome}
+                onChange={(e) => alterarNome(e.target.value)}
+              />
+              <input
+                className={styles.input}
+                type="email"
+                placeholder="digite seu e-mail"
+                value={usuario.email}
+                onChange={(e) => alterarEmail(e.target.value)}
+              />
+              <input
+                className={styles.input}
+                type="password"
+                placeholder="digite sua senha"
+                value={usuario.password}
+                onChange={(e) => alterarSenha(e.target.value)}
+              />
+              <button className={styles.button} type="submit">
+                Cadastrar
+              </button>
+            </form>
+          </div>
 
-        <div className="form-container sign-in-container">
-          <form className="form" onSubmit={handleLogin}>
-            <h1 className="h1">Fazer Login</h1>
-            <input
-              className="input"
-              type="email"
-              placeholder="digite seu e-mail"
-              value={usuario.email}
-              onChange={(e) => alterarEmail(e.target.value)}
-            />
-            <input
-              className="input"
-              type="password"
-              placeholder="digite sua senha"
-              value={usuario.password}
-              onChange={(e) => alterarSenha(e.target.value)}
-            />
-            <button className="button" type="submit">Logar</button>
-          </form>
-        </div>
+          <div className={`${styles.formContainer} ${styles.signInContainer}`}>
+            <form className={styles.form} onSubmit={handleLogin}>
+              <h1 className={styles.tituloAutenticacao}>Fazer Login</h1>
+              <input
+                className={styles.input}
+                type="email"
+                placeholder="digite seu e-mail"
+                value={usuario.email}
+                onChange={(e) => alterarEmail(e.target.value)}
+              />
+              <input
+                className={styles.input}
+                type="password"
+                placeholder="digite sua senha"
+                value={usuario.password}
+                onChange={(e) => alterarSenha(e.target.value)}
+              />
+              <button className={styles.button} type="submit">
+                Logar
+              </button>
+            </form>
+          </div>
 
-        <div className="overlay-container">
-          <div className="overlay">
-            <div className="overlay-panel overlay-left">
-              <h1 className="h1">Bem Vindo De Volta!</h1>
-              <p className="p">Para se manter conectado conosco, por favor logue com a sua conta</p>
-              <button className="button fantasma" onClick={() => setIsRightPanelActive(false)}>Logar</button>
-            </div>
-            <div className="overlay-panel overlay-right">
-              <h1 className="h1">Olá, caro usuário!</h1>
-              <p className="p">Crie sua conta e entre nessa jornada conosco.</p>
-              <button className="button fantasma" onClick={() => setIsRightPanelActive(true)}>Cadastrar</button>
+          <div className={styles.overlayContainer}>
+            <div className={styles.overlay}>
+              <div className={`${styles.overlayPanel} ${styles.overlayLeft}`}>
+                <h1 className={styles.tituloAutenticacao}>
+                  Bem Vindo De Volta!
+                </h1>
+                <p className={styles.textoAutenticar}>
+                  Para se manter conectado conosco, por favor logue com a sua
+                  conta
+                </p>
+                <button
+                  className={`${styles.button} ${styles.fantasma}`}
+                  onClick={() => setIsRightPanelActive(false)}
+                >
+                  Logar
+                </button>
+              </div>
+              <div className={`${styles.overlayPanel} ${styles.overlayRight}`}>
+                <h1 className={styles.tituloAutenticacao}>
+                  Olá, caro usuário!
+                </h1>
+                <p className={styles.textoAutenticar}>
+                  Crie sua conta e entre nessa jornada conosco.
+                </p>
+                <button
+                  className={`${styles.button} ${styles.fantasma}`}
+                  onClick={() => setIsRightPanelActive(true)}
+                >
+                  Cadastrar
+                </button>
+              </div>
             </div>
           </div>
         </div>

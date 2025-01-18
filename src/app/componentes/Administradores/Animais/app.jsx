@@ -242,13 +242,13 @@ export default function FichasDeAnimais() {
               </div>
               <div className={styles.infoAnimais}>
                 <h1 className={styles.nomeAnimal}>Scooby</h1>
+                <p className={styles.dadosAnimais}>Idade: ∞</p>
                 <p className={styles.dadosAnimais}>
-                  Status de vacinação: Vacinado
+                  Sexo: macho
                 </p>
                 <p className={styles.dadosAnimais}>
                   Status de castração: Castrado
                 </p>
-                <p className={styles.dadosAnimais}>Idade: ∞</p>
                 <button className={styles.botaoVerMais}>Ver mais</button>
               </div>
             </div>
