@@ -33,7 +33,6 @@ export default function Autenticacao() {
     }));
   };
 
-  // Função para lidar com o cadastro
   const handleCadastro = async (event) => {
     event.preventDefault();
     try {
@@ -49,11 +48,9 @@ export default function Autenticacao() {
       );
 
       const data = await response.json();
-      console.log(data);
-
       if (!data.erro) {
         alert("Usuário cadastrado com sucesso!");
-        setIsRightPanelActive(false); // Redireciona para a tela de login
+        setIsRightPanelActive(false);
       } else {
         alert(`Erro: ${data.mensagem}`);
       }
@@ -63,7 +60,6 @@ export default function Autenticacao() {
     }
   };
 
-  // Função para lidar com o login
   const handleLogin = async (event) => {
     event.preventDefault();
 
@@ -83,7 +79,6 @@ export default function Autenticacao() {
       );
 
       const data = await response.json();
-      console.log(data);
       if (response.ok) {
         alert("Login realizado com sucesso!");
       } else {
@@ -101,7 +96,7 @@ export default function Autenticacao() {
       <div className={styles.alinharFormulario}>
         <div
           className={`${styles.container} ${
-            styles.isRightPanelActive ? styles.rightPanelActive : ""
+            isRightPanelActive ? styles.rightPanelActive : ""
           }`}
         >
           <div className={`${styles.formContainer} ${styles.signUpContainer}`}>
@@ -110,21 +105,21 @@ export default function Autenticacao() {
               <input
                 className={styles.input}
                 type="text"
-                placeholder="digite seu nome"
+                placeholder="Digite seu nome"
                 value={usuario.nome}
                 onChange={(e) => alterarNome(e.target.value)}
               />
               <input
                 className={styles.input}
                 type="email"
-                placeholder="digite seu e-mail"
+                placeholder="Digite seu e-mail"
                 value={usuario.email}
                 onChange={(e) => alterarEmail(e.target.value)}
               />
               <input
                 className={styles.input}
                 type="password"
-                placeholder="digite sua senha"
+                placeholder="Digite sua senha"
                 value={usuario.password}
                 onChange={(e) => alterarSenha(e.target.value)}
               />
@@ -140,14 +135,14 @@ export default function Autenticacao() {
               <input
                 className={styles.input}
                 type="email"
-                placeholder="digite seu e-mail"
+                placeholder="Digite seu e-mail"
                 value={usuario.email}
                 onChange={(e) => alterarEmail(e.target.value)}
               />
               <input
                 className={styles.input}
                 type="password"
-                placeholder="digite sua senha"
+                placeholder="Digite sua senha"
                 value={usuario.password}
                 onChange={(e) => alterarSenha(e.target.value)}
               />
@@ -164,8 +159,7 @@ export default function Autenticacao() {
                   Bem Vindo De Volta!
                 </h1>
                 <p className={styles.textoAutenticar}>
-                  Para se manter conectado conosco, por favor logue com a sua
-                  conta
+                  Para se manter conectado conosco, faça login com sua conta.
                 </p>
                 <button
                   className={`${styles.button} ${styles.fantasma}`}
@@ -175,11 +169,9 @@ export default function Autenticacao() {
                 </button>
               </div>
               <div className={`${styles.overlayPanel} ${styles.overlayRight}`}>
-                <h1 className={styles.tituloAutenticacao}>
-                  Olá, caro usuário!
-                </h1>
+                <h1 className={styles.tituloAutenticacao}>Ainda não tem conta?</h1>
                 <p className={styles.textoAutenticar}>
-                  Crie sua conta e entre nessa jornada conosco.
+                  Cadastre-se e fique por dentro de todas as dicas e informações que o Instituto tem a oferecer!.
                 </p>
                 <button
                   className={`${styles.button} ${styles.fantasma}`}

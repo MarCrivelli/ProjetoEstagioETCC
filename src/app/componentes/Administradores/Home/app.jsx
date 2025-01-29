@@ -1,6 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from 'react-responsive-carousel';
 import styles from "./mainAdm.module.css";
 import HeaderAdms from "../HeaderAdms/app";
 import BotaoPagInicial from "../BotaoPagInicial/app";
@@ -24,6 +23,15 @@ export default function HomeAdms() {
 
             <div className={styles.painel}>
                 <div className={`${styles.card} ${styles.card1}`}>
+                        <img className={styles.iconeCopiar} src="/homeAdms/iconeCopiar.png"></img>
+                    <div className={styles.conteudoPrincipalAvisos}>
+                        <h1>Quadro de Avisos</h1>
+                        <div className={styles.containerLembretes}></div>
+                        <div className={styles.alinharBotoesAviso}>
+                            <button className={styles.botaoCard1}>Adicionar Aviso</button>
+                            <button className={styles.botaoCard1}>Remover Aviso</button>
+                        </div>
+                    </div>
                 </div>
                 <div className={`${styles.card} ${styles.card2}`}>
                     <div className={styles.divLembrete}>
@@ -32,17 +40,7 @@ export default function HomeAdms() {
                     </div>
                 </div>
                 <div className={`${styles.card} ${styles.card3}`}>
-                    <Carousel className={styles.carrossel}>
-                        <div className={styles.blocoCarrossel}>
-                            <div></div>
-                        </div>
-                        <div className={styles.blocoCarrossel}>
-                            <h1>olá</h1>
-                        </div>
-                        <div className={styles.blocoCarrossel}>
-                            <h1>olá</h1>
-                        </div>
-                    </Carousel>
+                    
                 </div>
                 <div className={`${styles.card} ${styles.card4}`}>
                     <img

@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat");
 
-.alinharFormulario{
+/* Alinha o formulário no centro */
+.alinharFormulario {
   display: flex;
   min-height: calc(100vh - 126px);
   justify-content: center;
@@ -11,12 +12,13 @@
   margin: 0;
 }
 
-.textoAutenticar{
-  font-size: 14px;
-  font-weight: 100;
-  line-height: 20px;
-  letter-spacing: 0.5px;
+.textoAutenticar {
+  font-size: 1.8rem;
+  font-weight: 300;
+  line-height: 33px;
+  letter-spacing: 0.3px;
   margin: 20px 0 30px;
+  color: white;
 }
 
 .span {
@@ -32,12 +34,11 @@
 
 .container {
   position: relative;
-  width: 1168px;
+  width: 100%;
   max-width: 100%;
-  min-height: 480px;
+  min-height: calc(100vh - 126px);
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2), 0 10px 10px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   font-family: "Montserrat", sans-serif;
 }
@@ -55,7 +56,15 @@
   z-index: 2;
 }
 
-.input{
+.signUpContainer {
+  right: 0;
+  width: 50%;
+  z-index: 1;
+  opacity: 0;
+  transform: translateX(100%);
+}
+
+.input {
   width: 100%;
   background-color: #eee;
   border: none;
@@ -63,12 +72,12 @@
   margin: 8px 0;
 }
 
-.containerRedesSociais{
+.containerRedesSociais {
   width: 100%;
   margin: 20px 0;
 }
 
-.containerRedesSociais .social{
+.containerRedesSociais .social {
   height: 40px;
   width: 40px;
   border-radius: 50%;
@@ -78,10 +87,10 @@
   margin: 0 5px;
 }
 
-.button{
-  background-color: #ff445c;
-  color: white;
-  border: 1px solid #ff4b2b;
+.button {
+  background-color: #0066ff;
+  color: rgb(255, 255, 255);
+  border: 1px solid #0066ff;
   border-radius: 20px;
   font-size: 12px;
   font-weight: bold;
@@ -91,20 +100,12 @@
   transition: transform 80ms ease-in;
 }
 
-.button:hover{
+.button:hover {
   cursor: pointer;
 }
 
-.button.fantasma{
+.button.fantasma {
   border: 1px solid white;
-}
-
-.signUpContainer {
-  right: 0;
-  width: 50%;
-  z-index: 1;
-  opacity: 0;
-  transform: translateY(100%);
 }
 
 .formContainer .form {
@@ -135,7 +136,7 @@
   height: 100%;
   width: 200%;
   left: -100%;
-  background: linear-gradient(to right, #ff4b2b, #ff445c) no-repeat 0 0 / cover;
+  background: linear-gradient(to right, #00fff2, #006eff) no-repeat 0 0 / cover;
   color: white;
   transition: transform 0.6s ease-in-out;
 }
@@ -156,20 +157,20 @@
 
 .overlayRight {
   right: 0;
-  transform: translateY(0);
+  transform: translateX(0);
 }
 
 .overlayLeft {
-  transform: translateY(-20%);
+  transform: translateX(0);
 }
 
 /* Estilos aplicados quando rightPanelActive está presente */
 .container.rightPanelActive .signInContainer {
-  transform: translateY(100%);
+  transform: translateX(100%);
 }
 
 .container.rightPanelActive .signUpContainer {
-  transform: translateY(0%);
+  transform: translateX(0%);
   opacity: 1;
   z-index: 5;
 }
@@ -183,6 +184,5 @@
 }
 
 .container.rightPanelActive .overlayRight {
-  transform: translateY(20%);
+  transform: translateX(20%);
 }
-
