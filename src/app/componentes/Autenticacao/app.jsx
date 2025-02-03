@@ -104,13 +104,6 @@ export default function Autenticacao() {
               <h1 className={styles.tituloAutenticacao}>Crie sua Conta</h1>
               <input
                 className={styles.input}
-                type="text"
-                placeholder="Digite seu nome"
-                value={usuario.nome}
-                onChange={(e) => alterarNome(e.target.value)}
-              />
-              <input
-                className={styles.input}
                 type="email"
                 placeholder="Digite seu e-mail"
                 value={usuario.email}

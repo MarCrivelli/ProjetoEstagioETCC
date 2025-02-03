@@ -192,7 +192,7 @@
 }
 
 .labelDeIdentificacao {
-  width: 65px;
+  width: 190px;
 }
 
 .labelDadosSaude,
@@ -326,9 +326,13 @@
   .containerPesquisa {
     max-width: none;
   }
+  .corpoAcordeao2{
+    padding: 10px;
+  }
   .itemInserir2,
   .itemInserir {
     min-width: 100%;
+    padding: 10px;
   }
   .alinharDadosDeInsercao {
     flex-direction: column;
@@ -342,5 +346,8 @@
   .previaImagem {
     width: 100%;
     padding: 0px;
+  }
+  .labelDeIdentificacao {
+    width: 100%;
   }
 }

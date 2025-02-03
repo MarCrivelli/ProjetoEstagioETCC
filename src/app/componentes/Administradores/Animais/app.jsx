@@ -48,6 +48,15 @@ export default function FichasDeAnimais() {
   const StatusAdocao = [
     { value: "adotado", label: "Adotado" },
     { value: "naoAdotado", label: "Não adotado" },
+    { value: "emObservacao", label: "Em observação" },
+  ];
+  const StatusMicrochipagem = [
+    { value: "microchipado", label: "Microchipado" },
+    { value: "semMicrochip", label: "Sem microchip" },
+  ];
+  const StatusVermifugacao = [
+    { value: "estaComVerme", label: "Está com verme" },
+    { value: "semVerme", label: "Sem Vermes" },
   ];
 
   const [image, setImage] = useState(null);
@@ -104,6 +113,18 @@ export default function FichasDeAnimais() {
                   isMulti
                   options={StatusAdocao}
                   placeholder="Status de adoção"
+                  className={styles.filtroSelecao}
+                />
+                <Select
+                  isMulti
+                  options={StatusMicrochipagem}
+                  placeholder="Status de microchipagem"
+                  className={styles.filtroSelecao}
+                />
+                <Select
+                  isMulti
+                  options={StatusVermifugacao}
+                  placeholder="Status de vermifugação"
                   className={styles.filtroSelecao}
                 />
               </div>
@@ -188,6 +209,17 @@ export default function FichasDeAnimais() {
                     className={styles.selectInserirAnimal}
                   />
                 </div>
+                <div className={styles.alinharDadosDeInsercao}>
+                  <label className={styles.labelDeIdentificacao}>
+                    Status de microchipagem:
+                  </label>
+                  <Select
+                    options={StatusMicrochipagem}
+                    classNamePrefix="select"
+                    placeholder="selecione"
+                    className={styles.selectInserirAnimal}
+                  />
+                </div>
               </div>
               <div className={styles.itemInserir2}>
                 <h1 className={styles.tituloItemInserir}>Dados de saúde</h1>
@@ -221,6 +253,16 @@ export default function FichasDeAnimais() {
                     className={styles.selectInserirAnimal}
                   />
                 </div>
+                <div className={styles.alinharDadosDeInsercao}>
+                  <label className={styles.labelDadosSaude}>
+                    Status de vermifugação:
+                  </label>
+                  <Select
+                    options={StatusVermifugacao}
+                    placeholder="selecione"
+                    className={styles.selectInserirAnimal}
+                  />
+                </div>
               </div>
               <div className={styles.alinharBotaoInserir}>
                 <button className={styles.botaoInserir}>Inserir animal</button>
@@ -243,9 +285,7 @@ export default function FichasDeAnimais() {
               <div className={styles.infoAnimais}>
                 <h1 className={styles.nomeAnimal}>Scooby</h1>
                 <p className={styles.dadosAnimais}>Idade: ∞</p>
-                <p className={styles.dadosAnimais}>
-                  Sexo: macho
-                </p>
+                <p className={styles.dadosAnimais}>Sexo: macho</p>
                 <p className={styles.dadosAnimais}>
                   Status de castração: Castrado
                 </p>
