@@ -1,90 +1,86 @@
 const Animais = require("../models/Animais");
-const jwt = require("jsonwebtoken");
+const multer = require("multer");
+const path = require("path");
 
-require("dotenv").config();
+// Configuração do multer para upload de imagens
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    const nomeUnico = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, nomeUnico + path.extname(file.originalname));
+  },
+});
 
-const cadastrarAnimal = async (req, res) => {
-  const {
-    nome,
-    idade,
-    sexo,
-    tipo,
-    statusMicrochipagem,
-    statusVacinacao,
-    statusCastracao,
-    statusAdocao,
-    statusVemifugacao,
-  } = req.body;
-  await Animais.create({
-    nome: nome,
-    idade: idade,
-    sexo: sexo,
-    tipo: tipo,
-    statusMicrochipagem: statusMicrochipagem,
-    statusVacinacao: statusVacinacao,
-    statusCastracao: statusCastracao,
-    statusAdocao: statusAdocao,
-    statusVemifugacao: statusVemifugacao,
-  })
-    .then(() => {
-      res.json("Cadastro de usuário realizado com sucesso!");
-      console.log("Cadastro de usuário realizado com sucesso!");
-    })
-    .catch((erro) => {
-      console.log(`Ops, deu erro: ${erro}`);
-    });
-};
+const upload = multer({ storage });
 
+// Listar todos os animais
 const procurarAnimais = async (req, res) => {
   try {
     const animais = await Animais.findAll();
-    console.log("Mostrando as informações dos usuários");
-    return res.json(animais);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Ocorreu um erro ao listar os usuários." });
+    res.json(animais);
+  } catch (error) {
+    console.error("Erro ao listar animais:", error);
+    res.status(500).json({ message: "Erro ao listar os animais." });
   }
 };
 
-const modificarDadosAnimais = async (req, res) => {
-  const {
-    nome,
-    idade,
-    sexo,
-    tipo,
-    statusMicrochipagem,
-    statusVacinacao,
-    statusCastracao,
-    statusAdocao,
-    statusVemifugacao,
-  } = req.body;
+// Cadastrar animal
+const cadastrarAnimal = async (req, res) => {
   try {
-    await Animais.update(
-      {
-        nome: nome,
-        idade: idade,
-        sexo: sexo,
-        tipo: tipo,
-        statusMicrochipagem: statusMicrochipagem,
-        statusVacinacao: statusVacinacao,
-        statusCastracao: statusCastracao,
-        statusAdocao: statusAdocao,
-        statusVemifugacao: statusVemifugacao,
-      },
-      {
-        where: { id: parseInt(req.params.id) },
-      }
-    );
-    res.json("Dado(s) alterado(s) com sucesso!");
-    console.log("Dado(s) alterado(s) com sucesso!");
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Ocorreu um erro ao alterar os dados." });
+    const {
+      nome,
+      idade,
+      sexo,
+      tipo,
+      statusMicrochipagem,
+      statusVacinacao,
+      statusCastracao,
+      statusAdocao,
+      statusVermifugacao,
+    } = req.body;
+
+    const imagem = req.file ? req.file.filename : null;
+
+    console.log("Nome da imagem:", imagem); // Log do nome da imagem
+
+    const novoAnimal = await Animais.create({
+      nome,
+      idade,
+      sexo,
+      tipo,
+      statusMicrochipagem,
+      statusVacinacao,
+      statusCastracao,
+      statusAdocao,
+      statusVermifugacao,
+      imagem,
+    });
+
+    res.status(201).json({ message: "Animal cadastrado com sucesso!", animal: novoAnimal });
+  } catch (error) {
+    console.error("Erro ao cadastrar animal:", error);
+    res.status(500).json({ message: "Erro ao cadastrar o animal." });
+  }
+};
+
+// Buscar animal por ID
+const buscarAnimalPorId = async (req, res) => {
+  try {
+    const animal = await Animais.findByPk(req.params.id);
+    if (!animal) {
+      return res.status(404).json({ message: "Animal não encontrado." });
+    }
+    res.json(animal);
+  } catch (error) {
+    console.error("Erro ao buscar animal:", error);
+    res.status(500).json({ message: "Erro ao buscar animal." });
   }
 };
 
 module.exports = {
-  cadastrarAnimal,
   procurarAnimais,
-  modificarDadosAnimais
+  cadastrarAnimal,
+  buscarAnimalPorId,
 };

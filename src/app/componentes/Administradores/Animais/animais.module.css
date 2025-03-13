@@ -100,7 +100,7 @@
   height: 26px;
 }
 
-.corpoAcordeao2 {
+.formularioCadastro {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -274,12 +274,16 @@
   color: black;
   font-size: 0.85rem;
   font-family: sans-serif;
+  margin-bottom: 0px;
 }
 
 .botaoVerMais {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
   width: 300px;
-  margin-inline: auto;
-  margin-block: 20px;
+  margin: auto auto 40px auto;
   border: none;
   background-color: rgb(7, 18, 32);
   color: white;

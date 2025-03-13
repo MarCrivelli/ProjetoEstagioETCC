@@ -1,6 +1,6 @@
 const connection = require("../config/connection");
 
-const Animais = connection.sequelize.define("db_user", {
+const Animais = connection.sequelize.define("animais", {
   id: {
     type: connection.Sequelize.INTEGER,
     autoIncrement: true,
@@ -12,7 +12,7 @@ const Animais = connection.sequelize.define("db_user", {
     allowNull: false,
   },
   idade: {
-    type: connection.Sequelize.NUMBER,
+    type: connection.Sequelize.INTEGER, // Corrigido para INTEGER
     allowNull: false,
   },
   sexo: {
@@ -41,8 +41,15 @@ const Animais = connection.sequelize.define("db_user", {
   },
   statusVemifugacao: {
     type: connection.Sequelize.STRING,
-    allowNull: false,
+    allowNull: true,
+  },
+  imagem: {
+    type: connection.Sequelize.STRING,
+    allowNull: true,
   },
 });
-Animais.sync();
+
+// Sincroniza o modelo com o banco de dados (opcional)
+// Animais.sync({ force: true }); // Use { force: true } apenas em desenvolvimento para recriar a tabela
+
 module.exports = Animais;

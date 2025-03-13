@@ -4,8 +4,7 @@ import BotaoPagInicial from "../BotaoPagInicial/app";
 import Accordion from "react-bootstrap/Accordion";
 import Select from "react-select";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function FichasDeAnimais() {
   const [animaisCompleto, setAnimaisCompleto] = useState([]);
@@ -13,6 +12,13 @@ export default function FichasDeAnimais() {
   const [nome, setNome] = useState("");
   const [idade, setIdade] = useState("");
   const [sexo, setSexo] = useState("");
+  const [tipo, setTipo] = useState("");
+  const [statusMicrochipagem, setStatusMicrochipagem] = useState("");
+  const [statusVacinacao, setStatusVacinacao] = useState("");
+  const [statusCastracao, setStatusCastracao] = useState("");
+  const [statusAdocao, setStatusAdocao] = useState("");
+  const [statusVermifugacao, setStatusVermifugacao] = useState("");
+  const [image, setImage] = useState(null);
 
   const [filtros, setFiltros] = useState({
     tipo: [],
@@ -29,24 +35,47 @@ export default function FichasDeAnimais() {
 
   const registrarAnimal = async (event) => {
     event.preventDefault();
+
+    const formData = new FormData();
+    formData.append("nome", nome);
+    formData.append("idade", idade);
+    formData.append("sexo", sexo);
+    formData.append("tipo", tipo);
+    formData.append("statusMicrochipagem", statusMicrochipagem);
+    formData.append("statusVacinacao", statusVacinacao);
+    formData.append("statusCastracao", statusCastracao);
+    formData.append("statusAdocao", statusAdocao);
+    formData.append("statusVermifugacao", statusVermifugacao); 
+    if (image) {
+      formData.append("imagem", image);
+    }
+
+    // Log dos dados do formulário
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+
     try {
-      const resposta = await fetch("http://localhost:3003/listar/animais", {
+      const resposta = await fetch("http://localhost:3003/animais", {
         method: "POST",
-        headers: { "Content-type": "Application/json" },
-        body: JSON.stringify({
-          nome: nome,
-          idade: idade,
-          sexo: sexo,
-        }),
+        body: formData,
       });
+
       if (resposta.ok) {
-        navigation("/");
+        alert("Animal cadastrado com sucesso!");
+        navigation("/fichas_de_animais");
+      } else {
+        const erro = await resposta.json();
+        console.error("Erro ao cadastrar animal:", erro);
+        alert("Erro ao cadastrar o animal.");
       }
-    } catch {
+    } catch (error) {
+      console.error("Erro ao cadastrar animal:", error);
       alert("Ocorreu um erro na aplicação!");
     }
   };
 
+  // Função para buscar os animais
   useEffect(() => {
     const buscarAnimais = async () => {
       try {
@@ -61,6 +90,38 @@ export default function FichasDeAnimais() {
     buscarAnimais();
   }, []);
 
+  // Função para aplicar os filtros
+  const aplicarFiltros = () => {
+    let animaisFiltrados = animaisCompleto;
+
+    animaisFiltrados = animaisFiltrados.filter((animal) => {
+      return (
+        (filtros.tipo.length === 0 || filtros.tipo.includes(animal.tipo)) &&
+        (filtros.idade.length === 0 ||
+          filtros.idade.includes(animal.idade.toString())) &&
+        (filtros.sexo.length === 0 || filtros.sexo.includes(animal.sexo)) &&
+        (filtros.statusVacinacao.length === 0 ||
+          filtros.statusVacinacao.includes(animal.statusVacinacao)) &&
+        (filtros.statusCastracao.length === 0 ||
+          filtros.statusCastracao.includes(animal.statusCastracao)) &&
+        (filtros.statusAdocao.length === 0 ||
+          filtros.statusAdocao.includes(animal.statusAdocao)) &&
+        (filtros.statusMicrochipagem.length === 0 ||
+          filtros.statusMicrochipagem.includes(animal.statusMicrochipagem)) &&
+        (filtros.statusVermifugacao.length === 0 ||
+          filtros.statusVermifugacao.includes(animal.statusVermifugacao))
+      );
+    });
+
+    setAnimais(animaisFiltrados);
+  };
+
+  // Aplica os filtros sempre que o estado de filtros mudar
+  useEffect(() => {
+    aplicarFiltros();
+  }, [filtros]);
+
+  // Opções para os filtros
   const tipoAnimal = [
     { value: "cachorro", label: "Cachorro" },
     { value: "gato", label: "Gato" },
@@ -77,16 +138,6 @@ export default function FichasDeAnimais() {
     { value: "8", label: "8 anos" },
     { value: "9", label: "9 anos" },
     { value: "10", label: "10 anos" },
-    { value: "11", label: "11 anos" },
-    { value: "12", label: "12 anos" },
-    { value: "13", label: "13 anos" },
-    { value: "14", label: "14 anos" },
-    { value: "15", label: "15 anos" },
-    { value: "16", label: "16 anos" },
-    { value: "17", label: "17 anos" },
-    { value: "18", label: "18 anos" },
-    { value: "19", label: "19 anos" },
-    { value: "20", label: "20 anos" },
   ];
   const sexoDoAnimal = [
     { value: "macho", label: "Macho" },
@@ -114,72 +165,12 @@ export default function FichasDeAnimais() {
     { value: "semVerme", label: "Sem Vermes" },
   ];
 
-  const [image, setImage] = useState(null);
-
+  // Função para lidar com a seleção de imagem
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
-      setImage(URL.createObjectURL(event.target.files[0]));
+      setImage(event.target.files[0]);
     }
   };
-
-
-  const aplicarFiltros = () => {
-    let animaisFiltrados = animaisCompleto;
-
-    if (filtros.tipo.length > 0) {
-      animaisFiltrados = animaisFiltrados.filter((animal) =>
-        filtros.tipo.includes(animal.tipo)
-      );
-    }
-
-    if (filtros.idade.length > 0) {
-      animaisFiltrados = animaisFiltrados.filter((animal) =>
-        filtros.idade.includes(animal.idade)
-      );
-    }
-
-    if (filtros.sexo.length > 0) {
-      animaisFiltrados = animaisFiltrados.filter((animal) =>
-        filtros.sexo.includes(animal.sexo)
-      );
-    }
-
-    if (filtros.statusVacinacao.length > 0) {
-      animaisFiltrados = animaisFiltrados.filter((animal) =>
-        filtros.statusVacinacao.includes(animal.statusVacinacao)
-      );
-    }
-
-    if (filtros.statusCastracao.length > 0) {
-      animaisFiltrados = animaisFiltrados.filter((animal) =>
-        filtros.statusCastracao.includes(animal.statusCastracao)
-      );
-    }
-
-    if (filtros.statusAdocao.length > 0) {
-      animaisFiltrados = animaisFiltrados.filter((animal) =>
-        filtros.statusAdocao.includes(animal.statusAdocao)
-      );
-    }
-
-    if (filtros.statusMicrochipagem.length > 0) {
-      animaisFiltrados = animaisFiltrados.filter((animal) =>
-        filtros.statusMicrochipagem.includes(animal.statusMicrochipagem)
-      );
-    }
-
-    if (filtros.statusVermifugacao.length > 0) {
-      animaisFiltrados = animaisFiltrados.filter((animal) =>
-        filtros.statusVermifugacao.includes(animal.statusVermifugacao)
-      );
-    }
-
-    setAnimais(animaisFiltrados);
-  };
-
-  useEffect(() => {
-    aplicarFiltros();
-  }, [filtros]);
 
   return (
     <div>
@@ -187,7 +178,7 @@ export default function FichasDeAnimais() {
       <BotaoPagInicial />
       <div className={styles.utilitarios}>
         <Accordion className={styles.acordeao} defaultActiveKey="0">
-          {/* Acordeao de filtro */}
+          {/* Acordeão de filtro */}
           <Accordion.Item eventKey="0">
             <Accordion.Header>
               <h1 className={styles.tituloAcordeao}>Filtros de pesquisa</h1>
@@ -197,125 +188,127 @@ export default function FichasDeAnimais() {
                 <Select
                   isMulti
                   options={tipoAnimal}
-                  classNamePrefix="select"
                   placeholder="Tipo de animal"
-                  className={styles.filtroSelecao}
                   onChange={(selectedOptions) =>
                     setFiltros((prev) => ({
                       ...prev,
                       tipo: selectedOptions.map((opt) => opt.value),
                     }))
                   }
+                  className={styles.filtroSelecao}
                 />
                 <Select
                   isMulti
                   options={idadeAnimais}
-                  placeholder="idade"
-                  className={styles.filtroSelecao}
+                  placeholder="Idade"
                   onChange={(selectedOptions) =>
                     setFiltros((prev) => ({
                       ...prev,
                       idade: selectedOptions.map((opt) => opt.value),
                     }))
                   }
+                  className={styles.filtroSelecao}
                 />
                 <Select
                   isMulti
                   options={sexoDoAnimal}
-                  placeholder="sexo"
-                  className={styles.filtroSelecao}
+                  placeholder="Sexo"
                   onChange={(selectedOptions) =>
                     setFiltros((prev) => ({
                       ...prev,
                       sexo: selectedOptions.map((opt) => opt.value),
                     }))
                   }
+                  className={styles.filtroSelecao}
                 />
-
                 <Select
                   isMulti
                   options={StatusVacinacao}
                   placeholder="Status de vacinação"
-                  className={styles.filtroSelecao}
                   onChange={(selectedOptions) =>
                     setFiltros((prev) => ({
                       ...prev,
                       statusVacinacao: selectedOptions.map((opt) => opt.value),
                     }))
                   }
+                  className={styles.filtroSelecao}
                 />
                 <Select
                   isMulti
                   options={StatusCastracao}
                   placeholder="Status de castração"
-                  className={styles.filtroSelecao}
                   onChange={(selectedOptions) =>
                     setFiltros((prev) => ({
                       ...prev,
                       statusCastracao: selectedOptions.map((opt) => opt.value),
                     }))
                   }
+                  className={styles.filtroSelecao}
                 />
                 <Select
                   isMulti
                   options={StatusAdocao}
                   placeholder="Status de adoção"
-                  className={styles.filtroSelecao}
                   onChange={(selectedOptions) =>
                     setFiltros((prev) => ({
                       ...prev,
                       statusAdocao: selectedOptions.map((opt) => opt.value),
                     }))
                   }
+                  className={styles.filtroSelecao}
                 />
                 <Select
                   isMulti
                   options={StatusMicrochipagem}
                   placeholder="Status de microchipagem"
-                  className={styles.filtroSelecao}
                   onChange={(selectedOptions) =>
                     setFiltros((prev) => ({
                       ...prev,
-                      statusMicrochipagem: selectedOptions.map((opt) => opt.value),
+                      statusMicrochipagem: selectedOptions.map(
+                        (opt) => opt.value
+                      ),
                     }))
                   }
+                  className={styles.filtroSelecao}
                 />
                 <Select
                   isMulti
                   options={StatusVermifugacao}
                   placeholder="Status de vermifugação"
-                  className={styles.filtroSelecao}
                   onChange={(selectedOptions) =>
                     setFiltros((prev) => ({
                       ...prev,
-                      statusVermifugacao: selectedOptions.map((opt) => opt.value),
+                      statusVermifugacao: selectedOptions.map(
+                        (opt) => opt.value
+                      ),
                     }))
                   }
+                  className={styles.filtroSelecao}
                 />
-              </div>
-
-              <div className={styles.containerPesquisa}>
-                <input
-                  className={styles.barrinhaDePesquisa}
-                  type="text"
-                  name=""
-                  placeholder="Pesquise pelo nome"
-                ></input>
-                <button className={styles.botaoPesquisar} href="#">
-                  <img
-                    className={styles.lupa}
-                    src="/pagFichasDAnimais/lupa.png"
-                  ></img>
-                </button>
+                <div className={styles.containerPesquisa}>
+                  <input
+                    className={styles.barrinhaDePesquisa}
+                    type="text"
+                    name=""
+                    placeholder="Pesquise pelo nome"
+                  ></input>
+                  <button className={styles.botaoPesquisar} href="#">
+                    <img
+                      className={styles.lupa}
+                      src="/pagFichasDAnimais/lupa.png"
+                    ></img>
+                  </button>
+                </div>
               </div>
             </Accordion.Body>
           </Accordion.Item>
-          {/* Acordeao de filtro */}
+
+          {/* Acordeão de cadastro */}
           <Accordion.Item eventKey="1">
             <Accordion.Header>
               <h1 className={styles.tituloAcordeao}>Inserir ficha de animal</h1>
             </Accordion.Header>
-            <Accordion.Body className={styles.corpoAcordeao2}>
+            <Accordion.Body>
               <form
                 onSubmit={registrarAnimal}
                 className={styles.formularioCadastro}
@@ -323,7 +316,7 @@ export default function FichasDeAnimais() {
                 <div className={styles.inserirImagem}>
                   <img
                     className={styles.previaImagem}
-                    src={image}
+                    src={image ? URL.createObjectURL(image) : ""}
                     alt="Prévia da imagem"
                   />
                   <label
@@ -379,10 +372,8 @@ export default function FichasDeAnimais() {
                       options={sexoDoAnimal}
                       placeholder="selecione"
                       className={styles.selectInserirAnimal}
-                      onChange={(event) =>
-                        setSexo(
-                          event.target.options[event.target.selectedIndex].text
-                        )
+                      onChange={(selectedOption) =>
+                        setSexo(selectedOption.value)
                       }
                     />
                   </div>
@@ -390,9 +381,11 @@ export default function FichasDeAnimais() {
                     <label className={styles.labelDeIdentificacao}>Tipo:</label>
                     <Select
                       options={tipoAnimal}
-                      classNamePrefix="select"
                       placeholder="selecione"
                       className={styles.selectInserirAnimal}
+                      onChange={(selectedOption) =>
+                        setTipo(selectedOption.value)
+                      }
                     />
                   </div>
                   <div className={styles.alinharDadosDeInsercao}>
@@ -401,9 +394,11 @@ export default function FichasDeAnimais() {
                     </label>
                     <Select
                       options={StatusMicrochipagem}
-                      classNamePrefix="select"
                       placeholder="selecione"
                       className={styles.selectInserirAnimal}
+                      onChange={(selectedOption) =>
+                        setStatusMicrochipagem(selectedOption.value)
+                      }
                     />
                   </div>
                 </div>
@@ -417,6 +412,9 @@ export default function FichasDeAnimais() {
                       options={StatusVacinacao}
                       placeholder="selecione"
                       className={styles.selectInserirAnimal}
+                      onChange={(selectedOption) =>
+                        setStatusVacinacao(selectedOption.value)
+                      }
                     />
                   </div>
                   <div className={styles.alinharDadosDeInsercao}>
@@ -427,6 +425,9 @@ export default function FichasDeAnimais() {
                       options={StatusCastracao}
                       placeholder="selecione"
                       className={styles.selectInserirAnimal}
+                      onChange={(selectedOption) =>
+                        setStatusCastracao(selectedOption.value)
+                      }
                     />
                   </div>
                   <div className={styles.alinharDadosDeInsercao}>
@@ -437,6 +438,9 @@ export default function FichasDeAnimais() {
                       options={StatusAdocao}
                       placeholder="selecione"
                       className={styles.selectInserirAnimal}
+                      onChange={(selectedOption) =>
+                        setStatusAdocao(selectedOption.value)
+                      }
                     />
                   </div>
                   <div className={styles.alinharDadosDeInsercao}>
@@ -447,6 +451,9 @@ export default function FichasDeAnimais() {
                       options={StatusVermifugacao}
                       placeholder="selecione"
                       className={styles.selectInserirAnimal}
+                      onChange={(selectedOption) =>
+                        setStatusVermifugacao(selectedOption.value)
+                      }
                     />
                   </div>
                 </div>
@@ -460,6 +467,8 @@ export default function FichasDeAnimais() {
           </Accordion.Item>
         </Accordion>
       </div>
+
+      {/* Listagem de animais */}
       <div className={styles.alinharPainel}>
         <div className={styles.fundoPainel}>
           {animais.map((animal) => (
@@ -467,17 +476,20 @@ export default function FichasDeAnimais() {
               <div className={styles.divImagem}>
                 <img
                   className={styles.imagemAnimais}
-                  src="/pagFichasDAnimais/imagemTeste.jpg"
-                  alt="Imagem inexistente ou não encontrada"
+                  src={
+                    animal.imagem
+                      ? `http://localhost:3003/uploads/${animal.imagem}`
+                      : "/pagFichasDAnimais/imagemTeste.jpg"
+                  }
+                  alt="Imagem do animal"
                 />
               </div>
               <div className={styles.infoAnimais}>
                 <h1 className={styles.nomeAnimal}>{animal.nome}</h1>
-                <p className={styles.dadosAnimais}>idade: {animal.idade}</p>
-                <p className={styles.dadosAnimais}>sexo: {animal.sexo}</p>
-                <p className={styles.dadosAnimais}>
-                  Status de castração: {animal.statusCastracao}
-                </p>
+                <p className={styles.dadosAnimais}>Idade: {animal.idade} ano(s)</p>
+                <p className={styles.dadosAnimais}>Sexo: {animal.sexo}</p>
+                <p className={styles.dadosAnimais}>Status de vacinação: {animal.statusVacinacao}</p>
+                <p className={styles.dadosAnimais}>Status de castração: {animal.statusCastracao}</p>
                 <Link
                   to={`/ver_mais/${animal.id}`}
                   className={styles.botaoVerMais}

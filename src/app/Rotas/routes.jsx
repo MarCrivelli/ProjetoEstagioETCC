@@ -11,6 +11,7 @@ import HomeAdms from '../componentes/Administradores/Home/app';
 import FichasDeAnimais from '../componentes/Administradores/Animais/app';
 import Configuracoes from '../componentes/Administradores/Configurações/app';
 import ProgramarPostagem from '../componentes/Administradores/Postagens/app';
+import VerMais from '../componentes/Administradores/VerMais/app';
 
 export default function Rotas() {
   return(
@@ -27,6 +28,7 @@ export default function Rotas() {
             <Route path='/fichas_de_animais' element={<FichasDeAnimais/>}/>
             <Route path='/configuracoes' element={<Configuracoes/>}/>
             <Route path='/programar_postagem' element={<ProgramarPostagem/>}/>
+            <Route path='/ver_mais/:id' element={<VerMais/>}/>
         </Routes>
     </BrowserRouter>
   );
