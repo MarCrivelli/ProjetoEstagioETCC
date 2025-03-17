@@ -43,8 +43,6 @@ const cadastrarAnimal = async (req, res) => {
 
     const imagem = req.file ? req.file.filename : null;
 
-    console.log("Nome da imagem:", imagem); // Log do nome da imagem
-
     const novoAnimal = await Animais.create({
       nome,
       idade,
@@ -79,8 +77,30 @@ const buscarAnimalPorId = async (req, res) => {
   }
 };
 
+// Atualizar imagem de saída
+const atualizarImagemSaida = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const imagemSaida = req.file ? req.file.filename : null;
+
+    const animal = await Animais.findByPk(id);
+    if (!animal) {
+      return res.status(404).json({ message: "Animal não encontrado." });
+    }
+
+    animal.imagemSaida = imagemSaida;
+    await animal.save();
+
+    res.json({ message: "Imagem de saída atualizada com sucesso!", animal });
+  } catch (error) {
+    console.error("Erro ao atualizar imagem de saída:", error);
+    res.status(500).json({ message: "Erro ao atualizar imagem de saída." });
+  }
+};
+
 module.exports = {
   procurarAnimais,
   cadastrarAnimal,
   buscarAnimalPorId,
+  atualizarImagemSaida,
 };

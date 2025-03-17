@@ -18,6 +18,7 @@ export default function FichasDeAnimais() {
   const [statusCastracao, setStatusCastracao] = useState("");
   const [statusAdocao, setStatusAdocao] = useState("");
   const [statusVermifugacao, setStatusVermifugacao] = useState("");
+  const [termoPesquisa, setTermoPesquisa] = useState("");
   const [image, setImage] = useState(null);
 
   const [filtros, setFiltros] = useState({
@@ -45,7 +46,7 @@ export default function FichasDeAnimais() {
     formData.append("statusVacinacao", statusVacinacao);
     formData.append("statusCastracao", statusCastracao);
     formData.append("statusAdocao", statusAdocao);
-    formData.append("statusVermifugacao", statusVermifugacao); 
+    formData.append("statusVermifugacao", statusVermifugacao);
     if (image) {
       formData.append("imagem", image);
     }
@@ -95,7 +96,12 @@ export default function FichasDeAnimais() {
     let animaisFiltrados = animaisCompleto;
 
     animaisFiltrados = animaisFiltrados.filter((animal) => {
+      const nomeCorresponde = animal.nome
+        .toLowerCase()
+        .includes(termoPesquisa.toLowerCase());
+
       return (
+        nomeCorresponde &&
         (filtros.tipo.length === 0 || filtros.tipo.includes(animal.tipo)) &&
         (filtros.idade.length === 0 ||
           filtros.idade.includes(animal.idade.toString())) &&
@@ -119,7 +125,7 @@ export default function FichasDeAnimais() {
   // Aplica os filtros sempre que o estado de filtros mudar
   useEffect(() => {
     aplicarFiltros();
-  }, [filtros]);
+  }, [filtros, termoPesquisa]);
 
   // Opções para os filtros
   const tipoAnimal = [
@@ -289,15 +295,10 @@ export default function FichasDeAnimais() {
                   <input
                     className={styles.barrinhaDePesquisa}
                     type="text"
-                    name=""
                     placeholder="Pesquise pelo nome"
-                  ></input>
-                  <button className={styles.botaoPesquisar} href="#">
-                    <img
-                      className={styles.lupa}
-                      src="/pagFichasDAnimais/lupa.png"
-                    ></img>
-                  </button>
+                    value={termoPesquisa}
+                    onChange={(event) => setTermoPesquisa(event.target.value)}
+                  />
                 </div>
               </div>
             </Accordion.Body>
@@ -486,10 +487,16 @@ export default function FichasDeAnimais() {
               </div>
               <div className={styles.infoAnimais}>
                 <h1 className={styles.nomeAnimal}>{animal.nome}</h1>
-                <p className={styles.dadosAnimais}>Idade: {animal.idade} ano(s)</p>
+                <p className={styles.dadosAnimais}>
+                  Idade: {animal.idade} ano(s)
+                </p>
                 <p className={styles.dadosAnimais}>Sexo: {animal.sexo}</p>
-                <p className={styles.dadosAnimais}>Status de vacinação: {animal.statusVacinacao}</p>
-                <p className={styles.dadosAnimais}>Status de castração: {animal.statusCastracao}</p>
+                <p className={styles.dadosAnimais}>
+                  Status de vacinação: {animal.statusVacinacao}
+                </p>
+                <p className={styles.dadosAnimais}>
+                  Status de castração: {animal.statusCastracao}
+                </p>
                 <Link
                   to={`/ver_mais/${animal.id}`}
                   className={styles.botaoVerMais}

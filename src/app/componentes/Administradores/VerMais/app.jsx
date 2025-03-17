@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 export default function VerMais() {
   const { id } = useParams();
   const [animal, setAnimal] = useState(null);
+  const [imagemSaida, setImagemSaida] = useState(null);
 
   useEffect(() => {
     const buscarAnimal = async () => {
@@ -19,6 +20,31 @@ export default function VerMais() {
 
     buscarAnimal();
   }, [id]);
+
+  const handleImagemSaidaChange = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("imagemSaida", file);
+
+    try {
+      const resposta = await fetch(`http://localhost:3003/animais/${id}/imagem-saida`, {
+        method: "PUT",
+        body: formData,
+      });
+
+      if (resposta.ok) {
+        const dados = await resposta.json();
+        setAnimal(dados.animal);
+        alert("Imagem de saída atualizada com sucesso!");
+      } else {
+        alert("Erro ao atualizar imagem de saída.");
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar imagem de saída:", error);
+    }
+  };
 
   if (!animal) {
     return <div>Carregando...</div>;
@@ -35,10 +61,35 @@ export default function VerMais() {
       <p>Status de Castração: {animal.statusCastracao}</p>
       <p>Status de Adoção: {animal.statusAdocao}</p>
       <p>Status de Vermifugação: {animal.statusVermifugacao}</p>
-      <img
-        src={animal.imagem ? `/uploads/${animal.imagem}` : "/pagFichasDAnimais/imagemTeste.jpg"}
-        alt="Imagem do animal"
-      />
+
+      <div className={styles.imagensContainer}>
+        <div>
+          <h2>Foto de Entrada</h2>
+          <img
+            src={animal.imagem ? `http://localhost:3003/uploads/${animal.imagem}` : "/pagFichasDAnimais/imagemTeste.jpg"}
+            alt="Imagem de entrada"
+            className={styles.imagemAnimal}
+          />
+        </div>
+
+        <div>
+          <h2>Foto de Saída</h2>
+          {animal.imagemSaida ? (
+            <img
+              src={`http://localhost:3003/uploads/${animal.imagemSaida}`}
+              alt="Imagem de saída"
+              className={styles.imagemAnimal}
+            />
+          ) : (
+            <div className={styles.semImagem}>Nenhuma imagem de saída cadastrada.</div>
+          )}
+          <input
+            type="file"
+            onChange={handleImagemSaidaChange}
+            className={styles.inputImagem}
+          />
+        </div>
+      </div>
     </div>
   );
 }

@@ -12,7 +12,7 @@ const Animais = connection.sequelize.define("animais", {
     allowNull: false,
   },
   idade: {
-    type: connection.Sequelize.INTEGER, // Corrigido para INTEGER
+    type: connection.Sequelize.INTEGER,
     allowNull: false,
   },
   sexo: {
@@ -39,7 +39,7 @@ const Animais = connection.sequelize.define("animais", {
     type: connection.Sequelize.STRING,
     allowNull: false,
   },
-  statusVemifugacao: {
+  statusVermifugacao: {
     type: connection.Sequelize.STRING,
     allowNull: true,
   },
@@ -47,9 +47,10 @@ const Animais = connection.sequelize.define("animais", {
     type: connection.Sequelize.STRING,
     allowNull: true,
   },
+  imagemSaida: {
+    type: connection.Sequelize.STRING,
+    allowNull: true,
+  },
 });
-
-// Sincroniza o modelo com o banco de dados (opcional)
-// Animais.sync({ force: true }); // Use { force: true } apenas em desenvolvimento para recriar a tabela
 
 module.exports = Animais;

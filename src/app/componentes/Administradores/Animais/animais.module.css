@@ -78,26 +78,10 @@
 
 .barrinhaDePesquisa {
   width: 90%;
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
+  min-width: 200px;
   padding-left: 7px;
-}
-
-.botaoPesquisar {
-  width: 10%;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
-  min-width: 38px;
-}
-
-.barrinhaDePesquisa,
-.botaoPesquisar {
   height: 36px;
   border: 1px solid #b3b3b3;
-}
-
-.lupa {
-  height: 26px;
 }
 
 .formularioCadastro {
