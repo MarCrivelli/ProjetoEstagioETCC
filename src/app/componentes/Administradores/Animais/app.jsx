@@ -18,8 +18,8 @@ export default function FichasDeAnimais() {
   const [statusCastracao, setStatusCastracao] = useState("");
   const [statusAdocao, setStatusAdocao] = useState("");
   const [statusVermifugacao, setStatusVermifugacao] = useState("");
-  const [termoPesquisa, setTermoPesquisa] = useState("");
   const [image, setImage] = useState(null);
+  const [filtrosAplicados, setFiltrosAplicados] = useState(false);
 
   const [filtros, setFiltros] = useState({
     tipo: [],
@@ -34,6 +34,7 @@ export default function FichasDeAnimais() {
 
   const navigation = useNavigate();
 
+  // Função para cadastrar um animal
   const registrarAnimal = async (event) => {
     event.preventDefault();
 
@@ -49,11 +50,6 @@ export default function FichasDeAnimais() {
     formData.append("statusVermifugacao", statusVermifugacao);
     if (image) {
       formData.append("imagem", image);
-    }
-
-    // Log dos dados do formulário
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
     }
 
     try {
@@ -95,27 +91,28 @@ export default function FichasDeAnimais() {
   const aplicarFiltros = () => {
     let animaisFiltrados = animaisCompleto;
 
-    animaisFiltrados = animaisFiltrados.filter((animal) => {
-      const nomeCorresponde = animal.nome
-        .toLowerCase()
-        .includes(termoPesquisa.toLowerCase());
+    const filtroAtivo =
+      filtros.tipo.length > 0 ||
+      filtros.idade.length > 0 ||
+      filtros.sexo.length > 0 ||
+      filtros.statusVacinacao.length > 0 ||
+      filtros.statusCastracao.length > 0 ||
+      filtros.statusAdocao.length > 0 ||
+      filtros.statusMicrochipagem.length > 0 ||
+      filtros.statusVermifugacao.length > 0;
 
+    setFiltrosAplicados(filtroAtivo);
+
+    animaisFiltrados = animaisFiltrados.filter((animal) => {
       return (
-        nomeCorresponde &&
         (filtros.tipo.length === 0 || filtros.tipo.includes(animal.tipo)) &&
-        (filtros.idade.length === 0 ||
-          filtros.idade.includes(animal.idade.toString())) &&
+        (filtros.idade.length === 0 || filtros.idade.includes(animal.idade.toString())) &&
         (filtros.sexo.length === 0 || filtros.sexo.includes(animal.sexo)) &&
-        (filtros.statusVacinacao.length === 0 ||
-          filtros.statusVacinacao.includes(animal.statusVacinacao)) &&
-        (filtros.statusCastracao.length === 0 ||
-          filtros.statusCastracao.includes(animal.statusCastracao)) &&
-        (filtros.statusAdocao.length === 0 ||
-          filtros.statusAdocao.includes(animal.statusAdocao)) &&
-        (filtros.statusMicrochipagem.length === 0 ||
-          filtros.statusMicrochipagem.includes(animal.statusMicrochipagem)) &&
-        (filtros.statusVermifugacao.length === 0 ||
-          filtros.statusVermifugacao.includes(animal.statusVermifugacao))
+        (filtros.statusVacinacao.length === 0 || filtros.statusVacinacao.includes(animal.statusVacinacao)) &&
+        (filtros.statusCastracao.length === 0 || filtros.statusCastracao.includes(animal.statusCastracao)) &&
+        (filtros.statusAdocao.length === 0 || filtros.statusAdocao.includes(animal.statusAdocao)) &&
+        (filtros.statusMicrochipagem.length === 0 || filtros.statusMicrochipagem.includes(animal.statusMicrochipagem)) &&
+        (filtros.statusVermifugacao.length === 0 || filtros.statusVermifugacao.includes(animal.statusVermifugacao))
       );
     });
 
@@ -125,7 +122,7 @@ export default function FichasDeAnimais() {
   // Aplica os filtros sempre que o estado de filtros mudar
   useEffect(() => {
     aplicarFiltros();
-  }, [filtros, termoPesquisa]);
+  }, [filtros]);
 
   // Opções para os filtros
   const tipoAnimal = [
@@ -270,9 +267,7 @@ export default function FichasDeAnimais() {
                   onChange={(selectedOptions) =>
                     setFiltros((prev) => ({
                       ...prev,
-                      statusMicrochipagem: selectedOptions.map(
-                        (opt) => opt.value
-                      ),
+                      statusMicrochipagem: selectedOptions.map((opt) => opt.value),
                     }))
                   }
                   className={styles.filtroSelecao}
@@ -284,9 +279,7 @@ export default function FichasDeAnimais() {
                   onChange={(selectedOptions) =>
                     setFiltros((prev) => ({
                       ...prev,
-                      statusVermifugacao: selectedOptions.map(
-                        (opt) => opt.value
-                      ),
+                      statusVermifugacao: selectedOptions.map((opt) => opt.value),
                     }))
                   }
                   className={styles.filtroSelecao}
@@ -296,8 +289,6 @@ export default function FichasDeAnimais() {
                     className={styles.barrinhaDePesquisa}
                     type="text"
                     placeholder="Pesquise pelo nome"
-                    value={termoPesquisa}
-                    onChange={(event) => setTermoPesquisa(event.target.value)}
                   />
                 </div>
               </div>
@@ -472,40 +463,42 @@ export default function FichasDeAnimais() {
       {/* Listagem de animais */}
       <div className={styles.alinharPainel}>
         <div className={styles.fundoPainel}>
-          {animais.map((animal) => (
-            <div className={styles.cardAnimais} key={animal.id}>
-              <div className={styles.divImagem}>
-                <img
-                  className={styles.imagemAnimais}
-                  src={
-                    animal.imagem
-                      ? `http://localhost:3003/uploads/${animal.imagem}`
-                      : "/pagFichasDAnimais/imagemTeste.jpg"
-                  }
-                  alt="Imagem do animal"
-                />
-              </div>
-              <div className={styles.infoAnimais}>
-                <h1 className={styles.nomeAnimal}>{animal.nome}</h1>
-                <p className={styles.dadosAnimais}>
-                  Idade: {animal.idade} ano(s)
-                </p>
-                <p className={styles.dadosAnimais}>Sexo: {animal.sexo}</p>
-                <p className={styles.dadosAnimais}>
-                  Status de vacinação: {animal.statusVacinacao}
-                </p>
-                <p className={styles.dadosAnimais}>
-                  Status de castração: {animal.statusCastracao}
-                </p>
-                <Link
-                  to={`/ver_mais/${animal.id}`}
-                  className={styles.botaoVerMais}
-                >
-                  Ver mais
-                </Link>
-              </div>
+          {animais.length === 0 ? (
+            <div className={styles.mensagemNenhumAnimal}>
+              {filtrosAplicados
+                ? "Nenhum animal encontrado com os filtros aplicados. Tente ajustar os filtros."
+                : "Nenhum animal cadastrado. Cadastre um novo animal!"}
             </div>
-          ))}
+          ) : (
+            animais.map((animal) => (
+              <div className={styles.cardAnimais} key={animal.id}>
+                <div className={styles.divImagem}>
+                  <img
+                    className={styles.imagemAnimais}
+                    src={
+                      animal.imagem
+                        ? `http://localhost:3003/uploads/${animal.imagem}`
+                        : "/pagFichasDAnimais/imagemTeste.jpg"
+                    }
+                    alt="Imagem do animal"
+                  />
+                </div>
+                <div className={styles.infoAnimais}>
+                  <h1 className={styles.nomeAnimal}>{animal.nome}</h1>
+                  <p className={styles.dadosAnimais}>Idade: {animal.idade} ano(s)</p>
+                  <p className={styles.dadosAnimais}>Sexo: {animal.sexo}</p>
+                  <p className={styles.dadosAnimais}>Status de vacinação: {animal.statusVacinacao}</p>
+                  <p className={styles.dadosAnimais}>Status de castração: {animal.statusCastracao}</p>
+                  <Link
+                    to={`/ver_mais/${animal.id}`}
+                    className={styles.botaoVerMais}
+                  >
+                    Ver mais
+                  </Link>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
