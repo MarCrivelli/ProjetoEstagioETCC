@@ -1,0 +1,28 @@
+.botaoScroll {
+  position: fixed;
+  top: 5px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px); /* Ajusta o centro e desloca para cima inicialmente */
+  padding: 14px 17px;
+  background-color: rgb(16, 30, 49);
+  border: 1px solid rgba(255, 255, 255, 0.904);
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.botaoScroll.visivel {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0); /* Retorna à posição original */
+}
+
+.botaoScroll:hover {
+    background-color: rgb(15, 37, 66);
+}
+
+.imagemBotao {
+    width: 20px;
+    height: 20px;
+}
