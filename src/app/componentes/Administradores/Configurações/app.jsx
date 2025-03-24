@@ -39,7 +39,7 @@ export default function Configuracoes() {
               <Accordion.Item eventKey="0">
                 <Accordion.Header>
                   <p className={styles.tituloAcordeao}>
-                    Configurações de administrador
+                    Funções de administrador
                   </p>
                 </Accordion.Header>
                 <Accordion.Body className={styles.corpoAcordeao}>
@@ -49,9 +49,9 @@ export default function Configuracoes() {
               {/* Item das funções de usuário */}
               <Accordion.Item eventKey="1">
                 <Accordion.Header>
-                  <h1 className={styles.tituloAcordeao}>
+                  <p className={styles.tituloAcordeao}>
                     Configurações de usuário
-                  </h1>
+                  </p>
                 </Accordion.Header>
                 <Accordion.Body>
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
