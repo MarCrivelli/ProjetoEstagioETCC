@@ -69,7 +69,7 @@
 
 .logoPreLogin div h1,
 p {
-  color: rgb(255, 255, 255);
+  color: rgb(255, 0, 0);
 }
 
 .carrossel {
@@ -174,6 +174,7 @@ p {
   padding-inline: 15%;
 }
 
+/*DAR UMA CLASSE PARA ESSE H1 E ESSE P IMEDIATAMENTE*/
 .sobreNos h1 {
   font-size: 4rem;
   padding-bottom: 3%;
@@ -201,9 +202,6 @@ p {
   .textoLogoPreLogin .titulo {
     font-size: 2.5rem;
   }
-  /* .carrossel{
-        
-    } */
   .blocoCarrossel {
     flex-wrap: wrap;
     width: 100%;

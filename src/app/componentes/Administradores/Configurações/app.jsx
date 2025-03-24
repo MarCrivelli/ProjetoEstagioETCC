@@ -1,20 +1,10 @@
 import styles from "./configuracoes.module.css";
 import HeaderAdms from "../HeaderAdms/app";
-import Select from "react-select";
 import BotaoPagInicial from "../BotaoPagInicial/app";
+import FuncoesDeAdministrador from "./FuncoesAdm/app";
 import Accordion from "react-bootstrap/Accordion";
 
 export default function Configuracoes() {
-  const usuarios = [
-    { value: "usuario1", label: "Kauã" },
-    { value: "usuario2", label: "Guilherme" },
-    { value: "usuario3", label: "Renan" },
-  ];
-  const nivelDeAcesso = [
-    { value: "administrador", label: "Administrador" },
-    { value: "subAdministrador", label: "Sub-administrador" },
-    { value: "contribuinte", label: "Contribuínte" },
-  ];
   return (
     <div>
       <HeaderAdms />
@@ -45,95 +35,18 @@ export default function Configuracoes() {
               className={styles.acordeaoPrincipal}
               defaultActiveKey="0"
             >
+              {/* Item das funções de administrador */}
               <Accordion.Item eventKey="0">
                 <Accordion.Header>
                   <p className={styles.tituloAcordeao}>
-                    Configurações de administrador
+                    Funções de administrador
                   </p>
                 </Accordion.Header>
                 <Accordion.Body className={styles.corpoAcordeao}>
-                  <div className={styles.blocoFuncao}>
-                    <div className={styles.configAdm1}>
-                      <h1 className={styles.tituloConfig}>Excluir usuário:</h1>
-                      <Select
-                        options={usuarios}
-                        placeholder="Digite ou selecione"
-                        className={styles.selectConfig}
-                      />
-                      <button
-                        className={`${styles.botaoPadraoConfig} ${styles.botaoExcluirUsuario}`}
-                      >
-                        Excluir
-                      </button>
-                    </div>
-                  </div>
-                  <div className={styles.blocoFuncao}>
-                    <div className={styles.configAdm2}>
-                      <h1
-                        className={`${styles.tituloConfig} ${styles.tituloConfig2}`}
-                      >
-                        Alterar nível de acesso de um usuário:
-                      </h1>
-                      <Select
-                        options={usuarios}
-                        placeholder="Digite ou selecione"
-                        className={styles.selectConfig}
-                      />
-                    </div>
-                    <div className={styles.configAdm1}>
-                      <h1
-                        className={`${styles.tituloConfig} ${styles.tituloConfig2}`}
-                      >
-                        Escolha o novo nível de acesso:
-                      </h1>
-                      <Select
-                        options={nivelDeAcesso}
-                        placeholder="Selecione"
-                        className={styles.selectConfig}
-                      />
-                    </div>
-                    <button
-                      className={`${styles.botaoPadraoConfig} ${styles.botaoAlterarNvlAcesso}`}
-                    >
-                      Alterar
-                    </button>
-                  </div>
-                  <div className={styles.blocoFuncao}>
-                    <div className={styles.configAdm2}>
-                      <h1
-                        className={`${styles.tituloConfig} ${styles.tituloConfig2}`}
-                      >
-                        Convidar novo membro:
-                      </h1>
-                      
-                        <input
-                          className={styles.inputEmail}
-                          type="email"
-                          placeholder="Insira um e-mail"
-                        ></input>
-                        
-                    </div>
-                    <div className={styles.configAdm1}>
-                      <h1
-                        className={`${styles.tituloConfig} ${styles.tituloConfig2}`}
-                      >
-                        Escolha o nível de acesso:
-                      </h1>
-                      <Select
-                        options={nivelDeAcesso}
-                        placeholder="Selecione"
-                        className={styles.selectConfig}
-                      />
-                    </div>
-                    <button
-                      className={`${styles.botaoPadraoConfig} ${styles.botaoConvidar}`}
-                    >
-                      Convidar
-                    </button>
-                  </div>
-                  <div className={styles.ultimoBlocoFuncao}></div>
+                  <FuncoesDeAdministrador />
                 </Accordion.Body>
               </Accordion.Item>
+              {/* Item das funções de usuário */}
               <Accordion.Item eventKey="1">
                 <Accordion.Header>
                   <p className={styles.tituloAcordeao}>
@@ -151,6 +64,7 @@ export default function Configuracoes() {
                   mollit anim id est laborum.
                 </Accordion.Body>
               </Accordion.Item>
+
             </Accordion>
           </div>
         </div>

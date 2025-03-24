@@ -1,12 +1,10 @@
-
-
 .fundoConfig {
   display: flex;
   justify-content: center;
   min-width: 100%;
-  min-height: 100vh;
   width: 0px;
   padding: 0.5%;
+  min-height: 100vh;
 }
 
 .fundoPainel {
@@ -111,97 +109,8 @@
   font-weight: 330;
 }
 
-.blocoFuncao{
-  border-bottom: 1px solid #b3b3b3;
-  padding-block: 40px;
-  row-gap: 30px;
-}
-
-.blocoFuncao, .ultimoBlocoFuncao{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  min-height: 36px;
-}
-
-.configAdm1, .configAdm2{
-  display: flex;
-  width: 90%;
-  min-height: 36px;
-  gap: 20px;
-  flex-wrap: wrap;
-}
-
-.configAdm1{
-  align-items: center;
-}
-
-.configAdm2{
-  row-gap: 20px;
-}
-
-.tituloConfig{
-  font-size: 1.97rem;
-  margin: 0;
-  text-align: center;
-}
-
-.tituloConfig2{
-  width: 30%;
-  text-align: start;
-}
-
-.selectConfig, .inputEmail {
-  width: 25%;
-  min-width: 200px;
-}
-
-.botaoPadraoConfig{
-  height: 36px;
-  min-width: 200px;
-  border: none;
-  border-radius: 7px;
-  font-family: "Josefin Sans", sans-serif;
-  margin-right: auto;
-  color: white;
-}
-
-.botaoExcluirUsuario{
-  background-color: #e95757;
-}
-
-.botaoExcluirUsuario:hover{
-  background-color: #e98585;
-}
-
-.botaoAlterarNvlAcesso{
-  background-color: rgb(255, 217, 0);
-}
-
-.botaoAlterarNvlAcesso:hover{
-  background-color: rgb(255, 236, 130);
-}
-
-.botaoAlterarNvlAcesso, .botaoConvidar{
-  margin-left: 5%;
-}
-
-.inputEmail {
-  width: 25%;
-  min-height: 36px;
-  max-height: 36px;
-  border-radius: 5px;
-  padding-left: 7px;
-  border: 1px solid #b3b3b3;
-}
-
-.botaoConvidar{
-  background-color: #007bff;
-}
-
-.botaoConvidar:hover{
-  background-color: #71b6ff;
+.corpoAcordeao{
+  padding: 0;
 }
 
 @media (max-width: 1100px){
@@ -228,11 +137,5 @@
   }
   .corpoAcordeao{
     padding: 10px;
-  }
-  .selectConfig, .inputEmail{
-    flex-grow: 1;
-  }
-  .tituloConfig2{
-    width: 100%;
   }
 }
