@@ -1,7 +1,6 @@
 import styles from "./animais.module.css";
 import HeaderAdms from "../HeaderAdms/app";
 import BotaoPagInicial from "../BotaoPagInicial/app";
-import RolarPCima from "../../BotaoScroll/app";
 import Accordion from "react-bootstrap/Accordion";
 import Select from "react-select";
 import { useState, useEffect } from "react";
@@ -180,7 +179,6 @@ export default function FichasDeAnimais() {
     <div>
       <HeaderAdms />
       <BotaoPagInicial />
-      <RolarPCima/>
       <div className={styles.utilitarios}>
         <Accordion className={styles.acordeao} defaultActiveKey="0">
           {/* Acordeão de filtro */}

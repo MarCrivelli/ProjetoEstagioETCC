@@ -1,3 +1,4 @@
+
 .fundoConfig {
   display: flex;
   justify-content: center;
@@ -104,9 +105,11 @@
   width: 100%;
   text-align: center;
   font-size: 1.8rem;
-  color: black;
-  margin-bottom: 0;
-  font-weight: 330;
+  font-family: "Oswald", serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+  text-shadow: 1px 1px 1px rgb(0, 0, 0);
 }
 
 .corpoAcordeao{
