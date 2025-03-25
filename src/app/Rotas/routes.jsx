@@ -3,15 +3,15 @@ import { BrowserRouter, Route, Routes} from 'react-router-dom';
 //Importações para as páginas de visitantes
 import HomeVisitantes from '../componentes/Visitantes/Home/app';
 import Autenticacao from '../componentes/Autenticacao/app';
-import QueroAdotar from '../componentes/Visitantes/QueroAdotar/app';
-import Denuncie from '../componentes/Visitantes/Denuncie/app';
-import SaudeUnica from '../componentes/Visitantes/SaudeUnica/app';
+import QueroAdotar from '../componentes/Visitantes/PaginaDeAdocoes/app';
+import Denuncie from '../componentes/Visitantes/PaginaDeDenuncias/app';
+import SaudeUnica from '../componentes/Visitantes/PaginaDeSaudeUnica/app';
 //Importações para as páginas de administradores
 import HomeAdms from '../componentes/Administradores/Home/app';
-import FichasDeAnimais from '../componentes/Administradores/Animais/app';
+import FichasDeAnimais from '../componentes/Administradores/PaginaDeAnimais/PaginaPrincipal/app';
 import Configuracoes from '../componentes/Administradores/Configurações/app';
-import ProgramarPostagem from '../componentes/Administradores/Postagens/app';
-import VerMais from '../componentes/Administradores/VerMais/app';
+import ProgramarPostagem from '../componentes/Administradores/PaginaDePostagem/app';
+import VerMais from '../componentes/Administradores/PaginaDeVerMais/app';
 
 export default function Rotas() {
   return(
