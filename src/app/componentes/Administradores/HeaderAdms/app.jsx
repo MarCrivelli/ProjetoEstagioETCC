@@ -1,4 +1,4 @@
-import styles from "./headerAdm.module.css"; 
+import styles from "./headerAdm.module.css";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
@@ -24,17 +24,21 @@ export default function HeaderAdms() {
   return (
     <div className={styles.fundoHeader}>
       <header id="headerAdm" className={styles.headerAdm}>
-          <Link className={styles.containerLogo} to="/administracao" title="Instituto Esperança">
-              <img
-                src="logos/logoPreta.png"
-                className={styles.logoHeader}
-                alt="Logo do Instituto Esperança"
-              />
-              <div className={styles.textoLogo}>
-                <h1 className={styles.tituloLogo}>Instituto Esperança</h1>
-                <p className={styles.subtituloLogo}>A voz dos animais</p>
-              </div>
-          </Link>
+        <Link
+          className={styles.containerLogo}
+          to="/administracao"
+          title="Instituto Esperança"
+        >
+          <img
+            src="logos/logoPreta.png"
+            className={styles.logoHeader}
+            alt="Logo do Instituto Esperança"
+          />
+          <div className={styles.textoLogo}>
+            <h1 className={styles.tituloLogo}>Instituto Esperança</h1>
+            <p className={styles.subtituloLogo}>A voz dos animais</p>
+          </div>
+        </Link>
         <nav
           id="nav"
           className={`${styles.nav} ${isActive ? styles.active : ""}`}
@@ -49,6 +53,19 @@ export default function HeaderAdms() {
             <span id="hamburguer" className={styles.hamburguer}></span>
           </button>
           <ul id="menu" className={styles.menu} role="menu">
+            <li className={styles.mobileFirstItem}>
+              <Link
+                className={styles.linkUsuario}
+                to="/autenticar"
+                title="usuário"
+              >
+                <img
+                  src="/usuario.png"
+                  alt="Botão que leva à página de autenticação"
+                  className={styles.iconeAvatar}
+                />
+              </Link>
+            </li>
             <li>
               <Link to="/programar_postagem" className={styles.tagLinkAdms}>
                 <div className={styles.alinharLinks}>
@@ -83,19 +100,6 @@ export default function HeaderAdms() {
                   />
                   <h1 className={styles.textoLink}>Configurações</h1>
                 </div>
-              </Link>
-            </li>
-            <li>
-              <Link
-                className={styles.linkUsuario}
-                to="/autenticar"
-                title="usuário"
-              >
-                <img
-                  src="/usuario.png"
-                  alt="Botão que leva à página de autenticação"
-                  className={styles.iconeAvatar}
-                />
               </Link>
             </li>
           </ul>
