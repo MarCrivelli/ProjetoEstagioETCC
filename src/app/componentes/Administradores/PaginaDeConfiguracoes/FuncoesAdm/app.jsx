@@ -1,10 +1,7 @@
 import styles from "./funcoesAdm.module.css";
 import Select from "react-select";
-import Accordion from "react-bootstrap/Accordion";
-import { useState, useEffect } from "react";
 
 export default function FuncoesDeAdministrador() {
-
   const usuarios = [
     { value: "usuario1", label: "Kauã" },
     { value: "usuario2", label: "Guilherme" },
@@ -16,8 +13,6 @@ export default function FuncoesDeAdministrador() {
     { value: "subAdministrador", label: "Sub-administrador" },
     { value: "contribuinte", label: "Contribuínte" },
   ];
-
-  const [image, setImage] = useState(null);
 
   return (
     <div className={styles.conteudoFuncoesAdm}>
@@ -96,44 +91,45 @@ export default function FuncoesDeAdministrador() {
       </div>
 
       <div className={styles.blocoFuncao}>
-        <h1 className={styles.tituloFuncaoCarrossel}>Carrossel de doadores</h1>
-        <Accordion className={styles.acordeaoPrincipalCarrossel}>
-          <Accordion.Item eventKey="0" className={styles.itemAcordeaoCarrossel}>
-            <Accordion.Header>Inserir doador</Accordion.Header>
-            <Accordion.Body className={styles.corpoAcordeaoInserirDoador}>
 
-              <div className={styles.fotoDoador}>
-                <img
-                  className={styles.previaImagem}
-                  src={image ? URL.createObjectURL(image) : ""}
-                  alt="Prévia da imagem"
-                />
-                <label htmlFor="inputDeImagem" className={styles.labelDeImagem}>
-                  Selecione uma imagem
-                </label>
-                <input
-                  type="file"
-                  id="inputDeImagem"
-                  className={styles.inputDeImagem}
-                />
-                <span className={styles.nomeArquivo}>
-                  {image ? "Arquivo selecionado" : "Nenhum arquivo selecionado"}
-                </span>
-              </div>
+        <h1 className={styles.tituloDoador}>Inserir doador</h1>
 
-              <div className={styles.divDadosDoador}>
-                <h1 className={styles.tituloDadosDoador}>Dados do doador</h1>
-                <div>
-                  <label>Nome do doador</label>
-                </div>
+        <div className={styles.alinharDadosDoador}>
+
+          <div className={styles.divImagemDoador}>
+            <img style={{width: '50px', height: '50px' }} src="/pagConfiguracoes/iconeSair.png"></img>
+          </div>
+
+          <div className={styles.informacoesDoDoador}>
+
+            <div className={styles.dadoDoador}>
+              <div className={styles.alinharLabelComObs}>
+                <label className={styles.labelDadoDoador}>Nome doador</label>
+                <label className={styles.textoObservacao}>*Obrigatório</label>
               </div>
-            </Accordion.Body>
-          </Accordion.Item>
-          <Accordion.Item eventKey="1" className={styles.itemAcordeaoCarrossel}>
-            <Accordion.Header>Inserir doador</Accordion.Header>
-            <Accordion.Body>bbbbbbbbbbbbbbbbbbb</Accordion.Body>
-          </Accordion.Item>
-        </Accordion>
+              <input className={styles.receptorDeDados} type="text"></input>
+            </div>
+
+            <div className={styles.dadoDoador}>
+              <div className={styles.alinharLabelComObs}>
+                <label className={styles.labelDadoDoador}>Descrição da doação</label>
+                <label className={styles.textoObservacao}>*Obrigatório</label>
+              </div>
+              <textarea className={styles.receptorDeDados}></textarea>
+            </div>
+
+            <div className={styles.dadoDoador}>
+              <div className={styles.alinharLabelComObs}>
+                <label className={styles.labelDadoDoador}>Valor</label>
+                <label className={styles.textoObservacao}>*Obrigatório</label>
+              </div>
+              <input className={styles.receptorDeDados} type="number"></input>
+            </div>
+
+          </div>
+
+        </div>
+
       </div>
 
       <div className={styles.ultimoBlocoFuncao}></div>

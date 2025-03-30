@@ -1,9 +1,9 @@
 import styles from "./animais.module.css";
+import { useState, useEffect } from "react";
+import Accordion from "react-bootstrap/Accordion";
 import HeaderAdms from "../../HeaderAdms/app";
 import RolarPCima from "../../../BotaoScroll/app";
 import BotaoPagInicial from "../../BotaoPagInicial/app";
-import Accordion from "react-bootstrap/Accordion";
-import { useState, useEffect } from "react";
 import FiltroDeAnimais from "../FiltroDeAnimais/app";
 import CadastroDeAnimais from "../CadastroDeAnimais/app";
 import ExibicaoDeAnimais from "../ExibicaoDeAnimais/app";
@@ -21,6 +21,7 @@ export default function FichasDeAnimais() {
     statusAdocao: [],
     statusMicrochipagem: [],
     statusVermifugacao: [],
+    nome: ""
   });
 
   // Função para buscar os animais
@@ -41,12 +42,21 @@ export default function FichasDeAnimais() {
   // Função para aplicar os filtros
   const aplicarFiltros = () => {
     let animaisFiltrados = animaisCompleto;
-
-    const filtroAtivo = Object.values(filtros).some(array => array.length > 0);
+  
+    const filtroAtivo = 
+      Object.values(filtros).some(
+        value => (Array.isArray(value) ? value.length > 0 : value !== "")
+      );
     setFiltrosAplicados(filtroAtivo);
-
+  
     animaisFiltrados = animaisFiltrados.filter((animal) => {
-      return (
+      // Verificação do nome (case insensitive)
+      const nomeMatch = 
+        !filtros.nome || 
+        animal.nome.toLowerCase().includes(filtros.nome.toLowerCase());
+      
+      // Verificação dos outros filtros
+      const outrosFiltrosMatch = 
         (filtros.tipo.length === 0 || filtros.tipo.includes(animal.tipo)) &&
         (filtros.idade.length === 0 || filtros.idade.includes(animal.idade.toString())) &&
         (filtros.sexo.length === 0 || filtros.sexo.includes(animal.sexo)) &&
@@ -54,16 +64,17 @@ export default function FichasDeAnimais() {
         (filtros.statusCastracao.length === 0 || filtros.statusCastracao.includes(animal.statusCastracao)) &&
         (filtros.statusAdocao.length === 0 || filtros.statusAdocao.includes(animal.statusAdocao)) &&
         (filtros.statusMicrochipagem.length === 0 || filtros.statusMicrochipagem.includes(animal.statusMicrochipagem)) &&
-        (filtros.statusVermifugacao.length === 0 || filtros.statusVermifugacao.includes(animal.statusVermifugacao))
-      );
+        (filtros.statusVermifugacao.length === 0 || filtros.statusVermifugacao.includes(animal.statusVermifugacao));
+  
+      return nomeMatch && outrosFiltrosMatch;
     });
-
+  
     setAnimais(animaisFiltrados);
   };
 
   useEffect(() => {
     aplicarFiltros();
-  }, [filtros]);
+  }, [filtros, animaisCompleto]); 
 
   return (
     <div>

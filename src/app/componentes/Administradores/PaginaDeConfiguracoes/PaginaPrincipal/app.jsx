@@ -1,7 +1,7 @@
 import styles from "./configuracoes.module.css";
-import HeaderAdms from "../HeaderAdms/app";
-import BotaoPagInicial from "../BotaoPagInicial/app";
-import FuncoesDeAdministrador from "./FuncoesAdm/app";
+import HeaderAdms from "../../HeaderAdms/app";
+import BotaoPagInicial from "../../BotaoPagInicial/app";
+import FuncoesDeAdministrador from "../FuncoesAdm/app";
 import Accordion from "react-bootstrap/Accordion";
 
 export default function Configuracoes() {

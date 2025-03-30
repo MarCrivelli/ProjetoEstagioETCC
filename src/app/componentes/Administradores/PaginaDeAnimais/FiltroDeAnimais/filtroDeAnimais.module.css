@@ -27,6 +27,29 @@
     border: 1px solid #b3b3b3;
     border-radius: 5px;
   }
+
+  .divLimparFiltro {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    margin-top: 10px;
+  }
+  
+  .botaoLimparFiltros {
+    background-color: #dc3545;
+    border: 1px solid #dc3545;
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+  }
+  
+  .botaoLimparFiltros:hover {
+    background-color: #dc878f;
+    color: rgb(255, 228, 228);
+  }
   
   @media (max-width: 1100px) {
     .containerFiltrosDeSelecao {
@@ -45,5 +68,11 @@
       width: 100%;
       min-width: 200px;
       max-width: none;
+    }
+  }
+
+  @media (max-width: 300px) {
+    .botaoLimparFiltros {
+      width: 100%;
     }
   }

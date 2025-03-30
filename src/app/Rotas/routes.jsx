@@ -9,7 +9,7 @@ import SaudeUnica from '../componentes/Visitantes/PaginaDeSaudeUnica/app';
 //Importações para as páginas de administradores
 import HomeAdms from '../componentes/Administradores/Home/app';
 import FichasDeAnimais from '../componentes/Administradores/PaginaDeAnimais/PaginaPrincipal/app';
-import Configuracoes from '../componentes/Administradores/Configurações/app';
+import Configuracoes from '../componentes/Administradores/PaginaDeConfiguracoes/PaginaPrincipal/app'
 import ProgramarPostagem from '../componentes/Administradores/PaginaDePostagem/app';
 import VerMais from '../componentes/Administradores/PaginaDeVerMais/app';
 

@@ -13,6 +13,7 @@
   padding-bottom: 20px;
   gap: 20px;
   padding-inline: 20px;
+  height: auto;
 }
 
 .funcao {
@@ -85,82 +86,79 @@
   background-color: #71b6ff;
 }
 
-.tituloFuncaoCarrossel {
+.tituloDoador {
   width: 100%;
   text-align: center;
 }
 
-.corpoAcordeaoInserirDoador {
+.alinharDadosDoador {
   display: flex;
-  flex-wrap: wrap;
-  padding-block: 40px;
+  width: 100%;
+  flex-wrap: nowrap;
+  height: auto;
+  min-height: 300px;
+  gap: 20px;
 }
 
-.fotoDoador {
+.divImagemDoador {
+  background-color: aquamarine;
+  /*remover depois*/
+  min-height: 100px;
+  min-width: 300px;
+}
+
+.divImagemDoador,
+.informacoesDoDoador {
   display: flex;
+  width: 50%;
+  height: auto;
+  flex-grow: 1;
+}
+
+.informacoesDoDoador {
   flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  width: 40%;
-  height: auto;
-  min-height: 500px;
-  padding: 20px 40px 0px 20px;
-  border-right: 1px solid #b3b3b3;
+  min-width: 200px;
+  min-height: 300px;
+  row-gap: 30px;
 }
 
-.previaImagem {
+.dadoDoador{
   width: 100%;
-  height: auto;
-  max-height: 400px;
-  min-height: 400px;
-  object-fit: scale-down;
-  border: 2px dashed #ccc;
-  border-radius: 10px;
-  padding: 15px;
+  height: 100%;
 }
 
-.inputDeImagem {
-  display: none;
+.alinharLabelComObs{
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
 }
 
-.labelDeImagem {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  text-align: center;
-  transition: background-color 0.3s ease;
-}
-
-.labelDeImagem:hover,
-.botaoInserir:hover {
-  background-color: #0056b3;
-}
-
-.nomeArquivo {
-  font-size: 14px;
-  color: #333;
-  font-style: italic;
-  text-align: center;
-}
-
-.divDadosDoador {
-  width: 60%;
-  padding-top: 20px;
-}
-
-.tituloDadosDoador {
+.labelDadoDoador{
   width: 100%;
-  text-align: center;
-  font-size: 2rem;
 }
 
-.itemAcordeaoCarrossel {
+.labelDadoDoador, .textoObservacao{
+  font-weight: 300;
+}
+
+.textoObservacao{
+  color: #e98585;
+  font-weight: 300;
+  padding-right: 5px;
+}
+
+.receptorDeDados{
+  width: 100%;
+  height: 36px;
+  min-height: 36px;
+  border: 1px solid #b3b3b3;
+  border-radius: 4px;
 }
 
 @media (max-width: 1100px) {
+  .alinharDadosDoador {
+    flex-wrap: wrap;
+  }
 }
 
 @media (max-width: 425px) {
@@ -179,5 +177,21 @@
   .inputEmail {
     min-width: none;
     width: 100%;
+  }
+
+  .divImagemDoador {
+    min-width: 200px;
+  }
+
+  .labelDadoDoador{
+    font-size: .8rem;
+  }
+
+  .alinharLabelComObs{
+    gap: 0px;
+  }
+
+  .textoObservacao{
+    font-size: .7rem;
   }
 }
