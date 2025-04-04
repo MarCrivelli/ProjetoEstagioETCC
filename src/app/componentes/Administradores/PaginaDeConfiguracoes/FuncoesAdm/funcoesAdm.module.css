@@ -58,6 +58,7 @@
   width: 200px;
   border: none;
   height: 36px;
+  min-height: 36px;
   border-radius: 7px;
   color: white;
 }
@@ -86,6 +87,10 @@
   background-color: #71b6ff;
 }
 
+.espacamentoDiv{
+  padding-bottom: 40px;
+}
+
 .tituloDoador {
   width: 100%;
   text-align: center;
@@ -96,18 +101,60 @@
   width: 100%;
   flex-wrap: nowrap;
   height: auto;
-  min-height: 300px;
   gap: 20px;
 }
 
-.divImagemDoador {
-  background-color: aquamarine;
-  /*remover depois*/
-  min-height: 100px;
+.divEnfeiteCarrosselDoador{
+  flex-direction: row;
+  align-items: center;
   min-width: 300px;
+  border-right: 1px solid #b3b3b3;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
-.divImagemDoador,
+.divImagemDoador{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.divImagemDoador, .personalizacaoCarrossel{
+  width: calc(50% - 10px);
+  min-width: 200px;
+  height: auto;
+  flex-direction: column;
+}
+
+.inputDeImagem {
+  display: none;
+}
+
+.previaImagem {
+  width: 100%;
+  min-width: 200px;
+  min-height: 200px;
+  max-height: 235px;
+  height: 95%;
+  border: 2px dashed #ccc;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.labelDeImagem {
+  width: 70%;
+  background-color: rgb(115, 0, 255);
+  text-align: center;
+  padding: 5px 20px;
+}
+
+.labelDeImagem:hover{
+  background-color: rgba(115, 0, 255, 0.721);
+  color: rgb(231, 211, 255);
+  cursor: pointer;
+}
+
+.divEnfeiteCarrosselDoador,
 .informacoesDoDoador {
   display: flex;
   width: 50%;
@@ -153,6 +200,16 @@
   min-height: 36px;
   border: 1px solid #b3b3b3;
   border-radius: 4px;
+  padding-left: 5px;
+}
+
+.textarea{
+  max-height: 200px;
+}
+
+.botaoInserirDoador{
+  margin-inline: auto;
+  background-color: rgb(115, 0, 255);
 }
 
 @media (max-width: 1100px) {
@@ -179,7 +236,15 @@
     width: 100%;
   }
 
-  .divImagemDoador {
+  .tituloDoador {
+    font-size: 2rem;
+  }
+
+  .alinharDadosDoador {
+    padding-bottom: 5px;
+  }
+
+  .divEnfeiteCarrosselDoador {
     min-width: 200px;
   }
 

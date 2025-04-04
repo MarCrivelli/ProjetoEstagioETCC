@@ -1,5 +1,6 @@
 import styles from "./funcoesAdm.module.css";
 import Select from "react-select";
+import { useState } from "react";
 
 export default function FuncoesDeAdministrador() {
   const usuarios = [
@@ -13,6 +14,14 @@ export default function FuncoesDeAdministrador() {
     { value: "subAdministrador", label: "Sub-administrador" },
     { value: "contribuinte", label: "Contribuínte" },
   ];
+
+  const [image, setImage] = useState(null);
+
+  const onImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setImage(event.target.files[0]);
+    }
+  };
 
   return (
     <div className={styles.conteudoFuncoesAdm}>
@@ -90,18 +99,44 @@ export default function FuncoesDeAdministrador() {
         </div>
       </div>
 
-      <div className={styles.blocoFuncao}>
-
+      <div className={`${styles.blocoFuncao} ${styles.espacamentoDiv}`}>
         <h1 className={styles.tituloDoador}>Inserir doador</h1>
 
         <div className={styles.alinharDadosDoador}>
 
-          <div className={styles.divImagemDoador}>
-            <img style={{width: '50px', height: '50px' }} src="/pagConfiguracoes/iconeSair.png"></img>
+          <div className={styles.divEnfeiteCarrosselDoador}>
+            <div className={styles.divImagemDoador}>
+              <img
+                className={styles.previaImagem}
+                src={image ? URL.createObjectURL(image) : ""}
+                alt="Prévia da imagem"
+              />
+              <label
+                htmlFor="inputDeImagem"
+                className={`${styles.labelDeImagem} ${styles.botaoPadraoConfig}`}
+              >
+                Selecione uma imagem
+              </label>
+              <input
+                type="file"
+                id="inputDeImagem"
+                onChange={onImageChange}
+                className={styles.inputDeImagem}
+              />
+              <span className={styles.nomeArquivo}>
+                {image ? "Arquivo selecionado" : "Nenhum arquivo selecionado"}
+              </span>
+            </div>
+
+            <div className={styles.personalizacaoCarrossel}>
+              <div>
+                <label>aaaaaaa</label>
+              </div>
+            </div>
+
           </div>
 
           <div className={styles.informacoesDoDoador}>
-
             <div className={styles.dadoDoador}>
               <div className={styles.alinharLabelComObs}>
                 <label className={styles.labelDadoDoador}>Nome doador</label>
@@ -112,24 +147,30 @@ export default function FuncoesDeAdministrador() {
 
             <div className={styles.dadoDoador}>
               <div className={styles.alinharLabelComObs}>
-                <label className={styles.labelDadoDoador}>Descrição da doação</label>
+                <label className={styles.labelDadoDoador}>
+                  Descrição da doação
+                </label>
                 <label className={styles.textoObservacao}>*Obrigatório</label>
               </div>
-              <textarea className={styles.receptorDeDados}></textarea>
+              <textarea
+                className={`${styles.receptorDeDados} ${styles.textarea}`}
+              ></textarea>
             </div>
 
             <div className={styles.dadoDoador}>
               <div className={styles.alinharLabelComObs}>
                 <label className={styles.labelDadoDoador}>Valor</label>
-                <label className={styles.textoObservacao}>*Obrigatório</label>
               </div>
-              <input className={styles.receptorDeDados} type="number"></input>
+              <input className={styles.receptorDeDados} type="color"></input>
             </div>
-
           </div>
-
         </div>
 
+        <button
+          className={`${styles.botaoPadraoConfig} ${styles.botaoInserirDoador}`}
+        >
+          Inserir doador
+        </button>
       </div>
 
       <div className={styles.ultimoBlocoFuncao}></div>
