@@ -6,11 +6,10 @@
     grid-template-columns: 1fr 1fr repeat(2, 100px);
  /* Configura o grid para os cards */
     grid-template-rows: auto auto; /* Ajusta as linhas ao conteúdo */
-    gap: 16px;
     background-color: #e3e3e37e;
     padding: 30px;
     border-radius: 20px;
-    gap: 50px;
+    gap: 30px;
     background-image: url("./fundoPatas2.png");
     background-repeat: repeat; /* Faz com que a imagem se repita */
     background-size: 1100px 1100px; /* Define o tamanho da imagem (largura x altura) */
@@ -22,7 +21,7 @@
     display: flex;
     flex-wrap: wrap;
     background-color: #ffffffea;
-    
+    border: 2px solid black;
     text-align: center;
     font-size: 1rem;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
@@ -131,92 +130,10 @@
     grid-column: 1 / 8; /* Coluna */
     grid-row: 4 / 5;    /* Linha */
   }
-
-  .carrossel{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    min-height: 50%;
-    max-height: 50%;
-    height: 0;
-    background-color: rgb(0, 255, 242);
-}
-
-  .carrossel ul{
-    display: none;
-    min-height: 100%;
-    height: 150px;
-    min-width: 100%;
-  }
-
-  .carrossel li{
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    background-color: yellow;
-  }
-
-  .carrossel h1{
-    background-color: red;
-  }
-
-  .thumbs-wrapper .axis-vertical{
-    display: none;
-  }
-
-    /* Estiliza o botão de navegação esquerda */
-  .control-arrow.control-prev {
-    background-color: rgba(0, 0, 0, 0.5) !important; 
-    position: relative;
-    top: 50% !important;
-    border-radius: 50%; 
-    width: 50px; 
-    height: 50px; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white; 
-    font-size: 24px; 
-    transition: background-color 0.3s ease; 
-  }
-
-  /* Hover no botão de navegação esquerda */
-  .control-arrow.control-prev:hover {
-    background-color: rgba(104, 104, 104, 0.8) !important;
-  }
-
-  /* Estiliza o botão de navegação direita */
-  .control-arrow.control-next {
-    background-color: rgba(0, 0, 0, 0.5) !important;
-    position: relative;
-    top: 50% !important;
-    margin-right: 5px;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 24px;
-    transition: background-color 0.3s ease;
-  }
-
-  /* Hover no botão de navegação direita */
-  .control-arrow.control-next:hover {
-    background-color: rgba(104, 104, 104, 0.8) !important;
-  }
-
   
   .card4 {
-    grid-column: 7 / 8; 
-    grid-row: 2 / 5; 
-    width: 350px;
-    min-height: 450px;
-    max-height: 490px;
+    grid-column: 5 / 8; 
+    grid-row: 2 / 4; 
     align-items: center;
     flex-direction: column;
   }

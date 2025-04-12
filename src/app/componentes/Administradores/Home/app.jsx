@@ -1,19 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import styles from "./mainAdm.module.css";
+import styles from "./homeAdm.module.css";
 import HeaderAdms from "../HeaderAdms/app";
 import BotaoPagInicial from "../BotaoPagInicial/app";
 
 
 export default function HomeAdms() {
-
-    var erro = false;
-
-    if (erro) {
-        return (
-            <h1>Erro</h1>
-        );
-    }
 
     return (
         <div>
@@ -22,6 +14,7 @@ export default function HomeAdms() {
             <BotaoPagInicial/>
 
             <div className={styles.painel}>
+
                 <div className={`${styles.card} ${styles.card1}`}>
                         <img className={styles.iconeCopiar} src="/homeAdms/iconeCopiar.png"></img>
                     <div className={styles.conteudoPrincipalAvisos}>
@@ -33,15 +26,18 @@ export default function HomeAdms() {
                         </div>
                     </div>
                 </div>
+
                 <div className={`${styles.card} ${styles.card2}`}>
                     <div className={styles.divLembrete}>
                         <h1>Lembrete de vacinação</h1>
                         <p>Há <span className={styles.sublinhadoVacinacao}>999</span> animais a serem vacinados</p>
                     </div>
                 </div>
+
                 <div className={`${styles.card} ${styles.card3}`}>
                     
                 </div>
+                
                 <div className={`${styles.card} ${styles.card4}`}>
                     <img
                       src="/usuario.png"
@@ -58,6 +54,7 @@ export default function HomeAdms() {
                         <button className={`${styles.padraoBotao} ${styles.botaoClaro}`}>Configurar Perfil</button>
                     </div>
                 </div>
+
             </div>
         </div>
     );
