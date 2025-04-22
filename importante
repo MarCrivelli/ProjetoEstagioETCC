@@ -41,3 +41,5 @@ Sites que peguei alguns componentes utilizados:
 https://react-select.com/home
 
 https://react-bootstrap.github.io/docs/components/accordion
+
+npx sequelize-cli db:migrate

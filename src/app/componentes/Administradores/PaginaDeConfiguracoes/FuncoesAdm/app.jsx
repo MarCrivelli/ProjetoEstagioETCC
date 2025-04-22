@@ -45,6 +45,15 @@ export default function FuncoesDeAdministrador() {
 
   return (
     <div className={styles.conteudoFuncoesAdm}>
+
+      <div className={styles.botoesBlocosFuncao}>
+        <div className={styles.botaoRedirecional}>1</div>
+        <div className={styles.botaoRedirecional}>2</div>
+        <div className={styles.botaoRedirecional}>3</div>
+        <div className={styles.botaoRedirecional}>4</div>
+        <div className={styles.botaoRedirecional}>5</div>
+      </div>
+
       <div className={styles.blocoFuncao}>
         <div className={styles.funcao}>
           <h1 className={styles.tituloConfig}>Excluir usuário:</h1>
@@ -143,7 +152,7 @@ export default function FuncoesDeAdministrador() {
                   onChange={onImageChange}
                   className={styles.inputDeImagem}
                 />
-                <span>{image ? image.name : "Nenhum arquivo selecionado"}</span>
+                <div>{image ? image.name : "Nenhum arquivo selecionado"}</div>
               </div>
 
               <div className={styles.personalizacaoCarrossel}>
