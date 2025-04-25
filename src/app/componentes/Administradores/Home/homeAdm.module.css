@@ -10,7 +10,7 @@
   padding: 30px;
   border-radius: 20px;
   gap: 30px;
-  background-image: url("./fundoPatas2.png");
+  background-image: url("/fundoPatas2.png");
   background-repeat: repeat; /* Faz com que a imagem se repita */
   background-size: 600px 600px; /* Define o tamanho da imagem (largura x altura) */
   background-position: top left; /* A posição inicial da repetição é no canto superior esquerdo */
@@ -92,42 +92,64 @@
   background-color: #7a10ff;
 }
 
+@keyframes slideUp {
+  from {
+    transform: translateY(485px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+.lembreteEntrada {
+  animation: slideUp 0.7s ease-out forwards;
+}
+
+
 .lembreteItem {
   display: flex;
   align-items: center;
+  padding: 8px;
   margin: 5px 0;
-  background-color: #3a356000;
+  background-color: #3a3560;
   border-radius: 5px;
   position: relative;
   color: white;
-  gap: 4px; 
+  width: 100%;
 }
 
 .lembreteData {
   font-weight: bold;
-  color: #4c00ff;
-  min-width: 100px; 
+  display: inline;
+  margin-right: 8px;
+  white-space: normal;
+  word-break: break-word;
+  text-align: justify;
 }
 
 .lembreteDescricao {
-  flex-grow: 1;
-  margin-left: 0; 
-  display: flex;
+  font-weight: normal;
+  color: white;
 }
 
 .lembreteLixeira {
-  display: none;
   background: none;
   border: none;
   cursor: pointer;
   font-size: 16px;
   color: #ff6b6b;
-  position: absolute;
-  right: 8px;
+  flex-shrink: 0;
+  margin-left: auto;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .lembreteItem:hover .lembreteLixeira {
-  display: block;
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Botão de adicionar dentro da div */
@@ -205,35 +227,38 @@
 .modal h2 {
   margin-top: 0;
   color: #72c0ff;
+  margin-bottom: 20px;
 }
 
-.formGroup {
+.alinharLadoALado, .alinharAcima{
+  display: flex;
+  color: white;
   margin-bottom: 15px;
 }
 
-.formGroup label {
-  display: block;
-  margin-bottom: 5px;
-  color: #ccc;
+.alinharLadoALado{
+  gap: 5px;
 }
 
-.formGroup input[type="text"],
-.formGroup input[type="date"],
-.formGroup textarea {
+.alinharAcima{
+  flex-direction: column;
+}
+
+.inputInserirAviso{
   width: 100%;
-  padding: 8px;
-  border-radius: 5px;
-  border: 1px solid #444;
-  background-color: #1a1830;
+  background-color: #17162e;
+  border: 1px solid #b3b3b3;
   color: white;
+  padding-inline: 3px;
+  min-height: 36px;
 }
 
-.formGroup input[type="color"] {
-  width: 50px;
-  height: 30px;
-  padding: 0;
-  border: none;
-  background: none;
+.labelInserirAviso{
+  text-align: start;
+}
+
+.textareaInserirAviso{
+  min-height: 100px;
 }
 
 .botoesForm {
@@ -352,6 +377,8 @@
 
 .nomeUsuario {
   font-size: 2.2rem;
+  color: #ff0800;
+  -webkit-text-stroke: 2px #5d0300;
 }
 
 .infoUsuario{

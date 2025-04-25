@@ -3,15 +3,16 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import styles from "./homeAdm.module.css";
 import HeaderAdms from "../HeaderAdms/app";
 import BotaoPagInicial from "../BotaoPagInicial/app";
+import RolarPCima from "../../BotaoScroll/app";
 import { useState, useRef } from "react";
 
 const Lembrete = ({ data, descricao, corData, onRemover }) => {
   return (
-    <div className={styles.lembreteItem}>
+    <div className={`${styles.lembreteItem} ${styles.lembreteEntrada}`}>
       <span className={styles.lembreteData} style={{ color: corData }}>
-        {data}
+        {data + ': '}
+        <span className={styles.lembreteDescricao}>{descricao}</span>
       </span>
-      <span className={styles.lembreteDescricao}>{descricao}</span>
       <button className={styles.lembreteLixeira} onClick={onRemover}>
         🗑️
       </button>
@@ -27,7 +28,7 @@ export default function HomeAdms() {
     dataInicio: "",
     dataFim: "",
     descricao: "",
-    corData: "#72c0ff",
+    corData: "#00ffe5",
     ehPeriodo: false,
   });
 
@@ -48,7 +49,7 @@ export default function HomeAdms() {
       dataInicio: "",
       dataFim: "",
       descricao: "",
-      corData: "#72c0ff",
+      corData: "#00ffe5",
       ehPeriodo: false,
     });
   };
@@ -94,6 +95,7 @@ export default function HomeAdms() {
     <div>
       <HeaderAdms />
       <BotaoPagInicial />
+      <RolarPCima/>
 
       <div className={styles.painel}>
         <div className={`${styles.card} ${styles.card1}`}>
@@ -125,7 +127,7 @@ export default function HomeAdms() {
                 ))}
               </div>
 
-              {/* Botão de adicionar posicionado na borda */}
+              {/* Botão de adicionar lembrete */}
               <button
                 className={styles.botaoAdicionar}
                 onClick={abrirFormulario}
@@ -140,20 +142,18 @@ export default function HomeAdms() {
                 <div className={styles.modalContent}>
                   <h2>Novo Lembrete</h2>
 
-                  <div className={styles.formGroup}>
-                    <label>
-                      <input
-                        type="checkbox"
-                        name="ehPeriodo"
-                        checked={novoLembrete.ehPeriodo}
-                        onChange={handleChange}
-                      />
-                      Período (em vez de data única)
-                    </label>
+                  <div className={styles.alinharLadoALado}>
+                    <input
+                      type="checkbox"
+                      name="ehPeriodo"
+                      checked={novoLembrete.ehPeriodo}
+                      onChange={handleChange}
+                    />
+                    <label>Período (em vez de data única)</label>
                   </div>
 
-                  <div className={styles.formGroup}>
-                    <label>
+                  <div className={styles.alinharAcima}>
+                    <label className={styles.labelInserirAviso}>
                       Data {novoLembrete.ehPeriodo ? "Inicial" : ""}
                     </label>
                     <input
@@ -162,33 +162,36 @@ export default function HomeAdms() {
                       value={novoLembrete.dataInicio}
                       onChange={handleChange}
                       required
+                      className={styles.inputInserirAviso}
                     />
                   </div>
 
                   {novoLembrete.ehPeriodo && (
-                    <div className={styles.formGroup}>
-                      <label>Data Final</label>
+                    <div className={styles.alinharAcima}>
+                      <label className={styles.labelInserirAviso}>Data Final</label>
                       <input
                         type="date"
                         name="dataFim"
                         value={novoLembrete.dataFim}
                         onChange={handleChange}
                         required
+                        className={styles.inputInserirAviso}
                       />
                     </div>
                   )}
 
-                  <div className={styles.formGroup}>
-                    <label>Descrição</label>
+                  <div className={styles.alinharAcima}>
+                    <label className={styles.labelInserirAviso}>Descrição</label>
                     <textarea
                       name="descricao"
                       value={novoLembrete.descricao}
                       onChange={handleChange}
                       required
+                      className={`${styles.inputInserirAviso} ${styles.textareaInserirAviso}`}
                     />
                   </div>
 
-                  <div className={styles.formGroup}>
+                  <div className={styles.alinharLadoALado}>
                     <label>Cor da Data</label>
                     <input
                       type="color"

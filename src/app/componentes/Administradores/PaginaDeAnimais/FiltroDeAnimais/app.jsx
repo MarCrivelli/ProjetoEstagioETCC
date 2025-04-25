@@ -20,6 +20,16 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
     { value: "8", label: "8 anos" },
     { value: "9", label: "9 anos" },
     { value: "10", label: "10 anos" },
+    { value: "11", label: "11 anos" },
+    { value: "12", label: "12 anos" },
+    { value: "13", label: "13 anos" },
+    { value: "14", label: "14 anos" },
+    { value: "15", label: "15 anos" },
+    { value: "16", label: "16 anos" },
+    { value: "17", label: "17 anos" },
+    { value: "18", label: "18 anos" },
+    { value: "19", label: "19 anos" },
+    { value: "20", label: "+20 anos" },
   ];
 
   const sexoDoAnimal = [

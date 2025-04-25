@@ -4,7 +4,7 @@
   min-height: calc(100vh - 126px);
   height: 100vh;
   padding: 2%;
-  background-image: url("./fundoPatas2.png");
+  background-image: url("/fundoPatas2.png");
   background-repeat: repeat; /* Faz com que a imagem se repita */
   background-size: 900px 900px; /* Define o tamanho da imagem (largura x altura) */
   background-position: top left; /* A posição inicial da repetição é no canto superior esquerdo */

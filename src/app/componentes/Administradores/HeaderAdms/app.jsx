@@ -30,7 +30,7 @@ export default function HeaderAdms() {
           title="Instituto Esperança"
         >
           <img
-            src="logos/logoPreta.png"
+            src="/logos/logoPreta.png"
             className={styles.logoHeader}
             alt="Logo do Instituto Esperança"
           />
@@ -71,7 +71,7 @@ export default function HeaderAdms() {
                 <div className={styles.alinharLinks}>
                   <img
                     className={styles.iconeLink}
-                    src="headerAdms/postagem.png"
+                    src="/headerAdms/postagem.png"
                     alt="Ícone de programar postagem"
                   />
                   <h1 className={styles.textoLink}>Programar postagens</h1>
@@ -83,7 +83,7 @@ export default function HeaderAdms() {
                 <div className={styles.alinharLinks}>
                   <img
                     className={styles.iconeLink}
-                    src="headerAdms/pata.png"
+                    src="/headerAdms/pata.png"
                     alt="Ícone de fichas de animais"
                   />
                   <h1 className={styles.textoLink}>Fichas de animais</h1>
@@ -95,7 +95,7 @@ export default function HeaderAdms() {
                 <div className={styles.alinharLinks}>
                   <img
                     className={styles.iconeLink}
-                    src="headerAdms/configuracoes.png"
+                    src="/headerAdms/configuracoes.png"
                     alt="Ícone de configurações"
                   />
                   <h1 className={styles.textoLink}>Configurações</h1>

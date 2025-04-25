@@ -3,11 +3,13 @@ import HeaderAdms from "../../HeaderAdms/app";
 import BotaoPagInicial from "../../BotaoPagInicial/app";
 import FuncoesDeAdministrador from "../FuncoesAdm/app";
 import Accordion from "react-bootstrap/Accordion";
+import RolarPCima from "../../../BotaoScroll/app";
 
 export default function Configuracoes() {
   return (
     <div>
       <HeaderAdms />
+      <RolarPCima/>
       <BotaoPagInicial />
       <div className={styles.fundoConfig}>
         <div className={styles.fundoPainel}>
