@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Accordion from "react-bootstrap/Accordion";
 import HeaderAdms from "../../HeaderAdms/app";
 import RolarPCima from "../../../BotaoScroll/app";
-import BotaoPagInicial from "../../BotaoPagInicial/app";
+import BotaoPagInicial from "../../BotaoPagInicialAdms/app";
 import FiltroDeAnimais from "../FiltroDeAnimais/app";
 import CadastroDeAnimais from "../CadastroDeAnimais/app";
 import ExibicaoDeAnimais from "../ExibicaoDeAnimais/app";

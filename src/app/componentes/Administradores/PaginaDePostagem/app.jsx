@@ -1,6 +1,6 @@
 import styles from "./postagem.module.css";
 import HeaderAdms from "../HeaderAdms/app";
-import BotaoPagInicial from "../BotaoPagInicial/app";
+import BotaoPagInicial from "../BotaoPagInicialAdms/app";
 import Select from "react-select";
 
 export default function ProgramarPostagem() {

@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import Header from "../HeaderVisitantes/app";
+import BotaoPagInicialVisitantes from "../BotaoPagInicialVisitantes/app";
 
 export default function HomeVisitantes() {
 
@@ -16,6 +17,7 @@ export default function HomeVisitantes() {
     
     return (
         <div className="mainPreLogin">
+            <BotaoPagInicialVisitantes/>
             <Header/>
             <div className="logoPreLogin">
                 <img

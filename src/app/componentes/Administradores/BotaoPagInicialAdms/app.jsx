@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import styles from "../BotaoPagInicial/botaoPagInicial.module.css";
+import styles from "./botaoPagInicialAdms.module.css";
 
 export default function BotaoPagInicial() {
   const [clicked, setClicked] = useState(false); // Rastrea o clique no botão

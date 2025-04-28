@@ -2,7 +2,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import styles from "./homeAdm.module.css";
 import HeaderAdms from "../HeaderAdms/app";
-import BotaoPagInicial from "../BotaoPagInicial/app";
+import BotaoPagInicial from "../BotaoPagInicialAdms/app";
 import RolarPCima from "../../BotaoScroll/app";
 import { useState, useRef } from "react";
 

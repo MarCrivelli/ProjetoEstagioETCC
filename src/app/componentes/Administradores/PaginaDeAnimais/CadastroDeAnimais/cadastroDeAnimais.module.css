@@ -171,4 +171,7 @@
     .labelDeIdentificacao {
       width: 100%;
     }
+    .alinharDadosDeInsercao {
+      padding-inline: 0px;
+    }
   }

@@ -5,7 +5,6 @@
   transform: translateX(-50%) translateY(-20px); /* Ajusta o centro e desloca para cima inicialmente */
   padding: 14px 17px;
   background-color: rgb(16, 30, 49);
-  border: 1px solid rgba(255, 255, 255, 0.904);
   border-radius: 50%;
   cursor: pointer;
   z-index: 1000;

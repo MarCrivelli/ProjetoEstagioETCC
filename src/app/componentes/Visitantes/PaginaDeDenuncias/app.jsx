@@ -1,11 +1,10 @@
 import Header from "../HeaderVisitantes/app";
-import "./denuncie.css";
+import styles from "./denuncie.module.css"
 
 export default function Denuncie() {
   return (
-    <div className="pagDenuncia">
+    <div className={styles.fundoDaPagina}>
         <Header/>
-        <div className="fundoDenuncia"></div>
     </div>
   );
 }

@@ -26,7 +26,7 @@ export default function Header() {
     <div className={styles.fundoHeaderVisitantes}>
       <header id="headerVisitantes" className={styles.headerVisitantes}>
         <div className={styles.containerLogo}>
-          <Link id="logo" to="/administracao" title="Instituto Esperança">
+          <Link id="logo" to="/" title="Instituto Esperança">
             <img
               src="logos/logoBranca.png"
               className={styles.logoHeader}

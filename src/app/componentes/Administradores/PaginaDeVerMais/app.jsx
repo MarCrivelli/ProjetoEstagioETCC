@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import HeaderAdms from "../HeaderAdms/app";
 import RolarPCima from "../../BotaoScroll/app";
-import BotaoPagInicial from "../BotaoPagInicial/app";
+import BotaoPagInicial from "../BotaoPagInicialAdms/app";
 import styles from "../PaginaDeVerMais/verMais.module.css";
 
 export default function VerMais() {

@@ -1,6 +1,6 @@
 import styles from "./configuracoes.module.css";
 import HeaderAdms from "../../HeaderAdms/app";
-import BotaoPagInicial from "../../BotaoPagInicial/app";
+import BotaoPagInicial from "../../BotaoPagInicialAdms/app";
 import FuncoesDeAdministrador from "../FuncoesAdm/app";
 import Accordion from "react-bootstrap/Accordion";
 import RolarPCima from "../../../BotaoScroll/app";
@@ -16,7 +16,7 @@ export default function Configuracoes() {
           <div className={styles.painel}>
             <div className={styles.inicioPainel}>
               <div className={styles.topoInicioPainel}>
-                <h1 style={{ fontSize: "1.6rem" }}>Conta atual:</h1>
+                <h1 className={styles.contaAtual}>Conta atual:</h1>
                 <div className={styles.alinharDeslogue}>
                   <h1 className={styles.textoDeslogue}>Deslogar</h1>
                   <img
