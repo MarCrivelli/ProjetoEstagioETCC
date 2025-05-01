@@ -26,38 +26,12 @@
   border-radius: 20px;
 }
 
-.card3,
-.card4 {
-  padding: 16px;
-}
-
 .card1 {
   grid-row: 1 / 10;
-  height: 100%;
   position: relative;
-}
-
-.iconeCopiar {
-  object-fit: scale-down;
-  height: 40px;
-  transition: background-color 0.5s ease-in-out;
-  border-radius: 7px;
-  position: absolute;
-  left: 95.7%;
-  inset: 10px 10px auto auto;
-}
-
-.iconeCopiar:hover {
-  cursor: pointer;
-  background-color: #72c0ff4f;
-}
-
-.conteudoPrincipalAvisos {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
-  height: 100%;
 }
 
 /* Ajuste no container de lembretes */
@@ -308,8 +282,8 @@
 /* Container wrapper para posicionamento relativo */
 .containerWrapper {
   position: relative;
-  width: 90%;
-  min-height: 80%;
+  width: 95%;
+  height: 87%;
   margin: 0 auto;
 }
 
@@ -370,29 +344,67 @@
   flex-direction: column;
 }
 
+.containerImagemAvatar{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 32%;
+  padding-block: 10px;
+  background-image: url("/homeAdms/fundoCard3.png");
+  background-repeat: repeat;
+  background-size: 446px 446px;
+  background-position: top left;
+}
+
 .iconeAvatar {
-  width: 140px;
-  object-fit: scale-down;
+  width: 42%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid black;
 }
 
 .nomeUsuario {
   font-size: 2.2rem;
-  color: #ff0800;
+  color: #ff524d;
   -webkit-text-stroke: 2px #5d0300;
+  margin-bottom: 0;
 }
 
 .infoUsuario{
   width: 100%;
   height: 33%;
-  background-color: rgb(255, 229, 229);
+}
+
+.alinharInformacoes{
+  display: flex;
+  align-items: flex-end;
+  height: auto;
+  gap: 7px;
+  padding-left: 25px;
+}
+
+.alinharInformacoes strong{
+  height: auto;
+  font-family: "Josefin Sans", sans-serif;
+  font-weight: 550;
+}
+
+.alinharInformacoes p{
+  margin-bottom: 0;
+  font-weight: 200;
+}
+
+.alinharInformacoes strong, .alinharInformacoes p{
+  font-size: 1.1rem;
 }
 
 .botaoVerPerfil{
-  color: #000b1a;
+  color: #ffffff;
   font-weight: 500;
   border-radius: 7px;
-  background-color: rgb(255, 255, 255);
-  border: 2px solid #000b1a;
+  background-color: rgb(255, 84, 84);
+  border: 2px solid rgb(156, 63, 63);
   padding: 12px;
   width: 70%;
   margin: auto 0px 30px 0px;

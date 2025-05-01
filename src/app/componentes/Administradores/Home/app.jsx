@@ -10,7 +10,7 @@ const Lembrete = ({ data, descricao, corData, onRemover }) => {
   return (
     <div className={`${styles.lembreteItem} ${styles.lembreteEntrada}`}>
       <span className={styles.lembreteData} style={{ color: corData }}>
-        {data + ': '}
+        {data + ": "}
         <span className={styles.lembreteDescricao}>{descricao}</span>
       </span>
       <button className={styles.lembreteLixeira} onClick={onRemover}>
@@ -95,120 +95,112 @@ export default function HomeAdms() {
     <div>
       <HeaderAdms />
       <BotaoPagInicial />
-      <RolarPCima/>
+      <RolarPCima />
 
       <div className={styles.painel}>
         <div className={`${styles.card} ${styles.card1}`}>
-          <img
-            className={styles.iconeCopiar}
-            src="/homeAdms/iconeCopiar.png"
-            alt="Ícone de copiar"
-          />
-          <div className={styles.conteudoPrincipalAvisos}>
-            <h1
-              style={{
-                color: "#6a00ff",
-                WebkitTextStroke: "1.5px #28005f",
-              }}
-            >
-              Quadro de Avisos
-            </h1>
+          <h1
+            style={{
+              color: "#6a00ff",
+              WebkitTextStroke: "1.5px #28005f",
+            }}
+          >
+            Quadro de Avisos
+          </h1>
 
-            <div className={styles.containerWrapper}>
-              <div className={styles.containerLembretes} ref={containerRef}>
-                {lembretes.map((lembrete) => (
-                  <Lembrete
-                    key={lembrete.id}
-                    data={lembrete.data}
-                    descricao={lembrete.descricao}
-                    corData={lembrete.corData}
-                    onRemover={() => removerLembrete(lembrete.id)}
-                  />
-                ))}
-              </div>
-
-              {/* Botão de adicionar lembrete */}
-              <button
-                className={styles.botaoAdicionar}
-                onClick={abrirFormulario}
-              >
-                +
-              </button>
+          <div className={styles.containerWrapper}>
+            <div className={styles.containerLembretes} ref={containerRef}>
+              {lembretes.map((lembrete) => (
+                <Lembrete
+                  key={lembrete.id}
+                  data={lembrete.data}
+                  descricao={lembrete.descricao}
+                  corData={lembrete.corData}
+                  onRemover={() => removerLembrete(lembrete.id)}
+                />
+              ))}
             </div>
 
-            {/* Formulário de novo lembrete */}
-            {mostrarFormulario && (
-              <div className={styles.modal}>
-                <div className={styles.modalContent}>
-                  <h2>Novo Lembrete</h2>
+            {/* Botão de adicionar lembrete */}
+            <button className={styles.botaoAdicionar} onClick={abrirFormulario}>
+              +
+            </button>
+          </div>
 
-                  <div className={styles.alinharLadoALado}>
-                    <input
-                      type="checkbox"
-                      name="ehPeriodo"
-                      checked={novoLembrete.ehPeriodo}
-                      onChange={handleChange}
-                    />
-                    <label>Período (em vez de data única)</label>
-                  </div>
+          {/* Formulário de novo lembrete */}
+          {mostrarFormulario && (
+            <div className={styles.modal}>
+              <div className={styles.modalContent}>
+                <h2>Novo Lembrete</h2>
 
+                <div className={styles.alinharLadoALado}>
+                  <input
+                    type="checkbox"
+                    name="ehPeriodo"
+                    checked={novoLembrete.ehPeriodo}
+                    onChange={handleChange}
+                  />
+                  <label>Período (em vez de data única)</label>
+                </div>
+
+                <div className={styles.alinharAcima}>
+                  <label className={styles.labelInserirAviso}>
+                    Data {novoLembrete.ehPeriodo ? "Inicial" : ""}
+                  </label>
+                  <input
+                    type="date"
+                    name="dataInicio"
+                    value={novoLembrete.dataInicio}
+                    onChange={handleChange}
+                    required
+                    className={styles.inputInserirAviso}
+                  />
+                </div>
+
+                {novoLembrete.ehPeriodo && (
                   <div className={styles.alinharAcima}>
                     <label className={styles.labelInserirAviso}>
-                      Data {novoLembrete.ehPeriodo ? "Inicial" : ""}
+                      Data Final
                     </label>
                     <input
                       type="date"
-                      name="dataInicio"
-                      value={novoLembrete.dataInicio}
+                      name="dataFim"
+                      value={novoLembrete.dataFim}
                       onChange={handleChange}
                       required
                       className={styles.inputInserirAviso}
                     />
                   </div>
+                )}
 
-                  {novoLembrete.ehPeriodo && (
-                    <div className={styles.alinharAcima}>
-                      <label className={styles.labelInserirAviso}>Data Final</label>
-                      <input
-                        type="date"
-                        name="dataFim"
-                        value={novoLembrete.dataFim}
-                        onChange={handleChange}
-                        required
-                        className={styles.inputInserirAviso}
-                      />
-                    </div>
-                  )}
+                <div className={styles.alinharAcima}>
+                  <label className={styles.labelInserirAviso}>Descrição</label>
+                  <textarea
+                    name="descricao"
+                    value={novoLembrete.descricao}
+                    onChange={handleChange}
+                    required
+                    className={`${styles.inputInserirAviso} ${styles.textareaInserirAviso}`}
+                  />
+                </div>
 
-                  <div className={styles.alinharAcima}>
-                    <label className={styles.labelInserirAviso}>Descrição</label>
-                    <textarea
-                      name="descricao"
-                      value={novoLembrete.descricao}
-                      onChange={handleChange}
-                      required
-                      className={`${styles.inputInserirAviso} ${styles.textareaInserirAviso}`}
-                    />
-                  </div>
+                <div className={styles.alinharLadoALado}>
+                  <label>Cor da Data</label>
+                  <input
+                    type="color"
+                    name="corData"
+                    value={novoLembrete.corData}
+                    onChange={handleChange}
+                  />
+                </div>
 
-                  <div className={styles.alinharLadoALado}>
-                    <label>Cor da Data</label>
-                    <input
-                      type="color"
-                      name="corData"
-                      value={novoLembrete.corData}
-                      onChange={handleChange}
-                    />
-                  </div>
-
-                  <div className={styles.botoesForm}>
-                    <button onClick={fecharFormulario}>Cancelar</button>
-                    <button onClick={adicionarLembrete}>Adicionar</button>
-                  </div>
+                <div className={styles.botoesForm}>
+                  <button onClick={fecharFormulario}>Cancelar</button>
+                  <button onClick={adicionarLembrete}>Adicionar</button>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         <div className={`${styles.card} ${styles.card2}`}>
@@ -240,25 +232,33 @@ export default function HomeAdms() {
         </div>
 
         <div className={`${styles.card} ${styles.card3}`}>
-          <img
-            src="/usuario.png"
-            alt="Botão que leva à página de autenticação"
-            className={styles.iconeAvatar}
-          />
-          <h1 className={styles.nomeUsuario}>Nome Qualquer de Usuário</h1>
-          <p
-            style={{
-              fontSize: "1.4rem",
-              color: "black",
-            }}
-          >
-            Administrador
-          </p>
+          <div className={styles.containerImagemAvatar}>
+            <img
+              src="/usuarioTeste.jpeg"
+              alt="Botão que leva à página de autenticação"
+              className={styles.iconeAvatar}
+            />
+          </div>
+          <div>
+            <h1 className={styles.nomeUsuario}>Nome Qualquer de Usuá...</h1>
+            <p
+              style={{
+                fontSize: "1.4rem",
+                color: "black",
+              }}
+            >
+              Administrador
+            </p>
+          </div>
 
           <div className={styles.infoUsuario}>
             <div className={styles.alinharInformacoes}>
               <strong>Data de criação:</strong>
-              <p></p>
+              <p>Data de criação:</p>
+            </div>
+            <div className={styles.alinharInformacoes}>
+              <strong>Data de criação:</strong>
+              <p>Data de criação:</p>
             </div>
           </div>
 

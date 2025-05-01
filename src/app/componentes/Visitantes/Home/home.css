@@ -62,6 +62,7 @@
   max-width: 400px;
   z-index: 1;
 }
+/* ARRUMAR IMEDIATAMENTE */
 
 .logoPreLogin div p {
   font-size: 1.5rem;
@@ -69,7 +70,7 @@
 
 .logoPreLogin div h1,
 p {
-  color: rgb(255, 0, 0);
+  /* color: rgb(255, 0, 0); */
 }
 
 .carrossel {
