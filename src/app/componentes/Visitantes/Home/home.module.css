@@ -1,14 +1,16 @@
 .homeVisitantes {
-  background-color: #03051b;
-  z-index: -2;
+  display: flex;
+  flex-direction: column;
+  background-color: #000324;
   min-height: 200vh;
 }
 
 .imagemDeFundo{
   width: 100%;
   min-height: 70vh;
-  height: 70vh;
-  background-image: url(mainVisitantes/teste.jpg);
+  height: 100vh;
+  background-image: url(https://institutopetbrasil.com/storage/438/Banner_B2C_01_1900x1300_01.jpg);
+  /* background-image: url(/mainVisitantes/testeAnimal.jpg); */
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -19,7 +21,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  height: 92.5%;
   background-color: #03051b76;
   box-sizing: border-box;
   gap: 20px;
@@ -63,6 +65,7 @@
   display: flex;
   width: 100%;
   min-height: 600px;
+  box-shadow: 0px 0px 200px rgba(0, 255, 195, 0.276);
 }
 
 .card{
@@ -72,6 +75,9 @@
   width: 25%;
   padding: 20px 0px 40px 0px;
   min-width: 365px;
+  border-inline: 3px solid rgb(0, 0, 0);
+  border-block: 6px solid rgb(0, 0, 0);
+  transition: ease-in-out .5s;
 }
 
 .card img{
@@ -86,7 +92,7 @@
   height: auto;
   margin-inline: auto;
   background-color: white;
-  border: 3px solid black;
+  border: 3px solid rgb(0, 0, 0);
   border-radius: 14px;
   padding: 10px;
   filter: drop-shadow(8px 5px 2px #012244);
@@ -113,12 +119,11 @@
   padding: 10px;
   border: 2px solid rgb(0, 10, 52);
   border-radius: 10px;
-  background-color: #ffc800;
-  color: white;
+  background-color: #ffffff;
+  color: rgb(0, 0, 0);
   font-size: 1.4rem;
-  -webkit-text-stroke: 1px #000000;
   filter: drop-shadow(4px 5px #012244);
-  font-weight: 900;
+  font-weight: 400;
   transition: ease-in background .2s;
 }
 
@@ -127,7 +132,7 @@
 }
 
 .card1{
-  background-color: #3674B5;
+  background-color: #014895;
 }
 
 .card2{
@@ -142,34 +147,118 @@
   background-color: #bdfff0;
 }
 
-@media (max-width: 1475px) {
+.fundoAmarelo{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  background-color: #ffc800;
+  padding-block: 50px;
+}
+
+.alinharTituloECarrossel{
+  width: 95%;
+}
+
+.alinharTituloECarrossel h1{
+  background-color: white;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.carrossel{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: white;
+  min-height: 60vh;
+  height: 60vh;
+  border: 2.5px solid black;
+}
+
+.slideCarrossel{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.containerImagemCarrossel{
+  display: flex;
+  max-width: 190px;
+  max-height: 190px;
+  margin-block: 20px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.imagemCarrossel{
+  object-fit: scale-down;
+  width: 100%;
+  height: 100%;
+  max-width: 190px;
+  max-height: 190px;
+}
+
+.legendaCarrossel{
+  width: 25%;
+  height: 200px;
+  border-radius: 10px;
+  border: 2px solid black;
+}
+
+
+@media (max-width: 1490px) {
   .alinharCards{
     flex-direction: column;
-    width: 100%;
   }
   .card{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 0;
+    gap: 30px;
     width: 100%;
-    padding: 20px 0px 40px 0px;
+    padding: 10px 25px 30px 10px;
     min-width: none;
+    row-gap: 10px;
+    border-block: 3px solid rgb(0, 0, 0);
+    border-inline: 6px solid rgb(0, 0, 0);
+  }
+  .card img{
+    flex-grow: 1;
+  }
+  .descricaoCard{
+    width: 80%;
+    flex-grow: 1;
+    margin-inline: 0;
+    background-color: white;
+    border: 3px solid black;
+    border-radius: 14px;
+    padding: 10px;
+    filter: drop-shadow(8px 5px 2px #012244);
   }
   .linkBotaoVerMais{
     display: flex;
     width: 20%;
+    min-width: 200px;
     height: auto;
-    margin: 20px 2.8% 0 auto;
+    margin: 10px 0px 0 auto;
   }
   
   .botaoVerMais{
     padding: 10px;
     font-size: 1.4rem;
-    
   }
 }
 
+@media (max-width: 845px) {
+  .card img{
+    margin-right: 0px;
+  }
+}
 
 @media (max-width: 768px) {
   .logoPreLogin {
