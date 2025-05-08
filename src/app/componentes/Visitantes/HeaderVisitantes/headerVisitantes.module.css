@@ -5,8 +5,8 @@
   height: 70px;
   justify-content: space-between;
   z-index: 100;
-  background-color: #03051b76;
   transition: ease-out background 0.2s;
+  position: relative;
 }
 
 .headerVisitantes:hover {
@@ -60,7 +60,7 @@
 .menu li {
   display: flex;
   align-items: center;
-  width: auto;
+  width: auto
 }
 
 .linkSubPaginas {
@@ -159,12 +159,11 @@
   position: fixed;
   top: 0;
   right: -300px; /* Começa escondido */
-  width: 200px;
+  width: 65px;
   height: 100%;
   background-color: #0D0907;
   z-index: 999;
   transition: right 0.3s ease-out;
-  padding: 20px;
   box-sizing: border-box;
 }
 
@@ -181,7 +180,7 @@
   color: rgb(173, 173, 173);
   font-size: 2rem;
   cursor: pointer;
-  padding: 0px 10px;
+  padding: 0px 0px 0px 10px;
   transition: color 0.2s;
 }
 
@@ -197,15 +196,16 @@
   display: flex;
   flex-direction: column;
   list-style: none;
-  height: 100%;
+  height: auto;
   padding: 0;
-  margin-top: 50px; 
+  margin-top: 65px; 
   background-color: #00429f;
 }
 
 .menuLateral nav li {
   margin-bottom: 0px;
 }
+
 
 .linkMenuMobile {
   color: rgb(202, 202, 202);
@@ -220,6 +220,7 @@
 .linkMenuMobile:hover {
   color: rgb(230, 230, 230);
 }
+
 
 /* Animação do botão hamburguer para X */
 .menuAberto ~ .headerVisitantes .hamburguerVisitantes {

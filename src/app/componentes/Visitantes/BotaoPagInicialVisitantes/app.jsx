@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./botaoPagInicialVisitantes.module.css";
 
-export default function BotaoPagInicialVisitantes() {
+export default function BotaoParaPaginaDeAdms() {
   const [clicked, setClicked] = useState(false); // Rastrea o clique no botão
   const [isMobile, setIsMobile] = useState(false); // Detecta dispositivos móveis
   const navigate = useNavigate(); // Para redirecionamento

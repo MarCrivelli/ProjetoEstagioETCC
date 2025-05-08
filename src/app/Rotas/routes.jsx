@@ -1,13 +1,13 @@
 //Importações para as rotas funcionarem
 import { BrowserRouter, Route, Routes} from 'react-router-dom';
 //Importações para as páginas de visitantes
-import HomeVisitantes from '../componentes/Visitantes/Home/app';
+import HomeVisitantes from '../componentes/Visitantes/Home/PaginaPrincipal/app';
 import Autenticacao from '../componentes/Autenticacao/app';
 import QueroAdotar from '../componentes/Visitantes/PaginaDeAdocoes/app';
 import Denuncie from '../componentes/Visitantes/PaginaDeDenuncias/app';
 import SaudeUnica from '../componentes/Visitantes/PaginaDeSaudeUnica/app';
 //Importações para as páginas de administradores
-import HomeAdms from '../componentes/Administradores/Home/app';
+import HomeAdms from '../componentes/Administradores/Home/PaginaPrincipal/app';
 import FichasDeAnimais from '../componentes/Administradores/PaginaDeAnimais/PaginaPrincipal/app';
 import Configuracoes from '../componentes/Administradores/PaginaDeConfiguracoes/PaginaPrincipal/app'
 import ProgramarPostagem from '../componentes/Administradores/PaginaDePostagem/app';

@@ -1,5 +1,38 @@
-.fundoDaPagina{
-    min-height: 100vh;
-    width: 100%;
-    background-color: rgba(0, 255, 255, 0.229);
+.ajusteHeader {
+  background-color: #0d0907;
+}
+
+.ajusteElementosDaPagina {
+  display: flex;
+  flex-direction: column;
+  padding: 50px 20%;
+  min-height: calc(100vh - 70px);
+}
+
+.seccao h1 {
+  font-size: 2.3rem;
+  margin-bottom: 20px;
+}
+
+.strong {
+  font-weight: 500;
+}
+
+.seccao p {
+  font-size: 1.3rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin-bottom: 0;
+}
+
+.link {
+  color: currentColor;
+}
+
+@media (max-width: 768px) {
+  .ajusteElementosDaPagina {
+    padding-inline: 10%;
+  }
+  .seccao p {
+    margin-bottom: 10px;
+  }
 }

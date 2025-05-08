@@ -1,0 +1,119 @@
+.itemCarrossel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 20px;
+  height: 100%;
+  width: 100%;
+  min-height: 495px;
+  box-sizing: border-box;
+}
+
+.containerImagem,
+.fotoDoador {
+  border-radius: 50%;
+}
+
+.containerImagem {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border: 3px solid var(--cor-destaque);
+  width: 200px;
+  height: 200px;
+}
+
+.fotoDoador {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.infoDoador {
+  flex: 1 50%;
+}
+
+.itemCarrossel h1,
+.itemCarrossel p {
+  width: 50%;
+  margin-bottom: 0;
+}
+
+.infoDoador h1 {
+  font-size: 2rem;
+}
+
+.nomeDoador {
+  color: var(--cor-fundo);
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+.setaCarrossel {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: rgba(0, 3, 36, 0.7);
+  color: white;
+  border: 3px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  font-size: 1.2rem;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.setaCarrossel:hover {
+  background-color: rgba(0, 3, 36, 0.9);
+}
+
+.setaCarrossel:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.setaEsquerda {
+  left: 15px;
+}
+
+.setaDireita {
+  right: 15px;
+}
+
+@media (max-width: 768px) {
+
+  .itemCarrossel {
+    margin-top: 0px;
+    min-height: 0;
+    background-color: #ffffff;
+  }
+
+  .containerImagem {
+    border: 4px solid var(--cor-crow);
+  }
+}
+
+@media (max-width: 450px) {
+  .containerImagem {
+    width: 150px;
+    height: 150px;
+  }
+
+  .itemCarrossel h1,
+  .itemCarrossel p {
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  .itemCarrossel p {
+    text-align: justify;
+    height: 100%;
+  }
+}

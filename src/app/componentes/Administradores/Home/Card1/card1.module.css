@@ -1,0 +1,236 @@
+.card1 {
+  display: flex;
+  grid-row: 1 / 11;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cardTitle {
+  color: #00eeff;
+  -webkit-text-stroke: 1px rgb(0, 85, 255);
+}
+
+.containerLembretes {
+  width: 100%;
+  height: 100%;
+  max-height: 696px;
+  padding: 0 10px 0 10px;
+  background-color: #001e41;
+  overflow-y: scroll;
+  border-radius: 10px;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.containerLembretes::-webkit-scrollbar {
+  width: 13px;
+}
+
+.containerLembretes::-webkit-scrollbar-track {
+  background: #001730;
+  border-radius: 10px;
+}
+
+.containerLembretes::-webkit-scrollbar-thumb {
+  background-color: #008cff;
+  border-radius: 10px;
+  border: 2px solid currentColor;
+}
+
+.containerLembretes::-webkit-scrollbar-thumb:hover {
+  background-color: #008cff;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(485px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+.lembreteEntrada {
+  animation: slideUp 0.7s ease-out forwards;
+}
+
+.lembreteItem {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  margin: 7px 0;
+  background-color: #00475a4d;
+  border-radius: 5px;
+  position: relative;
+  color: white;
+  width: 100%;
+}
+
+.lembreteData {
+  font-weight: bold;
+  display: inline;
+  margin-right: 8px;
+  white-space: normal;
+  word-break: break-word;
+  text-align: justify;
+}
+
+.lembreteDescricao {
+  font-weight: normal;
+  color: white;
+}
+
+.lembreteLixeira {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #ff6b6b;
+  flex-shrink: 0;
+  margin: 0 0 auto auto;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.lembreteItem:hover .lembreteLixeira {
+  opacity: 1;
+  visibility: visible;
+}
+
+.containerWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+.botaoAdicionar {
+  display: flex;
+  position: absolute;
+  right: -15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #009dff;
+  color: white;
+  border: none;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s;
+  z-index: 10;
+  padding-bottom: 5px;
+}
+
+.botaoAdicionar:hover {
+  transform: translateY(-50%) scale(1.1);
+  background-color: #55beff;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 90%;
+  gap: 20px;
+}
+
+.modal h1 {
+  margin-top: 0;
+  color: #2f2f2f;
+}
+
+.alinharLadoALado,
+.alinharAcima {
+  display: flex;
+}
+
+.alinharLadoALado {
+  gap: 5px;
+}
+
+.labelNaFrente {
+  font-size: 1rem;
+}
+
+.alinharAcima {
+  flex-direction: column;
+}
+
+.inputInserirAviso {
+  width: 100%;
+  border: 1px solid #b3b3b3;
+  color: rgb(0, 0, 0);
+  padding-inline: 3px;
+  min-height: 36px;
+}
+
+.inputPeriodo {
+  width: 15px;
+}
+
+.labelInserirAviso {
+  text-align: start;
+}
+
+.textareaInserirAviso {
+  min-height: 100px;
+}
+
+.inputDeCor {
+  border: none;
+  width: 30px;
+}
+
+.botoesForm {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.botoesForm button {
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  flex-grow: 1;
+}
+
+.botoesForm button:first-child {
+  background-color: #444;
+  color: white;
+  border: none;
+}
+
+.botoesForm button:last-child {
+  background-color: #0095ff;
+  color: white;
+  border: none;
+}

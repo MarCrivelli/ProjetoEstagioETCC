@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
 import styles from "./headerVisitantes.module.css";
 import { Link } from "react-router-dom";
+import { FaHeart } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
 
 export default function Header() {
   const [menuAberto, setMenuAberto] = useState(false);
@@ -31,7 +32,7 @@ export default function Header() {
       <header className={styles.headerVisitantes}>
         <Link className={styles.linkLogo} to="/" title="Instituto Esperança">
           <img
-            src="logos/logoBranca.png"
+            src="/logos/logoBranca.png"
             className={styles.logo}
             alt="Logo do Instituto Esperança"
           />
@@ -138,12 +139,9 @@ export default function Header() {
                 className={styles.linkMenuMobile}
                 onClick={() => setMenuAberto(false)}
               >
-                Saúde única
+                <FaHeart/>
               </Link>
             </li>
-          </ul>
-          <ul>
-            <li>aaaaaaaaaaa</li>
           </ul>
         </nav>
       </div>

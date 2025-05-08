@@ -77,7 +77,7 @@ export default function FichasDeAnimais() {
   }, [filtros, animaisCompleto]); 
 
   return (
-    <div>
+    <div style={{backgroundColor: "#06202B"}}>
       <HeaderAdms />
       <BotaoPagInicial />
       <RolarPCima />

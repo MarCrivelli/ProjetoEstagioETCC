@@ -1,7 +1,8 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "../Autenticacao/autenticacao.module.css";
 import Header from "../Visitantes/HeaderVisitantes/app";
+import BotaoParaPaginaDeAdms from "../Visitantes/BotaoPagInicialVisitantes/app";
 
 export default function Autenticacao() {
   const [usuario, setUsuario] = useState({
@@ -91,8 +92,9 @@ export default function Autenticacao() {
   };
 
   return (
-    <div>
+    <>
       <Header />
+      <BotaoParaPaginaDeAdms/>
       <div className={styles.alinharFormulario}>
         <div
           className={`${styles.container} ${
@@ -177,6 +179,6 @@ export default function Autenticacao() {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
