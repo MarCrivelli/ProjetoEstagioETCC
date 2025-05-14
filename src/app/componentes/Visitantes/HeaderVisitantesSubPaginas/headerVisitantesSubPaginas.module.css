@@ -1,0 +1,244 @@
+.headerVisitantes {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    height: 70px;
+    justify-content: space-between;
+    z-index: 100;
+    transition: ease-out background 0.2s;
+    position: relative;
+    background-color: #0D0907;
+  }
+  
+  .linkLogo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 100%;
+    width: auto;
+    min-width: 57px;
+    text-decoration: none;
+  }
+  
+  .logo {
+    height: 100%;
+    width: auto;
+    object-fit: scale-down;
+  }
+  
+  .textoLogo{
+    width: auto;
+    height: 100%;
+  }
+  
+  .textoLogo h1{
+    font-size: 1.3rem;
+  }
+  
+  .textoLogo h1, .textoLogo p{
+    text-align: center;
+    color: white;
+    margin-bottom: 0;
+  }
+  
+  .nav {
+    width: auto;
+  }
+  
+  .menu {
+    display: flex;
+    list-style: none;
+    height: 100%;
+    width: 100%;
+    gap: 10px;
+    padding: 0;
+  }
+  
+  .menu li {
+    display: flex;
+    align-items: center;
+    width: auto
+  }
+  
+  .linkSubPaginas {
+    text-decoration: none;
+    font-size: 1rem;
+    margin-inline: 10px;
+    font-family: "Jockey One", sans-serif;
+  }
+  
+  .linkSubPaginas,
+  .hamburguerVisitantes {
+    color: rgb(208, 208, 208);
+  }
+  
+  .linkSubPaginas:hover,
+  .hamburguerVisitantes:hover {
+    color: rgb(230, 230, 230);
+  }
+  
+  .linkUsuario {
+    height: 100%;
+    width: 10%;
+    z-index: 2;
+  }
+  
+  .linkUsuario::before {
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(45deg, #00429f, #00ff95);
+    border-radius: 50%;
+    z-index: -1;
+  }
+  
+  .linkUsuario:hover::before {
+    animation: bordaAnimada 2.8s linear infinite;
+  }
+  
+  @keyframes bordaAnimada {
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .iconeUsuario {
+    position: relative;
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    padding: 2px;
+  }
+  
+  .btnMobile {
+    display: flex;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 15px;
+  }
+  .hamburguerVisitantes {
+    display: block;
+    border-top: 2px solid;
+    width: 35px;
+  }
+  .hamburguerVisitantes::after,
+  .hamburguerVisitantes:before {
+    content: "";
+    display: block;
+    width: 35px;
+    height: 2px;
+    background-color: currentColor;
+    margin-top: 10px;
+    transition: 0.3s;
+    position: relative;
+  }
+  
+  /* Overlay escuro */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+  }
+  
+  /* Menu lateral */
+  .menuLateral {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    right: -300px; /* Começa escondido */
+    width: 65px;
+    height: 100%;
+    background-color: #0D0907;
+    z-index: 999;
+    transition: right 0.3s ease-out;
+    box-sizing: border-box;
+  }
+  
+  .menuLateral.menuAberto {
+    right: 0;
+  }
+  
+  .botaoFechar {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: none;
+    border: none;
+    color: rgb(173, 173, 173);
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0px 0px 0px 10px;
+    transition: color 0.2s;
+  }
+  
+  .botaoFechar:hover {
+    color: rgb(230, 230, 230);
+  }
+  
+  .menuLateral nav{
+    height: 130px;
+  }
+  
+  .menuLateral nav ul {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    height: auto;
+    padding: 0;
+    margin-top: 65px; 
+    background-color: #00429f;
+  }
+  
+  .menuLateral nav li {
+    margin-bottom: 0px;
+  }
+  
+  
+  .linkMenuMobile {
+    color: rgb(202, 202, 202);
+    text-decoration: none;
+    font-size: .9rem;
+    font-family: "Jockey One", sans-serif;
+    display: block;
+    padding: 5px;
+    transition: color 0.2s;
+  }
+  
+  .linkMenuMobile:hover {
+    color: rgb(230, 230, 230);
+  }
+  
+  
+  /* Animação do botão hamburguer para X */
+  .menuAberto ~ .headerVisitantes .hamburguerVisitantes {
+    border-top-color: transparent;
+  }
+  
+  .menuAberto ~ .headerVisitantes .hamburguerVisitantes::before {
+    transform: rotate(135deg);
+    top: -12px;
+  }
+  
+  .menuAberto ~ .headerVisitantes .hamburguerVisitantes::after {
+    transform: rotate(-135deg);
+    top: -12px;
+  }
+  
+  
+  
+  @media (max-width: 700px) {
+    .menu li:nth-child(-n + 4) {
+      display: none;
+    }
+  }
+  

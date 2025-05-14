@@ -184,7 +184,6 @@
     #ffdb81 75%,
     #ffdb81 100%
   );
-
   padding: 100px 60px;
   width: 100%;
 }
@@ -299,15 +298,20 @@
   gap: 5px;
 }
 
-.alinharRedesSociais img {
+.alinharRedesSociais a{
   width: 50px;
   height: 50px;
-  transition: ease-in-out 0.15s;
 }
 
-.alinharRedesSociais img:last-child {
+.alinharRedesSociais a:last-child {
   width: 45px;
   height: 45px;
+}
+
+.alinharRedesSociais img {
+  width: 100%;
+  height: 100%;
+  transition: ease-in-out 0.15s;
 }
 
 .alinharRedesSociais img:hover {

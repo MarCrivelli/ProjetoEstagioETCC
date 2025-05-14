@@ -15,8 +15,8 @@
   row-gap: 50px;
   background-image: url("/fundoPatas2.png");
   background-repeat: repeat;
-  background-size: 900px 900px;
   background-position: top left;
+  background-size: 900px 900px;
 }
 
 .fundoPainel > *:last-child {

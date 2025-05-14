@@ -47,6 +47,10 @@
   min-height: 0;
 }
 
+.blocoFuncao:last-of-type{
+  border-bottom: 0;
+}
+
 .funcao {
   display: flex;
   align-items: center;

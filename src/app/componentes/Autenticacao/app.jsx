@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import styles from "../Autenticacao/autenticacao.module.css";
-import Header from "../Visitantes/HeaderVisitantes/app";
+import HeaderVisitantesSubPaginas from "../Visitantes/HeaderVisitantesSubPaginas/app";
 import BotaoParaPaginaDeAdms from "../Visitantes/BotaoPagInicialVisitantes/app";
 
 export default function Autenticacao() {
@@ -93,7 +93,7 @@ export default function Autenticacao() {
 
   return (
     <>
-      <Header />
+      <HeaderVisitantesSubPaginas />
       <BotaoParaPaginaDeAdms/>
       <div className={styles.alinharFormulario}>
         <div
@@ -101,6 +101,7 @@ export default function Autenticacao() {
             isRightPanelActive ? styles.rightPanelActive : ""
           }`}
         >
+          {/* Formulário de Cadastro */}
           <div className={`${styles.formContainer} ${styles.signUpContainer}`}>
             <form className={styles.form} onSubmit={handleCadastro}>
               <h1 className={styles.tituloAutenticacao}>Crie sua Conta</h1>
@@ -124,6 +125,7 @@ export default function Autenticacao() {
             </form>
           </div>
 
+          {/* Formulário de login */}
           <div className={`${styles.formContainer} ${styles.signInContainer}`}>
             <form className={styles.form} onSubmit={handleLogin}>
               <h1 className={styles.tituloAutenticacao}>Fazer Login</h1>
@@ -166,7 +168,7 @@ export default function Autenticacao() {
               <div className={`${styles.overlayPanel} ${styles.overlayRight}`}>
                 <h1 className={styles.tituloAutenticacao}>Ainda não tem conta?</h1>
                 <p className={styles.textoAutenticar}>
-                  Cadastre-se e fique por dentro de todas as dicas e informações que o Instituto tem a oferecer!.
+                  Cadastre-se e fique por dentro de todas as dicas e informações que o Instituto tem a oferecer!
                 </p>
                 <button
                   className={`${styles.button} ${styles.fantasma}`}

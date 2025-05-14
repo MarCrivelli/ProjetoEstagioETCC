@@ -216,17 +216,22 @@ export default function PaginaInicialVisitantes() {
             Contamos com o apoio de uma casa de passagem, que de acordo com a
             disponibilidade de vaga acolhe animais em situação de
             vulnerabilidade, onde recebem atendimento médico veterinário,
-            tratamento terapêutico e ressocialização, para assim, posteriormente,  estarem
-            disponíveis para adoção responsável. Além disso, contamos com o projeto Abrigo comunitário , onde
-            damos assistências para aquelas pessoas que decidiram zelar por
-            algum animalzinho na comunidade em que vive.
+            tratamento terapêutico e ressocialização, para assim,
+            posteriormente, estarem disponíveis para adoção responsável. Além
+            disso, contamos com o projeto Abrigo comunitário , onde damos
+            assistências para aquelas pessoas que decidiram zelar por algum
+            animalzinho na comunidade em que vive.
           </p>
         </div>
         <div className={styles.redesSociais}>
           <h1>Nos siga nas redes sociais!</h1>
           <div className={styles.alinharRedesSociais}>
-            <img src="/mainVisitantes/instagram.png"></img>
-            <img src="/mainVisitantes/facebook.png"></img>
+            <a href="https://www.instagram.com/esperancaavozdosanimais/" target="_blank">
+              <img src="/mainVisitantes/instagram.png"></img>
+            </a>
+            <a href="https://www.facebook.com/esperanca.a.voz.dos.animais" target="_blank">
+              <img src="/mainVisitantes/facebook.png"></img>
+            </a>
           </div>
         </div>
         <div className={styles.contato}>

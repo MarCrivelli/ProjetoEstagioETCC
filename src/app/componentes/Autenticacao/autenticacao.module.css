@@ -3,7 +3,7 @@
 /* Alinha o formulário no centro */
 .alinharFormulario {
   display: flex;
-  min-height: calc(100vh - 126px);
+  min-height: calc(100vh - 70px);
   justify-content: center;
   align-items: center;
 }
@@ -13,34 +13,22 @@
 }
 
 .textoAutenticar {
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   font-weight: 300;
   line-height: 33px;
   letter-spacing: 0.3px;
-  margin: 20px 0 30px;
+  margin: 10px 0 30px;
   color: white;
-}
-
-.span {
-  font-size: 12px;
-}
-
-.a {
-  color: #333;
-  font-size: 14px;
-  text-decoration: none;
-  margin: 15px 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .container {
   position: relative;
   width: 100%;
   max-width: 100%;
-  min-height: calc(100vh - 126px);
-  background-color: white;
-  border-radius: 10px;
+  min-height: calc(100vh - 70px);
+  background-color: rgb(255, 255, 255);
   overflow: hidden;
-  font-family: "Montserrat", sans-serif;
 }
 
 .formContainer {
@@ -69,7 +57,14 @@
   background-color: #eee;
   border: none;
   padding: 12px 15px;
-  margin: 8px 0;
+}
+
+.input:first-of-type{
+  margin-block: 35px 5px;
+}
+
+.input:last-of-type{
+  margin-block: 5px 20px;
 }
 
 .containerRedesSociais {
@@ -105,7 +100,8 @@
 }
 
 .button.fantasma {
-  border: 1px solid white;
+  border: 1px solid rgba(255, 255, 255, 0.554);
+  background-color: rgb(62, 62, 62);
 }
 
 .formContainer .form {
@@ -185,4 +181,8 @@
 
 .container.rightPanelActive .overlayRight {
   transform: translateX(20%);
+}
+
+@media (max-width: 700px){
+
 }
