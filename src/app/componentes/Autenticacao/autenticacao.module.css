@@ -19,10 +19,11 @@
   letter-spacing: 0.3px;
   margin: 10px 0 30px;
   color: white;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .container {
+  display: flex;
   position: relative;
   width: 100%;
   max-width: 100%;
@@ -59,11 +60,11 @@
   padding: 12px 15px;
 }
 
-.input:first-of-type{
+.input:first-of-type {
   margin-block: 35px 5px;
 }
 
-.input:last-of-type{
+.input:last-of-type {
   margin-block: 5px 20px;
 }
 
@@ -183,6 +184,97 @@
   transform: translateX(20%);
 }
 
-@media (max-width: 700px){
+@media (max-width: 700px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .signUpContainer {
+    transform: translateY(100%);
+  }
+
+  .signInContainer, .signUpContainer {
+    transition: all 0.4s ease;
+    width: 100%;
+  }
+
+  .formContainer {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+  }
+
+  .formContainer .form {
+    display: flex;
+    height: 50%;
+    padding: 20px;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .overlayContainer {
+    display: block;
+    position: absolute;
+    z-index: 100;
+    width: 100%;
+    height: 50%;
+    top: 50%;
+    left: 0;
+  }
+
+  .overlayPanel {
+    padding: 0 20px;
+  }
+
+  .tituloAutenticacao{
+    font-size: 1.8rem;
+  }
+
+  .textoAutenticar {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 33px;
+    letter-spacing: 0px;
+    margin: 10px 0 30px;
+    color: white;
+    text-align: justify;
+  }
+
+  .overlay {
+    position: relative;
+    height: 100%;
+    width: 200%;
+    left: -100%;
+    background: linear-gradient(to right, #00fff2, #006eff) no-repeat 0 0 / cover;
+    color: white;
+    transition: transform 0.6s ease-in-out;
+  }
+
+  /* Indica o que vai acontecer com o form de login quando o botão fantasma for clicado na primeira vez*/
+  .container.rightPanelActive .signInContainer {
+    transform: translateY(50%);
+  }
+
+  /* Indica o que vai acontecer com o form de cadastro quando o botão fantasma for clicado na primeira vez*/
+  .container.rightPanelActive .signUpContainer {
+    transform: translateY(0%);
+    opacity: 1;
+    z-index: 5;
+  }
+  
+  /* Indica o que vai acontecer com o overlay quando o botão fantasma for clicado na primeira vez*/
+  .container.rightPanelActive .overlayContainer {
+    transform: translateX(0);
+  }
+  
+  .container.rightPanelActive .overlay {
+    transform: translateX(50%);
+  }
+  
+  .container.rightPanelActive .overlayRight {
+    transform: translateX(100%);
+  }
 
 }

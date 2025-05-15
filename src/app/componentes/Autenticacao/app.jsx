@@ -151,6 +151,7 @@ export default function Autenticacao() {
 
           <div className={styles.overlayContainer}>
             <div className={styles.overlay}>
+
               <div className={`${styles.overlayPanel} ${styles.overlayLeft}`}>
                 <h1 className={styles.tituloAutenticacao}>
                   Bem Vindo De Volta!
@@ -165,6 +166,7 @@ export default function Autenticacao() {
                   Logar
                 </button>
               </div>
+
               <div className={`${styles.overlayPanel} ${styles.overlayRight}`}>
                 <h1 className={styles.tituloAutenticacao}>Ainda não tem conta?</h1>
                 <p className={styles.textoAutenticar}>
@@ -177,8 +179,10 @@ export default function Autenticacao() {
                   Cadastrar
                 </button>
               </div>
+              
             </div>
           </div>
+
         </div>
       </div>
     </>
