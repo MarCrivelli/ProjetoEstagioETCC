@@ -97,83 +97,83 @@ export default function Autenticacao() {
       <BotaoParaPaginaDeAdms/>
       <div className={styles.alinharFormulario}>
         <div
-          className={`${styles.container} ${
-            isRightPanelActive ? styles.rightPanelActive : ""
+          className={`${styles.containerAutenticacao} ${
+            isRightPanelActive ? styles.painelAtivo : ""
           }`}
         >
           {/* Formulário de Cadastro */}
-          <div className={`${styles.formContainer} ${styles.signUpContainer}`}>
-            <form className={styles.form} onSubmit={handleCadastro}>
-              <h1 className={styles.tituloAutenticacao}>Crie sua Conta</h1>
+          <div className={`${styles.painelFormulario} ${styles.painelCadastro}`}>
+            <form className={styles.formulario} onSubmit={handleCadastro}>
+              <h1 className={styles.tituloFormulario}>Crie sua Conta</h1>
               <input
-                className={styles.input}
+                className={styles.campoInput}
                 type="email"
                 placeholder="Digite seu e-mail"
                 value={usuario.email}
                 onChange={(e) => alterarEmail(e.target.value)}
               />
               <input
-                className={styles.input}
+                className={styles.campoInput}
                 type="password"
                 placeholder="Digite sua senha"
                 value={usuario.password}
                 onChange={(e) => alterarSenha(e.target.value)}
               />
-              <button className={styles.button} type="submit">
+              <button className={styles.botaoPrincipal} type="submit">
                 Cadastrar
               </button>
             </form>
           </div>
 
           {/* Formulário de login */}
-          <div className={`${styles.formContainer} ${styles.signInContainer}`}>
-            <form className={styles.form} onSubmit={handleLogin}>
-              <h1 className={styles.tituloAutenticacao}>Fazer Login</h1>
+          <div className={`${styles.painelFormulario} ${styles.painelLogin}`}>
+            <form className={styles.formulario} onSubmit={handleLogin}>
+              <h1 className={styles.tituloFormulario}>Fazer Login</h1>
               <input
-                className={styles.input}
+                className={styles.campoInput}
                 type="email"
                 placeholder="Digite seu e-mail"
                 value={usuario.email}
                 onChange={(e) => alterarEmail(e.target.value)}
               />
               <input
-                className={styles.input}
+                className={styles.campoInput}
                 type="password"
                 placeholder="Digite sua senha"
                 value={usuario.password}
                 onChange={(e) => alterarSenha(e.target.value)}
               />
-              <button className={styles.button} type="submit">
+              <button className={styles.botaoPrincipal} type="submit">
                 Logar
               </button>
             </form>
           </div>
 
-          <div className={styles.overlayContainer}>
+          <div className={styles.containerOverlay}>
             <div className={styles.overlay}>
 
-              <div className={`${styles.overlayPanel} ${styles.overlayLeft}`}>
-                <h1 className={styles.tituloAutenticacao}>
+              <div className={`${styles.painelOverlay} ${styles.painelOverlayEsquerdo}`}>
+                <h1 className={styles.tituloFormulario}>
                   Bem Vindo De Volta!
                 </h1>
-                <p className={styles.textoAutenticar}>
+                <p className={styles.textoFormulario}>
                   Para se manter conectado conosco, faça login com sua conta.
                 </p>
                 <button
-                  className={`${styles.button} ${styles.fantasma}`}
+                  className={`${styles.botaoPrincipal} ${styles.botaoSecundario}`}
                   onClick={() => setIsRightPanelActive(false)}
                 >
                   Logar
                 </button>
               </div>
 
-              <div className={`${styles.overlayPanel} ${styles.overlayRight}`}>
-                <h1 className={styles.tituloAutenticacao}>Ainda não tem conta?</h1>
-                <p className={styles.textoAutenticar}>
+              <div className={`${styles.painelOverlay} ${styles.painelOverlayDireito}`}>
+                <h1 className={styles.tituloFormulario}>Ainda não tem conta?</h1>
+                <p className={styles.textoFormulario}>
                   Cadastre-se e fique por dentro de todas as dicas e informações que o Instituto tem a oferecer!
                 </p>
                 <button
-                  className={`${styles.button} ${styles.fantasma}`}
+                  className={`${styles.botaoPrincipal} ${styles.botaoSecundario}`}
                   onClick={() => setIsRightPanelActive(true)}
                 >
                   Cadastrar
