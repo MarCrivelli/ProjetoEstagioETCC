@@ -5,7 +5,8 @@
 .ajusteElementosDaPagina {
   display: flex;
   flex-direction: column;
-  padding: 50px 20%;
+  row-gap: 50px;
+  padding: 7% 20%;
   min-height: calc(100vh - 70px);
 }
 
