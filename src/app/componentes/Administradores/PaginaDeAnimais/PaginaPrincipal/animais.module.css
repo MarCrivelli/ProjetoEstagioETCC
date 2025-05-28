@@ -4,16 +4,14 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  width: 95%;
-  background-color: #077A7D;
-  border-radius: 20px;
-  width: 99%;
-  min-height: 65vh;
+  background-color: #7112ff;
+  width: 100%;
+  min-height: calc(100vh - 70px);
   height: auto;
   padding: 40px;
   gap: 50px;
   row-gap: 50px;
-  background-image: url("/fundoPatas2.png");
+  background-image: url("/imagensDeFundo/fundoPatas_BrancoTotal.png");
   background-repeat: repeat;
   background-position: top left;
   background-size: 900px 900px;
@@ -53,7 +51,6 @@
   align-items: center;
   width: 100%;
   flex-direction: column;
-  padding-block: 0.5%;
 }
 
 

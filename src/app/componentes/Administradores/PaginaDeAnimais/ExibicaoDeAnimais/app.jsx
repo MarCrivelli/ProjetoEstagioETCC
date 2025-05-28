@@ -5,9 +5,15 @@ export default function ExibicaoDeAnimais({ animais, filtrosAplicados }) {
     <>
       {animais.length === 0 ? (
         <div className={styles.mensagemNenhumAnimal}>
-          {filtrosAplicados
-            ? "Nenhum animal encontrado com os filtros aplicados. Tente ajustar os filtros."
-            : "Nenhum animal cadastrado. Cadastre um novo animal!"}
+          <img
+            className={styles.imagemPreCadastro}
+            src="/pagFichasDAnimais/animaisConfusos.png"
+          ></img>
+          <h2 className={styles.textoPreCadastro}>
+            {filtrosAplicados
+              ? "Nenhum animal encontrado com os filtros aplicados. Tente ajustar os filtros."
+              : "Nenhum animal cadastrado. Cadastre um novo animal!"}
+          </h2>
         </div>
       ) : (
         animais.map((animal) => (

@@ -1,21 +1,11 @@
-.fundoConfig {
-  display: flex;
-  justify-content: center;
-  min-width: 100%;
-  width: 0px;
-  padding: 0.5%;
-  min-height: 100vh;
-}
-
 .fundoPainel {
   display: flex;
   width: 100%;
-  min-height: 100%;
+  min-height: calc(100vh - 70px);
   height: auto;
-  background-color: #e3e3e38f;
-  border-radius: 20px;
+  background-color: #009dff;
   padding: 2%;
-  background-image: url("/fundoPatas2.png");
+  background-image: url("/imagensDeFundo/fundoPatas_BrancoTotal.png");
   background-repeat: repeat; /* Faz com que a imagem se repita */
   background-size: 900px 900px; /* Define o tamanho da imagem (largura x altura) */
   background-position: top left; /* A posição inicial da repetição é no canto superior esquerdo */
@@ -30,6 +20,7 @@
   background-color: white;
   border-radius: 40px;
   padding: 40px;
+  border: 2px solid black;
 }
 
 .inicioPainel{
@@ -57,10 +48,13 @@
 }
 
 .iconeUsuario{
-  width: 30%;
-  min-width: 100px;
-  object-fit: scale-down;
-  max-width: 250px;
+  position: relative;
+  height: 250px;
+  width: 250px;
+  object-fit: cover;
+  border-radius: 50%;
+  padding: 2px;
+  border: 2px solid black;
 }
 
 .nomeUsuario{
@@ -100,6 +94,21 @@
   height: 28px;
   object-fit: scale-down;
 }
+.alinharSessoes{
+  width: 100%;
+}
+
+.sessao{
+ border-radius: 10px;
+ border: 1px solid #b3b3b348;
+}
+
+.sessao > h1{
+  text-align: center;
+  padding-block: 15px;
+  border-bottom: 1px solid #b3b3b348;
+  font-size: 1.9rem;
+}
 
 .acordeaoPrincipal{
   width: 100%;
@@ -112,11 +121,9 @@
   color: black;
   margin-bottom: 0;
   font-weight: 330;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.corpoAcordeao{
-  padding: 0;
-}
 
 @media (max-width: 1100px){
   .painel {
@@ -133,10 +140,6 @@
   .nomeUsuario{
     font-size: 1.6rem;
   }
-  .iconeUsuario{
-    min-width: 100px;
-    object-fit: scale-down;
-  }
   .textoDeslogue{
     display: none;
   }
@@ -149,7 +152,8 @@
   .topoInicioPainel{
     margin-bottom: 20px;
   }
-  .contaAtual{
-    font-size: 1rem;
+  .iconeUsuario{
+    width: 150px;
+    height: 150px;
   }
 }

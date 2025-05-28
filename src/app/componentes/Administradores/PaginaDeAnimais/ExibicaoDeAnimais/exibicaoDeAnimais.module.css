@@ -6,11 +6,10 @@
     height: 550px;
     width: 20%;
     flex: 1 300px;
-    box-shadow: 5px 5px 1px rgba(7, 18, 32, 0.705);
+    box-shadow: 5px 5px 1px #37087eac;
+    border: 2px solid black;
     padding: 10px;
     max-width: 500px;
-    border-top: 1px solid rgba(117, 117, 117, 0.233);
-    border-left: 1px solid rgba(117, 117, 117, 0.233);
   }
   
   .divImagem {
@@ -64,16 +63,53 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    gap: 25px;
     width: 100%;
     font-size: 2rem;
     color: #555;
     padding: 20px;
     background-color: #f8f8f8;
+    border: 2px solid black;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
+    transition: all 0.3s ease;
+}
+
+.imagemPreCadastro {
+    width: auto;
+    max-width: 400px;
+    height: auto;
+    object-fit: contain;
+}
+
+.textoPreCadastro {
+    width: auto;
+    max-width: 450px;
+    text-align: justify; /* Adicionado para centralizar o texto */
+}
+
+/* Adicione esta media query */
+@media (max-width: 768px) {
+    
+    
+    .imagemAnimais {
+        max-width: 250px; /* Ajuste conforme necessário */
+    }
+    
+    .textoPreCadastro {
+        font-size: 1.5rem; /* Reduz um pouco o tamanho da fonte em mobile */
+    }
+}
   
   @media (max-width: 1100px) {
+
+    .mensagemNenhumAnimal {
+        flex-direction: column;
+        gap: 15px;
+    }
+
     .cardAnimais {
       width: 200px;
       border-radius: 10px;
@@ -82,7 +118,6 @@
     .divImagem {
       display: flex;
       min-width: none;
-      width: 0px;
       height: auto;
     }
     

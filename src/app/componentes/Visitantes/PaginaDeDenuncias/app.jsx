@@ -89,7 +89,7 @@ export default function Denuncie() {
             causar convunções, falha nos órgãos e até a morte de animais.
           </p>
           <p>
-            <strong className={styles.strong}>5- Crueldade: </strong>{" "}
+            <strong className={styles.strong}>6- Crueldade: </strong>{" "}
             comportamentos cruéis, como machucar, afogar, ou até mesmo forçar
             situações em que deixam o animal com medo, apenas por diversão,
             também é passível de denúncia.

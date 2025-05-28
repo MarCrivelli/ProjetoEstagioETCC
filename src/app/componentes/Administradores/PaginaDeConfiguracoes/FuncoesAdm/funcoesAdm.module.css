@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   row-gap: 40px;
-  padding: 0% 2% 2% 2%;
+  padding: 0% 2% 0% 2%;
 }
 
 .botoesBlocosFuncao{
@@ -60,7 +60,7 @@
 
 .tituloConfig {
   width: 35%;
-  font-size: 2rem;
+  font-size: 1.5rem;
   flex-grow: 1;
 }
 
@@ -118,130 +118,6 @@
   background-color: #71b6ff;
 }
 
-.tituloDoador {
-  width: 100%;
-  text-align: center;
-}
-
-.alinharDadosDoador {
-  flex: 1;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  min-height: 0;
-}
-
-.divEnfeiteCarrosselDoador {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  width: 100%;
-  min-height: 0;
-}
-
-.divImagemDoador {
-  flex: 1;
-  min-width: 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-.personalizacaoCarrossel {
-  flex: 1;
-  min-width: 300px;
-  background-color: rgba(255, 0, 0, 0.074);
-  padding: 10px;
-}
-
-.previaImagem {
-  width: 100%;
-  min-height: 200px;
-  max-height: 300px;
-  border: 2px dashed #ccc;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
-.labelDeImagem {
-  width: 100%;
-  max-width: 200px;
-  background-color: rgb(115, 0, 255);
-  text-align: center;
-  padding: 5px 20px;
-}
-
-.labelDeImagem:hover {
-  background-color: rgba(115, 0, 255, 0.721);
-  color: rgb(231, 211, 255);
-}
-
-.inputDeImagem {
-  display: none;
-}
-
-.informacoesDoDoador {
-  flex: 1;
-  min-width: 300px;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-
-.dadoDoador {
-  width: 100%;
-}
-
-.alinharLabelComObs {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.labelDadoDoador {
-  font-weight: 300;
-}
-
-.textoObservacao {
-  color: #e98585;
-  font-weight: 300;
-  padding-right: 5px;
-}
-
-.receptorDeDados {
-  width: 100%;
-  height: 36px;
-  border: 1px solid #b3b3b3;
-  border-radius: 4px;
-  padding-left: 5px;
-}
-
-.textarea {
-  height: 100px;
-  min-height: 36px;
-  resize: vertical;
-}
-
-.contadorCaracteres {
-  font-size: 0.8rem;
-  text-align: right;
-  margin-top: 5px;
-}
-
-.containerBotoes {
-  flex-shrink: 0;
-  padding-top: 20px;
-  display: flex;
-  justify-content: center;
-}
-
-.botaoInserirDoador {
-  background-color: rgb(115, 0, 255);
-}
-
-.botaoInserirDoador:hover {
-  background-color: rgba(115, 0, 255, 0.8);
-}
 
 @media (max-width: 500px){
   .blocoFuncao{
