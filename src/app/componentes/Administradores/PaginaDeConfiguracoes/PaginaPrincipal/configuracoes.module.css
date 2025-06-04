@@ -95,6 +95,9 @@
   object-fit: scale-down;
 }
 .alinharSessoes{
+  display: flex;
+  flex-direction: column;
+  row-gap: 50px;
   width: 100%;
 }
 
@@ -108,10 +111,6 @@
   padding-block: 15px;
   border-bottom: 1px solid #b3b3b348;
   font-size: 1.9rem;
-}
-
-.acordeaoPrincipal{
-  width: 100%;
 }
 
 .tituloAcordeao{

@@ -1,6 +1,5 @@
 import styles from "./animais.module.css";
 import { useState, useEffect } from "react";
-import Accordion from "react-bootstrap/Accordion";
 import HeaderAdms from "../../HeaderAdms/app";
 import RolarPCima from "../../../BotaoScroll/app";
 import BotaoPagInicial from "../../BotaoPagInicialAdms/app";
@@ -21,8 +20,10 @@ export default function FichasDeAnimais() {
     statusAdocao: [],
     statusMicrochipagem: [],
     statusVermifugacao: [],
-    nome: ""
+    nome: "",
   });
+  const [mostrarCadastro, setMostrarCadastro] = useState(false);
+  const [mostrarFiltros, setMostrarFiltros] = useState(false);
 
   // Função para buscar os animais
   useEffect(() => {
@@ -42,73 +43,115 @@ export default function FichasDeAnimais() {
   // Função para aplicar os filtros
   const aplicarFiltros = () => {
     let animaisFiltrados = animaisCompleto;
-  
-    const filtroAtivo = 
-      Object.values(filtros).some(
-        value => (Array.isArray(value) ? value.length > 0 : value !== "")
-      );
+
+    const filtroAtivo = Object.values(filtros).some((value) =>
+      Array.isArray(value) ? value.length > 0 : value !== ""
+    );
     setFiltrosAplicados(filtroAtivo);
-  
+
     animaisFiltrados = animaisFiltrados.filter((animal) => {
       // Verificação do nome (case insensitive)
-      const nomeMatch = 
-        !filtros.nome || 
+      const nomeMatch =
+        !filtros.nome ||
         animal.nome.toLowerCase().includes(filtros.nome.toLowerCase());
-      
+
       // Verificação dos outros filtros
-      const outrosFiltrosMatch = 
+      const outrosFiltrosMatch =
         (filtros.tipo.length === 0 || filtros.tipo.includes(animal.tipo)) &&
-        (filtros.idade.length === 0 || filtros.idade.includes(animal.idade.toString())) &&
+        (filtros.idade.length === 0 ||
+          filtros.idade.includes(animal.idade.toString())) &&
         (filtros.sexo.length === 0 || filtros.sexo.includes(animal.sexo)) &&
-        (filtros.statusVacinacao.length === 0 || filtros.statusVacinacao.includes(animal.statusVacinacao)) &&
-        (filtros.statusCastracao.length === 0 || filtros.statusCastracao.includes(animal.statusCastracao)) &&
-        (filtros.statusAdocao.length === 0 || filtros.statusAdocao.includes(animal.statusAdocao)) &&
-        (filtros.statusMicrochipagem.length === 0 || filtros.statusMicrochipagem.includes(animal.statusMicrochipagem)) &&
-        (filtros.statusVermifugacao.length === 0 || filtros.statusVermifugacao.includes(animal.statusVermifugacao));
-  
+        (filtros.statusVacinacao.length === 0 ||
+          filtros.statusVacinacao.includes(animal.statusVacinacao)) &&
+        (filtros.statusCastracao.length === 0 ||
+          filtros.statusCastracao.includes(animal.statusCastracao)) &&
+        (filtros.statusAdocao.length === 0 ||
+          filtros.statusAdocao.includes(animal.statusAdocao)) &&
+        (filtros.statusMicrochipagem.length === 0 ||
+          filtros.statusMicrochipagem.includes(animal.statusMicrochipagem)) &&
+        (filtros.statusVermifugacao.length === 0 ||
+          filtros.statusVermifugacao.includes(animal.statusVermifugacao));
+
       return nomeMatch && outrosFiltrosMatch;
     });
-  
+
     setAnimais(animaisFiltrados);
   };
 
   useEffect(() => {
     aplicarFiltros();
-  }, [filtros, animaisCompleto]); 
+  }, [filtros, animaisCompleto]);
 
   return (
     <>
       <HeaderAdms />
       <BotaoPagInicial />
       <RolarPCima />
-      <div className={styles.utilitarios}>
-        <Accordion className={styles.acordeao} defaultActiveKey="0">
-          {/* Acordeão de filtro */}
-          <Accordion.Item eventKey="0">
-            <Accordion.Header>
-              <h1 className={styles.tituloAcordeao}>Filtros de pesquisa</h1>
-            </Accordion.Header>
-            <Accordion.Body className={styles.corpoAcordeao}>
-              <FiltroDeAnimais filtros={filtros} setFiltros={setFiltros} />
-            </Accordion.Body>
-          </Accordion.Item>
 
-          {/* Acordeão de cadastro */}
-          <Accordion.Item eventKey="1">
-            <Accordion.Header>
-              <h1 className={styles.tituloAcordeao}>Inserir ficha de animal</h1>
-            </Accordion.Header>
-            <Accordion.Body>
-              <CadastroDeAnimais animais={animais} setAnimais={setAnimais} />
-            </Accordion.Body>
-          </Accordion.Item>
-        </Accordion>
+      {/* Botões flutuantes */}
+      <div className={styles.botoesFlutuantes}>
+        <button
+          className={styles.botaoAcao}
+          onClick={() => setMostrarFiltros(true)}
+        >
+          <img src="/pagFichasDAnimais/filtro.png"></img>
+        </button>
+
+        <button
+          className={styles.botaoAcao}
+          onClick={() => setMostrarCadastro(true)}
+        >
+          <img src="/pagFichasDAnimais/addAnimal.png"></img>
+        </button>
       </div>
 
+      {/* Modal de Filtros */}
+      {mostrarFiltros && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <button
+              className={styles.fecharModal}
+              onClick={() => setMostrarFiltros(false)}
+            >
+              ×
+            </button>
+            <h2>Filtros de Pesquisa</h2>
+            <FiltroDeAnimais
+              filtros={filtros}
+              setFiltros={setFiltros}
+              onClose={() => setMostrarFiltros(false)}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Cadastro */}
+      {mostrarCadastro && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <button
+              className={styles.fecharModal}
+              onClick={() => setMostrarCadastro(false)}
+            >
+              ×
+            </button>
+            <h2>Cadastrar Novo Animal</h2>
+            <CadastroDeAnimais
+              animais={animais}
+              setAnimais={setAnimais}
+              onClose={() => setMostrarCadastro(false)}
+            />
+          </div>
+        </div>
+      )}
+
       {/* Listagem de animais */}
-      <div className={styles.alinharPainel}>
-        <div className={styles.fundoPainel}>
-          <ExibicaoDeAnimais animais={animais} filtrosAplicados={filtrosAplicados} />
+      <div className={styles.fundoPainel}>
+        <div className={styles.painel}>
+          <ExibicaoDeAnimais
+            animais={animais}
+            filtrosAplicados={filtrosAplicados}
+          />
         </div>
       </div>
     </>

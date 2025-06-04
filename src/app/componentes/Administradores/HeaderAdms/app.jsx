@@ -1,6 +1,5 @@
 import styles from "./headerAdm.module.css";
 import { Link } from "react-router-dom";
-import { FaHeart } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 
 export default function HeaderAdms() {
@@ -103,7 +102,7 @@ export default function HeaderAdms() {
           <ul>
             <li>
               <Link 
-                to="/quero_adotar" 
+                to="/fichas_de_animais" 
                 className={styles.linkMenuMobile}
                 onClick={() => setMenuAberto(false)}
               >
@@ -112,7 +111,7 @@ export default function HeaderAdms() {
             </li>
             <li>
               <Link 
-                to="/como_doar" 
+                to="/programar_postagem" 
                 className={styles.linkMenuMobile}
                 onClick={() => setMenuAberto(false)}
               >
@@ -121,20 +120,11 @@ export default function HeaderAdms() {
             </li>
             <li>
               <Link 
-                to="/denuncie" 
+                to="/configuracoes" 
                 className={styles.linkMenuMobile}
                 onClick={() => setMenuAberto(false)}
               >
                 Denuncie
-              </Link>
-            </li>
-            <li>
-              <Link 
-                to="/saude_unica" 
-                className={styles.linkMenuMobile}
-                onClick={() => setMenuAberto(false)}
-              >
-                <FaHeart/>
               </Link>
             </li>
           </ul>

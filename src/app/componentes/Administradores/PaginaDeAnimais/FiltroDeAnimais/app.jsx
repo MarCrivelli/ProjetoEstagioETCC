@@ -1,67 +1,9 @@
 import styles from "./filtroDeAnimais.module.css";
 import Select from "react-select";
 import { useState, useRef } from "react";
+import opcoes from '/src/app/componentes/Administradores/OpcoesDeSelecao/opcoes';
 
 export default function FiltroDeAnimais({ filtros, setFiltros }) {
-  const tipoAnimal = [
-    { value: "cachorro", label: "Cachorro" },
-    { value: "gato", label: "Gato" },
-    { value: "ave", label: "Ave" },
-  ];
-
-  const idadeAnimais = [
-    { value: "1", label: "1 ano" },
-    { value: "2", label: "2 anos" },
-    { value: "3", label: "3 anos" },
-    { value: "4", label: "4 anos" },
-    { value: "5", label: "5 anos" },
-    { value: "6", label: "6 anos" },
-    { value: "7", label: "7 anos" },
-    { value: "8", label: "8 anos" },
-    { value: "9", label: "9 anos" },
-    { value: "10", label: "10 anos" },
-    { value: "11", label: "11 anos" },
-    { value: "12", label: "12 anos" },
-    { value: "13", label: "13 anos" },
-    { value: "14", label: "14 anos" },
-    { value: "15", label: "15 anos" },
-    { value: "16", label: "16 anos" },
-    { value: "17", label: "17 anos" },
-    { value: "18", label: "18 anos" },
-    { value: "19", label: "19 anos" },
-    { value: "20", label: "+20 anos" },
-  ];
-
-  const sexoDoAnimal = [
-    { value: "macho", label: "Macho" },
-    { value: "femea", label: "Fêmea" },
-  ];
-
-  const StatusVacinacao = [
-    { value: "vacinado", label: "Vacinado" },
-    { value: "naoVacinado", label: "Não vacinado" },
-  ];
-
-  const StatusCastracao = [
-    { value: "castrado", label: "Castrado" },
-    { value: "naoCastrado", label: "Não castrado" },
-  ];
-
-  const StatusAdocao = [
-    { value: "adotado", label: "Adotado" },
-    { value: "naoAdotado", label: "Não adotado" },
-    { value: "emObservacao", label: "Em observação" },
-  ];
-
-  const StatusMicrochipagem = [
-    { value: "microchipado", label: "Microchipado" },
-    { value: "semMicrochip", label: "Sem microchip" },
-  ];
-
-  const StatusVermifugacao = [
-    { value: "estaComVerme", label: "Está com verme" },
-    { value: "semVerme", label: "Sem Vermes" },
-  ];
 
   const [termoPesquisa, setTermoPesquisa] = useState(filtros.nome || "");
 
@@ -85,7 +27,6 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
   };
 
   const limparTodosFiltros = () => {
-    // Resetar o estado dos filtros
     setTermoPesquisa("");
     setFiltros({
       tipo: [],
@@ -115,7 +56,7 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
       <Select
         ref={tipoSelectRef}
         isMulti
-        options={tipoAnimal}
+        options={opcoes.tipoAnimal}
         placeholder="Tipo de animal"
         onChange={(selectedOptions) =>
           setFiltros((prev) => ({
@@ -125,13 +66,13 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
         }
         className={styles.filtroSelecao}
         value={filtros.tipo.map((opt) =>
-          tipoAnimal.find((o) => o.value === opt)
+          opcoes.tipoAnimal.find((o) => o.value === opt)
         )}
       />
       <Select
         ref={idadeSelectRef}
         isMulti
-        options={idadeAnimais}
+        options={opcoes.idadeAnimais}
         placeholder="Idade"
         onChange={(selectedOptions) =>
           setFiltros((prev) => ({
@@ -141,13 +82,13 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
         }
         className={styles.filtroSelecao}
         value={filtros.idade.map((opt) =>
-          idadeAnimais.find((o) => o.value === opt)
+          opcoes.idadeAnimais.find((o) => o.value === opt)
         )}
       />
       <Select
         ref={sexoSelectRef}
         isMulti
-        options={sexoDoAnimal}
+        options={opcoes.sexoDoAnimal}
         placeholder="Sexo"
         onChange={(selectedOptions) =>
           setFiltros((prev) => ({
@@ -157,13 +98,13 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
         }
         className={styles.filtroSelecao}
         value={filtros.sexo.map((opt) =>
-          sexoDoAnimal.find((o) => o.value === opt)
+          opcoes.sexoDoAnimal.find((o) => o.value === opt)
         )}
       />
       <Select
         ref={vacinacaoSelectRef}
         isMulti
-        options={StatusVacinacao}
+        options={opcoes.StatusVacinacao}
         placeholder="Status de vacinação"
         onChange={(selectedOptions) =>
           setFiltros((prev) => ({
@@ -173,13 +114,13 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
         }
         className={styles.filtroSelecao}
         value={filtros.statusVacinacao.map((opt) =>
-          StatusVacinacao.find((o) => o.value === opt)
+          opcoes.StatusVacinacao.find((o) => o.value === opt)
         )}
       />
       <Select
         ref={castracaoSelectRef}
         isMulti
-        options={StatusCastracao}
+        options={opcoes.StatusCastracao}
         placeholder="Status de castração"
         onChange={(selectedOptions) =>
           setFiltros((prev) => ({
@@ -189,13 +130,13 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
         }
         className={styles.filtroSelecao}
         value={filtros.statusCastracao.map((opt) =>
-          StatusCastracao.find((o) => o.value === opt)
+          opcoes.StatusCastracao.find((o) => o.value === opt)
         )}
       />
       <Select
         ref={adocaoSelectRef}
         isMulti
-        options={StatusAdocao}
+        options={opcoes.StatusAdocao}
         placeholder="Status de adoção"
         onChange={(selectedOptions) =>
           setFiltros((prev) => ({
@@ -205,13 +146,13 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
         }
         className={styles.filtroSelecao}
         value={filtros.statusAdocao.map((opt) =>
-          StatusAdocao.find((o) => o.value === opt)
+          opcoes.StatusAdocao.find((o) => o.value === opt)
         )}
       />
       <Select
         ref={microchipSelectRef}
         isMulti
-        options={StatusMicrochipagem}
+        options={opcoes.StatusMicrochipagem}
         placeholder="Status de microchipagem"
         onChange={(selectedOptions) =>
           setFiltros((prev) => ({
@@ -221,13 +162,13 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
         }
         className={styles.filtroSelecao}
         value={filtros.statusMicrochipagem.map((opt) =>
-          StatusMicrochipagem.find((o) => o.value === opt)
+          opcoes.StatusMicrochipagem.find((o) => o.value === opt)
         )}
       />
       <Select
         ref={vermifugacaoSelectRef}
         isMulti
-        options={StatusVermifugacao}
+        options={opcoes.StatusVermifugacao}
         placeholder="Status de vermifugação"
         onChange={(selectedOptions) =>
           setFiltros((prev) => ({
@@ -237,7 +178,7 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
         }
         className={styles.filtroSelecao}
         value={filtros.statusVermifugacao.map((opt) =>
-          StatusVermifugacao.find((o) => o.value === opt)
+          opcoes.StatusVermifugacao.find((o) => o.value === opt)
         )}
       />
       <div className={styles.containerPesquisa}>

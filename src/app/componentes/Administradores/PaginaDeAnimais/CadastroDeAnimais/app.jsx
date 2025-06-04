@@ -1,6 +1,7 @@
 import styles from "./cadastroDeAnimais.module.css";
 import { useState } from "react";
 import Select from "react-select";
+import opcoes from '/src/app/componentes/Administradores/OpcoesDeSelecao/opcoes';
 
 export default function CadastroDeAnimais({ animais, setAnimais }) {
 
@@ -14,56 +15,6 @@ export default function CadastroDeAnimais({ animais, setAnimais }) {
   const [statusAdocao, setStatusAdocao] = useState("");
   const [statusVermifugacao, setStatusVermifugacao] = useState("");
   const [image, setImage] = useState(null);
-
-  const tipoAnimal = [
-    { value: "cachorro", label: "Cachorro" },
-    { value: "gato", label: "Gato" },
-    { value: "ave", label: "Ave" },
-  ];
-
-  const idadeAnimais = [
-    { value: "1", label: "1 ano" },
-    { value: "2", label: "2 anos" },
-    { value: "3", label: "3 anos" },
-    { value: "4", label: "4 anos" },
-    { value: "5", label: "5 anos" },
-    { value: "6", label: "6 anos" },
-    { value: "7", label: "7 anos" },
-    { value: "8", label: "8 anos" },
-    { value: "9", label: "9 anos" },
-    { value: "10", label: "10 anos" },
-  ];
-
-  const sexoDoAnimal = [
-    { value: "macho", label: "Macho" },
-    { value: "femea", label: "Fêmea" },
-  ];
-
-  const StatusVacinacao = [
-    { value: "vacinado", label: "Vacinado" },
-    { value: "naoVacinado", label: "Não vacinado" },
-  ];
-
-  const StatusCastracao = [
-    { value: "castrado", label: "Castrado" },
-    { value: "naoCastrado", label: "Não castrado" },
-  ];
-
-  const StatusAdocao = [
-    { value: "adotado", label: "Adotado" },
-    { value: "naoAdotado", label: "Não adotado" },
-    { value: "emObservacao", label: "Em observação" },
-  ];
-
-  const StatusMicrochipagem = [
-    { value: "microchipado", label: "Microchipado" },
-    { value: "semMicrochip", label: "Sem microchip" },
-  ];
-
-  const StatusVermifugacao = [
-    { value: "estaComVerme", label: "Está com verme" },
-    { value: "semVerme", label: "Sem Vermes" },
-  ];
 
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -169,7 +120,7 @@ export default function CadastroDeAnimais({ animais, setAnimais }) {
         <div className={styles.alinharDadosDeInsercao}>
           <label className={styles.labelDeIdentificacao}>Sexo:</label>
           <Select
-            options={sexoDoAnimal}
+            options={opcoes.sexoDoAnimal}
             placeholder="selecione"
             className={styles.selectInserirAnimal}
             onChange={(selectedOption) => setSexo(selectedOption.value)}
@@ -178,7 +129,7 @@ export default function CadastroDeAnimais({ animais, setAnimais }) {
         <div className={styles.alinharDadosDeInsercao}>
           <label className={styles.labelDeIdentificacao}>Tipo:</label>
           <Select
-            options={tipoAnimal}
+            options={opcoes.tipoAnimal}
             placeholder="selecione"
             className={styles.selectInserirAnimal}
             onChange={(selectedOption) => setTipo(selectedOption.value)}
@@ -189,7 +140,7 @@ export default function CadastroDeAnimais({ animais, setAnimais }) {
             Status de microchipagem:
           </label>
           <Select
-            options={StatusMicrochipagem}
+            options={opcoes.StatusMicrochipagem}
             placeholder="selecione"
             className={styles.selectInserirAnimal}
             onChange={(selectedOption) =>
@@ -203,7 +154,7 @@ export default function CadastroDeAnimais({ animais, setAnimais }) {
         <div className={styles.alinharDadosDeInsercao}>
           <label className={styles.labelDadosSaude}>Status de vacinação:</label>
           <Select
-            options={StatusVacinacao}
+            options={opcoes.StatusVacinacao}
             placeholder="selecione"
             className={styles.selectInserirAnimal}
             onChange={(selectedOption) =>
@@ -214,7 +165,7 @@ export default function CadastroDeAnimais({ animais, setAnimais }) {
         <div className={styles.alinharDadosDeInsercao}>
           <label className={styles.labelDadosSaude}>Status de castração:</label>
           <Select
-            options={StatusCastracao}
+            options={opcoes.StatusCastracao}
             placeholder="selecione"
             className={styles.selectInserirAnimal}
             onChange={(selectedOption) =>
@@ -225,7 +176,7 @@ export default function CadastroDeAnimais({ animais, setAnimais }) {
         <div className={styles.alinharDadosDeInsercao}>
           <label className={styles.labelDadosSaude}>Status de adoção:</label>
           <Select
-            options={StatusAdocao}
+            options={opcoes.StatusAdocao}
             placeholder="selecione"
             className={styles.selectInserirAnimal}
             onChange={(selectedOption) => setStatusAdocao(selectedOption.value)}
@@ -236,7 +187,7 @@ export default function CadastroDeAnimais({ animais, setAnimais }) {
             Status de vermifugação:
           </label>
           <Select
-            options={StatusVermifugacao}
+            options={opcoes.StatusVermifugacao}
             placeholder="selecione"
             className={styles.selectInserirAnimal}
             onChange={(selectedOption) =>

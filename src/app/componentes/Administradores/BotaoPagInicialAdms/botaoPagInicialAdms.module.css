@@ -1,10 +1,11 @@
 .linkBotaoSolto {
   position: fixed;
-  left: -80px;
+  left: -70px;
   top: 50%;
   transform: translateY(-50%);
-  padding: 10px;
+  padding: 3px;
   z-index: 90000000;
+  border-radius: 50%;
 }
 
 .botaoPagInicial {
@@ -15,7 +16,7 @@
   height: 100px;
   background-color: rgba(39, 39, 39, 0.89);
   border-radius: 50%;
-  transition: 0.5s ease-in-out;
+  transition: .3s ease-in-out;
   transition-delay: 0.15s;
 }
 

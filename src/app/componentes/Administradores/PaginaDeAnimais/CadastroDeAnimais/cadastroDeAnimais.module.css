@@ -1,177 +1,146 @@
 .formularioCadastro {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    row-gap: 20px;
-  }
-  
-  .inserirImagem {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    width: 300px;
-    padding-right: 20px;
-  }
-  
-  .inputDeImagem {
-    display: none;
-  }
-  
-  .labelDeImagem {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    text-align: center;
-    transition: background-color 0.3s ease;
-  }
-  
-  .labelDeImagem:hover, .botaoInserir:hover {
-    background-color: #0056b3;
-  }
-  
-  .previaImagem {
-    width: 300px;
-    height: auto;
-    max-height: 300px;
-    min-height: 170px;
-    object-fit: scale-down;
-    border: 2px dashed #ccc;
-    border-radius: 10px;
-    padding: 15px;
-  }
-  
-  .nomeArquivo {
-    font-size: 14px;
-    color: #333;
-    font-style: italic;
-    text-align: center;
-  }
-  
-  .itemInserir {
-    width: 45%;
-    border-inline: 1px solid #b3b3b3;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  row-gap: 20px;
+}
+
+.inserirImagem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.inputDeImagem {
+  display: none;
+}
+
+.labelDeImagem {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.labelDeImagem:hover,
+.botaoInserir:hover {
+  background-color: #0056b3;
+}
+
+.previaImagem {
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+  min-height: 170px;
+  object-fit: scale-down;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.nomeArquivo {
+  font-size: 14px;
+  color: #333;
+  font-style: italic;
+  text-align: center;
+}
+
+.itemInserir2,
+.itemInserir {
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  padding-bottom: 20px;
+  row-gap: 20px;
+  width: 100%;
+}
+
+.inserirImagem,
+.itemInserir,
+.itemInserir2 {
+  flex-grow: 1;
+}
+
+.tituloItemInserir {
+  font-size: 2rem;
+  text-align: center;
+  border-bottom: 1px solid #b3b3b3;
+}
+
+.alinharDadosDeInsercao {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding-inline: 30px;
+}
+
+.labelDeIdentificacao {
+  width: 190px;
+}
+
+.labelDadosSaude,
+.labelDeIdentificacao {
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.labelDadosSaude {
+  width: 180px;
+}
+
+.inputDadosIdentificacao {
+  padding-left: 8px;
+  border-radius: 4px;
+  border: 1px solid #b3b3b3;
+}
+
+.inputDadosIdentificacao,
+.selectInserirAnimal {
+  height: 36px;
+  width: 100%;
+}
+
+.alinharBotaoInserir {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.botaoInserir {
+  width: 20%;
+  height: 44px;
+  border-radius: 6px;
+  border: none;
+  background-color: #007bff;
+  transition: background-color 0.3s ease;
+  color: white;
+  min-width: 200px;
+}
+
+@media (max-width: 1100px) {
   .itemInserir2,
   .itemInserir {
-    display: flex;
-    flex-direction: column;
-    min-height: 200px;
-    padding-bottom: 20px;
-    row-gap: 20px;
-    min-width: 500px;
+    padding: 10px;
   }
-  
-  .itemInserir2 {
-    width: 34.2%;
-  }
-  
-  .inserirImagem,
-  .itemInserir,
-  .itemInserir2 {
-    flex-grow: 1;
-  }
-  
-  .tituloItemInserir {
-    font-size: 2rem;
-    text-align: center;
-    border-bottom: 1px solid #b3b3b3;
-    margin-inline: 20px;
-  }
-  
+
   .alinharDadosDeInsercao {
-    display: flex;
-    align-items: center;
-    gap: 30px;
-    padding-inline: 30px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0px;
   }
-  
+
   .labelDeIdentificacao {
-    width: 190px;
+    width: 100%;
   }
-  
-  .labelDadosSaude,
-  .labelDeIdentificacao {
-    font-weight: 600;
-    font-size: 1.2rem;
+
+  .alinharDadosDeInsercao {
+    padding-inline: 0px;
   }
-  
-  .labelDadosSaude {
-    width: 180px;
-  }
-  
-  .inputDadosIdentificacao {
-    padding-left: 8px;
-    border-radius: 4px;
-    border: 1px solid #b3b3b3;
-  }
-  
-  .inputDadosIdentificacao,
-  .selectInserirAnimal {
-    width: 50%;
-    height: 36px;
-  }
-  
-  .alinharBotaoInserir{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-  }
-  
-  .botaoInserir{
-      width: 20%;
-      height: 44px;
-      border-radius: 6px;
-      border: none;
-      background-color: #007bff;
-      transition: background-color 0.3s ease;
-      color: white;
-      min-width: 200px;
-  }
-  
-  @media (max-width: 1516px){
-    .itemInserir {
-      border-inline: none;
-      border-left: 1px solid #b3b3b3;
-    }
-  }
-  
-  @media (max-width: 1100px) {
-    .itemInserir {
-      border: none;
-    }
-    
-    .itemInserir2,
-    .itemInserir {
-      min-width: 100%;
-      padding: 10px;
-    }
-    
-    .alinharDadosDeInsercao {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0px;
-    }
-    
-    .inputDadosIdentificacao,
-    .selectInserirAnimal {
-      width: 100%;
-    }
-    
-    .previaImagem {
-      width: 100%;
-      padding: 0px;
-    }
-    
-    .labelDeIdentificacao {
-      width: 100%;
-    }
-    .alinharDadosDeInsercao {
-      padding-inline: 0px;
-    }
-  }
+}

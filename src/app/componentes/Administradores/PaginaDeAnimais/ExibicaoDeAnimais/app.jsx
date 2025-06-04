@@ -1,6 +1,6 @@
 import styles from "./exibicaoDeAnimais.module.css";
 import { Link } from "react-router-dom";
-export default function ExibicaoDeAnimais({ animais, filtrosAplicados }) {
+export default function ExibicaoDeAnimais({ animais, filtrosAplicados}) {
   return (
     <>
       {animais.length === 0 ? (

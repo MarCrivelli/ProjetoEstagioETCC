@@ -43,7 +43,7 @@ export default function PaginaInicialVisitantes() {
     },
     {
       id: 2,
-      nome: "Marco",
+      nome: "Marco Antonio Prates Crivelli",
       imagem: "/usuarioTeste.jpeg",
       texto:
         "Apoio mensalmente o Instituto Esperança porque acredito na causa animal.",

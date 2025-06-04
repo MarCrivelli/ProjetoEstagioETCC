@@ -98,13 +98,18 @@
   min-width: 365px;
   transition: ease-in-out 0.5s;
   border: 6px solid black;
+  background-image: url("/imagensDeFundo/fundoPatas_BrancoTotal.png");
+  background-repeat: repeat; /* Faz com que a imagem se repita */
+  background-size: 1000px 1000px; /* Define o tamanho da imagem (largura x altura) */
+  background-position: top left; /* A posição inicial da repetição é no canto superior esquerdo */
+
 }
 
 .card img {
   object-fit: scale-down;
   height: 130px;
   margin-inline: auto;
-  filter: drop-shadow(10px 1px #012244);
+  filter: drop-shadow(10px 1px #012344e8);
 }
 
 .descricaoCard {
@@ -115,7 +120,7 @@
   border: 3px solid rgb(0, 0, 0);
   border-radius: 14px;
   padding: 10px;
-  filter: drop-shadow(8px 4px #012244);
+  filter: drop-shadow(8px 4px #012344e8);
 }
 
 .descricaoCard h1 {
@@ -142,7 +147,7 @@
   background-color: #ffffff;
   color: rgb(0, 0, 0);
   font-size: 1.4rem;
-  filter: drop-shadow(4px 5px #012244);
+  filter: drop-shadow(4px 5px #012344e8);
   font-weight: 400;
   transition: ease-in-out 0.3s;
 }
@@ -376,7 +381,7 @@
     width: 80%;
     flex-grow: 1;
     margin-inline: 0;
-    filter: drop-shadow(4px 4px #012244);
+    filter: drop-shadow(4px 4px #012344e8);
   }
 
   .linkBotaoVerMais {

@@ -2,6 +2,7 @@ import styles from "./configuracoes.module.css";
 import HeaderAdms from "../../HeaderAdms/app";
 import BotaoPagInicial from "../../BotaoPagInicialAdms/app";
 import FuncoesDeAdministrador from "../FuncoesAdm/app";
+import CarrosselDeDoadores from "../CarrosselDeDoadores/app";
 import RolarPCima from "../../../BotaoScroll/app";
 
 export default function Configuracoes() {
@@ -38,6 +39,14 @@ export default function Configuracoes() {
           <div className={styles.alinharSessoes}>
             <div className={styles.sessao}>
               <h1>Funções de administrador</h1>
+              <FuncoesDeAdministrador />
+            </div>
+            <div className={styles.sessao}>
+              <h1>Carrossel de doadores</h1>
+              <CarrosselDeDoadores />
+            </div>
+            <div className={styles.sessao}>
+              <h1>Carrossel de animais</h1>
               <FuncoesDeAdministrador />
             </div>
           </div>

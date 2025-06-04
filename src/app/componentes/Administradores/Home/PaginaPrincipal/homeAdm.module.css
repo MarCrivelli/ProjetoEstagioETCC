@@ -1,21 +1,15 @@
 .fundoDaPagina {
+  display: flex;
+  flex-direction: column;
   width: 100%;
+  padding: 40px;
   min-height: calc(100vh - 70px);
-  background-color: #111515;
-  padding:  30px;
-  gap: 30px;
-  background: linear-gradient(
-    to right,
-    #640D5F 0%,
-    #640D5F 25%,
-    #D91656 25%,
-    #D91656 50%,
-    #EB5B00 50%,
-    #EB5B00 75%,
-    #FFB200 75%,
-    #FFB200 100%
-  );
-  background-size: 800px;
+  
+  background-image: url("/imagensDeFundo/fundoPatas_BrancoTotal.png");
+  background-repeat: repeat; /* Faz com que a imagem se repita */
+  background-size: 900px 900px; /* Define o tamanho da imagem (largura x altura) */
+  background-position: top left; /* A posição inicial da repetição é no canto superior esquerdo */
+  background-color: #009dff;
 }
 
 .painel {
@@ -24,10 +18,10 @@
   grid-template-columns: 4fr 5fr;
   background-color: rgb(255, 255, 255);
   height: 100%;
-  min-height: calc(100vh - 130px);
   gap: 25px;
   padding: 20px;
   border-radius: 20px;
+  border: 2px solid black;
 }
 
 @media (max-width: 1100px) {

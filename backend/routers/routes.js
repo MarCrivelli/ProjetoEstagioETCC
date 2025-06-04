@@ -5,6 +5,7 @@ const path = require("path");
 
 const userController = require('../controllers/userController')
 const animalController = require('../controllers/animalController')
+const doadorController = require('../controllers/doadorController');
 
 // Configuração do multer para upload de imagens
 const storage = multer.diskStorage({
@@ -30,5 +31,12 @@ routes.post('/usuario/autenticar', userController.autenticarUsuario);
 routes.get('/listar/animais', animalController.procurarAnimais);
 routes.post("/animais", upload.single("imagem"), animalController.cadastrarAnimal);
 routes.get("/animais/:id", animalController.buscarAnimalPorId);
+
+// Rotas de doadores 
+routes.get('/doadores', doadorController.listarDoadores);
+routes.get('/doadores/:id', doadorController.buscarDoadorPorId);
+routes.post('/doadores', doadorController.upload.single('imagem'), doadorController.cadastrarDoador);
+routes.put('/doadores/:id', doadorController.upload.single('imagem'), doadorController.atualizarDoador);
+routes.delete('/doadores/:id', doadorController.deletarDoador);
 
 module.exports = routes;
