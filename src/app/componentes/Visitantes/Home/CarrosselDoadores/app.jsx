@@ -13,12 +13,14 @@ export default function CarrosselDoadoresVisitantes({ ehMobile }) {
   useEffect(() => {
     const carregarDoadores = async () => {
       try {
-        const response = await api.get('/doadores');
+        const response = await api.get("/doadores");
         setDoadores(response.data);
         setErro(null);
       } catch (error) {
         console.error("Erro ao carregar doadores:", error);
-        setErro("Não foi possível carregar os doadores. Tente novamente mais tarde.");
+        setErro(
+          "Não foi possível carregar os doadores. Tente novamente mais tarde."
+        );
       } finally {
         setCarregando(false);
       }
@@ -47,8 +49,8 @@ export default function CarrosselDoadoresVisitantes({ ehMobile }) {
     return (
       <div className={styles.fundoCarrosselVisitantes}>
         <div className={styles.semDoadores}>
-          <img 
-            src="/sem-doadores.png" 
+          <img
+            src="/sem-doadores.png"
             alt="Nenhum doador cadastrado"
             className={styles.imagemSemDoadores}
           />
@@ -100,17 +102,18 @@ export default function CarrosselDoadoresVisitantes({ ehMobile }) {
           <div key={doador.id} className={styles.itemCarrossel}>
             <div className={styles.containerImagem}>
               <img
-                src={`/uploads/${doador.imagem}`}
+                src={`http://localhost:3003/uploads/${doador.imagem}`}
                 alt={doador.nome}
                 className={styles.fotoDoador}
                 onError={(e) => {
+                  console.error("Erro ao carregar imagem:", e.target.src);
                   e.target.onerror = null;
                   e.target.src = "/imagem-padrao-doador.jpg";
                 }}
               />
             </div>
             <div className={styles.infoDoador}>
-              <h2 className={styles.nomeDoador}>{doador.nome}</h2>
+              <h1 className={styles.nomeDoador}>{doador.nome}</h1>
               <p className={styles.descricaoDoador}>{doador.descricao}</p>
             </div>
           </div>

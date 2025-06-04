@@ -7,12 +7,16 @@ const routes = require("./routers/routes");
 const app = express();
 const port = process.env.PORT || 3003;
 
+app.options('*', cors());
+
 // Middlewares
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3003'], 
+  origin: 'http://localhost:5173',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }));
+
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -30,7 +34,8 @@ app.get("/", (req, res) => {
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Sincroniza o banco de dados
-sequelize.sync({ force: true }) // Use { force: true } apenas em desenvolvimento
+sequelize
+  .sync({ force: false }) //O "force" irá recriar as tabelas toda vez que o servidor inicia, apagando todos os dados que tinham sido cadastrados.
   .then(() => {
     console.log("Banco de dados sincronizado com sucesso.");
     // Inicia o servidor após a sincronização

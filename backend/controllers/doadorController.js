@@ -40,13 +40,18 @@ const cadastrarDoador = async (req, res) => {
     const novoDoador = await Doadores.create({
       nome,
       descricao,
-      imagem: req.file.filename
+      imagem: req.file.filename 
     });
 
-    res.status(201).json({ 
-      message: "Doador cadastrado com sucesso!", 
-      doador: novoDoador 
+    // Adicione o log aqui:
+    console.log('Doador criado:', {
+      id: novoDoador.id,
+      nome: novoDoador.nome,
+      imagem: novoDoador.imagem,
+      caminhoCompleto: `/uploads/${novoDoador.imagem}`
     });
+
+    res.status(201).json(novoDoador); 
   } catch (error) {
     console.error("Erro ao cadastrar doador:", error);
     res.status(500).json({ message: "Erro ao cadastrar o doador." });
@@ -117,6 +122,7 @@ const deletarDoador = async (req, res) => {
     res.status(500).json({ message: "Erro ao deletar doador." });
   }
 };
+
 
 module.exports = {
   listarDoadores,

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import api from "../../../../../services/api";
+import axios from 'axios';
 import styles from "./carrosselDoadores.module.css";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -13,19 +14,30 @@ export default function CarrosselDeDoadores() {
   });
   const fileInputRef = useRef(null);
 
-  // Carrega os doadores do backend
-  useEffect(() => {
-    carregarDoadores();
-  }, []);
 
+useEffect(() => {
+  const controller = new AbortController();
+  
   const carregarDoadores = async () => {
     try {
-      const response = await api.get('/doadores');
+      const response = await api.get('/doadores', {
+        signal: controller.signal
+      });
       setDoadores(response.data);
     } catch (error) {
-      console.error("Erro ao carregar doadores:", error);
+      // Ignora apenas erros de cancelamento
+      if (!axios.isCancel(error)) {
+        console.error("Erro ao carregar doadores:", error);
+      }
     }
   };
+
+  carregarDoadores();
+  
+  return () => {
+    controller.abort(); // Isso cancela a requisição quando o componente desmonta
+  };
+}, []); // Mantenha o array de dependências vazio para executar apenas uma vez
 
   const handleImageChange = (e) => {
     setNovoDoador({ ...novoDoador, imagem: e.target.files[0] });
@@ -43,13 +55,12 @@ export default function CarrosselDeDoadores() {
       formData.append("nome", novoDoador.nome);
       formData.append("descricao", novoDoador.descricao);
 
-      const response = await api.post("/doadores", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await api.post("/doadores", formData);
 
-      setDoadores([response.data, ...doadores]);
+      // Atualize o estado desta forma:
+      setDoadores((prevDoadores) => [response.data, ...prevDoadores]);
+
+      // Limpe o formulário
       setNovoDoador({ imagem: null, nome: "", descricao: "" });
       if (fileInputRef.current) fileInputRef.current.value = "";
     } catch (error) {
@@ -60,7 +71,7 @@ export default function CarrosselDeDoadores() {
   const deletarDoador = async (id) => {
     try {
       const response = await api.delete(`/doadores/${id}`);
-      setDoadores(doadores.filter(doador => doador.id !== id));
+      setDoadores(doadores.filter((doador) => doador.id !== id));
     } catch (error) {
       console.error("Erro ao deletar doador:", error);
     }
@@ -88,7 +99,10 @@ export default function CarrosselDeDoadores() {
                 style={{ display: "none" }}
                 id="image-upload"
               />
-              <label htmlFor="image-upload" className={styles.botaoAddImagemDoador}>
+              <label
+                htmlFor="image-upload"
+                className={styles.botaoAddImagemDoador}
+              >
                 {novoDoador.imagem ? (
                   <img
                     src={URL.createObjectURL(novoDoador.imagem)}
@@ -119,7 +133,9 @@ export default function CarrosselDeDoadores() {
             />
             <button
               onClick={adicionarDoador}
-              disabled={!novoDoador.imagem || !novoDoador.nome || !novoDoador.descricao}
+              disabled={
+                !novoDoador.imagem || !novoDoador.nome || !novoDoador.descricao
+              }
               className={styles.botaoAdicionar}
             >
               Adicionar Doador
@@ -128,12 +144,16 @@ export default function CarrosselDeDoadores() {
 
           {/* Slides dos doadores existentes */}
           {doadores.map((doador) => (
-            <div key={doador.id} className={styles.itemCarrossel}>
+            <div key={`doador-${doador.id}`} className={styles.itemCarrossel}>
               <div className={styles.containerImagem}>
                 <img
-                  src={`/uploads/${doador.imagem}`}
+                  src={`http://localhost:3003/uploads/${doador.imagem}`}
                   alt={doador.nome}
                   className={styles.fotoDoador}
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "/imagem-padrao-doador.jpg";
+                  }}
                 />
               </div>
               <h1>{doador.nome}</h1>

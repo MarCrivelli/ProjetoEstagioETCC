@@ -42,7 +42,7 @@
   height: 100%;
 }
 
-.slideFormulario{
+.slideFormulario {
   gap: 15px;
 }
 
@@ -127,6 +127,33 @@
 
 .botaoRemover:hover {
   background-color: #c0392b;
+}
+
+@media (max-width: 768px) {
+  .fundoCarrosselDoadores {
+    padding: 20% 5%;
+  }
+
+  .slideFormulario,
+  .itemCarrossel {
+    padding: 30px 10px 50px 10px;
+  }
+
+  .containerImagem {
+    width: 150px;
+    height: 150px;
+  }
+  .placeholderImagem {
+    font-size: 0.7rem;
+  }
+  .inputForm,
+  .textareaForm,
+  .botaoAdicionar {
+    width: 100%;
+  }
+  .botaoAdicionar{
+    padding: 10px 0 10px 0;
+  }
 }
 
 /* Mantenha os estilos existentes que você já tem */
