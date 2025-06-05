@@ -444,7 +444,7 @@
   }
 
   .secaoCarrossel {
-    padding: 0;
+    padding: 70px 20px 70px 20px;
   }
 
   .tituloCarrossel {
@@ -454,12 +454,8 @@
   }
 
   .containerCarrossel {
-    width: 100%;
     min-height: 0;
-    border-radius: 0;
-    padding: 40px 20px 60px 20px;
-    border: none;
-    background-color: #ffffff00;
+    padding: 30px 10px 20px 10px; 
   }
 
   .infoInstituto {

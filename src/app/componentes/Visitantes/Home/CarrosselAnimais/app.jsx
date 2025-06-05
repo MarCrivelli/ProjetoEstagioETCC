@@ -69,6 +69,7 @@ export default function CarrosselAnimais({ animais, ehMobile }) {
       {animais.map((animal) => (
         <div key={animal.id} className={styles.itemCarrosselAnimal}>
           <div className={styles.conteudoAnimal}>
+            
             <div className={styles.containerImagem}>
               <h2>{estadosAntesDepois[animal.id] ? "Antes" : "Depois"}</h2>
               <img
@@ -79,6 +80,7 @@ export default function CarrosselAnimais({ animais, ehMobile }) {
                 className={styles.imagemAnimal}
               />
             </div>
+
             <div className={styles.containerDescricao}>
               <h1>{animal.nome}</h1>
               <p className={styles.descricaoAnimal}>
@@ -93,6 +95,7 @@ export default function CarrosselAnimais({ animais, ehMobile }) {
                 {estadosAntesDepois[animal.id] ? "Próxima imagem" : "Imagem anterior"}
               </button>
             </div>
+
           </div>
         </div>
       ))}

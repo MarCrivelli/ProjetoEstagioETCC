@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 20px;
+  padding: 20px 20px 55px 20px;
   height: 100%;
   width: 100%;
   min-height: 495px;
@@ -38,14 +38,18 @@
   width: 100%;
 }
 
-.itemCarrossel h1,
-.itemCarrossel p {
-  width: 50%;
-  margin-bottom: 0;
+.infoDoador h1,
+.infoDoador p {
+  width: auto;
+  max-width: 800px;
 }
 
 .infoDoador h1 {
   font-size: 2rem;
+}
+
+.infoDoador p {
+  text-align: justify;
 }
 
 .nomeDoador {
@@ -92,11 +96,14 @@
 }
 
 @media (max-width: 768px) {
-
   .itemCarrossel {
     margin-top: 0px;
     min-height: 0;
     background-color: #ffffff;
+  }
+
+  .infoDoador h1 {
+     font-size: 1rem; /* ver depois */
   }
 
   .containerImagem {
@@ -117,7 +124,6 @@
   }
 
   .itemCarrossel p {
-    text-align: justify;
     height: 100%;
   }
 }

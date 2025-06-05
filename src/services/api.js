@@ -2,8 +2,7 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: 'http://localhost:3003', 
-  timeout: 10000,
-  withCredentials: true 
+  timeout: 10000
 });
 
 // Interceptor para tratamento global de erros

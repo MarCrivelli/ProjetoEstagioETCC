@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import api from "../../../../../services/api";
-import axios from 'axios';
+import axios from "axios";
 import styles from "./carrosselDoadores.module.css";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
@@ -14,30 +14,29 @@ export default function CarrosselDeDoadores() {
   });
   const fileInputRef = useRef(null);
 
+  useEffect(() => {
+    const controller = new AbortController();
 
-useEffect(() => {
-  const controller = new AbortController();
-  
-  const carregarDoadores = async () => {
-    try {
-      const response = await api.get('/doadores', {
-        signal: controller.signal
-      });
-      setDoadores(response.data);
-    } catch (error) {
-      // Ignora apenas erros de cancelamento
-      if (!axios.isCancel(error)) {
-        console.error("Erro ao carregar doadores:", error);
+    const carregarDoadores = async () => {
+      try {
+        const response = await api.get("/doadores", {
+          signal: controller.signal,
+        });
+        setDoadores(response.data);
+      } catch (error) {
+        // Ignora apenas erros de cancelamento
+        if (!axios.isCancel(error)) {
+          console.error("Erro ao carregar doadores:", error);
+        }
       }
-    }
-  };
+    };
 
-  carregarDoadores();
-  
-  return () => {
-    controller.abort(); // Isso cancela a requisição quando o componente desmonta
-  };
-}, []); // Mantenha o array de dependências vazio para executar apenas uma vez
+    carregarDoadores();
+
+    return () => {
+      controller.abort(); // Isso cancela a requisição quando o componente desmonta
+    };
+  }, []); // Mantenha o array de dependências vazio para executar apenas uma vez
 
   const handleImageChange = (e) => {
     setNovoDoador({ ...novoDoador, imagem: e.target.files[0] });
@@ -70,10 +69,10 @@ useEffect(() => {
 
   const deletarDoador = async (id) => {
     try {
-      const response = await api.delete(`/doadores/${id}`);
+      await api.delete(`/doadores/${id}`);
       setDoadores(doadores.filter((doador) => doador.id !== id));
     } catch (error) {
-      console.error("Erro ao deletar doador:", error);
+      console.error("Erro ao deletar:", error.response?.data || error.message);
     }
   };
 
@@ -90,7 +89,7 @@ useEffect(() => {
         >
           {/* Slide do formulário */}
           <div className={styles.slideFormulario}>
-            <div className={styles.containerImagem}>
+            <div className={styles.containerPreImagem}>
               <input
                 type="file"
                 accept="image/*"
@@ -110,8 +109,8 @@ useEffect(() => {
                     className={styles.fotoPreview}
                   />
                 ) : (
-                  <div className={styles.placeholderImagem}>
-                    Clique para adicionar imagem
+                  <div className={styles.iconePadrao}>
+                    <img src="/pagConfiguracoes/adicionarImagem.png"></img>
                   </div>
                 )}
               </label>
@@ -127,10 +126,17 @@ useEffect(() => {
             <textarea
               name="descricao"
               value={novoDoador.descricao}
-              onChange={handleInputChange}
-              placeholder="Descrição"
               className={styles.textareaForm}
+              onChange={(e) => {
+                if (e.target.value.length <= 500) {
+                  handleInputChange(e);
+                }
+              }}
+              placeholder="Descrição (máx. 500 caracteres)"
             />
+            <div className={styles.contador}>
+              {novoDoador.descricao.length}/500 caracteres
+            </div>
             <button
               onClick={adicionarDoador}
               disabled={
@@ -156,10 +162,20 @@ useEffect(() => {
                   }}
                 />
               </div>
-              <h1>{doador.nome}</h1>
-              <p>{doador.descricao}</p>
+              <div className={styles.infoDoador}>
+                <h1>{doador.nome}</h1>
+                <p>{doador.descricao}</p>
+              </div>
               <button
-                onClick={() => deletarDoador(doador.id)}
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      "Tem certeza que deseja remover este doador?"
+                    )
+                  ) {
+                    deletarDoador(doador.id);
+                  }
+                }}
                 className={styles.botaoRemover}
               >
                 Remover Doador

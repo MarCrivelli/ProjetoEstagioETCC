@@ -19,7 +19,7 @@ const upload = multer({ storage });
 const listarDoadores = async (req, res) => {
   try {
     const doadores = await Doadores.findAll({
-      order: [['createdAt', 'DESC']] // Ordena do mais recente para o mais antigo
+      order: [["createdAt", "DESC"]], // Ordena do mais recente para o mais antigo
     });
     res.json(doadores);
   } catch (error) {
@@ -40,18 +40,18 @@ const cadastrarDoador = async (req, res) => {
     const novoDoador = await Doadores.create({
       nome,
       descricao,
-      imagem: req.file.filename 
+      imagem: req.file.filename,
     });
 
     // Adicione o log aqui:
-    console.log('Doador criado:', {
+    console.log("Doador criado:", {
       id: novoDoador.id,
       nome: novoDoador.nome,
       imagem: novoDoador.imagem,
-      caminhoCompleto: `/uploads/${novoDoador.imagem}`
+      caminhoCompleto: `/uploads/${novoDoador.imagem}`,
     });
 
-    res.status(201).json(novoDoador); 
+    res.status(201).json(novoDoador);
   } catch (error) {
     console.error("Erro ao cadastrar doador:", error);
     res.status(500).json({ message: "Erro ao cadastrar o doador." });
@@ -83,11 +83,15 @@ const atualizarDoador = async (req, res) => {
       return res.status(404).json({ message: "Doador não encontrado." });
     }
 
-    // Atualiza os campos
     doador.nome = nome || doador.nome;
     doador.descricao = descricao || doador.descricao;
 
-    // Se uma nova imagem foi enviada
+    if (descricao && descricao.length > 500) {
+      return res.status(400).json({
+        message: "A descrição não pode exceder 500 caracteres",
+      });
+    }
+
     if (req.file) {
       // Aqui você pode adicionar lógica para deletar a imagem antiga se quiser
       doador.imagem = req.file.filename;
@@ -95,9 +99,9 @@ const atualizarDoador = async (req, res) => {
 
     await doador.save();
 
-    res.json({ 
-      message: "Doador atualizado com sucesso!", 
-      doador 
+    res.json({
+      message: "Doador atualizado com sucesso!",
+      doador,
     });
   } catch (error) {
     console.error("Erro ao atualizar doador:", error);
@@ -123,12 +127,11 @@ const deletarDoador = async (req, res) => {
   }
 };
 
-
 module.exports = {
   listarDoadores,
   cadastrarDoador,
   buscarDoadorPorId,
   atualizarDoador,
   deletarDoador,
-  upload 
+  upload,
 };

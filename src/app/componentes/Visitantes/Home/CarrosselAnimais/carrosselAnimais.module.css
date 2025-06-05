@@ -16,8 +16,7 @@
 }
 
 .containerImagem {
-  flex: 1;
-  width: 50%;
+  flex: 1 400px;
   height: auto;
   overflow: hidden;
   border-radius: 8px;
@@ -43,7 +42,7 @@
 }
 
 .containerDescricao {
-  flex: 1;
+  flex: 1 300px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -122,28 +121,25 @@
 
 @media (max-width: 768px) {
   .itemCarrosselAnimal {
-    padding: 0px 10px 30px 10px;
+    padding: 0 0 0 0;
     min-height: 0;
   }
 
   .conteudoAnimal {
     flex-direction: column;
-    gap: 0px;
-    min-height: 0;
-    background-color: rgb(255, 255, 255);
-    padding: 10px;
-  }
-
-  .containerImagem {
-    width: 100%;
-    min-height: none;
-    max-height: 387px;
-    margin-bottom: 20px;
+    height: auto; 
+    gap: 20px; 
   }
 
   .containerDescricao {
-    height: 100%;
-    padding-top: 0;
+    flex: 1 1 auto; 
+    width: 100%;
+    padding: 0; 
+  }
+
+  .containerImagem {
+    flex: none; 
+    max-height: none; 
   }
 
   .containerDescricao h1 {
