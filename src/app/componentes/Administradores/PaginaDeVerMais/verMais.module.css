@@ -1,16 +1,14 @@
 .fundoVermais {
   display: flex;
   flex-direction: column;
-  width: 99%;
-  min-height: calc(100vh - 135px);
-  margin: auto auto 0.5% auto;
-  background-color: #e3e3e37e;
-  padding: 30px;
-  border-radius: 20px;
-  background-image: url("/fundoPatas2.png");
-  background-repeat: repeat;
-  background-size: 600px 600px;
-  background-position: top left;
+  width: 100%;
+  min-height: calc(100vh - 70px);
+  background-color: #009dff;
+  padding: 2%;
+  background-image: url("/imagensDeFundo/fundoPatas_BrancoTotal.png");
+  background-repeat: repeat; /* Faz com que a imagem se repita */
+  background-size: 900px 900px; /* Define o tamanho da imagem (largura x altura) */
+  background-position: top left; /* A posição inicial da repetição é no canto superior esquerdo */
 }
 
 .painel {
@@ -19,119 +17,17 @@
   background-color: white;
   width: 100%;
   border-radius: 20px;
-  padding: 10px 3% 30px 3%;
+  padding: 40px;
   flex-grow: 1;
   box-sizing: border-box;
-  border: 1px solid #b3b3b3;
-}
-
-.imagensAnimal {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  min-height: 30%;
-  flex-wrap: wrap;
-  border-bottom: 1px solid #b3b3b3;
-  gap: 40px;
-  row-gap: 10px;
-}
-
-.containerImagemChegada,
-.containerImagemSaida {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: calc(50% - 20px);
-  flex-grow: 1;
-  min-width: 400px;
-}
-
-.imagemChegada,
-.containerSemImagem {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-  border-radius: 14px;
-  min-height: 155px;
-}
-
-.imagemAnimal {
-  max-width: 100%;
-  max-height: 300px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.botaoAlterarImagem {
-  padding: 8px 16px;
-  background-color: #4caf50;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.botaoAlterarImagem:hover {
-  background-color: #45a049;
-}
-
-.containerSemImagem {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 2px dashed #ccc;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: border-color 0.3s;
-  background-color: #fffdf1;
-}
-
-.containerSemImagem:hover {
-  border-color: #888;
-  background-color: #e6f8ff;
-}
-
-.areaUpload {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  color: #666;
-}
-
-.iconeUpload {
-  font-size: 2rem;
-  color: #4caf50;
-}
-
-/* Input escondido (comum para ambos os casos) */
-.inputEscondido {
-  display: none;
-}
-
-.nomeAnimal {
-  width: 100%;
-  text-align: center;
-  margin-top: 20px;
+  border: 2px solid black;
 }
 
 @media (max-width: 500px) {
   .fundoVermais {
-    padding: 10px;
-    border-radius: 20px;
-    background-image: url("/fundoPatas2.png");
-    background-repeat: repeat;
-    background-size: 600px 600px;
-    background-position: top left;
+    padding: 30px 10px;
   }
-
-  .containerImagemChegada,
-  .containerImagemSaida {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 50%;
-    flex-grow: 1;
-    min-width: 200px;
+  .painel {
+    padding: 10px;
   }
 }

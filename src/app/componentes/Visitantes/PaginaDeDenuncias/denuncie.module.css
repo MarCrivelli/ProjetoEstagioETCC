@@ -6,8 +6,25 @@
   display: flex;
   flex-direction: column;
   row-gap: 50px;
-  padding: 7% 20%;
+  padding: 6% 15%;
   min-height: calc(100vh - 70px);
+  background: linear-gradient(
+    to right,
+    #00aeff 0%,
+    #00aeff 25%,
+    #2dbcff 25%,
+    #2dbcff 50%,
+    #56caff 50%,
+    #56caff 75%,
+    #88d9ff 75%,
+    #88d9ff 100%
+  );
+}
+
+.seccao {
+  background-color: white;
+  padding: 20px;
+  border: 2px solid black;
 }
 
 .seccao h1 {
@@ -15,13 +32,17 @@
   margin-bottom: 20px;
 }
 
+.seccao p,
+.seccao .strong {
+  font-size: 1.15rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .strong {
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .seccao p {
-  font-size: 1.3rem;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   margin-bottom: 0;
 }
 
@@ -31,7 +52,23 @@
 
 @media (max-width: 768px) {
   .ajusteElementosDaPagina {
-    padding-inline: 10%;
+    padding: 50px 5%;
+  }
+
+  .seccao {
+    padding: 10px;
+  }
+
+  .seccao h1 {
+    font-size: 1.4rem;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .seccao p,
+  .seccao .strong {
+    font-size: 0.8rem;
+    text-align: justify;
   }
   .seccao p {
     margin-bottom: 10px;

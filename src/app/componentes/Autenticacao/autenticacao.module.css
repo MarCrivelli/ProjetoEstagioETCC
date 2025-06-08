@@ -100,11 +100,11 @@
 
 .botaoSecundario {
   background-color: rgb(62, 62, 62);
-  border: 1px solid rgba(255,255,255,0.5);
-  transition: all ease-in-out .3s;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  transition: all ease-in-out 0.3s;
 }
 
-.botaoSecundario:hover{
+.botaoSecundario:hover {
   background-color: rgba(62, 62, 62, 0.744);
   transform: scale(1.04);
 }
@@ -162,7 +162,7 @@
 .containerAutenticacao.painelAtivo .painelCadastro {
   transform: translateX(0);
   z-index: 5;
-  transition: ease-in-out .65s;
+  transition: ease-in-out 0.65s;
 }
 
 .containerAutenticacao.painelAtivo .containerOverlay {
@@ -179,6 +179,10 @@
 
 /* Responsividade */
 @media (max-width: 700px) {
+  .alinharFormulario {
+    min-height: 100vh;
+  }
+
   .containerAutenticacao {
     flex-direction: column;
   }
@@ -201,9 +205,8 @@
   }
 
   .formulario {
-    min-height: calc(50vh - 35px);
+    min-height: 50vh;
     padding: 20px;
-
   }
 
   /* Aqui começa a parte de troca de formulários */
@@ -212,7 +215,7 @@
     position: relative;
     width: 100%;
     height: auto;
-    min-height: calc(50vh - 35px);
+    min-height: 50vh;
     top: 100%;
     left: 0;
   }

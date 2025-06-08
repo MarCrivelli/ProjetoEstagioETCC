@@ -40,7 +40,7 @@ export default function CarrosselDoadoresVisitantes({ ehMobile }) {
   if (erro) {
     return (
       <div className={styles.fundoCarrosselVisitantes}>
-        <div className={styles.erro}>{erro}</div>
+          <h2>ops, parece que ocorreu um erro ¯\_(ツ)_/¯</h2>
       </div>
     );
   }
@@ -49,12 +49,7 @@ export default function CarrosselDoadoresVisitantes({ ehMobile }) {
     return (
       <div className={styles.fundoCarrosselVisitantes}>
         <div className={styles.semDoadores}>
-          <img
-            src="/sem-doadores.png"
-            alt="Nenhum doador cadastrado"
-            className={styles.imagemSemDoadores}
-          />
-          <h2>Nenhum doador cadastrado ainda</h2>
+          <h2>Nenhum doador por enquanto :&#40;</h2>
         </div>
       </div>
     );

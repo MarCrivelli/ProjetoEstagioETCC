@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes} from 'react-router-dom';
 import HomeVisitantes from '../componentes/Visitantes/Home/PaginaPrincipal/app';
 import Autenticacao from '../componentes/Autenticacao/app';
 import QueroAdotar from '../componentes/Visitantes/PaginaDeAdocoes/app';
+import ComoDoar from '../componentes/Visitantes/PaginaDeDoacoes/app';
 import Denuncie from '../componentes/Visitantes/PaginaDeDenuncias/app';
 import SaudeUnica from '../componentes/Visitantes/PaginaDeSaudeUnica/app';
 //Importações para as páginas de administradores
@@ -21,7 +22,7 @@ export default function Rotas() {
             <Route path='/' element={<HomeVisitantes/>}/>
             <Route path='/autenticar' element={<Autenticacao/>}/>
             <Route path='/quero_adotar' element={<QueroAdotar/>}/>
-            <Route path='/como_doar' element={<QueroAdotar/>}/>
+            <Route path='/como_doar' element={<ComoDoar/>}/>
             <Route path='/denuncie' element={<Denuncie/>}/>
             <Route path='/saude_unica' element={<SaudeUnica/>}/>
             <Route path='/administracao' element={<HomeAdms/>}/>

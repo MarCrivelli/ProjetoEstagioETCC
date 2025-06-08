@@ -64,7 +64,57 @@ export default function VerMais() {
 
       <div className={styles.fundoVermais}>
         <div className={styles.painel}>
-          <div className={styles.imagensAnimal}>
+          
+        </div>
+
+        {/* <h1>{animal.nome}</h1>
+        <p>Idade: {animal.idade}</p>
+        <p>Sexo: {animal.sexo}</p>
+        <p>Tipo: {animal.tipo}</p>
+        <p>Status de Microchipagem: {animal.statusMicrochipagem}</p>
+        <p>Status de Vacinação: {animal.statusVacinacao}</p>
+        <p>Status de Castração: {animal.statusCastracao}</p>
+        <p>Status de Adoção: {animal.statusAdocao}</p>
+        <p>Status de Vermifugação: {animal.statusVermifugacao}</p>
+
+        <div className={styles.imagensContainer}>
+          <div>
+            <h2>Foto de Entrada</h2>
+            <img
+              src={
+                animal.imagem
+                  ? `http://localhost:3003/uploads/${animal.imagem}`
+                  : "/pagFichasDAnimais/imagemTeste.jpg"
+              }
+              alt="Imagem de entrada"
+              className={styles.imagemAnimal}
+            />
+          </div>
+
+          <div>
+            <h2>Foto de Saída</h2>
+            {animal.imagemSaida ? (
+              <img
+                src={`http://localhost:3003/uploads/${animal.imagemSaida}`}
+                alt="Imagem de saída"
+                className={styles.imagemAnimal}
+              />
+            ) : (
+              <div className={styles.semImagem}>
+                Nenhuma imagem de saída cadastrada.
+              </div>
+            )}
+            <input
+              type="file"
+              onChange={handleImagemSaidaChange}
+              className={styles.inputImagem}
+            />
+          </div>
+        </div> */}
+
+        {/* design antigo */}
+
+        {/* <div className={styles.imagensAnimal}>
             <div className={styles.containerImagemChegada}>
               <h1>Antes</h1>
               <img
@@ -113,53 +163,7 @@ export default function VerMais() {
               )}
             </div>
             <h1 className={styles.nomeAnimal}>{animal.nome}</h1>
-          </div>
-        </div>
-
-        {/* <h1>{animal.nome}</h1>
-        <p>Idade: {animal.idade}</p>
-        <p>Sexo: {animal.sexo}</p>
-        <p>Tipo: {animal.tipo}</p>
-        <p>Status de Microchipagem: {animal.statusMicrochipagem}</p>
-        <p>Status de Vacinação: {animal.statusVacinacao}</p>
-        <p>Status de Castração: {animal.statusCastracao}</p>
-        <p>Status de Adoção: {animal.statusAdocao}</p>
-        <p>Status de Vermifugação: {animal.statusVermifugacao}</p>
-
-        <div className={styles.imagensContainer}>
-          <div>
-            <h2>Foto de Entrada</h2>
-            <img
-              src={
-                animal.imagem
-                  ? `http://localhost:3003/uploads/${animal.imagem}`
-                  : "/pagFichasDAnimais/imagemTeste.jpg"
-              }
-              alt="Imagem de entrada"
-              className={styles.imagemAnimal}
-            />
-          </div>
-
-          <div>
-            <h2>Foto de Saída</h2>
-            {animal.imagemSaida ? (
-              <img
-                src={`http://localhost:3003/uploads/${animal.imagemSaida}`}
-                alt="Imagem de saída"
-                className={styles.imagemAnimal}
-              />
-            ) : (
-              <div className={styles.semImagem}>
-                Nenhuma imagem de saída cadastrada.
-              </div>
-            )}
-            <input
-              type="file"
-              onChange={handleImagemSaidaChange}
-              className={styles.inputImagem}
-            />
-          </div>
-        </div> */}
+          </div> */}
       </div>
     </>
   );

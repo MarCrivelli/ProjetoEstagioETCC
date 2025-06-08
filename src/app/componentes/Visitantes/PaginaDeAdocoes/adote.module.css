@@ -10,21 +10,23 @@
   min-height: calc(100vh - 70px);
   background: linear-gradient(
     to right,
-    #f700ff 0%,
-    #f700ff 25%,
-    #fa6dff 25%,
-    #fa6dff 50%,
-    #fb8dff 50%,
-    #fb8dff 75%,
-    #fdbdff 75%,
-    #fdbdff 100%
+    #4800cd 0%,
+    #4800cd 25%,
+    #713dff 25%,
+    #713dff 50%,
+    #9067ff 50%,
+    #9067ff 75%,
+    #a888ff 75%,
+    #a888ff 100%
   );
 }
 
 .seccao {
   background-color: white;
-  padding: 20px;
+  padding: 5% 8%;
   border: 2px solid black;
+  box-shadow: 4px 5px 1px #2d0080;
+  border-radius: 10px;
 }
 
 .seccao h1 {
@@ -56,7 +58,7 @@
   }
 
   .seccao {
-    padding: 10px;
+    padding: 35px 8%;
   }
 
   .seccao h1 {

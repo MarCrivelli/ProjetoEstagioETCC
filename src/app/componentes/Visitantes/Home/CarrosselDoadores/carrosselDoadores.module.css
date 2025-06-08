@@ -95,6 +95,18 @@
   right: 15px;
 }
 
+.fundoCarrosselVisitantes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  padding-inline: 15px;
+}
+
+.fundoCarrosselVisitantes h2{
+  text-align: center;
+}
+
 @media (max-width: 768px) {
   .itemCarrossel {
     margin-top: 0px;
@@ -103,7 +115,7 @@
   }
 
   .infoDoador h1 {
-     font-size: 1rem; /* ver depois */
+    font-size: 1rem; /* ver depois */
   }
 
   .containerImagem {
@@ -117,6 +129,10 @@
     height: 150px;
   }
 
+  .itemCarrossel {
+    padding-inline: 10px;
+  }
+
   .itemCarrossel h1,
   .itemCarrossel p {
     width: 100%;
@@ -125,5 +141,6 @@
 
   .itemCarrossel p {
     height: 100%;
+    font-size: 0.8rem;
   }
 }

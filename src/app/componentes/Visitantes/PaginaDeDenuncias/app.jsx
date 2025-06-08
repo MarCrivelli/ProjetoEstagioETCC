@@ -1,9 +1,10 @@
 import Header from "../HeaderVisitantes/app";
+import Footer from "../Footer/app";
 import styles from "./denuncie.module.css";
 
 export default function Denuncie() {
   return (
-    <div>
+    <>
       <div className={styles.ajusteHeader}>
         <Header />
       </div>
@@ -96,6 +97,7 @@ export default function Denuncie() {
           </p>
         </div>
       </div>
-    </div>
+      <Footer/>
+    </>
   );
 }

@@ -123,7 +123,8 @@
   }
 
   .painel {
-    padding: 10px;
+    min-height: 100vh;
+    padding: 70px 10px 70px 10px;
     border-radius: 0px;
     background-color: transparent;
     row-gap: 30px;

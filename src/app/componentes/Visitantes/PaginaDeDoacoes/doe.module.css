@@ -10,14 +10,14 @@
   min-height: calc(100vh - 70px);
   background: linear-gradient(
     to right,
-    #f700ff 0%,
-    #f700ff 25%,
-    #fa6dff 25%,
-    #fa6dff 50%,
-    #fb8dff 50%,
-    #fb8dff 75%,
-    #fdbdff 75%,
-    #fdbdff 100%
+    #ff771d 0%,
+    #ff771d 25%,
+    #ff8635 25%,
+    #ff8635 50%,
+    #ffa467 50%,
+    #ffa467 75%,
+    #ffbc8f 75%,
+    #ffbc8f 100%
   );
 }
 

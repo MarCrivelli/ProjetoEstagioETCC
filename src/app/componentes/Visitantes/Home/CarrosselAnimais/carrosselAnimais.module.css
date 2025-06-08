@@ -121,25 +121,30 @@
 
 @media (max-width: 768px) {
   .itemCarrosselAnimal {
-    padding: 0 0 0 0;
+    padding: 0 10px 0 10px;
     min-height: 0;
   }
 
   .conteudoAnimal {
     flex-direction: column;
-    height: auto; 
-    gap: 20px; 
+    height: auto;
+    gap: 20px;
   }
 
   .containerDescricao {
-    flex: 1 1 auto; 
+    flex: 1 1 auto;
     width: 100%;
-    padding: 0; 
+    padding: 0;
   }
 
   .containerImagem {
-    flex: none; 
-    max-height: none; 
+    flex: none;
+    max-height: none;
+  }
+
+  .imagemAnimal {
+    max-height: 207px;
+    min-height: 207px;
   }
 
   .containerDescricao h1 {
@@ -148,7 +153,6 @@
 
   .containerDescricao p {
     font-size: 0.8rem;
-    font-weight: 500;
     text-align: justify;
   }
 
@@ -157,5 +161,6 @@
     color: rgb(255, 255, 255);
     font-size: 0.8rem;
     margin: 0 0 0 0;
+    max-width: 200px;
   }
 }
