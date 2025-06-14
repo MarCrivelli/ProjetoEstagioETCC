@@ -25,8 +25,10 @@ routes.put('/doadores/:id', upload.single('imagem'), doadorController.atualizarD
 routes.delete('/doadores/:id', doadorController.deletarDoador)
 
 // Rotas de animais (mantenha como estava funcionando)
-routes.get('/listar/animais', animalController.procurarAnimais)
+routes.get('/animais', animalController.procurarAnimais);
+routes.get('/listar/animais', animalController.procurarAnimais);
 routes.post("/animais", upload.single("imagem"), animalController.cadastrarAnimal)
 routes.get("/animais/:id", animalController.buscarAnimalPorId)
+routes.put("/animais/:id", animalController.atualizarAnimal);
 
 module.exports = routes;

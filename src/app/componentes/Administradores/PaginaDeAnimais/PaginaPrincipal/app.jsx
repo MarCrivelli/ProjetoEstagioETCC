@@ -24,25 +24,53 @@ export default function FichasDeAnimais() {
   });
   const [mostrarCadastro, setMostrarCadastro] = useState(false);
   const [mostrarFiltros, setMostrarFiltros] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Função para buscar os animais
   useEffect(() => {
     const buscarAnimais = async () => {
       try {
-        const resposta = await fetch("http://localhost:3003/listar/animais");
+        setLoading(true);
+        setError(null);
+
+        // Tenta ambas as rotas possíveis
+        let resposta = await fetch("http://localhost:3003/animais");
+
+        if (!resposta.ok) {
+          // Se a primeira rota falhar, tenta a alternativa
+          resposta = await fetch("http://localhost:3003/listar/animais");
+          if (!resposta.ok) {
+            throw new Error(`Erro ao buscar animais: ${resposta.status}`);
+          }
+        }
+
         const dados = await resposta.json();
-        setAnimais(dados);
-        setAnimaisCompleto(dados);
-      } catch {
-        alert("Ocorreu um erro no app!");
+        const animaisArray = Array.isArray(dados) ? dados : [];
+
+        setAnimais(animaisArray);
+        setAnimaisCompleto(animaisArray);
+      } catch (error) {
+        console.error("Erro ao buscar animais:", error);
+        setError(error.message);
+        setAnimais([]);
+        setAnimaisCompleto([]);
+      } finally {
+        setLoading(false);
       }
     };
+
     buscarAnimais();
   }, []);
 
   // Função para aplicar os filtros
   const aplicarFiltros = () => {
-    let animaisFiltrados = animaisCompleto;
+    if (!Array.isArray(animaisCompleto)) {
+      setAnimais([]);
+      return;
+    }
+
+    let animaisFiltrados = [...animaisCompleto];
 
     const filtroAtivo = Object.values(filtros).some((value) =>
       Array.isArray(value) ? value.length > 0 : value !== ""
@@ -82,8 +110,25 @@ export default function FichasDeAnimais() {
     aplicarFiltros();
   }, [filtros, animaisCompleto]);
 
+  // Adicione esta função para recarregar os animais após cadastro
+  const handleAnimalCadastrado = () => {
+    setMostrarCadastro(false);
+    // Recarrega os animais
+    const buscarAnimais = async () => {
+      try {
+        const resposta = await fetch("http://localhost:3003/animais");
+        const dados = await resposta.json();
+        setAnimais(Array.isArray(dados) ? dados : []);
+        setAnimaisCompleto(Array.isArray(dados) ? dados : []);
+      } catch (error) {
+        console.error("Erro ao recarregar animais:", error);
+      }
+    };
+    buscarAnimais();
+  };
+
   return (
-    <>
+    <div className={styles.fundoPagina}>
       <HeaderAdms />
       <BotaoPagInicial />
       <RolarPCima />
@@ -94,14 +139,14 @@ export default function FichasDeAnimais() {
           className={styles.botaoAcao}
           onClick={() => setMostrarFiltros(true)}
         >
-          <img src="/pagFichasDAnimais/filtro.png"></img>
+          <img src="/pagFichasDAnimais/filtro.png" alt="Filtrar" />
         </button>
 
         <button
           className={styles.botaoAcao}
           onClick={() => setMostrarCadastro(true)}
         >
-          <img src="/pagFichasDAnimais/addAnimal.png"></img>
+          <img src="/pagFichasDAnimais/addAnimal.png" alt="Adicionar animal" />
         </button>
       </div>
 
@@ -137,9 +182,9 @@ export default function FichasDeAnimais() {
             </button>
             <h2>Cadastrar Novo Animal</h2>
             <CadastroDeAnimais
-              animais={animais}
-              setAnimais={setAnimais}
-              onClose={() => setMostrarCadastro(false)}
+              animais={animaisCompleto}
+              setAnimais={setAnimaisCompleto}
+              onClose={handleAnimalCadastrado} // Alterado para chamar a função de recarregar
             />
           </div>
         </div>
@@ -148,12 +193,29 @@ export default function FichasDeAnimais() {
       {/* Listagem de animais */}
       <div className={styles.fundoPainel}>
         <div className={styles.painel}>
-          <ExibicaoDeAnimais
-            animais={animais}
-            filtrosAplicados={filtrosAplicados}
-          />
+          {loading ? (
+            <div className={styles.loading}>
+              <img src="/pagFichasDAnimais/carregando.svg"></img>
+              <p>Carregando...</p>
+            </div>
+          ) : error ? (
+            <div className={styles.error}>
+              Erro ao carregar animais: {error}
+              <button
+                onClick={() => window.location.reload()}
+                className={styles.botaoRecarregar}
+              >
+                Tentar novamente
+              </button>
+            </div>
+          ) : (
+            <ExibicaoDeAnimais
+              animais={animais}
+              filtrosAplicados={filtrosAplicados}
+            />
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 }

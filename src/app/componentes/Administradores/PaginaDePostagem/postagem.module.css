@@ -1,13 +1,22 @@
-.fundoPostagem {
+.fundoPagina {
+  background: linear-gradient(
+    to right,
+    #143d60 0%,
+    #143d60 25%,
+    #27667b 25%,
+    #27667b 50%,
+    #a0c878 50%,
+    #a0c878 75%,
+    #ddeb9d 75%,
+    #ddeb9d 100%
+  );
+}
+
+.fundoPainel {
   width: 100%;
   min-height: calc(100vh - 70px);
   height: auto;
   padding: 2%;
-  background-image: url("/imagensDeFundo/fundoPatas_BrancoTotal.png");
-  background-repeat: repeat; /* Faz com que a imagem se repita */
-  background-size: 900px 900px; /* Define o tamanho da imagem (largura x altura) */
-  background-position: top left; /* A posição inicial da repetição é no canto superior esquerdo */
-  background-color: #009dff;
 }
 
 .painel {
@@ -21,19 +30,19 @@
   border: 2px solid black;
 }
 
-.tituloPainel{
+.tituloPainel {
   text-align: center;
   margin-bottom: 30px;
 }
 
-.alinharFiltros{
+.alinharFiltros {
   display: flex;
   flex-wrap: wrap;
   height: 100%;
 }
 
 .filtrosPreSelecionados,
-.selecaoAvulsa{
+.selecaoAvulsa {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -41,13 +50,13 @@
   border: 1px solid #b3b3b3;
 }
 
-.filtrosPreSelecionados{
+.filtrosPreSelecionados {
   border-right: 0.5px solid #b3b3b380;
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
 }
 
-.filtrosPreSelecionados > h1{
+.filtrosPreSelecionados > h1 {
   margin-bottom: 0;
   width: 100%;
   text-align: center;
@@ -56,10 +65,10 @@
   color: #505050;
   font-size: 2rem;
   font-weight: 500;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.containerFiltros{
+.containerFiltros {
   display: flex;
   flex-direction: column;
   row-gap: 20px;
@@ -70,7 +79,7 @@
   padding: 20px 20px 120px 20px;
 }
 
-.filtro{
+.filtro {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -89,9 +98,7 @@
   cursor: pointer;
 }
 
-
-
-.selecaoAvulsa{
+.selecaoAvulsa {
   border-left: 0.5px solid #b3b3b380;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;

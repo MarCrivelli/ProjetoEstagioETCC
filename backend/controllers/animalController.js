@@ -16,13 +16,30 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Listar todos os animais
+// controllers/animalController.js
+
+// controllers/animalController.js
 const procurarAnimais = async (req, res) => {
   try {
-    const animais = await Animais.findAll();
-    res.json(animais);
+    const animais = await Animais.findAll({
+      attributes: [
+        'id', 'nome', 'idade', 'sexo', 'tipo', 
+        'statusMicrochipagem', 'statusVacinacao',
+        'statusCastracao', 'statusAdocao', 
+        'statusVermifugacao', 'imagem', 'imagemSaida',
+        'dataVacinacao', 'descricao' // Adicionados
+      ],
+      order: [['id', 'ASC']]
+    });
+    
+    res.status(200).json(animais);
   } catch (error) {
-    console.error("Erro ao listar animais:", error);
-    res.status(500).json({ message: "Erro ao listar os animais." });
+    console.error('Erro ao buscar animais:', error);
+    res.status(500).json({ 
+      success: false,
+      message: 'Erro ao buscar animais',
+      error: error.message
+    });
   }
 };
 
@@ -36,9 +53,11 @@ const cadastrarAnimal = async (req, res) => {
       tipo,
       statusMicrochipagem,
       statusVacinacao,
+      dataVacinacao,
       statusCastracao,
       statusAdocao,
       statusVermifugacao,
+      descricao,
     } = req.body;
 
     const imagem = req.file ? req.file.filename : null;
@@ -50,9 +69,11 @@ const cadastrarAnimal = async (req, res) => {
       tipo,
       statusMicrochipagem,
       statusVacinacao,
+      dataVacinacao: dataVacinacao || null,
       statusCastracao,
       statusAdocao,
       statusVermifugacao,
+      descricao,
       imagem,
     });
 
@@ -60,6 +81,50 @@ const cadastrarAnimal = async (req, res) => {
   } catch (error) {
     console.error("Erro ao cadastrar animal:", error);
     res.status(500).json({ message: "Erro ao cadastrar o animal." });
+  }
+};
+
+const atualizarAnimal = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {
+      nome,
+      idade,
+      sexo,
+      tipo,
+      statusMicrochipagem,
+      statusVacinacao,
+      dataVacinacao,
+      statusCastracao,
+      statusAdocao,
+      statusVermifugacao,
+      descricao,
+    } = req.body;
+
+    const animal = await Animais.findByPk(id);
+    if (!animal) {
+      return res.status(404).json({ message: "Animal não encontrado." });
+    }
+
+    // Atualiza os campos
+    animal.nome = nome;
+    animal.idade = idade;
+    animal.sexo = sexo;
+    animal.tipo = tipo;
+    animal.statusMicrochipagem = statusMicrochipagem;
+    animal.statusVacinacao = statusVacinacao;
+    animal.dataVacinacao = dataVacinacao || null;
+    animal.statusCastracao = statusCastracao;
+    animal.statusAdocao = statusAdocao;
+    animal.statusVermifugacao = statusVermifugacao;
+    animal.descricao = descricao;
+
+    await animal.save();
+
+    res.json({ message: "Animal atualizado com sucesso!", animal });
+  } catch (error) {
+    console.error("Erro ao atualizar animal:", error);
+    res.status(500).json({ message: "Erro ao atualizar animal." });
   }
 };
 
@@ -103,4 +168,5 @@ module.exports = {
   cadastrarAnimal,
   buscarAnimalPorId,
   atualizarImagemSaida,
+  atualizarAnimal,
 };

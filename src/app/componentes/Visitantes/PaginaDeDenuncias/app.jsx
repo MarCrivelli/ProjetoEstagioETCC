@@ -1,8 +1,97 @@
 import Header from "../HeaderVisitantes/app";
 import Footer from "../Footer/app";
 import styles from "./denuncie.module.css";
+import Select from "react-select";
+import { useState } from "react";
+
+const delegaciasVirtuaisDeEstadosBrasileiros = [
+  { value: "ac", label: "Acre", link: "https://www.ac.gov.br" }, // Link exemplo - substitua pelo real
+  {
+    value: "al",
+    label: "Alagoas",
+    link: "http://www.delegaciavirtual.al.gov.br",
+  },
+  { value: "ap", label: "Amapá", link: "https://www.ap.gov.br" }, // Link exemplo
+  { value: "am", label: "Amazonas", link: "https://www.am.gov.br" }, // Link exemplo
+  {
+    value: "ba",
+    label: "Bahia",
+    link: "http://www.ssp.ba.gov.br/delegaciavirtual",
+  },
+  {
+    value: "ce",
+    label: "Ceará",
+    link: "https://www.delegaciavirtual.ce.gov.br",
+  },
+  {
+    value: "df",
+    label: "Distrito Federal",
+    link: "http://www.delegaciavirtual.pcdf.df.gov.br",
+  },
+  { value: "es", label: "Espírito Santo", link: "https://www.es.gov.br" }, // Link exemplo
+  {
+    value: "go",
+    label: "Goiás",
+    link: "https://www.delegaciavirtual.seds.go.gov.br",
+  },
+  { value: "ma", label: "Maranhão", link: "https://www.ma.gov.br" }, // Link exemplo
+  {
+    value: "mt",
+    label: "Mato Grosso",
+    link: "https://www.delegaciavirtual.pmt.mt.gov.br",
+  },
+  {
+    value: "ms",
+    label: "Mato Grosso do Sul",
+    link: "http://devir.pc.ms.gov.br/#/",
+  },
+  { value: "mg", label: "Minas Gerais", link: "https://www.mg.gov.br" }, // Link exemplo
+  { value: "pa", label: "Pará", link: "https://www.pa.gov.br" }, // Link exemplo
+  { value: "pb", label: "Paraíba", link: "https://www.pb.gov.br" }, // Link exemplo
+  {
+    value: "pr",
+    label: "Paraná",
+    link: "https://www.delegaciavirtual.pr.gov.br",
+  },
+  {
+    value: "pe",
+    label: "Pernambuco",
+    link: "https://www.delegaciavirtual.pe.gov.br",
+  },
+  { value: "pi", label: "Piauí", link: "https://www.pi.gov.br" }, // Link exemplo
+  {
+    value: "rj",
+    label: "Rio de Janeiro",
+    link: "http://www.delegaciaonline.policiacivil.rj.gov.br",
+  },
+  { value: "rn", label: "Rio Grande do Norte", link: "https://www.rn.gov.br" }, // Link exemplo
+  {
+    value: "rs",
+    label: "Rio Grande do Sul",
+    link: "https://www.delegaciavirtual.rs.gov.br",
+  },
+  { value: "ro", label: "Rondônia", link: "https://www.ro.gov.br" }, // Link exemplo
+  { value: "rr", label: "Roraima", link: "https://www.rr.gov.br" }, // Link exemplo
+  {
+    value: "sc",
+    label: "Santa Catarina",
+    link: "https://www.delegaciavirtual.sc.gov.br",
+  },
+  {
+    value: "sp",
+    label: "São Paulo",
+    link: "https://www.delegaciaeletronica.policiacivil.sp.gov.br",
+  },
+  { value: "se", label: "Sergipe", link: "https://www.se.gov.br" }, // Link exemplo
+  { value: "to", label: "Tocantins", link: "https://www.to.gov.br" }, // Link exemplo
+];
 
 export default function Denuncie() {
+  const [estadoSelecionado, setEstadoSelecionado] = useState(null);
+
+  const handleChange = (selectedOption) => {
+    setEstadoSelecionado(selectedOption);
+  };
   return (
     <>
       <div className={styles.ajusteHeader}>
@@ -21,22 +110,37 @@ export default function Denuncie() {
             em alguns casos, pode acabar resultando em agressões físicas ou até
             a morte, tanto para o animal quanto para você!
           </p>
-          <p>
-            <strong className={styles.strong}>Dica 2: </strong>Todo estado
-            possui uma delegacia virtual no qual você possa acessar para
-            denunciar, no anonimato ou não, diferentes tipos de situações,
-            incluindo situações referentes a causa animal. Caso você seja de
-            Mato Grosso do Sul,{" "}
-            <a
-              href="http://devir.pc.ms.gov.br/#/"
-              target="_blank"
-              className={styles.link}
-            >
-              clique aqui
-            </a>{" "}
-            para ser redirecionado diretamente para a delegacia virtual do
-            estado.
-          </p>
+          <div className={styles.topicosFuncionais}>
+            <p>
+              <strong className={styles.strong}>Dica 2: </strong>Todo estado
+              possui uma delegacia virtual no qual você possa acessar para
+              denunciar, no anonimato ou não, diferentes tipos de situações,
+              incluindo situações referentes a causa animal. Se você não souber
+              o link da delegacia de seu estado, selecione seu estado na caixa
+              abaixo:
+            </p>
+            <Select
+              options={delegaciasVirtuaisDeEstadosBrasileiros}
+              onChange={handleChange}
+              placeholder="Selecione seu estado"
+              className={styles.selectEstados}
+            />
+            {/* Mostra o link se um estado foi selecionado */}
+            {estadoSelecionado && (
+              <p>
+                Para acessar a delegacia virtual de {estadoSelecionado.label}, clique aqui:{" "}
+                <a
+                  href={estadoSelecionado.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.link}
+                >
+                   {estadoSelecionado.link}
+                </a>
+                
+              </p>
+            )}
+          </div>
           <p>
             <strong className={styles.strong}>Dica 3: </strong> Você pode ligar
             para a polícia ambiental ou militar para essas situações também,
@@ -97,7 +201,7 @@ export default function Denuncie() {
           </p>
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 }

@@ -54,11 +54,11 @@ export default function ProgramarPostagem() {
   };
 
   return (
-    <div>
+    <div className={styles.fundoPagina}>
       <CabecalhoAdministrativo />
       <BotaoPaginaInicial />
       
-      <div className={styles.fundoPostagem}>
+      <div className={styles.fundoPainel}>
         <div className={styles.painel}>
           <h1 className={styles.tituloPainel}>
             Programar postagem no Instagram / Facebook

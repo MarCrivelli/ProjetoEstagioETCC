@@ -5,8 +5,12 @@
   height: 70px;
   justify-content: space-between;
   z-index: 100;
-  background-color: #0D0907;
   position: relative;
+  transition: ease-out background 0.2s;
+}
+
+.headerAdms:hover {
+  background-color: #0d0907;
 }
 
 .linkLogo {
@@ -25,16 +29,17 @@
   object-fit: scale-down;
 }
 
-.textoLogo{
+.textoLogo {
   width: auto;
   height: 100%;
 }
 
-.textoLogo h1{
+.textoLogo h1 {
   font-size: 1.3rem;
 }
 
-.textoLogo h1, .textoLogo p{
+.textoLogo h1,
+.textoLogo p {
   text-align: center;
   color: white;
   margin-bottom: 0;
@@ -56,7 +61,7 @@
 .menu li {
   display: flex;
   align-items: center;
-  width: auto
+  width: auto;
 }
 
 .linkSubPaginas {
@@ -90,13 +95,19 @@
   background: linear-gradient(45deg, #00429f, #00ff95);
   border-radius: 50%;
   z-index: -1;
+  animation: bordaAnimada 2.8s linear infinite;
+  animation-play-state: paused;
+  transition: all 0.6s ease-out;
 }
 
 .linkUsuario:hover::before {
-  animation: bordaAnimada 2.8s linear infinite;
+  animation-play-state: running;
 }
 
 @keyframes bordaAnimada {
+  0% {
+    transform: rotate(0deg);
+  }
   100% {
     transform: rotate(360deg);
   }
@@ -157,7 +168,7 @@
   right: -300px; /* Começa escondido */
   width: 65px;
   height: 100%;
-  background-color: #0D0907;
+  background-color: #0d0907;
   z-index: 999;
   transition: right 0.3s ease-out;
   box-sizing: border-box;
@@ -184,7 +195,7 @@
   color: rgb(230, 230, 230);
 }
 
-.menuLateral nav{
+.menuLateral nav {
   height: 130px;
 }
 
@@ -194,7 +205,7 @@
   list-style: none;
   height: auto;
   padding: 0;
-  margin-top: 65px; 
+  margin-top: 65px;
   background-color: #00429f;
 }
 
@@ -202,11 +213,10 @@
   margin-bottom: 0px;
 }
 
-
 .linkMenuMobile {
   color: rgb(202, 202, 202);
   text-decoration: none;
-  font-size: .9rem;
+  font-size: 0.9rem;
   font-family: "Jockey One", sans-serif;
   display: block;
   padding: 5px;
@@ -216,7 +226,6 @@
 .linkMenuMobile:hover {
   color: rgb(230, 230, 230);
 }
-
 
 /* Animação do botão hamburguer para X */
 .menuAberto ~ .headerAdms .hamburguerVisitantes {
@@ -232,8 +241,6 @@
   transform: rotate(-135deg);
   top: -12px;
 }
-
-
 
 @media (max-width: 700px) {
   .menu li:nth-child(-n + 3) {

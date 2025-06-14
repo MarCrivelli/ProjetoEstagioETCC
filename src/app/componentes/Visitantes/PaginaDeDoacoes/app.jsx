@@ -11,8 +11,7 @@ export default function ComoDoar() {
       <div className={styles.ajusteElementosDaPagina}>
         <div className={styles.seccao}>
           <h1>
-            Presenciou alguma situação e quer denunciá-la para as autoridades
-            locais? Saiba como:
+            Ficou interessado em realizar uma doação para a nossa causa? Saiba como:
           </h1>
           <p>
             <strong className={styles.strong}>Dica 1: </strong>É importante

@@ -122,6 +122,7 @@
 
   .cardAnimais {
     border-radius: 10px;
+    box-shadow: 3px 4px 2px #2f009c;
   }
 
   .divImagem {

@@ -204,8 +204,12 @@
     width: 100%;
   }
 
+  .formulario,
+  .containerOverlay{
+    min-height: 400px;
+  }
+
   .formulario {
-    min-height: 50vh;
     padding: 20px;
   }
 
@@ -214,8 +218,6 @@
   .containerOverlay {
     position: relative;
     width: 100%;
-    height: auto;
-    min-height: 50vh;
     top: 100%;
     left: 0;
   }

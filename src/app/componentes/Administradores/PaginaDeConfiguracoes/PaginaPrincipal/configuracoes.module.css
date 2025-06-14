@@ -1,14 +1,23 @@
+.fundoPagina {
+  background: linear-gradient(
+    to right,
+    #06202b 0%,
+    #06202b 25%,
+    #077a7d 25%,
+    #077a7d 50%,
+    #7ae2cf 50%,
+    #7ae2cf 75%,
+    #f5eedd 75%,
+    #f5eedd 100%
+  );
+}
+
 .fundoPainel {
   display: flex;
   width: 100%;
   min-height: calc(100vh - 70px);
   height: auto;
-  background-color: #009dff;
   padding: 2%;
-  background-image: url("/imagensDeFundo/fundoPatas_BrancoTotal.png");
-  background-repeat: repeat; /* Faz com que a imagem se repita */
-  background-size: 900px 900px; /* Define o tamanho da imagem (largura x altura) */
-  background-position: top left; /* A posição inicial da repetição é no canto superior esquerdo */
 }
 
 .painel {
@@ -23,7 +32,7 @@
   border: 2px solid black;
 }
 
-.inicioPainel{
+.inicioPainel {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -35,19 +44,19 @@
   margin-bottom: 50px;
 }
 
-.topoInicioPainel{
+.topoInicioPainel {
   display: flex;
   justify-content: space-between;
 }
 
-.alinharInfoUsuario{
+.alinharInfoUsuario {
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: auto;
 }
 
-.iconeUsuario{
+.iconeUsuario {
   position: relative;
   height: 250px;
   width: 250px;
@@ -57,22 +66,22 @@
   border: 2px solid black;
 }
 
-.nomeUsuario{
+.nomeUsuario {
   font-size: 3rem;
   text-align: center;
 }
 
-.funcaoUsuario{
+.funcaoUsuario {
   text-align: center;
   color: black;
   font-size: 1.4rem;
 }
 
-.contaAtual{
+.contaAtual {
   font-size: 1.6rem;
 }
 
-.alinharDeslogue{
+.alinharDeslogue {
   display: flex;
   gap: 10px;
   height: 35px;
@@ -80,81 +89,80 @@
   align-items: center;
 }
 
-.alinharDeslogue:hover{
+.alinharDeslogue:hover {
   cursor: pointer;
 }
 
-.textoDeslogue{
+.textoDeslogue {
   font-size: 1.6rem;
   margin: 0;
   color: red;
 }
 
-.iconeSair{
+.iconeSair {
   height: 28px;
   object-fit: scale-down;
 }
-.alinharSessoes{
+.alinharSessoes {
   display: flex;
   flex-direction: column;
   row-gap: 50px;
   width: 100%;
 }
 
-.sessao{
- border-radius: 10px;
- border: 1px solid #b3b3b348;
+.sessao {
+  border-radius: 10px;
+  border: 1px solid #b3b3b348;
 }
 
-.sessao > h1{
+.sessao > h1 {
   text-align: center;
   padding-block: 15px;
   border-bottom: 1px solid #b3b3b348;
   font-size: 1.9rem;
 }
 
-.tituloAcordeao{
+.tituloAcordeao {
   width: 100%;
   text-align: center;
   font-size: 1.8rem;
   color: black;
   margin-bottom: 0;
   font-weight: 330;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-
-@media (max-width: 1100px){
-  .fundoPainel{
+@media (max-width: 1100px) {
+  .fundoPainel {
     padding-block: 40px;
   }
   .painel {
     border-radius: 20px;
     padding: 20px 10px 30px 10px;
   }
-  .inicioPainel{
+  .inicioPainel {
     display: flex;
     flex-direction: column;
     width: 100%;
     justify-content: space-between;
     border-bottom: 1px solid #b3b3b3;
   }
-  .nomeUsuario{
+  .nomeUsuario {
     font-size: 1.6rem;
   }
-  .textoDeslogue{
+  .textoDeslogue {
     display: none;
   }
-  .corpoAcordeao{
+  .corpoAcordeao {
     padding: 10px;
   }
 }
 
-@media (max-width: 500px){
-  .topoInicioPainel{
+@media (max-width: 500px) {
+  .topoInicioPainel {
     margin-bottom: 20px;
   }
-  .iconeUsuario{
+  .iconeUsuario {
     width: 150px;
     height: 150px;
   }

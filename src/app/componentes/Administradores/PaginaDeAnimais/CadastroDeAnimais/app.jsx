@@ -3,8 +3,7 @@ import { useState } from "react";
 import Select from "react-select";
 import opcoes from '/src/app/componentes/Administradores/OpcoesDeSelecao/opcoes';
 
-export default function CadastroDeAnimais({ animais, setAnimais }) {
-
+export default function CadastroDeAnimais({ animais, setAnimais, onClose }) {
   const [nome, setNome] = useState("");
   const [idade, setIdade] = useState("");
   const [sexo, setSexo] = useState("");
@@ -15,6 +14,7 @@ export default function CadastroDeAnimais({ animais, setAnimais }) {
   const [statusAdocao, setStatusAdocao] = useState("");
   const [statusVermifugacao, setStatusVermifugacao] = useState("");
   const [image, setImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -22,8 +22,22 @@ export default function CadastroDeAnimais({ animais, setAnimais }) {
     }
   };
 
+  const resetForm = () => {
+    setNome("");
+    setIdade("");
+    setSexo("");
+    setTipo("");
+    setStatusMicrochipagem("");
+    setStatusVacinacao("");
+    setStatusCastracao("");
+    setStatusAdocao("");
+    setStatusVermifugacao("");
+    setImage(null);
+  };
+
   const registrarAnimal = async (event) => {
     event.preventDefault();
+    setIsLoading(true);
 
     const formData = new FormData();
     formData.append("nome", nome);
@@ -47,27 +61,25 @@ export default function CadastroDeAnimais({ animais, setAnimais }) {
 
       if (resposta.ok) {
         const novoAnimal = await resposta.json();
-        setAnimais([...animais, novoAnimal]);
+        
+        // Atualiza o estado de forma imutável
+        setAnimais(prevAnimais => [...prevAnimais, novoAnimal.animal]);
+        
         alert("Animal cadastrado com sucesso!");
-        // Reset form
-        setNome("");
-        setIdade("");
-        setSexo("");
-        setTipo("");
-        setStatusMicrochipagem("");
-        setStatusVacinacao("");
-        setStatusCastracao("");
-        setStatusAdocao("");
-        setStatusVermifugacao("");
-        setImage(null);
+        resetForm();
+        
+        // Fecha o modal se existir
+        if (onClose) onClose();
       } else {
         const erro = await resposta.json();
         console.error("Erro ao cadastrar animal:", erro);
-        alert("Erro ao cadastrar o animal.");
+        alert(`Erro ao cadastrar o animal: ${erro.message || "Erro desconhecido"}`);
       }
     } catch (error) {
       console.error("Erro ao cadastrar animal:", error);
-      alert("Ocorreu um erro na aplicação!");
+      alert("Ocorreu um erro na comunicação com o servidor!");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -87,11 +99,13 @@ export default function CadastroDeAnimais({ animais, setAnimais }) {
           id="inputDeImagem"
           onChange={onImageChange}
           className={styles.inputDeImagem}
+          accept="image/*"
         />
         <span className={styles.nomeArquivo}>
-          {image ? "Arquivo selecionado" : "Nenhum arquivo selecionado"}
+          {image ? image.name : "Nenhum arquivo selecionado"}
         </span>
       </div>
+
       <div className={styles.itemInserir}>
         <h1 className={styles.tituloItemInserir}>Dados de identificação</h1>
         <div className={styles.alinharDadosDeInsercao}>
@@ -196,8 +210,15 @@ export default function CadastroDeAnimais({ animais, setAnimais }) {
           />
         </div>
       </div>
+
       <div className={styles.alinharBotaoInserir}>
-        <button className={styles.botaoInserir}>Inserir animal</button>
+        <button 
+          className={styles.botaoInserir} 
+          type="submit"
+          disabled={isLoading}
+        >
+          {isLoading ? "Cadastrando..." : "Inserir animal"}
+        </button>
       </div>
     </form>
   );

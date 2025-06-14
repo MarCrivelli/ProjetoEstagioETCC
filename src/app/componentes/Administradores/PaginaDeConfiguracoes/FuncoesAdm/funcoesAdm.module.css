@@ -2,32 +2,7 @@
   display: flex;
   flex-direction: column;
   row-gap: 40px;
-  padding: 0% 2% 0% 2%;
-}
-
-.botoesBlocosFuncao{
-  display: none;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding-block: 5px;
-}
-
-.botaoRedirecional{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-grow: 1;
-  border: 1px solid black;
-  padding-block: 2%;
-  border-radius: 5px;
-  background-color: rgb(39, 39, 39);
-  color: white;
-  top: 0;
-  left: 0%;
-}
-
-.botaoRedirecional:hover{
-  cursor: pointer;
+  padding: 2%;
 }
 
 .blocoFuncao {
@@ -47,7 +22,7 @@
   min-height: 0;
 }
 
-.blocoFuncao:last-of-type{
+.blocoFuncao:last-of-type {
   border-bottom: 0;
 }
 
@@ -62,17 +37,19 @@
   width: 35%;
   font-size: 1.5rem;
   flex-grow: 1;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 500;
 }
 
 .selectConfig,
-.inputEmail {
+.input {
   width: 20%;
   flex-grow: 1;
   height: 40px;
   min-width: 200px;
 }
 
-.inputEmail {
+.input {
   border-radius: 5px;
   padding: 7px 0px 10px 10px;
   border: 1px solid #b3b3b3;
@@ -94,53 +71,73 @@
   cursor: pointer;
 }
 
-.botaoExcluirUsuario {
-  background-color: #e95757;
+.botaoPadraoConfig:hover{
+  opacity: 0.7;
 }
 
-.botaoExcluirUsuario:hover {
-  background-color: #e98585;
+.botaoExcluirUsuario {
+  background-color: #e95757;
 }
 
 .botaoAlterarNvlAcesso {
   background-color: rgb(255, 217, 0);
 }
 
-.botaoAlterarNvlAcesso:hover {
-  background-color: rgb(255, 236, 130);
-}
-
 .botaoConvidar {
-  background-color: #007bff;
+  background-color: rgb(111, 0, 255);
 }
 
-.botaoConvidar:hover {
-  background-color: #71b6ff;
+.botaoInserirInstagram {
+  background: linear-gradient( 90deg, #7b12fa, #f328b3, #FD1D1D, #FCB045);
 }
 
+.botaoInserirFacebook{
+  background-color: #0866ff;
+}
 
-@media (max-width: 500px){
-  .blocoFuncao{
-    padding: 0px 0px 30px 0px ;
+.blocoRedesSociais {
+  row-gap: 30px;
+}
+
+@media (max-width: 500px) {
+  .blocoFuncao {
+    padding: 0px 0px 30px 0px;
   }
-  .botoesBlocosFuncao{
+  .botoesBlocosFuncao {
     display: flex;
   }
 }
 
 @media (max-width: 768px) {
-  .divImagemDoador,
-  .personalizacaoCarrossel,
-  .informacoesDoDoador {
-    min-width: 100%;
+  .conteudoFuncoesAdm {
+    padding: 20px;
   }
-  
+
+  .blocoFuncao {
+    gap: 10px;
+  }
+
+  .blocoRedesSociais {
+    row-gap: 20px;
+  }
+
+  .funcao {
+    gap: 0px;
+  }
+
   .tituloConfig {
     width: 100%;
-    text-align: center;
+    font-size: 1rem;
+    margin-bottom: 3px;
+    font-weight: 600;
   }
-  
+
+  .input {
+    margin-bottom: 10px;
+  }
+
   .botaoPadraoConfig {
-    width: 100%;
+    width: 60%;
+    margin-right: auto;
   }
 }

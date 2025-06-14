@@ -1,3 +1,4 @@
+// models/Animais.js
 const connection = require("../config/connection");
 
 const Animais = connection.sequelize.define("animais", {
@@ -41,15 +42,23 @@ const Animais = connection.sequelize.define("animais", {
   },
   statusVermifugacao: {
     type: connection.Sequelize.STRING,
-    allowNull: true,
+    allowNull: false,
   },
   imagem: {
     type: connection.Sequelize.STRING,
-    allowNull: true,
+    allowNull: false,
   },
   imagemSaida: {
     type: connection.Sequelize.STRING,
     allowNull: true,
+  },
+  dataVacinacao: {
+    type: connection.Sequelize.DATE,
+    allowNull: true
+  },
+  descricao: {
+    type: connection.Sequelize.TEXT,
+    allowNull: true
   },
 });
 

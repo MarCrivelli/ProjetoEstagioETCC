@@ -16,14 +16,6 @@ export default function FuncoesDeAdministrador() {
 
   return (
     <div className={styles.conteudoFuncoesAdm}>
-      <div className={styles.botoesBlocosFuncao}>
-        <div className={styles.botaoRedirecional}>1</div>
-        <div className={styles.botaoRedirecional}>2</div>
-        <div className={styles.botaoRedirecional}>3</div>
-        <div className={styles.botaoRedirecional}>4</div>
-        <div className={styles.botaoRedirecional}>5</div>
-      </div>
-
       <div className={styles.blocoFuncao}>
         <div className={styles.funcao}>
           <h1 className={styles.tituloConfig}>Excluir usuário:</h1>
@@ -32,13 +24,13 @@ export default function FuncoesDeAdministrador() {
             placeholder="Digite ou selecione"
             className={styles.selectConfig}
           />
-          <div className={styles.divBotaoFuncao}>
-            <button
-              className={`${styles.botaoPadraoConfig} ${styles.botaoExcluirUsuario}`}
-            >
-              Excluir
-            </button>
-          </div>
+        </div>
+        <div className={styles.divBotaoFuncao}>
+          <button
+            className={`${styles.botaoPadraoConfig} ${styles.botaoExcluirUsuario}`}
+          >
+            Excluir
+          </button>
         </div>
       </div>
 
@@ -76,7 +68,7 @@ export default function FuncoesDeAdministrador() {
         <div className={styles.funcao}>
           <h1 className={styles.tituloConfig}>Convidar novo membro:</h1>
           <input
-            className={styles.inputEmail}
+            className={styles.input}
             type="email"
             placeholder="Insira um e-mail"
           ></input>
@@ -97,7 +89,43 @@ export default function FuncoesDeAdministrador() {
           </button>
         </div>
       </div>
-      
+
+      <div className={`${styles.blocoFuncao} ${styles.blocoRedesSociais}`}>
+        <div className={styles.funcao}>
+          <h1 className={styles.tituloConfig}>Instagram do Instituto:</h1>
+          <input
+            className={styles.input}
+            type="text"
+            placeholder="Telefone, nome de usuário ou e-mail"
+          />
+          <input className={styles.input} type="text" placeholder="Senha" />
+          <div className={styles.divBotaoFuncao}>
+            <button
+              className={`${styles.botaoPadraoConfig} ${styles.botaoInserirInstagram}`}
+            >
+              Inserir
+            </button>
+          </div>
+        </div>
+      </div>
+      <div className={`${styles.blocoFuncao} ${styles.blocoRedesSociais}`}>
+        <div className={styles.funcao}>
+          <h1 className={styles.tituloConfig}>Facebook do Instituto:</h1>
+          <input
+            className={styles.input}
+            type="text"
+            placeholder="E-mail ou telefone"
+          />
+          <input className={styles.input} type="text" placeholder="Senha" />
+          <div className={styles.divBotaoFuncao}>
+            <button
+              className={`${styles.botaoPadraoConfig} ${styles.botaoInserirFacebook}`}
+            >
+              Inserir
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

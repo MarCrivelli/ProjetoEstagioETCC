@@ -1,17 +1,24 @@
-@import url("https://fonts.googleapis.com/css2?family=Cherry+Swash&family=Exo+2:ital,wght@0,100..900;1,100..900&family=Honk&family=Oswald:wght@200..700&family=Outfit:wght@100..900&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Rubik+Wet+Paint&family=Tiny5&display=swap");
+.fundoPagina{
+  background: linear-gradient(
+    to right,
+    #4800cd 0%,
+    #4800cd 25%,
+    #713dff 25%,
+    #713dff 50%,
+    #9067ff 50%,
+    #9067ff 75%,
+    #a888ff 75%,
+    #a888ff 100%
+  );
+}
 
 .fundoPainel {
   display: flex;
   justify-content: center;
-  background-color: #009dff;
   width: 100%;
   min-height: calc(100vh - 70px);
   height: auto;
   padding: 2%;
-  background-image: url("/imagensDeFundo/fundoPatas_BrancoTotal.png");
-  background-repeat: repeat;
-  background-position: top left;
-  background-size: 900px 900px;
 }
 
 .painel {
@@ -22,8 +29,8 @@
   gap: 50px;
   row-gap: 50px;
   padding: 40px;
-  border: 2px solid black;
-  border-radius: 40px;
+  border: 3px solid black;
+  border-radius: 20px;
   justify-content: center;
 }
 
@@ -40,18 +47,18 @@
 
 .botaoAcao {
   position: relative;
-  background-color: #0031ae;
+  background-color: #4300ae;
   border: none;
   border-radius: 50%;
   cursor: pointer;
   width: 50px;
   padding: 10px;
-  box-shadow: 3px 4px 1px rgba(0, 0, 0, 0.419);
+  box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.419);
   transition: all 0.3s ease;
 }
 
 .botaoAcao:hover {
-  background-color: #0048ff;
+  background-color: #6200ff;
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
@@ -106,6 +113,51 @@
   background-color: #b6e9ff63;
 }
 
+.loading,
+.error{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  
+  background-color: white;
+  border-radius: 10px;
+}
+
+.loading {
+  color: #333;
+}
+
+.loading > img{
+  width: 65px;
+  height: 50px;
+}
+
+.loading > p{
+  font-size: 1.4rem;
+}
+
+.error {
+  color: #6c6c6c;
+  font-size: 1.2rem;
+}
+
+.botaoRecarregar {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #2f007b;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.botaoRecarregar:hover {
+  opacity: .9;
+}
+
 @media (max-width: 1100px) {
   .fundoPainel {
     min-height: none;
@@ -124,8 +176,9 @@
 
   .painel {
     min-height: 100vh;
-    padding: 70px 10px 70px 10px;
+    padding: 40px 10px 40px 10px;
     border-radius: 0px;
+    border: none;
     background-color: transparent;
     row-gap: 30px;
   }

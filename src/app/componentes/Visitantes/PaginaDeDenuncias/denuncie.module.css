@@ -1,41 +1,58 @@
 .ajusteHeader {
-  background-color: #0d0907;
+  background: linear-gradient(
+    to right,
+    #143D60 0%,
+    #143D60 25%,
+    #27667B 25%,
+    #27667B 50%,
+    #A0C878 50%,
+    #A0C878 75%,
+    #DDEB9D 75%,
+    #DDEB9D 100%
+  );
 }
 
 .ajusteElementosDaPagina {
   display: flex;
   flex-direction: column;
   row-gap: 50px;
-  padding: 6% 15%;
+  padding: 3% 10% 6% 10%;
   min-height: calc(100vh - 70px);
   background: linear-gradient(
     to right,
-    #00aeff 0%,
-    #00aeff 25%,
-    #2dbcff 25%,
-    #2dbcff 50%,
-    #56caff 50%,
-    #56caff 75%,
-    #88d9ff 75%,
-    #88d9ff 100%
+    #143D60 0%,
+    #143D60 25%,
+    #27667B 25%,
+    #27667B 50%,
+    #A0C878 50%,
+    #A0C878 75%,
+    #DDEB9D 75%,
+    #DDEB9D 100%
   );
 }
 
 .seccao {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
   background-color: white;
-  padding: 20px;
+  padding: 7% 8%;
   border: 2px solid black;
+  box-shadow: 7px 8px 1px #173d49c2;
+  border-radius: 10px;
+  position: relative;
+  z-index: 1;
 }
 
 .seccao h1 {
   font-size: 2.3rem;
-  margin-bottom: 20px;
 }
 
 .seccao p,
 .seccao .strong {
   font-size: 1.15rem;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  text-align: justify;
 }
 
 .strong {
@@ -46,6 +63,12 @@
   margin-bottom: 0;
 }
 
+.selectEstados {
+  max-width: 250px;
+  width: 100%;
+  margin-top: 10px;
+}
+
 .link {
   color: currentColor;
 }
@@ -54,9 +77,15 @@
   .ajusteElementosDaPagina {
     padding: 50px 5%;
   }
+  .ajusteElementosDaPagina::after {
+    right: -20px;
+    top: 30px;
+    transform: rotate(10deg);
+  }
 
   .seccao {
-    padding: 10px;
+    padding: 35px 8%;
+    box-shadow: 4px 5px 1px #173d49c2;
   }
 
   .seccao h1 {
@@ -68,7 +97,6 @@
   .seccao p,
   .seccao .strong {
     font-size: 0.8rem;
-    text-align: justify;
   }
   .seccao p {
     margin-bottom: 10px;

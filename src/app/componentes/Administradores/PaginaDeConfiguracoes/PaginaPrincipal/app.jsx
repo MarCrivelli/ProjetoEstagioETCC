@@ -7,7 +7,7 @@ import RolarPCima from "../../../BotaoScroll/app";
 
 export default function Configuracoes() {
   return (
-    <>
+    <div className={styles.fundoPagina}>
       <HeaderAdms />
       <RolarPCima />
       <BotaoPagInicial />
@@ -54,6 +54,6 @@ export default function Configuracoes() {
           
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -58,6 +58,26 @@ const StatusVermifugacao = [
   { value: "semVerme", label: "Sem Vermes" },
 ];
 
+// Função para obter o label a partir do value
+export const vincularLabel = (value, optionType) => {
+  if (!value) return '';
+  
+  const options = {
+    tipoAnimal,
+    idadeAnimais,
+    sexoDoAnimal,
+    StatusVacinacao,
+    StatusCastracao,
+    StatusAdocao,
+    StatusMicrochipagem,
+    StatusVermifugacao
+  }[optionType];
+  
+  const found = options?.find(opt => opt.value === value);
+  return found?.label || value;
+};
+
+// Exportação padrão mantendo a compatibilidade
 export default {
   tipoAnimal,
   idadeAnimais,
@@ -67,4 +87,5 @@ export default {
   StatusAdocao,
   StatusMicrochipagem,
   StatusVermifugacao,
+  vincularLabel 
 };
