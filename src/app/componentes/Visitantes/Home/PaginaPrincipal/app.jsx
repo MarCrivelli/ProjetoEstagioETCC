@@ -13,7 +13,6 @@ import { useState, useEffect } from "react";
 export default function PaginaInicialVisitantes() {
   const [carrosselAtivo, setCarrosselAtivo] = useState("doadores");
   const [indiceAnimalAtual, setIndiceAnimalAtual] = useState(0);
-  const [mostrarAntesDepois, setMostrarAntesDepois] = useState(true);
   const titulos = {
     doadores: "Doadores recentes",
     animais: "Animais Resgatados pelo Instituto Esperança",
@@ -34,31 +33,14 @@ export default function PaginaInicialVisitantes() {
     };
   }, []);
 
-  const doadores = [
-    {
-      id: 1,
-      nome: "João Silva",
-      imagem: "/usuarioTeste.jpeg",
-      texto:
-        "Apoio mensalmente o Instituto Esperança porque acredito na causa animal.",
-    },
-    {
-      id: 2,
-      nome: "Marco Antonio Prates Crivelli",
-      imagem: "/usuarioTeste.jpeg",
-      texto:
-        "Apoio mensalmente o Instituto Esperança porque acredito na causa animal.",
-    },
-  ];
-
   const animais = [
     {
       id: 1,
       nome: "Rex",
-      antes: "/adobeTeste.jpg",
+      antes: "/scooby.jpg",
       depois: "/mainVisitantes/testeAnimal.jpg",
       descricaoAntes:
-        "Encontrado abandonado e desnutrido em um terreno baldio.",
+        "O animal foi resgatado em condições precárias, desnutrido e com sinais de maus-tratos. Após exames veterinários, recebeu tratamento adequado e agora está em recuperação. Seu comportamento é dócil e sociável, adaptando-se bem ao ambiente do abrigo. Necessita de um lar responsável, com cuidados básicos e muito carinho. Interessados devem agendar visita para conhecer o pet e passar por avaliação. A adoção é um ato de amor e responsabilidade. Ajude a transformar a vida desse animal!",
       descricaoDepois:
         "Após 3 meses de cuidados, foi adotado por uma família amorosa.",
     },
@@ -192,7 +174,7 @@ export default function PaginaInicialVisitantes() {
               {titulos[carrosselAtivo]}
             </h1>
             {carrosselAtivo === "doadores" && (
-              <CarrosselDoador doadores={doadores} ehMobile={ehMobile} />
+              <CarrosselDoador ehMobile={ehMobile} />
             )}
             {carrosselAtivo === "animais" && (
               <CarrosselAnimais

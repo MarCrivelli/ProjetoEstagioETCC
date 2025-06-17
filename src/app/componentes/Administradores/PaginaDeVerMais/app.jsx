@@ -159,37 +159,54 @@ export default function VerMais() {
 
       <div className={styles.fundoVermais}>
         <div className={styles.painel}>
-          <div className={styles.bloco}>
             <Carousel
               className={styles.carrossel}
               showThumbs={false}
               showStatus={false}
             >
-              <div className={styles.slideImagemEntrada}>
-                <img
-                  src={
-                    animal.imagem
-                      ? `http://localhost:3003/uploads/${animal.imagem}`
-                      : "/pagFichasDAnimais/imagemTeste.jpg"
-                  }
-                  alt="Imagem de entrada"
-                />
-                <label className={styles.botaoTrocarImagem}>
-                  Trocar imagem
-                  <input
-                    type="file"
-                    onChange={handleImagemEntradaChange}
-                    style={{ display: "none" }}
-                    accept="image/*"
+              <div
+                className={styles.slideImagemEntrada}
+                style={{
+                  "--bg-image": animal.imagem
+                    ? `url(http://localhost:3003/uploads/${animal.imagem})`
+                    : "url(/pagFichasDAnimais/imagemTeste.jpg)",
+                }}
+              >
+                <div className={styles.containerImagemCarrossel}>
+                  <img
+                    src={
+                      animal.imagem
+                        ? `http://localhost:3003/uploads/${animal.imagem}`
+                        : "/pagFichasDAnimais/imagemTeste.jpg"
+                    }
+                    alt="Imagem de entrada"
+                    className={styles.imagemPrincipal}
                   />
-                </label>
+                  <label className={styles.botaoTrocarImagem}>
+                    Trocar imagem
+                    <input
+                      type="file"
+                      onChange={handleImagemEntradaChange}
+                      style={{ display: "none" }}
+                      accept="image/*"
+                    />
+                  </label>
+                </div>
               </div>
-              <div className={styles.slideImagemSaida}>
+              <div
+                className={styles.slideImagemSaida}
+                style={{
+                  "--bg-image": animal.imagemSaida
+                    ? `url(http://localhost:3003/uploads/${animal.imagemSaida})`
+                    : "none",
+                }}
+              >
                 {animal.imagemSaida ? (
                   <>
                     <img
                       src={`http://localhost:3003/uploads/${animal.imagemSaida}`}
                       alt="Imagem de saída"
+                      className={styles.imagemPrincipal}
                     />
                     <label className={styles.botaoTrocarImagem}>
                       Trocar imagem
@@ -345,7 +362,6 @@ export default function VerMais() {
               </button>
             </div>
           </div>
-        </div>
       </div>
     </div>
   );

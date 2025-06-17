@@ -81,12 +81,12 @@ export default function HomeAdms() {
   };
 
   return (
-    <div>
+    <div className={styles.fundoPagina}>
       <HeaderAdms />
       <BotaoPagInicial />
       <RolarPCima />
 
-      <div className={styles.fundoDaPagina}>
+      <div className={styles.fundoPainel}>
         <div className={styles.painel}>
           <Card1
             lembretes={lembretes}

@@ -16,9 +16,8 @@
 }
 
 .containerImagem {
-  flex: 1 400px;
+  max-width: 50%;
   height: auto;
-  overflow: hidden;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -67,9 +66,9 @@
 
 .botaoProximo {
   margin: auto auto 0px 0px;
-  padding: 10px 20px;
+  padding: 7px 40px;
   background-color: var(--cor-crow);
-  color: rgb(208, 208, 208);
+  color: rgb(255, 255, 255);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -119,7 +118,7 @@
   right: 15px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   .itemCarrosselAnimal {
     padding: 0 10px 0 10px;
     min-height: 0;
@@ -140,6 +139,7 @@
   .containerImagem {
     flex: none;
     max-height: none;
+    max-width: 100%;
   }
 
   .imagemAnimal {

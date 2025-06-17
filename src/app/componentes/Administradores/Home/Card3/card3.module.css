@@ -1,25 +1,29 @@
 .card3 {
   display: flex;
-  grid-row: 5 / 11;
+  grid-row: 3 / 11;
   align-items: center;
   flex-direction: column;
-  border-radius: 20px;
-  padding: 20px;
+  border-radius: 10px;
+  padding: 0;
+  border: 2px solid black;
+  background-color: white;
+  padding: 5px 20px 20px 20px;
 }
 
 .card3 h1 {
-  color: #A0C878;
-  -webkit-text-stroke: 1.5px #085200;
-  text-align: start;
+  text-align: center;
   width: 100%;
   padding-left: 10px;
 }
 
 .containerArquivos {
-  height: 100%;
+  height: calc(100% - 48px);
   width: 100%;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 4px 4px #085200;
-  border: 2px solid #085200;
+}
+
+@media (max-width: 1100px) {
+  .card3 {
+    grid-column: 1 / 10;
+    grid-row: 9 / 11;
+  }
 }

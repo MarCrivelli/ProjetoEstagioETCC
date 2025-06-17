@@ -11,11 +11,11 @@ export default function SaudeUnica() {
       <div className={styles.ajusteElementosDaPagina}>
         <div className={styles.seccao}>
           <h1>
-            Para começar, o que é <q>Saúde Única?</q>
+            Para começar, o que é <q>Saúde Única</q>?
           </h1>
           <p>
             A Saúde Única é uma abordagem integrada e interdisciplinar proposta
-            por organizações internacionais, como a Organização Mun dial da
+            por organizações internacionais, como a Organização Mundial da
             Saúde &#40;OMS&#41;, a Organização Mundial da Saúde Animal &#40;OIE&#41; e a
             Organização das Nações Unidas para Alimentação e Agricultura &#40;FAO&#41;,
             que reconhece que a saúde humana, a saúde animal e a saúde ambiental

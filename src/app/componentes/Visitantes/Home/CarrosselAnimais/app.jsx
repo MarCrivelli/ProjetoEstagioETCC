@@ -33,7 +33,7 @@ export default function CarrosselAnimais({ animais, ehMobile }) {
       swipeable={true}
       emulateTouch={true}
       preventMovementUntilSwipeScrollTolerance={true}
-      swipeScrollTolerance={15}
+      swipeScrollTolerance={40}
       onChange={lidarComMudancaSlide}
       renderArrowPrev={
         ehMobile
