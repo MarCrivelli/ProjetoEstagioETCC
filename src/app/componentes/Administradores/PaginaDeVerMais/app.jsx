@@ -159,86 +159,87 @@ export default function VerMais() {
 
       <div className={styles.fundoVermais}>
         <div className={styles.painel}>
-            <Carousel
-              className={styles.carrossel}
-              showThumbs={false}
-              showStatus={false}
+          <Carousel
+            className={styles.carrossel}
+            showThumbs={false}
+            showStatus={false}
+          >
+            <div
+              className={styles.slideImagemEntrada}
+              style={{
+                "--bg-image": animal.imagem
+                  ? `url(http://localhost:3003/uploads/${animal.imagem})`
+                  : "url(/pagFichasDAnimais/imagemTeste.jpg)",
+              }}
             >
-              <div
-                className={styles.slideImagemEntrada}
-                style={{
-                  "--bg-image": animal.imagem
-                    ? `url(http://localhost:3003/uploads/${animal.imagem})`
-                    : "url(/pagFichasDAnimais/imagemTeste.jpg)",
-                }}
-              >
-                <div className={styles.containerImagemCarrossel}>
+              <div className={styles.containerImagemCarrossel}>
+                <img
+                  src={
+                    animal.imagem
+                      ? `http://localhost:3003/uploads/${animal.imagem}`
+                      : "/pagFichasDAnimais/imagemTeste.jpg"
+                  }
+                  alt="Imagem de entrada"
+                  className={styles.imagemPrincipal}
+                />
+                <label className={styles.botaoTrocarImagem}>
+                  Trocar imagem
+                  <input
+                    type="file"
+                    onChange={handleImagemEntradaChange}
+                    style={{ display: "none" }}
+                    accept="image/*"
+                  />
+                </label>
+              </div>
+            </div>
+            <div
+              className={styles.slideImagemSaida}
+              style={{
+                "--bg-image": animal.imagemSaida
+                  ? `url(http://localhost:3003/uploads/${animal.imagemSaida})`
+                  : "none",
+              }}
+            >
+              {animal.imagemSaida ? (
+                <>
                   <img
-                    src={
-                      animal.imagem
-                        ? `http://localhost:3003/uploads/${animal.imagem}`
-                        : "/pagFichasDAnimais/imagemTeste.jpg"
-                    }
-                    alt="Imagem de entrada"
+                    src={`http://localhost:3003/uploads/${animal.imagemSaida}`}
+                    alt="Imagem de saída"
                     className={styles.imagemPrincipal}
                   />
                   <label className={styles.botaoTrocarImagem}>
                     Trocar imagem
                     <input
                       type="file"
-                      onChange={handleImagemEntradaChange}
+                      onChange={handleImagemSaidaChange}
                       style={{ display: "none" }}
                       accept="image/*"
                     />
                   </label>
-                </div>
-              </div>
-              <div
-                className={styles.slideImagemSaida}
-                style={{
-                  "--bg-image": animal.imagemSaida
-                    ? `url(http://localhost:3003/uploads/${animal.imagemSaida})`
-                    : "none",
-                }}
-              >
-                {animal.imagemSaida ? (
-                  <>
-                    <img
-                      src={`http://localhost:3003/uploads/${animal.imagemSaida}`}
-                      alt="Imagem de saída"
-                      className={styles.imagemPrincipal}
+                </>
+              ) : (
+                <>
+                  <div className={styles.placeholderImagemSaida}>
+                    <span>Nenhuma imagem de saída cadastrada</span>
+                  </div>
+                  <label className={styles.botaoAdicionarImagem}>
+                    Escolher imagem
+                    <input
+                      type="file"
+                      onChange={handleImagemSaidaChange}
+                      style={{ display: "none" }}
+                      accept="image/*"
+                      ref={fileInputRef}
                     />
-                    <label className={styles.botaoTrocarImagem}>
-                      Trocar imagem
-                      <input
-                        type="file"
-                        onChange={handleImagemSaidaChange}
-                        style={{ display: "none" }}
-                        accept="image/*"
-                      />
-                    </label>
-                  </>
-                ) : (
-                  <>
-                    <div className={styles.placeholderImagemSaida}>
-                      <span>Nenhuma imagem de saída cadastrada</span>
-                    </div>
-                    <label className={styles.botaoAdicionarImagem}>
-                      Escolher imagem
-                      <input
-                        type="file"
-                        onChange={handleImagemSaidaChange}
-                        style={{ display: "none" }}
-                        accept="image/*"
-                        ref={fileInputRef}
-                      />
-                    </label>
-                  </>
-                )}
-              </div>
-            </Carousel>
+                  </label>
+                </>
+              )}
+            </div>
+          </Carousel>
 
-            {/* Nova seção de descrição */}
+          <div className={styles.alinharDadosDeIdentificacao}>
+            
             <div className={styles.dadosDeIdentificacao}>
               <h1 className={styles.tituloDadosDeIdentificacao}>
                 Descrição do Animal
@@ -257,7 +258,7 @@ export default function VerMais() {
               <h1 className={styles.tituloDadosDeIdentificacao}>
                 Dados de identificação
               </h1>
-              <div className={styles.alinharDadosDeIdentificacao}>
+              <div className={styles.alinharDados}>
                 <label className={styles.labelDeIdentificacao}>Nome:</label>
                 <input
                   className={styles.inputDadosIdentificacao}
@@ -266,7 +267,7 @@ export default function VerMais() {
                   placeholder={animal.nome}
                 />
               </div>
-              <div className={styles.alinharDadosDeIdentificacao}>
+              <div className={styles.alinharDados}>
                 <label className={styles.labelDeIdentificacao}>Idade:</label>
                 <input
                   className={styles.inputDadosIdentificacao}
@@ -276,7 +277,7 @@ export default function VerMais() {
                   placeholder="insira uma idade"
                 />
               </div>
-              <div className={styles.alinharDadosDeIdentificacao}>
+              <div className={styles.alinharDados}>
                 <label className={styles.labelDeIdentificacao}>Sexo:</label>
                 <Select
                   options={opcoes.sexoDoAnimal}
@@ -284,7 +285,7 @@ export default function VerMais() {
                   className={styles.selectInserirAnimal}
                 />
               </div>
-              <div className={styles.alinharDadosDeIdentificacao}>
+              <div className={styles.alinharDados}>
                 <label className={styles.labelDeIdentificacao}>Tipo:</label>
                 <Select
                   options={opcoes.tipoAnimal}
@@ -292,7 +293,7 @@ export default function VerMais() {
                   className={styles.selectInserirAnimal}
                 />
               </div>
-              <div className={styles.alinharDadosDeIdentificacao}>
+              <div className={styles.alinharDados}>
                 <label className={styles.labelDeIdentificacao}>
                   Status de microchipagem:
                 </label>
@@ -308,7 +309,7 @@ export default function VerMais() {
               <h1 className={styles.tituloDadosDeIdentificacao}>
                 Dados de saúde
               </h1>
-              <div className={styles.alinharDadosDeIdentificacao}>
+              <div className={styles.alinharDados}>
                 <label className={styles.labelDadosSaude}>
                   Status de vacinação:
                 </label>
@@ -318,7 +319,7 @@ export default function VerMais() {
                   className={styles.selectInserirAnimal}
                 />
               </div>
-              <div className={styles.alinharDadosDeIdentificacao}>
+              <div className={styles.alinharDados}>
                 <label className={styles.labelDadosSaude}>
                   Status de castração:
                 </label>
@@ -328,7 +329,7 @@ export default function VerMais() {
                   className={styles.selectInserirAnimal}
                 />
               </div>
-              <div className={styles.alinharDadosDeIdentificacao}>
+              <div className={styles.alinharDados}>
                 <label className={styles.labelDadosSaude}>
                   Status de adoção:
                 </label>
@@ -338,7 +339,7 @@ export default function VerMais() {
                   className={styles.selectInserirAnimal}
                 />
               </div>
-              <div className={styles.alinharDadosDeIdentificacao}>
+              <div className={styles.alinharDados}>
                 <label className={styles.labelDadosSaude}>
                   Status de vermifugação:
                 </label>
@@ -349,19 +350,20 @@ export default function VerMais() {
                 />
               </div>
             </div>
-
-            <div className={styles.botaoSalvarContainer}>
-              <button
-                className={`${styles.botaoSalvar} ${
-                  !isDirty ? styles.desativado : ""
-                }`}
-                onClick={handleSaveChanges}
-                disabled={!isDirty}
-              >
-                Salvar Alterações
-              </button>
-            </div>
           </div>
+
+          <div className={styles.botaoSalvarContainer}>
+            <button
+              className={`${styles.botaoSalvar} ${
+                !isDirty ? styles.desativado : ""
+              }`}
+              onClick={handleSaveChanges}
+              disabled={!isDirty}
+            >
+              Salvar Alterações
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

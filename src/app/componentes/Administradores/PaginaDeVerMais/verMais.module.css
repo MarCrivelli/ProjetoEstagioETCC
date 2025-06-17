@@ -39,7 +39,6 @@
   box-sizing: border-box;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-  
 }
 
 .carrossel {
@@ -84,7 +83,7 @@
   padding: 20px;
 }
 
-.containerImagemCarrossel > img{
+.containerImagemCarrossel > img {
   height: 100%;
   width: auto;
   max-width: 100%;
@@ -106,36 +105,88 @@
   color: rgba(255, 255, 255, 0.826);
   color: white;
   font-weight: 600;
-  transition: opacity ease-in-out .2s;
+  transition: opacity ease-in-out 0.2s;
 }
 
 .botaoTrocarImagem:hover {
   cursor: pointer;
-  opacity: .9;
-}
-
-.dadosDeIdentificacao,
-.dadosDeSaude {
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 20px;
-  row-gap: 20px;
-  width: 100%;
-}
-
-.tituloDadosDeIdentificacao {
+  opacity: 0.9;
 }
 
 .alinharDadosDeIdentificacao {
   display: flex;
-  width: 100%;
-  align-items: center;
-  padding-inline: 20px;
   flex-wrap: wrap;
+  padding: 40px;
+  gap: 40px;
+}
+
+.dadosDeIdentificacao {
+  display: flex;
+  flex: 1 400px;
+  flex-direction: column;
+  padding-bottom: 20px;
+  row-gap: 20px;
+}
+
+.tituloDadosDeIdentificacao {
+  width: 100%;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.descricaoTextarea {
+  height: 100%;
+  min-height: 50px;
+}
+
+.alinharDados {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.alinharDados .inputDadosIdentificacao {
+  min-height: 36px;
+  border: 1px solid #b3b3b3;
+  padding: 6px 0px 6px 12px;
+  border-radius: 5px;
 }
 
 @media (max-width: 500px) {
   .fundoVermais {
     padding: 30px 10px;
+  }
+  .slideImagemEntrada,
+  .slideImagemSaida {
+    padding: 0 0 70px 0;
+  }
+  .containerImagemCarrossel,
+  .containerImagemCarrossel > img {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    width: 100%;
+  }
+
+  .containerImagemCarrossel {
+    background: transparent;
+    padding: 0px;
+  }
+
+  .containerImagemCarrossel > img{
+    z-index: 20;
+    position: relative;
+    object-fit: cover;
+    max-height: 250px;
+  }
+
+  .tituloDadosDeIdentificacao {
+    font-size: 1.5rem;
+    text-align: start;
+  }
+  .alinharDadosDeIdentificacao {
+    padding: 20px;
+    gap: 20px;
   }
 }
