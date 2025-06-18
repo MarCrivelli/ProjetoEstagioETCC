@@ -15,6 +15,7 @@ export default function VerMais() {
   const [animal, setAnimal] = useState(null);
   const [editedAnimal, setEditedAnimal] = useState(null);
   const [isDirty, setIsDirty] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -65,16 +66,16 @@ export default function VerMais() {
     setIsDirty(changed);
   };
 
-  const handleImagemSaidaChange = async (event) => {
-    const file = event.target.files[0];
+  const handleImageUpload = async (file, fieldName) => {
     if (!file) return;
 
     const formData = new FormData();
-    formData.append("imagemSaida", file);
+    formData.append(fieldName, file);
 
     try {
+      setIsLoading(true);
       const resposta = await fetch(
-        `http://localhost:3003/animais/${id}/imagem-saida`,
+        `http://localhost:3003/animais/${id}/${fieldName}`,
         {
           method: "PUT",
           body: formData,
@@ -85,46 +86,28 @@ export default function VerMais() {
         const dados = await resposta.json();
         setAnimal(dados.animal);
         setEditedAnimal({ ...dados.animal });
-        alert("Imagem de saída atualizada com sucesso!");
+        alert(
+          `Imagem ${
+            fieldName === "imagem" ? "principal" : "de saída"
+          } atualizada com sucesso!`
+        );
       } else {
-        alert("Erro ao atualizar imagem de saída.");
+        alert(
+          `Erro ao atualizar imagem ${
+            fieldName === "imagem" ? "principal" : "de saída"
+          }.`
+        );
       }
     } catch (error) {
-      console.error("Erro ao atualizar imagem de saída:", error);
-    }
-  };
-
-  const handleImagemEntradaChange = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-
-    const formData = new FormData();
-    formData.append("imagem", file);
-
-    try {
-      const resposta = await fetch(
-        `http://localhost:3003/animais/${id}/imagem`,
-        {
-          method: "PUT",
-          body: formData,
-        }
-      );
-
-      if (resposta.ok) {
-        const dados = await resposta.json();
-        setAnimal(dados.animal);
-        setEditedAnimal({ ...dados.animal });
-        alert("Imagem de entrada atualizada com sucesso!");
-      } else {
-        alert("Erro ao atualizar imagem de entrada.");
-      }
-    } catch (error) {
-      console.error("Erro ao atualizar imagem de entrada:", error);
+      console.error(`Erro ao atualizar imagem ${fieldName}:`, error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleSaveChanges = async () => {
     try {
+      setIsLoading(true);
       const resposta = await fetch(`http://localhost:3003/animais/${id}`, {
         method: "PUT",
         headers: {
@@ -135,8 +118,8 @@ export default function VerMais() {
 
       if (resposta.ok) {
         const dados = await resposta.json();
-        setAnimal(dados);
-        setEditedAnimal({ ...dados });
+        setAnimal(dados.animal);
+        setEditedAnimal({ ...dados.animal });
         setIsDirty(false);
         alert("Dados atualizados com sucesso!");
       } else {
@@ -144,6 +127,8 @@ export default function VerMais() {
       }
     } catch (error) {
       console.error("Erro ao atualizar animal:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -167,7 +152,7 @@ export default function VerMais() {
             <div
               className={styles.slideImagemEntrada}
               style={{
-                "--bg-image": animal.imagem
+                backgroundImage: animal.imagem
                   ? `url(http://localhost:3003/uploads/${animal.imagem})`
                   : "url(/pagFichasDAnimais/imagemTeste.jpg)",
               }}
@@ -183,12 +168,15 @@ export default function VerMais() {
                   className={styles.imagemPrincipal}
                 />
                 <label className={styles.botaoTrocarImagem}>
-                  Trocar imagem
+                  {isLoading ? "Processando..." : "Trocar imagem"}
                   <input
                     type="file"
-                    onChange={handleImagemEntradaChange}
+                    onChange={(e) =>
+                      handleImageUpload(e.target.files[0], "imagem")
+                    }
                     style={{ display: "none" }}
                     accept="image/*"
+                    disabled={isLoading}
                   />
                 </label>
               </div>
@@ -196,50 +184,59 @@ export default function VerMais() {
             <div
               className={styles.slideImagemSaida}
               style={{
-                "--bg-image": animal.imagemSaida
+                backgroundImage: animal.imagemSaida
                   ? `url(http://localhost:3003/uploads/${animal.imagemSaida})`
                   : "none",
               }}
             >
               {animal.imagemSaida ? (
-                <>
+                <div className={styles.containerImagemCarrossel}>
                   <img
                     src={`http://localhost:3003/uploads/${animal.imagemSaida}`}
                     alt="Imagem de saída"
                     className={styles.imagemPrincipal}
                   />
                   <label className={styles.botaoTrocarImagem}>
-                    Trocar imagem
+                    {isLoading ? "Processando..." : "Trocar imagem"}
                     <input
                       type="file"
-                      onChange={handleImagemSaidaChange}
+                      onChange={(e) =>
+                        handleImageUpload(e.target.files[0], "imagemSaida")
+                      }
                       style={{ display: "none" }}
                       accept="image/*"
+                      disabled={isLoading}
                     />
                   </label>
-                </>
+                </div>
               ) : (
-                <>
-                  <div className={styles.placeholderImagemSaida}>
-                    <span>Nenhuma imagem de saída cadastrada</span>
+                <div className={styles.semImagemDeSaida}>
+                  <div className={styles.alinharImagemQuebrada}>
+                    <img src="/pagVerMais/semImagem.png"></img>
                   </div>
-                  <label className={styles.botaoAdicionarImagem}>
-                    Escolher imagem
-                    <input
-                      type="file"
-                      onChange={handleImagemSaidaChange}
-                      style={{ display: "none" }}
-                      accept="image/*"
-                      ref={fileInputRef}
-                    />
-                  </label>
-                </>
+                  <h1>Nenhuma Imagem foi encontrada</h1>
+                  <div className={styles.divBotoesUtilitarios}>
+                    <label className={styles.botaoAdicionarImagem}>
+                      <img src="/pagVerMais/adicionarImagem.png" />
+                      <input
+                        type="file"
+                        onChange={(e) =>
+                          handleImageUpload(e.target.files[0], "imagemSaida")
+                        }
+                        style={{ display: "none" }}
+                        accept="image/*"
+                        ref={fileInputRef}
+                        disabled={isLoading}
+                      />
+                    </label>
+                    {/* Se for preciso acrescentar mais botões, o layout já está preparado */}
+                  </div>
+                </div>
               )}
             </div>
           </Carousel>
 
           <div className={styles.alinharDadosDeIdentificacao}>
-            
             <div className={styles.dadosDeIdentificacao}>
               <h1 className={styles.tituloDadosDeIdentificacao}>
                 Descrição do Animal
@@ -262,26 +259,35 @@ export default function VerMais() {
                 <label className={styles.labelDeIdentificacao}>Nome:</label>
                 <input
                   className={styles.inputDadosIdentificacao}
+                  name="nome"
                   maxLength={30}
                   type="text"
-                  placeholder={animal.nome}
+                  value={editedAnimal.nome || ""}
+                  onChange={handleInputChange}
                 />
               </div>
               <div className={styles.alinharDados}>
                 <label className={styles.labelDeIdentificacao}>Idade:</label>
                 <input
                   className={styles.inputDadosIdentificacao}
+                  name="idade"
                   min="0"
                   max="20"
                   type="number"
-                  placeholder="insira uma idade"
+                  value={editedAnimal.idade || ""}
+                  onChange={handleInputChange}
                 />
               </div>
               <div className={styles.alinharDados}>
                 <label className={styles.labelDeIdentificacao}>Sexo:</label>
                 <Select
                   options={opcoes.sexoDoAnimal}
-                  placeholder="selecione"
+                  value={opcoes.sexoDoAnimal.find(
+                    (option) => option.value === editedAnimal.sexo
+                  )}
+                  onChange={(selectedOption) =>
+                    handleSelectChange("sexo", selectedOption)
+                  }
                   className={styles.selectInserirAnimal}
                 />
               </div>
@@ -289,7 +295,12 @@ export default function VerMais() {
                 <label className={styles.labelDeIdentificacao}>Tipo:</label>
                 <Select
                   options={opcoes.tipoAnimal}
-                  placeholder="selecione"
+                  value={opcoes.tipoAnimal.find(
+                    (option) => option.value === editedAnimal.tipo
+                  )}
+                  onChange={(selectedOption) =>
+                    handleSelectChange("tipo", selectedOption)
+                  }
                   className={styles.selectInserirAnimal}
                 />
               </div>
@@ -299,7 +310,13 @@ export default function VerMais() {
                 </label>
                 <Select
                   options={opcoes.StatusMicrochipagem}
-                  placeholder="selecione"
+                  value={opcoes.StatusMicrochipagem.find(
+                    (option) =>
+                      option.value === editedAnimal.statusMicrochipagem
+                  )}
+                  onChange={(selectedOption) =>
+                    handleSelectChange("statusMicrochipagem", selectedOption)
+                  }
                   className={styles.selectInserirAnimal}
                 />
               </div>
@@ -315,7 +332,12 @@ export default function VerMais() {
                 </label>
                 <Select
                   options={opcoes.StatusVacinacao}
-                  placeholder="selecione"
+                  value={opcoes.StatusVacinacao.find(
+                    (option) => option.value === editedAnimal.statusVacinacao
+                  )}
+                  onChange={(selectedOption) =>
+                    handleSelectChange("statusVacinacao", selectedOption)
+                  }
                   className={styles.selectInserirAnimal}
                 />
               </div>
@@ -325,7 +347,12 @@ export default function VerMais() {
                 </label>
                 <Select
                   options={opcoes.StatusCastracao}
-                  placeholder="selecione"
+                  value={opcoes.StatusCastracao.find(
+                    (option) => option.value === editedAnimal.statusCastracao
+                  )}
+                  onChange={(selectedOption) =>
+                    handleSelectChange("statusCastracao", selectedOption)
+                  }
                   className={styles.selectInserirAnimal}
                 />
               </div>
@@ -335,7 +362,12 @@ export default function VerMais() {
                 </label>
                 <Select
                   options={opcoes.StatusAdocao}
-                  placeholder="selecione"
+                  value={opcoes.StatusAdocao.find(
+                    (option) => option.value === editedAnimal.statusAdocao
+                  )}
+                  onChange={(selectedOption) =>
+                    handleSelectChange("statusAdocao", selectedOption)
+                  }
                   className={styles.selectInserirAnimal}
                 />
               </div>
@@ -345,7 +377,12 @@ export default function VerMais() {
                 </label>
                 <Select
                   options={opcoes.StatusVermifugacao}
-                  placeholder="selecione"
+                  value={opcoes.StatusVermifugacao.find(
+                    (option) => option.value === editedAnimal.statusVermifugacao
+                  )}
+                  onChange={(selectedOption) =>
+                    handleSelectChange("statusVermifugacao", selectedOption)
+                  }
                   className={styles.selectInserirAnimal}
                 />
               </div>
@@ -355,12 +392,12 @@ export default function VerMais() {
           <div className={styles.botaoSalvarContainer}>
             <button
               className={`${styles.botaoSalvar} ${
-                !isDirty ? styles.desativado : ""
+                !isDirty || isLoading ? styles.desativado : ""
               }`}
               onClick={handleSaveChanges}
-              disabled={!isDirty}
+              disabled={!isDirty || isLoading}
             >
-              Salvar Alterações
+              {isLoading ? "Salvando..." : "Salvar Alterações"}
             </button>
           </div>
         </div>
