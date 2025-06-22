@@ -26,19 +26,18 @@ export default function FichasDeAnimais() {
   const [mostrarFiltros, setMostrarFiltros] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [modoSelecaoPostagem, setModoSelecaoPostagem] = useState(false);
+  const [animaisSelecionados, setAnimaisSelecionados] = useState([]);
 
-  // Função para buscar os animais
+  // Buscar animais
   useEffect(() => {
     const buscarAnimais = async () => {
       try {
         setLoading(true);
         setError(null);
-
-        // Tenta ambas as rotas possíveis
         let resposta = await fetch("http://localhost:3003/animais");
 
         if (!resposta.ok) {
-          // Se a primeira rota falhar, tenta a alternativa
           resposta = await fetch("http://localhost:3003/listar/animais");
           if (!resposta.ok) {
             throw new Error(`Erro ao buscar animais: ${resposta.status}`);
@@ -47,7 +46,6 @@ export default function FichasDeAnimais() {
 
         const dados = await resposta.json();
         const animaisArray = Array.isArray(dados) ? dados : [];
-
         setAnimais(animaisArray);
         setAnimaisCompleto(animaisArray);
       } catch (error) {
@@ -63,27 +61,68 @@ export default function FichasDeAnimais() {
     buscarAnimais();
   }, []);
 
-  // Função para aplicar os filtros
+  // Verificar modo seleção ao carregar
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const modoPostagem = urlParams.get("modoPostagem");
+
+    if (modoPostagem === "true") {
+      setModoSelecaoPostagem(true);
+      document.body.classList.add("modo-selecao-ativo");
+    }
+
+    return () => {
+      document.body.classList.remove("modo-selecao-ativo");
+    };
+  }, []);
+
+  // Controlar animações
+  useEffect(() => {
+    const container = document.querySelector(`.${styles.botaoPostarContainer}`);
+    const botaoSelecao = document.querySelector(
+      `.${styles.botoesFlutuantes} .${styles.botaoAcao}:nth-child(3)`
+    );
+
+    if (modoSelecaoPostagem) {
+      // Mostra o terceiro botão flutuante
+      document.body.classList.add("modo-selecao-ativo");
+
+      // Mostra o botão postar se houver animais selecionados
+      if (animaisSelecionados.length > 0) {
+        container?.classList.add(styles.visivel);
+        botaoSelecao?.classList.add(styles.botaoSelecaoAtivo);
+      } else {
+        container?.classList.remove(styles.visivel);
+        botaoSelecao?.classList.remove(styles.botaoSelecaoAtivo);
+      }
+    } else {
+      // Esconde tudo quando não está no modo seleção
+      document.body.classList.remove("modo-selecao-ativo");
+      container?.classList.remove(styles.visivel);
+      botaoSelecao?.classList.remove(styles.botaoSelecaoAtivo);
+    }
+  }, [animaisSelecionados, modoSelecaoPostagem]);
+
+  // Funções auxiliares
+  const toggleSelecaoAnimal = (animalId) => {
+    setAnimaisSelecionados((prev) =>
+      prev.includes(animalId)
+        ? prev.filter((id) => id !== animalId)
+        : [...prev, animalId]
+    );
+  };
+
   const aplicarFiltros = () => {
     if (!Array.isArray(animaisCompleto)) {
       setAnimais([]);
       return;
     }
 
-    let animaisFiltrados = [...animaisCompleto];
-
-    const filtroAtivo = Object.values(filtros).some((value) =>
-      Array.isArray(value) ? value.length > 0 : value !== ""
-    );
-    setFiltrosAplicados(filtroAtivo);
-
-    animaisFiltrados = animaisFiltrados.filter((animal) => {
-      // Verificação do nome (case insensitive)
+    const animaisFiltrados = animaisCompleto.filter((animal) => {
       const nomeMatch =
         !filtros.nome ||
         animal.nome.toLowerCase().includes(filtros.nome.toLowerCase());
 
-      // Verificação dos outros filtros
       const outrosFiltrosMatch =
         (filtros.tipo.length === 0 || filtros.tipo.includes(animal.tipo)) &&
         (filtros.idade.length === 0 ||
@@ -103,6 +142,11 @@ export default function FichasDeAnimais() {
       return nomeMatch && outrosFiltrosMatch;
     });
 
+    setFiltrosAplicados(
+      Object.values(filtros).some((value) =>
+        Array.isArray(value) ? value.length > 0 : value !== ""
+      )
+    );
     setAnimais(animaisFiltrados);
   };
 
@@ -110,10 +154,8 @@ export default function FichasDeAnimais() {
     aplicarFiltros();
   }, [filtros, animaisCompleto]);
 
-  // Adicione esta função para recarregar os animais após cadastro
   const handleAnimalCadastrado = () => {
     setMostrarCadastro(false);
-    // Recarrega os animais
     const buscarAnimais = async () => {
       try {
         const resposta = await fetch("http://localhost:3003/animais");
@@ -127,13 +169,19 @@ export default function FichasDeAnimais() {
     buscarAnimais();
   };
 
+
+  // remover
+  useEffect(() => {
+  console.log('Modo seleção:', modoSelecaoPostagem);
+  console.log('Animais selecionados:', animaisSelecionados);
+}, [modoSelecaoPostagem, animaisSelecionados]);
+
   return (
     <div className={styles.fundoPagina}>
       <HeaderAdms />
       <BotaoPagInicial />
       <RolarPCima />
 
-      {/* Botões flutuantes */}
       <div className={styles.botoesFlutuantes}>
         <button
           className={styles.botaoAcao}
@@ -148,9 +196,32 @@ export default function FichasDeAnimais() {
         >
           <img src="/pagFichasDAnimais/addAnimal.png" alt="Adicionar animal" />
         </button>
+
+        <button
+          className={`${styles.botaoAcao} ${
+            modoSelecaoPostagem ? styles.ativo : ""
+          }`}
+          onClick={() => {
+            const novoModo = !modoSelecaoPostagem;
+            setModoSelecaoPostagem(novoModo);
+
+            if (!novoModo) {
+              setAnimaisSelecionados([]);
+            }
+          }}
+        >
+          <img
+            src="/pagFichasDAnimais/selecionarPost.png"
+            alt="Selecionar para postagem"
+          />
+        </button>
       </div>
 
-      {/* Modal de Filtros */}
+      <div className={styles.botaoPostarContainer}>
+        <p>{animaisSelecionados.length} animal(s) selecionado(s)</p>
+        <button className={styles.botaoPostar}>Postar</button>
+      </div>
+
       {mostrarFiltros && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
@@ -170,7 +241,6 @@ export default function FichasDeAnimais() {
         </div>
       )}
 
-      {/* Modal de Cadastro */}
       {mostrarCadastro && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
@@ -184,18 +254,17 @@ export default function FichasDeAnimais() {
             <CadastroDeAnimais
               animais={animaisCompleto}
               setAnimais={setAnimaisCompleto}
-              onClose={handleAnimalCadastrado} // Alterado para chamar a função de recarregar
+              onClose={handleAnimalCadastrado}
             />
           </div>
         </div>
       )}
 
-      {/* Listagem de animais */}
       <div className={styles.fundoPainel}>
         <div className={styles.painel}>
           {loading ? (
             <div className={styles.loading}>
-              <img src="/pagFichasDAnimais/carregando.svg"></img>
+              <img src="/pagFichasDAnimais/carregando.svg" alt="Carregando" />
               <p>Carregando...</p>
             </div>
           ) : error ? (
@@ -212,6 +281,9 @@ export default function FichasDeAnimais() {
             <ExibicaoDeAnimais
               animais={animais}
               filtrosAplicados={filtrosAplicados}
+              modoSelecaoPostagem={modoSelecaoPostagem}
+              animaisSelecionados={animaisSelecionados}
+              toggleSelecaoAnimal={toggleSelecaoAnimal}
             />
           )}
         </div>

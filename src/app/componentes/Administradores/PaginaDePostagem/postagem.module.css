@@ -16,7 +16,7 @@
   width: 100%;
   min-height: calc(100vh - 70px);
   height: auto;
-  padding: 2%;
+  padding: 3% 6% 5% 6%;
 }
 
 .painel {
@@ -26,38 +26,37 @@
   height: auto;
   width: 100%;
   border-radius: 20px;
-  padding: 30px;
+  padding: 5% 7%;
   border: 2px solid black;
+  row-gap: 50px;
 }
 
-.tituloPainel {
-  text-align: center;
-  margin-bottom: 30px;
+.introducaoPagina h1 {
+  margin-bottom: 10px;
 }
 
-.alinharFiltros {
-  display: flex;
-  flex-wrap: wrap;
-  height: 100%;
+.introducaoPagina p {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  text-align: justify;
+  font-size: 1.1rem;
+  margin-bottom: 0;
+}
+
+.introducaoPagina span {
+  font-weight: 700;
+  color: #343434;
 }
 
 .filtrosPreSelecionados,
 .selecaoAvulsa {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  flex: 1 400px;
+  flex-grow: 1;
   border: 1px solid #b3b3b3;
-}
-
-.filtrosPreSelecionados {
-  border-right: 0.5px solid #b3b3b380;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
+  border-radius: 10px;
 }
 
 .filtrosPreSelecionados > h1 {
-  margin-bottom: 0;
   width: 100%;
   text-align: center;
   border-bottom: 1px solid #b3b3b3;
@@ -70,17 +69,19 @@
 
 .containerFiltros {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   row-gap: 20px;
+  gap: 50px;
   width: 100%;
   height: 100%;
-  max-height: 582px;
+  max-height: 430px;
   overflow-y: scroll;
-  padding: 20px 20px 120px 20px;
+  padding: 20px;
 }
 
 .filtro {
   display: flex;
+  flex: 1 500px;
   flex-direction: column;
   width: 100%;
 }
@@ -98,8 +99,86 @@
   cursor: pointer;
 }
 
+.containerBotaoPostagem{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-block: 50px 20px;
+}
+
+.containerBotaoPostagem button{
+  width: 200px;
+  height: 42px;
+  border: 1px solid black;
+  border-radius: 5px;
+  transition: background ease-in-out .2s;
+}
+
+.containerBotaoPostagem button:hover{
+  background-color: rgb(222, 240, 255);
+}
+
 .selecaoAvulsa {
-  border-left: 0.5px solid #b3b3b380;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
+  justify-content: center;
+  align-items: center;
+  padding-block: 10px;
+}
+
+.selecaoAvulsa h1,
+.selecaoAvulsa p {
+  width: 80%;
+}
+
+.selecaoAvulsa h1 {
+  text-align: center;
+}
+
+.selecaoAvulsa p {
+  font-size: 1.4rem;
+  text-align: justify;
+}
+
+.linkSelecaoAvulsa {
+  color: currentColor;
+}
+
+
+
+@media (max-width: 768px) {
+  .painel {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    height: auto;
+    width: 100%;
+    border-radius: 20px;
+    padding: 40px 30px;
+    border: 2px solid black;
+    row-gap: 50px;
+  }
+
+  .introducaoPagina h1,
+  .filtrosPreSelecionados > h1,
+  .selecaoAvulsa h1 {
+    font-size: 1.6rem;
+  }
+
+  .introducaoPagina h1 {
+    margin-bottom: 10px;
+
+    text-align: center;
+  }
+  .introducaoPagina p {
+    font-size: 0.8rem;
+  }
+  .filtrosPreSelecionados > h1 {
+  }
+  .containerFiltros {
+    gap: 25px;
+    max-height: 430px;
+  }
+  .selecaoAvulsa p {
+    text-align: start;
+    font-size: 1rem;
+  }
 }

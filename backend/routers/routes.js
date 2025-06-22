@@ -31,5 +31,10 @@ routes.post("/animais", upload.single("imagem"), animalController.cadastrarAnima
 routes.get("/animais/:id", animalController.buscarAnimalPorId)
 routes.put("/animais/:id", animalController.atualizarAnimal);
 routes.put("/animais/:id/imagem", upload.single("imagem"), animalController.atualizarImagemEntrada);
+routes.put(
+  "/animais/:id/imagem-saida", 
+  upload.single("imagemSaida"), 
+  animalController.atualizarImagemSaida
+);
 
 module.exports = routes;

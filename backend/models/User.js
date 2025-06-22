@@ -16,6 +16,11 @@ const User = connection.sequelize.define("db_user", {
     allowNull: false,
     unique: true,
   },
+  nivelDeAcesso: {
+    type: connection.Sequelize.STRING,
+    allowNull: false,
+    unique: true,
+  },
 });
 User.sync();
 module.exports = User;

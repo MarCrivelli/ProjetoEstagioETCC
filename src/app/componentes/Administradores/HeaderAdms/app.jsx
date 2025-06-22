@@ -106,7 +106,8 @@ export default function HeaderAdms() {
                 className={styles.linkMenuMobile}
                 onClick={() => setMenuAberto(false)}
               >
-                Quero adotar!
+                <img src="/headerAdms/pata.png"/>
+                Fichas de animais
               </Link>
             </li>
             <li>
@@ -115,7 +116,8 @@ export default function HeaderAdms() {
                 className={styles.linkMenuMobile}
                 onClick={() => setMenuAberto(false)}
               >
-                Como doar?
+                <img src="/headerAdms/post.png"/>
+                Postagens
               </Link>
             </li>
             <li>
@@ -124,7 +126,8 @@ export default function HeaderAdms() {
                 className={styles.linkMenuMobile}
                 onClick={() => setMenuAberto(false)}
               >
-                Denuncie
+                <img src="/headerAdms/engrenagem.png"/>
+                Configurações
               </Link>
             </li>
           </ul>

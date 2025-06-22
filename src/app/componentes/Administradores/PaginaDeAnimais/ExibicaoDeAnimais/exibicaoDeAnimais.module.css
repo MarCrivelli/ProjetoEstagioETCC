@@ -41,7 +41,8 @@
   margin-bottom: 0px;
 }
 
-.botaoVerMais {
+.botaoCard,
+.botaoSelecionar {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -58,8 +59,20 @@
   transition: 0.2s ease-in;
 }
 
-.botaoVerMais:hover {
+.botaoCard:hover {
   background-color: #0d0907dc;
+}
+
+.botaoSelecionar {
+  background-color: rgb(0, 76, 255);
+}
+
+.botaoSelecionar.selecionado {
+  background-color: #f44336;
+}
+
+.botaoSelecionar.selecionado:hover {
+  background-color: #d32f2f;
 }
 
 .mensagemNenhumAnimal {
@@ -123,6 +136,7 @@
   .cardAnimais {
     border-radius: 10px;
     box-shadow: 3px 4px 2px #2f009c;
+    min-height: 520px;
   }
 
   .divImagem {
@@ -136,7 +150,12 @@
     height: 250px;
   }
 
-  .botaoVerMais {
-    width: 90%;
+  .botaoCard,
+  .botaoSelecionar {
+    margin: auto auto 5px auto;
+    border-radius: 6px;
+    height: 20px;
+    padding-block: 20px;
+    transition: 0.2s ease-in;
   }
 }

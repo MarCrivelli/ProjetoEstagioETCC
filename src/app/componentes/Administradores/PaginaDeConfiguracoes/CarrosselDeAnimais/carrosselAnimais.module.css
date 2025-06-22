@@ -1,0 +1,171 @@
+.fundoCarrosselAnimais {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  background: linear-gradient(
+    to right,
+    #ffae00 0%,
+    #ffae00 25%,
+    #fbc02d 25%,
+    #fbc02d 50%,
+    #ffcf54 50%,
+    #ffcf54 75%,
+    #ffdb81 75%,
+    #ffdb81 100%
+  );
+  padding: 100px 80px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.painel {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  border: 3px solid black;
+  border-radius: 10px;
+}
+
+.carrossel {
+  width: 100%;
+}
+
+.slideFormulario,
+.itemCarrossel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 50px;
+  height: 100%;
+}
+
+.containerSelecao {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.selectAnimal {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.containerImagens {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.imagemContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.imagemContainer h3 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.imagemAnimal {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #fdc429;
+}
+
+.semImagem {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  border: 2px dashed #fdc429;
+  color: #666;
+}
+
+.descricaoContainer {
+  width: 100%;
+}
+
+.descricaoOriginal {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f8f8f8;
+  border-radius: 5px;
+}
+
+.textareaDescricao {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: none;
+  margin-bottom: 15px;
+}
+
+.botaoAdicionar {
+  padding: 10px 20px;
+  background-color: #1a2129;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.botaoAdicionar:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.infoAnimal {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.infoAnimal h1 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.descricaoAnimal,
+.descricaoSaida {
+  text-align: justify;
+  margin-bottom: 15px;
+}
+
+.descricaoSaida {
+  padding: 15px;
+  background-color: #f0f8ff;
+  border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+  .fundoCarrosselAnimais {
+    padding: 20px;
+  }
+
+  .slideFormulario,
+  .itemCarrossel {
+    padding: 20px;
+  }
+
+  .containerImagens {
+    flex-direction: column;
+  }
+
+  .imagemAnimal,
+  .semImagem {
+    height: 200px;
+  }
+}

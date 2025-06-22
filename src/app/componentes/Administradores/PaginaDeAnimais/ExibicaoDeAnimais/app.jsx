@@ -1,8 +1,14 @@
 import styles from "./exibicaoDeAnimais.module.css";
 import { Link } from "react-router-dom";
-import opcoes from '/src/app/componentes/Administradores/OpcoesDeSelecao/opcoes';
+import opcoes from "/src/app/componentes/Administradores/OpcoesDeSelecao/opcoes";
 
-export default function ExibicaoDeAnimais({ animais, filtrosAplicados }) {
+export default function ExibicaoDeAnimais({
+  animais,
+  filtrosAplicados,
+  modoSelecaoPostagem,
+  animaisSelecionados,
+  toggleSelecaoAnimal,
+}) {
   // Verificação de segurança para animais não definido ou não array
   if (!animais || !Array.isArray(animais)) {
     return (
@@ -12,9 +18,7 @@ export default function ExibicaoDeAnimais({ animais, filtrosAplicados }) {
           src="/pagFichasDAnimais/animaisConfusos.png"
           alt="Ícone de animais confusos"
         />
-        <h2 className={styles.textoPreCadastro}>
-          Carregando animais...
-        </h2>
+        <h2 className={styles.textoPreCadastro}>Carregando animais...</h2>
       </div>
     );
   }
@@ -35,7 +39,6 @@ export default function ExibicaoDeAnimais({ animais, filtrosAplicados }) {
           </h2>
         </div>
       ) : (
-
         animais.map((animal) => (
           <div className={styles.cardAnimais} key={animal.id}>
             <div className={styles.divImagem}>
@@ -52,26 +55,45 @@ export default function ExibicaoDeAnimais({ animais, filtrosAplicados }) {
             <div className={styles.infoAnimais}>
               <h1 className={styles.nomeAnimal}>{animal.nome}</h1>
               <p className={styles.dadosAnimais}>
-                Idade: {opcoes.vincularLabel(animal.idade?.toString(), 'idadeAnimais')}
-              </p>
-              <p className={styles.dadosAnimais}>Sexo: {opcoes.vincularLabel(animal.sexo, 'sexoDoAnimal')}</p>
-              <p className={styles.dadosAnimais}>
-                Status de vacinação: {opcoes.vincularLabel(animal.statusVacinacao, 'StatusVacinacao')}
+                Idade:{" "}
+                {opcoes.vincularLabel(animal.idade?.toString(), "idadeAnimais")}
               </p>
               <p className={styles.dadosAnimais}>
-                Status de castração: {opcoes.vincularLabel(animal.statusCastracao, 'StatusCastracao')}
+                Sexo: {opcoes.vincularLabel(animal.sexo, "sexoDoAnimal")}
               </p>
-              <Link
-                to={`/ver_mais/${animal.id}`}
-                className={styles.botaoVerMais}
-              >
-                Ver mais
-              </Link>
+              <p className={styles.dadosAnimais}>
+                Status de vacinação:{" "}
+                {opcoes.vincularLabel(
+                  animal.statusVacinacao,
+                  "StatusVacinacao"
+                )}
+              </p>
+              <p className={styles.dadosAnimais}>
+                Status de castração:{" "}
+                {opcoes.vincularLabel(
+                  animal.statusCastracao,
+                  "StatusCastracao"
+                )}
+              </p>
+              {modoSelecaoPostagem ? (
+                  <button
+                    onClick={() => toggleSelecaoAnimal(animal.id)}
+                    className={`${styles.botaoSelecionar} ${animaisSelecionados.includes(animal.id) ? styles.selecionado : ''}`}
+                  >
+                    {animaisSelecionados.includes(animal.id) ? 'Desfazer' : 'Selecionar'}
+                  </button>
+                ) : (
+                  <Link
+                    to={`/ver_mais/${animal.id}`}
+                    className={styles.botaoCard}
+                  >
+                    Ver mais
+                  </Link>
+                )}
             </div>
           </div>
         ))
       )}
-
     </>
   );
 }

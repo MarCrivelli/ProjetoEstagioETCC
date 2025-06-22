@@ -85,7 +85,7 @@
   padding: 20px;
 }
 
-.semImagemDeSaida{
+.semImagemDeSaida {
   justify-content: flex-start;
   align-items: center;
   flex: 1;
@@ -93,40 +93,29 @@
   max-width: 440px;
 }
 
-.semImagemDeSaida h1{
-  font-size: 2rem;
-}
-
-.alinharImagemQuebrada{
+.alinharImagemQuebrada {
+  background-color: rgb(255, 255, 255);
+  border-radius: 50px;
   max-width: 400px;
+  padding: 10px;
 }
 
-.alinharImagemQuebrada img{
+.alinharImagemQuebrada img {
   width: 100%;
   height: 100%;
 }
 
-.divBotoesUtilitarios{
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  flex-grow: 1;
-  width: 100%;
-  padding-top: 10px;
-  overflow-x: auto;
+.semImagemDeSaida h1 {
+  font-size: 2rem;
 }
 
-.botaoAdicionarImagem{
-  max-width: 40px;
-  max-height: 40px;
-  min-width: 40px;
-  min-height: 40px;
-  border: 2px solid black;
-  padding: 5px;
-  border-radius: 50%;
+.semImagemDeSaida p {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  text-align: justify;
 }
 
-.botaoAdicionarImagem:hover{
+.semImagemDeSaida label {
+  text-decoration: underline;
   cursor: pointer;
 }
 
@@ -138,26 +127,70 @@
   max-height: 400px;
 }
 
-.botaoTrocarImagem {
+.botoesUtilitarios{
+  display: flex;
+  padding-top: 10px;
+  gap: 10px;
+}
+
+.botaoTrocarImagem,
+.botaoVerAmpliado {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+}
+
+.botaoTrocarImagem:hover,
+.botaoVerAmpliado:hover {
+  cursor: pointer;
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.75);
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px auto 0 auto;
-  padding: 20px;
-  border-radius: 6px;
-  width: 100%;
-  max-width: 200px;
-  height: 36px;
-  background-color: #0d0907;
-  color: rgba(255, 255, 255, 0.826);
-  color: white;
-  font-weight: 600;
-  transition: opacity ease-in-out 0.2s;
+  z-index: 1000;
 }
 
-.botaoTrocarImagem:hover {
+.modalContent {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.imagemAmpliada {
+  max-width: 100%;
+  max-height: 80vh;
+  display: block;
+  margin: 0 auto;
+}
+
+.botaoFecharModal {
+  position: relative;
+  margin-left: auto;
+  margin-bottom: 10px;
+  background: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 1.5rem;
   cursor: pointer;
-  opacity: 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .alinharDadosDeIdentificacao {
@@ -202,7 +235,14 @@
   border-radius: 5px;
 }
 
-.botaoSalvarContainer{
+.errorMessage {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  margin-left: 0.5rem;
+}
+
+.botaoSalvarContainer {
   display: flex;
   width: 100%;
   height: 70px;
@@ -211,7 +251,7 @@
   align-items: center;
 }
 
-.botaoSalvar{
+.botaoSalvar {
   padding: 10px 30px;
   border: 1px solid #2c5b6c;
   box-shadow: 2px 2px 1px #2c5b6c;
@@ -221,9 +261,9 @@
   cursor: pointer;
 }
 
-.desativado{
+.desativado {
   cursor: not-allowed;
-  opacity: .7;
+  opacity: 0.7;
 }
 
 @media (max-width: 500px) {
@@ -241,12 +281,40 @@
     width: 100%;
   }
 
-  .containerImagemCarrossel {
+  .containerImagemCarrossel,
+  .semImagemDeSaida {
     background: transparent;
     padding: 0px;
   }
 
-  .containerImagemCarrossel > img{
+  .alinharImagemQuebrada {
+    background-color: #eaf7ff;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .semImagemDeSaida h1,
+  .semImagemDeSaida p,
+  .semImagemDeSaida label {
+    color: white;
+    padding-inline: 10px;
+  }
+
+  .semImagemDeSaida h1{
+    font-size: 1.4rem;
+    margin-top: 10px;
+    text-align: start;
+  }
+
+  .semImagemDeSaida p {
+    font-size: 1rem;
+  }
+
+  .semImagemDeSaida label {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .containerImagemCarrossel > img {
     z-index: 20;
     position: relative;
     object-fit: cover;
