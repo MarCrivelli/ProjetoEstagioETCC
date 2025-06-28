@@ -2,6 +2,7 @@ const tipoAnimal = [
   { value: "cachorro", label: "Cachorro" },
   { value: "gato", label: "Gato" },
   { value: "ave", label: "Ave" },
+  { value: "selvagem", label: "Animal selvagem" },
 ];
 
 const idadeAnimais = [

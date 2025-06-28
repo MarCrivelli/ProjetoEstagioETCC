@@ -3,7 +3,7 @@ import HeaderAdms from "../../HeaderAdms/app";
 import BotaoPagInicial from "../../BotaoPagInicialAdms/app";
 import FuncoesDeAdministrador from "../FuncoesAdm/app";
 import CarrosselDeDoadores from "../CarrosselDeDoadores/app";
-import CarrosselDeAnimais from "../CarrosselDeAnimais/app";
+import CarrosselAnimaisAutonomo from "../CarrosselDeAnimais/app";
 import RolarPCima from "../../../BotaoScroll/app";
 
 export default function Configuracoes() {
@@ -48,7 +48,7 @@ export default function Configuracoes() {
             </div>
             <div className={styles.sessao}>
               <h1>Carrossel de animais</h1>
-              <CarrosselDeAnimais />
+              <CarrosselAnimaisAutonomo />
             </div>
           </div>
 

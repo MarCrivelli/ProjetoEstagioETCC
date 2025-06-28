@@ -218,11 +218,41 @@ const atualizarImagemEntrada = async (req, res) => {
   }
 };
 
+const atualizarDescricaoSaida = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { descricaoSaida } = req.body;
+    
+    const animal = await Animais.findByPk(id);
+    if (!animal) {
+      return res.status(404).json({ error: 'Animal não encontrado' });
+    }
+    
+    animal.descricaoSaida = descricaoSaida;
+    await animal.save();
+    
+    return res.json({
+      success: true,
+      message: "Descrição de saída atualizada com sucesso",
+      animal
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ 
+      success: false,
+      error: 'Erro ao atualizar descrição de saída',
+      details: error.message
+    });
+  }
+};
+
+
 module.exports = {
   procurarAnimais,
   cadastrarAnimal,
   buscarAnimalPorId,
   atualizarImagemEntrada,
   atualizarImagemSaida,
+  atualizarDescricaoSaida,
   atualizarAnimal,
 };

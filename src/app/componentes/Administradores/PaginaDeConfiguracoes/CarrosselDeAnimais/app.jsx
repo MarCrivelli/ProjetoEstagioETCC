@@ -1,194 +1,105 @@
-import { useState, useEffect } from "react";
-import api from "../../../../../services/api";
-import axios from "axios";
-import styles from "./carrosselAnimais.module.css";
+import { useState } from "react";
+import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import Select from "react-select";
+import styles from "./carrosselAnimais.module.css";
 
-export default function CarrosselDeAnimais() {
-  const [animais, setAnimais] = useState([]);
-  const [selectedAnimal, setSelectedAnimal] = useState(null);
-  const [novaDescricao, setNovaDescricao] = useState("");
-  const [carregando, setCarregando] = useState(true);
+export default function CarrosselAnimaisAutonomo({ animais = [], ehMobile = false }) {
+  // Adicionamos valores padrão para animais e ehMobile
+  const [estadosAntesDepois, setEstadosAntesDepois] = useState(
+    animais.reduce((acc, animal) => {
+      acc[animal.id] = true; // true = antes, false = depois
+      return acc;
+    }, {})
+  );
 
-  useEffect(() => {
-    const controller = new AbortController();
-
-    const carregarAnimais = async () => {
-      try {
-        const response = await api.get("/animais", {
-          signal: controller.signal,
-        });
-        setAnimais(response.data);
-        setCarregando(false);
-      } catch (error) {
-        if (!axios.isCancel(error)) {
-          console.error("Erro ao carregar animais:", error);
-          setCarregando(false);
-        }
-      }
-    };
-
-    carregarAnimais();
-
-    return () => {
-      controller.abort();
-    };
-  }, []);
-
-  const handleAnimalChange = (selectedOption) => {
-    setSelectedAnimal(selectedOption.value);
-    setNovaDescricao("");
+  const alternarAntesDepois = (animalId) => {
+    setEstadosAntesDepois(prev => ({
+      ...prev,
+      [animalId]: !prev[animalId]
+    }));
   };
 
-  const handleDescricaoChange = (e) => {
-    setNovaDescricao(e.target.value);
-  };
-
-  const adicionarDescricao = async () => {
-    if (!selectedAnimal || !novaDescricao.trim()) return;
-
-    try {
-      const response = await api.post("/carrossel-animais", {
-        animalId: selectedAnimal.id,
-        descricaoSaida: novaDescricao,
-      });
-
-      // Atualizar a lista de animais ou o estado conforme necessário
-      setNovaDescricao("");
-      alert("Descrição adicionada com sucesso!");
-    } catch (error) {
-      console.error("Erro ao adicionar descrição:", error);
-    }
-  };
-
-  // Preparar opções para o Select
-  const opcoesAnimais = animais.map((animal) => ({
-    value: animal,
-    label: animal.nome,
-  }));
-
-  if (carregando) {
-    return <div>Carregando animais...</div>;
+  // Se não houver animais, retornamos null ou uma mensagem
+  if (animais.length === 0) {
+    return <div className={styles.semAnimais}>Nenhum animal disponível</div>;
   }
 
   return (
-    <div className={styles.fundoCarrosselAnimais}>
-      <div className={styles.painel}>
-        <Carousel
-          showArrows={true}
-          showThumbs={false}
-          showStatus={false}
-          showIndicators={true}
-          infiniteLoop={false}
-          className={styles.carrossel}
-        >
-          {/* Slide do formulário */}
-          <div className={styles.slideFormulario}>
-            <div className={styles.containerSelecao}>
-              <Select
-                options={opcoesAnimais}
-                onChange={handleAnimalChange}
-                placeholder="Selecione um animal"
-                className={styles.selectAnimal}
+    <Carousel
+      showArrows={!ehMobile}
+      showThumbs={false}
+      showStatus={false}
+      showIndicators={!ehMobile}
+      infiniteLoop={true}
+      swipeable={true}
+      emulateTouch={true}
+      preventMovementUntilSwipeScrollTolerance={true}
+      swipeScrollTolerance={40}
+      renderArrowPrev={
+        ehMobile
+          ? () => null
+          : (onClickHandler, hasPrev, label) => (
+              <button
+                type="button"
+                onClick={onClickHandler}
+                title={label}
+                className={`${styles.setaCarrossel} ${styles.setaEsquerda}`}
+                disabled={!hasPrev}
+              >
+                <FaChevronLeft />
+              </button>
+            )
+      }
+      renderArrowNext={
+        ehMobile
+          ? () => null
+          : (onClickHandler, hasNext, label) => (
+              <button
+                type="button"
+                onClick={onClickHandler}
+                title={label}
+                className={`${styles.setaCarrossel} ${styles.setaDireita}`}
+                disabled={!hasNext}
+              >
+                <FaChevronRight />
+              </button>
+            )
+      }
+    >
+      {animais.map((animal) => (
+        <div key={animal.id} className={styles.itemCarrosselAnimal}>
+          <div className={styles.conteudoAnimal}>
+            
+            <div className={styles.containerImagem}>
+              <h2>{estadosAntesDepois[animal.id] ? "Antes" : "Depois"}</h2>
+              <img
+                src={estadosAntesDepois[animal.id] ? animal.antes : animal.depois}
+                alt={`${animal.nome} ${
+                  estadosAntesDepois[animal.id] ? "antes" : "depois"
+                }`}
+                className={styles.imagemAnimal}
               />
-              
-              {selectedAnimal && (
-                <>
-                  <div className={styles.containerImagens}>
-                    <div className={styles.imagemContainer}>
-                      <h3>Entrada</h3>
-                      <img
-                        src={`http://localhost:3003/uploads/${selectedAnimal.imagem}`}
-                        alt={`${selectedAnimal.nome} - entrada`}
-                        className={styles.imagemAnimal}
-                      />
-                    </div>
-                    <div className={styles.imagemContainer}>
-                      <h3>Saída</h3>
-                      {selectedAnimal.imagemSaida ? (
-                        <img
-                          src={`http://localhost:3003/uploads/${selectedAnimal.imagemSaida}`}
-                          alt={`${selectedAnimal.nome} - saída`}
-                          className={styles.imagemAnimal}
-                        />
-                      ) : (
-                        <div className={styles.semImagem}>
-                          Sem imagem de saída
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className={styles.descricaoContainer}>
-                    <p className={styles.descricaoOriginal}>
-                      {selectedAnimal.descricao}
-                    </p>
-                    <textarea
-                      value={novaDescricao}
-                      onChange={handleDescricaoChange}
-                      placeholder="Adicione uma descrição sobre a saída do animal"
-                      className={styles.textareaDescricao}
-                      rows={5}
-                    />
-                    <button
-                      onClick={adicionarDescricao}
-                      disabled={!novaDescricao.trim()}
-                      className={styles.botaoAdicionar}
-                    >
-                      Adicionar Descrição
-                    </button>
-                  </div>
-                </>
-              )}
             </div>
+
+            <div className={styles.containerDescricao}>
+              <h1>{animal.nome}</h1>
+              <p className={styles.descricaoAnimal}>
+                {estadosAntesDepois[animal.id]
+                  ? animal.descricaoAntes
+                  : animal.descricaoDepois}
+              </p>
+              <button
+                className={styles.botaoProximo}
+                onClick={() => alternarAntesDepois(animal.id)}
+              >
+                {estadosAntesDepois[animal.id] ? "Próxima imagem" : "Imagem anterior"}
+              </button>
+            </div>
+
           </div>
-
-          {/* Slides dos animais existentes */}
-          {animais.map((animal) => (
-            <div key={`animal-${animal.id}`} className={styles.itemCarrossel}>
-              <div className={styles.containerImagens}>
-                <div className={styles.imagemContainer}>
-                  <h3>Entrada</h3>
-                  <img
-                    src={`http://localhost:3003/uploads/${animal.imagem}`}
-                    alt={`${animal.nome} - entrada`}
-                    className={styles.imagemAnimal}
-                  />
-                </div>
-                <div className={styles.imagemContainer}>
-                  <h3>Saída</h3>
-                  {animal.imagemSaida ? (
-                    <img
-                      src={`http://localhost:3003/uploads/${animal.imagemSaida}`}
-                      alt={`${animal.nome} - saída`}
-                      className={styles.imagemAnimal}
-                    />
-                  ) : (
-                    <div className={styles.semImagem}>
-                      Sem imagem de saída
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className={styles.infoAnimal}>
-                <h1>{animal.nome}</h1>
-                <p className={styles.descricaoAnimal}>{animal.descricao}</p>
-                {animal.descricaoSaida && (
-                  <>
-                    <h3>Descrição de Saída:</h3>
-                    <p className={styles.descricaoSaida}>
-                      {animal.descricaoSaida}
-                    </p>
-                  </>
-                )}
-              </div>
-            </div>
-          ))}
-        </Carousel>
-      </div>
-    </div>
+        </div>
+      ))}
+    </Carousel>
   );
 }
