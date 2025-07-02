@@ -1,5 +1,5 @@
-// models/Animais.js
 const connection = require("../config/connection");
+const CarrosselDeAnimais = require("./CarrosselDeAnimais")
 
 const Animais = connection.sequelize.define("animais", {
   id: {
@@ -27,22 +27,27 @@ const Animais = connection.sequelize.define("animais", {
   statusMicrochipagem: {
     type: connection.Sequelize.STRING,
     allowNull: false,
+    field: 'status_microchipagem' // Define o nome da coluna no banco
   },
   statusVacinacao: {
     type: connection.Sequelize.STRING,
     allowNull: false,
+    field: 'status_vacinacao'
   },
   statusCastracao: {
     type: connection.Sequelize.STRING,
     allowNull: false,
+    field: 'status_castracao'
   },
   statusAdocao: {
     type: connection.Sequelize.STRING,
     allowNull: false,
+    field: 'status_adocao'
   },
   statusVermifugacao: {
     type: connection.Sequelize.STRING,
     allowNull: false,
+    field: 'status_vermifugacao'
   },
   imagem: {
     type: connection.Sequelize.STRING,
@@ -51,15 +56,27 @@ const Animais = connection.sequelize.define("animais", {
   imagemSaida: {
     type: connection.Sequelize.STRING,
     allowNull: true,
+    field: 'imagem_saida'
   },
   dataVacinacao: {
     type: connection.Sequelize.DATE,
-    allowNull: true
+    allowNull: true,
+    field: 'data_vacinacao'
   },
   descricao: {
     type: connection.Sequelize.TEXT,
     allowNull: true
   },
+}, {
+  tableName: 'animais', // Garante que o nome da tabela será 'animais'
+  underscored: true, // Converte automaticamente camelCase para snake_case
+  timestamps: true // Adiciona createdAt e updatedAt automaticamente
 });
+
+Animais.hasMany(CarrosselDeAnimais, {
+  foreignKey: 'animal_id', // Nome da chave estrangeira na tabela carrossel_animais
+  as: 'carrossel' // Alias para a associação
+});
+
 
 module.exports = Animais;

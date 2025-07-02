@@ -4,20 +4,20 @@ const multer = require("multer");
 const path = require("path");
 const animalController = require('../controllers/animalController');
 const doadorController = require('../controllers/doadorController');
-const carrosseldeAnimaisController = require('../controllers/carrosseldeAnimaisController'); // Novo controller
+const carrosseldeAnimaisController = require('../controllers/carrosselDeAnimaisController');
 
-// Configuração do multer
+// Configuração única do multer
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../uploads'));
   },
-  filename: (req, file, cb) => {
-    const nomeUnico = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, nomeUnico + path.extname(file.originalname));
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
   }
 });
 
-const upload = multer({ storage });
+const upload = multer({ storage: storage });
 
 // Rotas de doadores
 routes.get('/doadores', doadorController.listarDoadores);
@@ -36,9 +36,9 @@ routes.put("/animais/:id/imagem", upload.single("imagem"), animalController.atua
 routes.put("/animais/:id/imagem-saida", upload.single("imagemSaida"), animalController.atualizarImagemSaida);
 
 // Rotas do carrossel
-routes.post('/carrossel', carrosseldeAnimaisController.adicionarAoCarrossel);
-routes.get('/carrossel', carrosseldeAnimaisController.listarCarrossel);
-routes.put('/carrossel/:animalId', carrosseldeAnimaisController.atualizarDescricaoSaida);
-routes.delete('/carrossel/:animalId', carrosseldeAnimaisController.removerDoCarrossel);
+routes.get('/carrossel/animais/selecao', carrosseldeAnimaisController.listarAnimaisParaSelecao);
+routes.get('/carrossel/animais', carrosseldeAnimaisController.listarAnimaisDoCarrossel);
+routes.post('/carrossel/animais', carrosseldeAnimaisController.adicionarAnimalAoCarrossel);
+routes.delete('/carrossel/animais/:id', carrosseldeAnimaisController.removerAnimalDoCarrossel);
 
 module.exports = routes;

@@ -3,36 +3,31 @@ const connection = require("../config/connection");
 const CarrosselDeAnimais = connection.sequelize.define("carrossel_animais", {
   id: {
     type: connection.Sequelize.INTEGER,
+    autoIncrement: true,
+    allowNull: false,
     primaryKey: true,
+  },
+  animal_id: {
+    type: connection.Sequelize.INTEGER,
+    allowNull: false,
     references: {
-      model: 'animais', // Referência à tabela de animais
+      model: 'animais',
       key: 'id'
     }
   },
-  descricaoSaida: {
+  descricao_saida: {
     type: connection.Sequelize.TEXT,
-    allowNull: false,
+    allowNull: true
   },
-  createdAt: {
-    type: connection.Sequelize.DATE,
-    allowNull: false,
-    defaultValue: connection.Sequelize.NOW,
-  },
-  updatedAt: {
-    type: connection.Sequelize.DATE,
-    allowNull: false,
-    defaultValue: connection.Sequelize.NOW,
-  },
+  ordem: {
+    type: connection.Sequelize.INTEGER,
+    allowNull: false
+  }
 }, {
-  tableName: 'carrossel_animais' // Nome explícito da tabela
+  tableName: 'carrossel_animais',
+  underscored: true,
+  timestamps: true // Adicione para consistência
 });
 
-// Definindo a associação com o modelo Animais
-CarrosselDeAnimais.associate = (models) => {
-  CarrosselDeAnimais.belongsTo(models.Animais, {
-    foreignKey: 'id',
-    as: 'animal'
-  });
-};
 
 module.exports = CarrosselDeAnimais;

@@ -1,91 +1,95 @@
-const CarrosselDeAnimais = require("../models/CarrosselDeAnimais");
-const Animais = require("../models/Animais");
+const Animais = require('../models/Animais');
+const CarrosselAnimais = require('../models/CarrosselDeAnimais');
 
-const adicionarAoCarrossel = async (req, res) => {
+exports.listarAnimaisParaSelecao = async (req, res) => {
+  try {
+    const animais = await Animais.findAll({
+      attributes: ['id', 'nome'],
+      order: [['nome', 'ASC']]
+    });
+    
+    if (!animais || animais.length === 0) {
+      return res.status(404).json({ mensagem: 'Nenhum animal encontrado' });
+    }
+    
+    res.json(animais);
+  } catch (error) {
+    console.error('Erro em listarAnimaisParaSelecao:', error);
+    res.status(500).json({ 
+      erro: 'Erro ao buscar animais',
+      detalhes: error.message 
+    });
+  }
+};
+
+exports.buscarAnimalPorId = async (req, res) => {
+  try {
+    const animal = await Animais.findByPk(req.params.id, {
+      attributes: ['id', 'nome', 'imagem', 'imagemSaida', 'descricao']
+    });
+    if (!animal) {
+      return res.status(404).json({ erro: 'Animal não encontrado' });
+    }
+    res.json(animal);
+  } catch (error) {
+    res.status(500).json({ erro: 'Erro ao buscar animal' });
+  }
+};
+
+exports.adicionarAnimalAoCarrossel = async (req, res) => {
   try {
     const { animalId, descricaoSaida } = req.body;
-
-    // Verifica se o animal existe
-    const animal = await Animais.findByPk(animalId);
-    if (!animal) {
-      return res.status(404).json({ error: 'Animal não encontrado' });
+    
+    // Verifica se o animal já está no carrossel
+    const existe = await CarrosselAnimais.findOne({ where: { animalId } });
+    if (existe) {
+      return res.status(400).json({ erro: 'Animal já está no carrossel' });
     }
-
-    // Verifica se já está no carrossel
-    const existeNoCarrossel = await CarrosselDeAnimais.findOne({ where: { id: animalId } });
-    if (existeNoCarrossel) {
-      return res.status(400).json({ error: 'Animal já está no carrossel' });
-    }
-
-    // Adiciona ao carrossel
-    const itemCarrossel = await CarrosselDeAnimais.create({
-      id: animalId,
-      descricaoSaida
+    
+    // Pega a última ordem para definir a nova
+    const ultimo = await CarrosselAnimais.findOne({
+      order: [['ordem', 'DESC']]
     });
-
-    res.status(201).json(itemCarrossel);
+    const novaOrdem = ultimo ? ultimo.ordem + 1 : 1;
+    
+    const novoItem = await CarrosselAnimais.create({
+      animalId,
+      descricaoSaida,
+      ordem: novaOrdem
+    });
+    
+    res.status(201).json(novoItem);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Erro ao adicionar ao carrossel' });
+    res.status(500).json({ erro: 'Erro ao adicionar animal ao carrossel' });
   }
 };
 
-const listarCarrossel = async (req, res) => {
+exports.listarAnimaisDoCarrossel = async (req, res) => {
   try {
-    const carrossel = await CarrosselDeAnimais.findAll({
+    const animaisCarrossel = await CarrosselAnimais.findAll({
       include: [{
         model: Animais,
-        as: 'animal',
-        required: true
-      }]
+        as: 'animal', // Deve corresponder ao alias definido na associação
+        attributes: ['id', 'nome', 'imagem', 'imagem_saida', 'descricao']
+      }],
+      order: [['ordem', 'ASC']]
     });
-    res.json(carrossel);
+    
+    res.json(animaisCarrossel);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Erro ao listar carrossel' });
+    console.error('Erro ao listar animais do carrossel:', error);
+    res.status(500).json({ 
+      erro: 'Erro ao listar animais do carrossel',
+      detalhes: error.message 
+    });
   }
 };
 
-const atualizarDescricaoSaida = async (req, res) => {
+exports.removerAnimalDoCarrossel = async (req, res) => {
   try {
-    const { animalId } = req.params;
-    const { descricaoSaida } = req.body;
-
-    const itemCarrossel = await CarrosselDeAnimais.findByPk(animalId);
-    if (!itemCarrossel) {
-      return res.status(404).json({ error: 'Animal não encontrado no carrossel' });
-    }
-
-    itemCarrossel.descricaoSaida = descricaoSaida;
-    await itemCarrossel.save();
-
-    res.json(itemCarrossel);
+    await CarrosselAnimais.destroy({ where: { id: req.params.id } });
+    res.status(204).send();
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Erro ao atualizar descrição' });
+    res.status(500).json({ erro: 'Erro ao remover animal do carrossel' });
   }
-};
-
-const removerDoCarrossel = async (req, res) => {
-  try {
-    const { animalId } = req.params;
-
-    const itemCarrossel = await CarrosselDeAnimais.findByPk(animalId);
-    if (!itemCarrossel) {
-      return res.status(404).json({ error: 'Animal não encontrado no carrossel' });
-    }
-
-    await itemCarrossel.destroy();
-    res.status(204).end();
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Erro ao remover do carrossel' });
-  }
-};
-
-module.exports = {
-  adicionarAoCarrossel,
-  listarCarrossel,
-  atualizarDescricaoSaida,
-  removerDoCarrossel
 };

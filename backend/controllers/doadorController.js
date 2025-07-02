@@ -1,19 +1,4 @@
 const Doadores = require("../models/Doadores");
-const multer = require("multer");
-const path = require("path");
-
-// Reutiliza a mesma configuração do multer que você já tem
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) => {
-    const nomeUnico = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, nomeUnico + path.extname(file.originalname));
-  },
-});
-
-const upload = multer({ storage });
 
 // Listar todos os doadores
 const listarDoadores = async (req, res) => {
@@ -133,5 +118,4 @@ module.exports = {
   buscarDoadorPorId,
   atualizarDoador,
   deletarDoador,
-  upload,
 };
