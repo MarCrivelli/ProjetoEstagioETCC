@@ -26,9 +26,9 @@ export default function CarrosselAnimais({ animais, ehMobile }) {
   return (
     <Carousel
       showArrows={!ehMobile}
+      showIndicators={!ehMobile}
       showThumbs={false}
       showStatus={false}
-      showIndicators={!ehMobile}
       infiniteLoop={true}
       swipeable={true}
       emulateTouch={true}

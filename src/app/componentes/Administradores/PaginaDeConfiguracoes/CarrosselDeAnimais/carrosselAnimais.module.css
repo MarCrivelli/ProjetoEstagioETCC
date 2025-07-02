@@ -1,7 +1,7 @@
-.fundoCarrosselAnimais {
+.fundoCarrossel {
   display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   background: linear-gradient(
     to right,
     #ffae00 0%,
@@ -13,184 +13,138 @@
     #ffdb81 75%,
     #ffdb81 100%
   );
-  padding: 100px 80px;
+  padding: 8% 6%;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+  height: auto;
+  width: 100%;
 }
 
-.painel {
+/*Componente carrossel, responsável pelo fundo branco*/
+.carrossel {
   display: flex;
+  flex-direction: column;
   width: 100%;
-  height: 100%;
-  background-color: white;
+  height: auto;
+  background-color: rgb(255, 255, 255);
   border: 3px solid black;
   border-radius: 10px;
 }
 
-
-.itemCarrosselAnimal {
+/*Representam o slide de cadastro de animais e os slides que surgem quando se adiciona um animal*/
+.slideFormulario,
+.slideAnimaisCadastrados {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 0px 80px 80px 80px;
-  height: 100%;
-  min-height: 494px;
+  padding: 20px;
 }
 
-.conteudoAnimal {
-  display: flex;
-  width: 100%;
-  height: 100%;
+.slideFormulario {
+  flex-direction: column;
+  row-gap: 30px;
+}
+
+.slideAnimaisCadastrados {
   gap: 40px;
-  margin-top: 20px;
+  flex-wrap: wrap;
 }
 
-.containerImagem {
-  max-width: 50%;
-  height: auto;
-  border-radius: 8px;
+.alinharDadosAnimal {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-grow: 1;
+  width: 100%;
+  gap: 40px;
+  flex-wrap: wrap;
 }
 
-.containerImagem h2 {
-  color: var(--cor-fundo);
-  margin-bottom: 5px;
+.containerImagensAnimal {
+  max-width: 50%;
+}
+
+.containerImagensAnimal h2 {
   text-align: start;
-  width: 100%;
   padding-left: 10px;
+  font-size: 1.7rem;
 }
 
-.imagemAnimal {
-  width: 100%;
-  height: 100%;
-  max-height: 420px;
+.imagensAnimal {
+  max-height: 400px;
   object-fit: cover;
   border-radius: 20px;
 }
 
-.containerDescricao {
-  flex: 1 300px;
+.containerDescricaoAnimal {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  padding: 35px 0px 0px 0px;
+  flex: 1 300px;
 }
 
-.containerDescricao h1 {
-  margin-bottom: 15px;
-  color: var(--cor-fundo);
+.alinharDescricao:first-of-type {
+  flex: 1;
 }
 
-.descricaoAnimal {
-  color: var(--cor-texto);
-  font-size: 1.1rem;
-  line-height: 1.6;
-}
-
-.containerDescricao h1,
-.descricaoAnimal {
-  text-align: start;
-}
-
-.botaoProximo {
-  margin: auto auto 0px 0px;
-  padding: 7px 40px;
-  background-color: var(--cor-crow);
-  color: rgb(255, 255, 255);
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: all 0.3s ease;
-}
-
-.botaoProximo:hover {
-  background-color: #0d0907d2;
-  color: rgb(244, 244, 244);
-}
-
-.setaCarrossel {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: rgba(0, 3, 36, 0.7);
-  color: white;
-  border: 3px solid black;
+.alinharDescricao {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 2;
-  font-size: 1.2rem;
-  opacity: 1;
-  transition: all 0.3s ease;
+  flex-direction: column;
+  flex: 4;
 }
 
-.setaCarrossel:hover {
-  background-color: rgba(0, 3, 36, 0.9);
+.alinharDescricao label {
+  text-align: start;
+  padding-left: 3px;
 }
 
-.setaCarrossel:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
+.descricoesAnimal {
+  border: 1px solid #b3b3b3;
+  flex-grow: 1;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: justify;
 }
 
-.setaEsquerda {
-  left: 15px;
+.alinharBotaoMudarDescricao {
+  display: flex;
+  justify-content: flex-start;
 }
 
-.setaDireita {
-  right: 15px;
+.alinharBotaoMudarDescricao button {
+  padding: 5px 25px;
+  border: none;
+  background-color: #1a1a1a;
+  color: white;
+  border-radius: 4px;
 }
 
-@media (max-width: 1023px) {
-  .itemCarrosselAnimal {
-    padding: 0 10px 0 10px;
-    min-height: 0;
+.alinharBotaoInserirAnimal {
+  height: 40px;
+  width: 100%;
+}
+
+.alinharBotaoInserirAnimal button {
+  height: 100%;
+  border: none;
+  padding: 5px 25px;
+  background-color: #00aa09;
+  border-radius: 4px;
+  color: white;
+}
+
+.nomeAnimal {
+  font-size: 1.8rem;
+  text-align: start;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 862px) {
+  .alinharDadosAnimal,
+  .slideAnimaisCadastrados  {
+    gap: 10px;
+  }
+  .containerImagensAnimal {
+    max-width: none;
+    flex-grow: 1;
   }
 
-  .conteudoAnimal {
-    flex-direction: column;
-    height: auto;
-    gap: 20px;
-  }
-
-  .containerDescricao {
-    flex: 1 1 auto;
-    width: 100%;
-    padding: 0;
-  }
-
-  .containerImagem {
-    flex: none;
-    max-height: none;
-    max-width: 100%;
-  }
-
-  .imagemAnimal {
-    max-height: 207px;
-    min-height: 207px;
-  }
-
-  .containerDescricao h1 {
-    margin-bottom: 0;
-  }
-
-  .containerDescricao p {
-    font-size: 0.8rem;
-    text-align: justify;
-  }
-
-  .botaoProximo {
-    padding: 10px 20px;
-    color: rgb(255, 255, 255);
-    font-size: 0.8rem;
-    margin: 0 0 0 0;
-    max-width: 200px;
+  .imagensAnimal {
+    max-height: 270px;
   }
 }

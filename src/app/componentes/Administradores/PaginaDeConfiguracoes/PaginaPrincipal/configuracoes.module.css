@@ -103,6 +103,7 @@
   height: 28px;
   object-fit: scale-down;
 }
+
 .alinharSessoes {
   display: flex;
   flex-direction: column;
@@ -111,6 +112,8 @@
 }
 
 .sessao {
+  display: flex;
+  flex-direction: column;
   border-radius: 10px;
   border: 1px solid #b3b3b348;
 }
