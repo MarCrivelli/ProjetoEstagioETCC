@@ -73,10 +73,4 @@ const Animais = connection.sequelize.define("animais", {
   timestamps: true // Adiciona createdAt e updatedAt automaticamente
 });
 
-Animais.hasMany(CarrosselDeAnimais, {
-  foreignKey: 'animal_id', // Nome da chave estrangeira na tabela carrossel_animais
-  as: 'carrossel' // Alias para a associação
-});
-
-
 module.exports = Animais;

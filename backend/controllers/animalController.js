@@ -1,19 +1,4 @@
 const Animais = require("../models/Animais");
-const multer = require("multer");
-const path = require("path");
-
-// Configuração do multer para upload de imagens
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/");
-  },
-  filename: (req, file, cb) => {
-    const nomeUnico = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, nomeUnico + path.extname(file.originalname));
-  },
-});
-
-const upload = multer({ storage });
 
 const atualizarStatusVacinacao = (animal) => {
   if (animal.dataVacinacao) {

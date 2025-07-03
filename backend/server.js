@@ -1,71 +1,33 @@
-const express = require("express");
-const cors = require("cors");
-const path = require("path");
-const { sequelize } = require("./config/connection");
-const routes = require("./routers/routes");
-const setupAssociations = require('./models/Associacoes');
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const routes = require('./routers/routes');
+const setupAssociations = require('./models/Associacoes.js'); 
 
 const app = express();
-const port = process.env.PORT || 3003;
 
-// Middlewares
-app.use(
-  cors({
-    origin: ["http://localhost:5173", "http://localhost:3000"],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
-  })
-);
-
-app.use(express.static(path.join(__dirname, "public")));
-app.use(express.urlencoded({ extended: false }));
+// Configurações básicas
+app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Configuração para servir arquivos estáticos
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use('/uploads', express.static('uploads'));
+
+// Configurar associações dos modelos
+setupAssociations();
 
 // Rotas
-app.use(routes);
+app.use('/', routes);
 
-// Rota raiz
-app.get("/", (req, res) => {
-  const filePath = path.join(__dirname, "views", "index.html");
-  res.sendFile(filePath);
-});
-
-// Middleware de erro (mantido no final)
+// Tratamento de erros
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ error: "Erro interno no servidor" });
+  res.status(500).json({ error: 'Erro interno do servidor' });
 });
 
-// Inicialização do banco de dados e servidor
-async function initialize() {
-  try {
-    // 1. Autenticar conexão com o banco
-    await sequelize.authenticate();
-    console.log("Conexão com o banco estabelecida.");
-
-    // 2. Configurar associações
-    setupAssociations();
-    console.log("Associações configuradas.");
-
-    // 3. Sincronizar modelos (force: true apenas em desenvolvimento)
-    await sequelize.sync({ force: true });
-    console.log("Banco de dados sincronizado.");
-
-    // 4. Iniciar servidor
-    app.listen(port, () => {
-      console.log(`Servidor rodando na porta ${port}`);
-    });
-  } catch (error) {
-    console.error("Falha na inicialização:", error);
-    process.exit(1); // Encerra o processo com erro
-  }
-}
-
-// Inicia a aplicação
-initialize();
+// Iniciar servidor
+const PORT = process.env.PORT || 3003;
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+});
