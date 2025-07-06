@@ -9,15 +9,17 @@ export default function CarrosselAnimaisAutonomo() {
   const [animais, setAnimais] = useState([]);
   const [animaisCarrossel, setAnimaisCarrossel] = useState([]);
   const [animalSelecionado, setAnimalSelecionado] = useState(null);
-  const [modoEdicao, setModoEdicao] = useState(false);
   const [descricaoSaida, setDescricaoSaida] = useState("");
-  const [mostrarImagemSaida, setMostrarImagemSaida] = useState(false);
   const [carregando, setCarregando] = useState(false);
   const [carregandoCarrossel, setCarregandoCarrossel] = useState(false);
+  const [mostrarImagemSaidaPorItem, setMostrarImagemSaidaPorItem] = useState(
+    {}
+  );
 
   useEffect(() => {
     carregarAnimais();
     carregarAnimaisCarrossel();
+    console.log("Animais do carrossel:", carregarAnimaisCarrossel());
   }, []);
 
   const carregarAnimais = async () => {
@@ -27,13 +29,21 @@ export default function CarrosselAnimaisAutonomo() {
         "http://localhost:3003/carrossel/animais/selecao"
       );
 
-      if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+      console.log("Resposta da API (/carrossel/animais/selecao):", response); // Log de debug
+
+      if (!response.ok) {
+        throw new Error(`Erro HTTP: ${response.status}`);
+      }
 
       const data = await response.json();
+      console.log("Dados recebidos (/carrossel/animais/selecao):", data); // Log de debug
+
+      // Verificação básica - mostra todos os animais sem filtro inicialmente
       setAnimais(
         data.map((animal) => ({
           value: animal.id,
           label: animal.nome,
+          originalData: animal, // Mantemos os dados completos para referência
         }))
       );
     } catch (error) {
@@ -44,50 +54,64 @@ export default function CarrosselAnimaisAutonomo() {
     }
   };
 
-  const carregarAnimaisCarrossel = async () => {
+     const carregarAnimaisCarrossel = async () => {
+     try {
+       setCarregandoCarrossel(true);
+       const response = await fetch("http://localhost:3003/carrossel/animais");
+
+       if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+
+       const data = await response.json();
+       console.log("Dados do carrossel recebidos:", data); // Log de debug
+
+       const dadosProcessados = Array.isArray(data.data) // Verifique se está acessando a propriedade correta
+         ? data.data.filter(item => item?.animal).map(item => ({
+             ...item,
+             animal: {
+               ...item.animal,
+               imagem: item.animal.imagem || null,
+               imagemSaida: item.animal.imagemSaida || null,
+               nome: item.animal.nome || "Animal sem nome",
+               descricao: item.animal.descricao || "Sem descrição"
+             }
+           }))
+         : [];
+
+       setAnimaisCarrossel(dadosProcessados);
+     } catch (error) {
+       console.error("Erro ao carregar animais do carrossel:", error);
+       setErro("Falha ao carregar animais do carrossel. Tente novamente.");
+       setAnimaisCarrossel([]);
+     } finally {
+       setCarregandoCarrossel(false);
+     }
+   };
+   
+
+  const handleSelecionarAnimal = async (selectedOption) => {
+    if (!selectedOption) return;
+
     try {
-      setCarregandoCarrossel(true);
-      const response = await fetch("http://localhost:3003/carrossel/animais");
+      const response = await fetch(
+        `http://localhost:3003/animais/${selectedOption.value}`
+      );
 
       if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
 
       const data = await response.json();
-      // Garante que sempre teremos um array válido
-      setAnimaisCarrossel(Array.isArray(data) ? data : []);
-    } catch (error) {
-      console.error("Erro ao carregar animais do carrossel:", error);
-      setErro("Falha ao carregar animais do carrossel. Tente novamente.");
-      setAnimaisCarrossel([]); // Define como array vazio em caso de erro
-    } finally {
-      setCarregandoCarrossel(false);
-    }
-  };
-
-  const handleSelecionarAnimal = async (selectedOption) => {
-    try {
-      const response = await fetch(
-        `http://localhost:3003/carrossel/animais/${selectedOption.value}`
-      );
-
-      if (!response.ok) {
-        throw new Error(`Erro HTTP: ${response.status}`);
-      }
-
-      const data = await response.json();
       setAnimalSelecionado(data);
       setDescricaoSaida(data.descricaoSaida || "");
-      setMostrarImagemSaida(false);
     } catch (error) {
       console.error("Erro ao buscar animal:", error);
       setErro("Erro ao buscar detalhes do animal. Tente novamente.");
     }
   };
 
-  const alternarImagem = () => {
-    setMostrarImagemSaida(!mostrarImagemSaida);
-    if (!mostrarImagemSaida && !modoEdicao) {
-      setModoEdicao(true);
-    }
+  const alternarImagemItem = (itemId) => {
+    setMostrarImagemSaidaPorItem((prev) => ({
+      ...prev,
+      [itemId]: !prev[itemId],
+    }));
   };
 
   const handleAdicionarAnimal = async () => {
@@ -95,7 +119,6 @@ export default function CarrosselAnimaisAutonomo() {
       setErro("Preencha todos os campos obrigatórios");
       return;
     }
-
     try {
       const response = await fetch("http://localhost:3003/carrossel/animais", {
         method: "POST",
@@ -109,22 +132,27 @@ export default function CarrosselAnimaisAutonomo() {
       });
 
       if (!response.ok) {
-        throw new Error(`Erro HTTP: ${response.status}`);
+        const errorData = await response.json().catch(() => ({}));
+        console.error("Erro detalhado:", errorData);
+        throw new Error(
+          errorData.message ||
+            `Erro ao adicionar animal (Status ${response.status})`
+        );
       }
 
       // Recarrega as listas
-      await carregarAnimaisCarrossel();
-      await carregarAnimais();
+      await Promise.all([carregarAnimaisCarrossel(), carregarAnimais()]);
 
       // Limpa o formulário
       setAnimalSelecionado(null);
       setDescricaoSaida("");
-      setModoEdicao(false);
-      setMostrarImagemSaida(false);
       setErro("");
     } catch (error) {
       console.error("Erro ao adicionar animal ao carrossel:", error);
-      setErro("Erro ao adicionar animal. Tente novamente.");
+      setErro(
+        error.message ||
+          "Erro ao adicionar animal. Verifique o console para mais detalhes."
+      );
     }
   };
 
@@ -136,11 +164,13 @@ export default function CarrosselAnimaisAutonomo() {
     return (
       <div className={styles.error}>
         {erro}
-        <button onClick={() => {
-          setErro("");
-          carregarAnimaisCarrossel();
-          carregarAnimais();
-        }}>
+        <button
+          onClick={() => {
+            setErro("");
+            carregarAnimaisCarrossel();
+            carregarAnimais();
+          }}
+        >
           Tentar novamente
         </button>
       </div>
@@ -160,20 +190,21 @@ export default function CarrosselAnimaisAutonomo() {
         <div className={styles.slideFormulario}>
           <div className={styles.alinharDadosAnimal}>
             <div className={styles.containerImagensAnimal}>
-              <h2>{mostrarImagemSaida ? "Depois" : "Antes"}</h2>
-              {animalSelecionado && (
+              <h2>Antes</h2>
+              {animalSelecionado?.imagem ? (
                 <img
                   className={styles.imagensAnimal}
-                  src={
-                    mostrarImagemSaida && animalSelecionado.imagemSaida
-                      ? `http://localhost:3003/uploads/${animalSelecionado.imagemSaida}`
-                      : `http://localhost:3003/uploads/${animalSelecionado.imagem}`
-                  }
+                  src={`http://localhost:3003/uploads/${animalSelecionado.imagem}`}
                   alt={`Imagem do animal ${animalSelecionado.nome}`}
                   onError={(e) => {
                     e.target.src = "/placeholder-image.jpg";
+                    e.target.onerror = null;
                   }}
                 />
+              ) : (
+                <div className={styles.placeholderImagem}>
+                  Sem imagem disponível
+                </div>
               )}
             </div>
             <div className={styles.containerDescricaoAnimal}>
@@ -183,31 +214,25 @@ export default function CarrosselAnimaisAutonomo() {
                   options={animais}
                   onChange={handleSelecionarAnimal}
                   placeholder="Selecione um animal"
+                  value={
+                    animalSelecionado
+                      ? {
+                          value: animalSelecionado.id,
+                          label: animalSelecionado.nome,
+                        }
+                      : null
+                  }
                 />
               </div>
               <div className={styles.alinharDescricao}>
-                <label>Descrição do animal</label>
-                {modoEdicao ? (
-                  <textarea
-                    className={styles.descricoesAnimal}
-                    value={descricaoSaida}
-                    onChange={(e) => setDescricaoSaida(e.target.value)}
-                    placeholder="Digite a descrição de saída do animal"
-                  />
-                ) : (
-                  <p className={styles.descricoesAnimal}>
-                    {animalSelecionado?.descricao ||
-                      "Selecione um animal para ver sua descrição"}
-                  </p>
-                )}
+                <label>Descrição de saída</label>
+                <textarea
+                  className={styles.descricoesAnimal}
+                  value={descricaoSaida}
+                  onChange={(e) => setDescricaoSaida(e.target.value)}
+                  placeholder="Digite a descrição de saída do animal"
+                />
               </div>
-              {animalSelecionado && (
-                <div className={styles.alinharBotaoMudarDescricao}>
-                  <button onClick={alternarImagem}>
-                    {mostrarImagemSaida ? "Antes" : "Depois"}
-                  </button>
-                </div>
-              )}
             </div>
           </div>
           <div className={styles.alinharBotaoInserirAnimal}>
@@ -215,41 +240,68 @@ export default function CarrosselAnimaisAutonomo() {
               onClick={handleAdicionarAnimal}
               disabled={!descricaoSaida || !animalSelecionado}
             >
-              {carregando ? "Processando..." : "Inserir Animal"}
+              Inserir Animal
             </button>
           </div>
         </div>
 
         {/* Slides dos animais cadastrados no carrossel */}
         {animaisCarrossel.length > 0 ? (
-          animaisCarrossel.map((item) => (
-            <div key={item.id} className={styles.slideAnimaisCadastrados}>
-              <div className={styles.containerImagensAnimal}>
-                <h2>Antes</h2>
-                {item.animal?.imagem && (
-                  <img
-                    className={styles.imagensAnimal}
-                    src={`http://localhost:3003/uploads/${item.animal.imagem}`}
-                    alt={`Imagem de ${item.animal.nome || "animal"}`}
-                    onError={(e) => {
-                      e.target.src = "/placeholder-image.jpg";
-                    }}
-                  />
-                )}
-              </div>
-              <div className={styles.containerDescricaoAnimal}>
-                <h1 className={styles.nomeAnimal}>
-                  {item.animal?.nome || "Animal sem nome"}
-                </h1>
-                <p className={styles.descricoesAnimal}>
-                  {item.descricaoSaida || item.animal?.descricao || "Sem descrição disponível"}
-                </p>
-                <div className={styles.alinharBotaoMudarDescricao}>
-                  <button>Antes/Depois</button>
+          animaisCarrossel.map((item) => {
+            const mostrarSaida = mostrarImagemSaidaPorItem[item.id] || false;
+
+            return (
+              <div key={item.id} className={styles.slideAnimaisCadastrados}>
+                <div className={styles.containerImagensAnimal}>
+                  <h2>{mostrarSaida ? "Depois" : "Antes"}</h2>
+                  {mostrarSaida ? (
+                    item.animal.imagemSaida ? (
+                      <img
+                        className={styles.imagensAnimal}
+                        src={`http://localhost:3003/uploads/${item.animal.imagemSaida}`}
+                        alt={`Imagem depois do animal ${item.animal.nome}`}
+                        onError={(e) => {
+                          e.target.src = "/placeholder-image.jpg";
+                          e.target.onerror = null;
+                        }}
+                      />
+                    ) : (
+                      <div className={styles.placeholderImagem}>
+                        Sem imagem de depois
+                      </div>
+                    )
+                  ) : item.animal.imagem ? (
+                    <img
+                      className={styles.imagensAnimal}
+                      src={`http://localhost:3003/uploads/${item.animal.imagem}`}
+                      alt={`Imagem antes do animal ${item.animal.nome}`}
+                      onError={(e) => {
+                        e.target.src = "/placeholder-image.jpg";
+                        e.target.onerror = null;
+                      }}
+                    />
+                  ) : (
+                    <div className={styles.placeholderImagem}>
+                      Sem imagem de antes
+                    </div>
+                  )}
+                </div>
+                <div className={styles.containerDescricaoAnimal}>
+                  <h1 className={styles.nomeAnimal}>{item.animal.nome}</h1>
+                  <p className={styles.descricoesAnimal}>
+                    {mostrarSaida
+                      ? item.descricaoSaida || "Sem descrição de saída"
+                      : item.animal.descricao || "Sem descrição"}
+                  </p>
+                  <div className={styles.alinharBotaoMudarDescricao}>
+                    <button onClick={() => alternarImagemItem(item.id)}>
+                      {mostrarSaida ? "Ver Antes" : "Ver Depois"}
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
+            );
+          })
         ) : (
           <div className={styles.slideAnimaisCadastrados}>
             <p>Nenhum animal cadastrado no carrossel</p>

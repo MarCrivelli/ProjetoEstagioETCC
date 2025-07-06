@@ -1,5 +1,4 @@
 const connection = require("../config/connection");
-const CarrosselDeAnimais = require("./CarrosselDeAnimais")
 
 const Animais = connection.sequelize.define("animais", {
   id: {

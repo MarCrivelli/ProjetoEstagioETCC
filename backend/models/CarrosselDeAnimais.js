@@ -7,7 +7,7 @@ const CarrosselDeAnimais = connection.sequelize.define("carrossel_animais", {
     allowNull: false,
     primaryKey: true,
   },
-  animal_id: {
+  animalId: {
     type: connection.Sequelize.INTEGER,
     allowNull: false,
     references: {
