@@ -73,7 +73,7 @@ export default function HeaderAdms() {
                 onClick={() => setMenuAberto(!menuAberto)}
                 aria-label="Menu"
               >
-                <span className={styles.hamburguerVisitantes}></span>
+                <span className={styles.hamburguerAdms}></span>
               </button>
             </li>
           </ul>

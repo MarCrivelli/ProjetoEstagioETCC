@@ -175,22 +175,29 @@
   max-height: 80vh;
   display: block;
   margin: 0 auto;
+  border-radius: 15px;
+  border: 2px solid #5200f78e;
 }
 
 .botaoFecharModal {
   position: relative;
   margin-left: auto;
   margin-bottom: 10px;
-  background: #fff;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 50%;
   width: 30px;
   height: 30px;
+  padding-bottom: 5px;
   font-size: 1.5rem;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background ease-in .14s;
+}
+
+.botaoFecharModal:hover{
+  background-color: white;
+  cursor: pointer;
 }
 
 .alinharDadosDeIdentificacao {
@@ -259,11 +266,13 @@
   border-radius: 7px;
   color: rgb(255, 255, 255);
   cursor: pointer;
+  transition: filter ease-in-out .3s;
 }
 
 .desativado {
   cursor: not-allowed;
-  opacity: 0.7;
+  filter: grayscale(1);
+  transition: filter ease-in-out .4s;
 }
 
 @media (max-width: 500px) {

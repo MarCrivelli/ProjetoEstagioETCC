@@ -13,23 +13,26 @@ const sequelize = new Sequelize(
     retry: {
       max: 5,
       timeout: 5000
+    },
+    define: {
+      underscored: false,
+      freezeTableName: true,
+      timestamps: true
     }
   }
 );
 
-// Teste de conexão mais robusto
 sequelize.authenticate()
   .then(() => {
     console.log('Conexão com o banco estabelecida.');
-    return sequelize.sync({ force: false });
+    // return sequelize.sync({ force: true }); 
   })
   .then(() => {
-    console.log('Modelos sincronizados.');
+    console.log('Modelos sincronizados e tabelas recriadas.');
   })
   .catch(err => {
     console.error('Falha na conexão:', err);
     process.exit(1);
   });
-
 
 module.exports = { Sequelize, sequelize };

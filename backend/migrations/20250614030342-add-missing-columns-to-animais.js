@@ -1,4 +1,4 @@
-// migrations/XXXXXXXXXXXXXX-add-missing-columns-to-animais.js
+
 'use strict';
 
 module.exports = {

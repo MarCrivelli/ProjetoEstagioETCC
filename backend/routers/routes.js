@@ -33,8 +33,7 @@ routes.get('/carrossel/animais/:id', carrosselAnimaisController.buscarAnimalPorI
 routes.get('/carrossel/animais', carrosselAnimaisController.listarAnimaisDoCarrossel);
 routes.post('/carrossel/animais', carrosselAnimaisController.adicionarAnimalAoCarrossel);
 routes.delete('/carrossel/animais/:id', carrosselAnimaisController.removerAnimalDoCarrossel);
-
-
+routes.put('/carrossel/animais/:id', carrosselAnimaisController.atualizarDescricaoSaida);
 
 // Rotas de doadores
 routes.get('/doadores', doadorController.listarDoadores);

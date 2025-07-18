@@ -264,7 +264,7 @@ export default function FichasDeAnimais() {
         <div className={styles.painel}>
           {loading ? (
             <div className={styles.loading}>
-              <img src="/pagFichasDAnimais/carregando.svg" alt="Carregando" />
+              <img src="/carregando.svg" alt="Carregando" />
               <p>Carregando...</p>
             </div>
           ) : error ? (

@@ -57,13 +57,13 @@
 }
 
 .linkSubPaginas,
-.hamburguerVisitantes {
+.hamburguerAdms {
   color: rgb(208, 208, 208);
   transition: all ease-in-out 0.2s;
 }
 
 .linkSubPaginas:hover,
-.hamburguerVisitantes:hover {
+.hamburguerAdms:hover {
   color: rgb(230, 230, 230);
   transform: scale(1.03);
 }
@@ -116,14 +116,17 @@
   border: none;
   background: none;
   cursor: pointer;
+  
 }
-.hamburguerVisitantes {
+
+.hamburguerAdms {
   display: block;
   border-top: 2px solid;
   width: 35px;
 }
-.hamburguerVisitantes::after,
-.hamburguerVisitantes:before {
+
+.hamburguerAdms::after,
+.hamburguerAdms:before {
   content: "";
   display: block;
   width: 35px;
@@ -222,16 +225,16 @@
 }
 
 /* Animação do botão hamburguer para X */
-.menuAberto ~ .headerAdms .hamburguerVisitantes {
+.menuAberto ~ .headerAdms .hamburguerAdms {
   border-top-color: transparent;
 }
 
-.menuAberto ~ .headerAdms .hamburguerVisitantes::before {
+.menuAberto ~ .headerAdms .hamburguerAdms::before {
   transform: rotate(135deg);
   top: -12px;
 }
 
-.menuAberto ~ .headerAdms .hamburguerVisitantes::after {
+.menuAberto ~ .headerAdms .hamburguerAdms::after {
   transform: rotate(-135deg);
   top: -12px;
 }

@@ -1,3 +1,11 @@
+.carrossel,
+.erro,
+.carregando {
+  background-color: rgb(255, 255, 255);
+  border: 3px solid black;
+  border-radius: 10px;
+}
+
 .fundoCarrossel {
   display: flex;
   justify-content: center;
@@ -13,183 +21,341 @@
     #ffdb81 75%,
     #ffdb81 100%
   );
-  padding: 8% 6%;
+  padding: 5% 4%;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   height: auto;
   width: 100%;
 }
 
-/*Componente carrossel, responsável pelo fundo branco*/
 .carrossel {
   display: flex;
   flex-direction: column;
   width: 100%;
   height: auto;
-  background-color: rgb(255, 255, 255);
-  border: 3px solid black;
-  border-radius: 10px;
 }
 
-/*Representam o slide de cadastro de animais e os slides que surgem quando se adiciona um animal*/
-.slideFormulario,
-.slideAnimaisCadastrados {
-  display: flex;
-  padding: 20px;
-}
-
-.slideFormulario {
-  flex-direction: column;
-  row-gap: 30px;
-}
-
-.slideAnimaisCadastrados {
-  gap: 40px;
-  flex-wrap: wrap;
-}
-
-.alinharDadosAnimal {
-  display: flex;
-  flex-grow: 1;
-  width: 100%;
-  gap: 40px;
-  flex-wrap: wrap;
-}
-
-.containerImagensAnimal {
-  max-width: 50%;
-}
-
-.containerImagensAnimal h2 {
-  text-align: start;
-  padding-left: 10px;
-  font-size: 1.7rem;
-}
-
-.imagensAnimal {
-  max-height: 400px;
-  object-fit: cover;
-  border-radius: 20px;
-}
-
-.containerDescricaoAnimal {
-  display: flex;
-  flex-direction: column;
-  flex: 1 300px;
-}
-
-.alinharDescricao:first-of-type {
-  flex: 1;
-}
-
-.alinharDescricao {
-  display: flex;
-  flex-direction: column;
-  flex: 4;
-}
-
-.alinharDescricao label {
-  text-align: start;
-  padding-left: 3px;
-}
-
-.descricoesAnimal {
-  border: 1px solid #b3b3b3;
-  flex-grow: 1;
-  border-radius: 10px;
-  padding: 10px;
-  text-align: justify;
-}
-
-.alinharBotaoMudarDescricao {
-  display: flex;
-  justify-content: flex-start;
-}
-
-.alinharBotaoMudarDescricao button {
-  padding: 5px 25px;
-  border: none;
-  background-color: #1a1a1a;
-  color: white;
-  border-radius: 4px;
-}
-
-.alinharBotaoInserirAnimal {
+.setaCarrossel {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
   height: 40px;
-  width: 100%;
-}
-
-.alinharBotaoInserirAnimal button {
-  height: 100%;
-  border: none;
-  padding: 5px 25px;
-  background-color: #00aa09;
-  border-radius: 4px;
+  border-radius: 50%;
+  background-color: rgba(0, 3, 36, 0.7);
   color: white;
-}
-
-.alinharBotaoInserirAnimal button:hover{
-  cursor: pointer;
-  opacity: .9;
-}
-
-.nomeAnimal {
-  font-size: 1.8rem;
-  text-align: start;
-  margin-bottom: 10px;
-}
-
-.placeholderImagem {
-  width: 100%;
-  height: 330px;
+  border: 3px solid black;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f5f5f5;
-  border: 2px dashed #ddd;
-  border-radius: 8px;
-  color: #666;
-  font-style: italic;
-  padding-inline: 10px;
-}
-
-.loading {
-  text-align: center;
-  padding: 20px;
+  cursor: pointer;
+  z-index: 1000;
   font-size: 1.2rem;
-  color: #333;
+  opacity: 1;
+  transition: all 0.3s ease;
 }
 
-.error {
-  text-align: center;
-  padding: 20px;
-  color: #d32f2f;
-  background-color: #ffebee;
-  border-radius: 4px;
-  margin: 20px;
+.setaCarrossel:hover {
+  background-color: rgba(0, 3, 36, 0.9);
 }
 
-.error button {
-  margin-top: 10px;
-  padding: 8px 16px;
-  background-color: #d32f2f;
-  color: white;
-  border: none;
-  border-radius: 4px;
+.setaCarrossel:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.setaEsquerda {
+  left: 5px;
+}
+
+.setaDireita {
+  right: 5px;
+}
+
+.slideFormulario,
+.slideAnimaisCadastrados {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.divBotaoTrocarDados {
+  display: flex;
+  margin-left: auto;
+  padding: 10px;
+}
+
+.divBotaoTrocarDados:hover {
   cursor: pointer;
 }
 
-@media (max-width: 862px) {
-  .alinharDadosAnimal,
-  .slideAnimaisCadastrados  {
+.divBotaoTrocarDados img {
+  max-width: 40px;
+  height: 40px;
+  position: relative;
+  padding: 3px;
+}
+
+.conteudoSlide {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  flex: 1;
+  padding-inline: 50px;
+  gap: 30px;
+}
+
+.containerImagem,
+.containerDados {
+  display: flex;
+  flex-direction: column;
+}
+
+.containerImagem {
+  max-width: 724px;
+  min-width: 360px; /* alterar em telas menores */
+  width: auto;
+  height: 460px;
+}
+
+.preRenderImagem,
+.imagemAnimal {
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.preRenderImagem,
+.semDescricao {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  border: 2px dashed #c4c4c4;
+  color: #9a9a9a;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.imagemAnimal {
+  object-fit: cover;
+}
+
+.containerDados {
+  display: flex;
+  flex-direction: column;
+  flex: 1 350px;
+  gap: 20px;
+}
+
+.containerNomem,
+.containerDescricao {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.alinharLabelComAjuda {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.alinharLabelComAjuda label {
+  font-size: 1rem;
+}
+
+.botaoAjuda {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  font-weight: 700;
+}
+
+.botaoAjuda:hover {
+  cursor: help;
+}
+
+.selectNomeAnimal {
+  margin-top: 4px;
+}
+
+.containerNome h1 {
+  width: 100%;
+  text-align: start;
+  font-size: 2rem;
+}
+
+.containerDescricao {
+  flex: 5;
+  gap: 5px;
+}
+
+.semDescricao,
+.descricaoAnimal {
+  flex: 1;
+  margin: 0;
+  border-radius: 7px;
+  padding: 2px 5px;
+}
+
+.semDescricao {
+  padding: 30px 10px;
+}
+
+.descricaoAnimal {
+  border: 1px solid #b3b3b3;
+  text-align: start;
+}
+
+.divBotaoSlide {
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 50px;
+  width: 100%;
+  padding-block: 20px;
+}
+
+.divBotaoSlide button {
+  padding: 10px 25px;
+  border-radius: 7px;
+  border: none;
+  color: white;
+  transition: opacity ease-in-out 0.2s;
+}
+
+.divBotaoSlide button:hover {
+  opacity: 0.7;
+}
+
+.botaoInserir {
+  background-color: #009dff;
+}
+
+.botaoEditar {
+  transition: background ease-in-out 0.2s;
+}
+
+.botaoSalvar {
+  background-color: #00a118;
+}
+
+.botaoSalvar:hover {
+  cursor: pointer;
+}
+
+.botaoCancelar {
+  background-color: red;
+}
+
+.carregando,
+.erro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-inline: 10px;
+  width: 100%;
+  height: 100%;
+}
+
+.carregando {
+  padding-block: 200px;
+}
+
+.carregando img {
+  height: 50px;
+}
+
+.carregando p,
+.erro p {
+  font-size: 1.4rem;
+  font-weight: 400;
+  text-align: center;
+  margin: 0;
+}
+
+.erro {
+  padding-block: 209px;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+.erro button {
+  background-color: rgb(0, 94, 255);
+  padding: 10px 25px;
+  height: 48px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  transition: opacity ease-in-out 0.2s;
+}
+
+.erro button:hover {
+  opacity: 0.9;
+}
+
+@media (max-width: 993px) {
+  .setaCarrossel {
+    width: 25px;
+    height: 25px;
+  }
+  .conteudoSlide {
+    padding-inline: 10px;
     gap: 10px;
   }
-  .containerImagensAnimal {
-    max-width: none;
-    flex-grow: 1;
+  .containerImagem {
+    max-width: 100%;
+    min-width: 100%;
+    height: auto;
+    max-height: 300px;
+    min-height: 300px;
   }
+  .containerDados {
+    min-height: 227px;
+  }
+  .divBotaoSlide {
+    padding-right: 10px;
+    margin-top: auto;
+  }
+  .divBotaoSlide button {
+    padding: 7px 15px;
+    border-radius: 7px;
+    border: none;
+    color: white;
+    transition: opacity ease-in-out 0.2s;
+  }
+  .carregando,
+  .erro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-inline: 20px;
+    width: 100%;
+    height: 100%;
+  }
+}
 
-  .imagensAnimal {
-    max-height: 270px;
+@media (max-width: 450px) {
+  .erro{
+    gap: 5px;
+  }
+  .carregando p,
+  .erro p {
+    font-size: 0.8rem;
+  }
+  .carregando img {
+    height: 36px;
+  }
+  .erro button {
+    padding: 8px 20px;
+    height: auto;
+    font-size: 0.8rem;
   }
 }

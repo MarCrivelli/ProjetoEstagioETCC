@@ -213,12 +213,12 @@ export default function VerMais() {
           className={styles.modalContent}
           onClick={(e) => e.stopPropagation()}
         >
-          <button
+          <label
             className={styles.botaoFecharModal}
             onClick={() => setModalAberto(false)}
           >
-            &times;
-          </button>
+            &times; 
+          </label>
           <img
             src={imagemAmpliada}
             alt="Imagem ampliada"

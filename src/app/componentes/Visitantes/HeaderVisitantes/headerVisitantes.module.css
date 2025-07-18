@@ -116,13 +116,14 @@
   border: none;
   background: none;
   cursor: pointer;
-  padding: 15px;
 }
+
 .hamburguerVisitantes {
   display: block;
   border-top: 2px solid;
   width: 35px;
 }
+
 .hamburguerVisitantes::after,
 .hamburguerVisitantes:before {
   content: "";
@@ -153,7 +154,7 @@
   position: fixed;
   top: 0;
   right: -300px; /* Começa escondido */
-  width: 65px;
+  width: 200px;
   height: 100%;
   background-color: #0d0907;
   z-index: 999;
@@ -174,7 +175,7 @@
   color: rgb(173, 173, 173);
   font-size: 2rem;
   cursor: pointer;
-  padding: 0px 0px 0px 10px;
+  padding: 3px 10px 3cqw 10px;
   transition: color 0.2s;
 }
 
@@ -193,7 +194,7 @@
   height: auto;
   padding: 0;
   margin-top: 65px;
-  background-color: #00429f;
+  row-gap: 10px;
 }
 
 .menuLateral nav li {
@@ -201,17 +202,25 @@
 }
 
 .linkMenuMobile {
-  color: rgb(202, 202, 202);
+ display: flex;
+  align-items: center;
+  color: #ffffff;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-family: "Jockey One", sans-serif;
-  display: block;
-  padding: 5px;
-  transition: color 0.2s;
+  padding: 5px 5px 5px 10px;
+  transition: opacity 0.2s;
+  gap: 7px;
+  background-color: rgb(22, 22, 22);
+  opacity: .6;
 }
 
 .linkMenuMobile:hover {
-  color: rgb(230, 230, 230);
+  opacity: 1;
+}
+
+.linkMenuMobile img {
+  width: 30px;
 }
 
 /* Animação do botão hamburguer para X */
@@ -233,8 +242,17 @@
   .menu li:nth-child(-n + 4) {
     display: none;
   }
-  .hamburguerVisitantes {
-    color: rgb(255, 255, 255);
-    filter: drop-shadow(1px 1px 1px rgb(0, 0, 0));
+  .linkMenuMobile {
+    display: flex;
+    font-size: 0.9rem;
+    display: block;
+    padding: 5px 5px 5px 10px;
+    transition: color 0.2s;
+    background-color: rgb(22, 22, 22);
+  }
+
+  .linkMenuMobile img {
+    width: 20px;
+    margin-right: 7px;
   }
 }
