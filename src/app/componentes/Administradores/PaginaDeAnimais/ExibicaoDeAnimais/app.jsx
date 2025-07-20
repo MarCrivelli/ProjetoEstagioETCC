@@ -9,6 +9,40 @@ export default function ExibicaoDeAnimais({
   animaisSelecionados,
   toggleSelecaoAnimal,
 }) {
+  // Configuração do truncamento - altere este valor conforme necessário
+  const TAMANHO_MAX_NOME = 15;
+  
+  // Função para truncar o nome do animal
+  const truncarNome = (nome) => {
+    if (!nome) return "";
+    
+    if (nome.length <= TAMANHO_MAX_NOME) {
+      return nome;
+    }
+    
+    // Se o caractere na posição limite é um espaço, não conta
+    let posicaoCorte = TAMANHO_MAX_NOME - 3; // Reserva espaço para "..."
+    
+    // Se o caractere na posição do corte + 1 é um espaço, não precisa contar
+    if (nome[posicaoCorte] === ' ') {
+      // Verifica se há caracteres não-espaço após este espaço
+      let temLetraDepois = false;
+      for (let i = posicaoCorte + 1; i < nome.length; i++) {
+        if (nome[i] !== ' ') {
+          temLetraDepois = true;
+          break;
+        }
+      }
+      
+      // Se há letra depois do espaço, inclui o espaço no corte
+      if (temLetraDepois) {
+        posicaoCorte++;
+      }
+    }
+    
+    return nome.substring(0, posicaoCorte) + "...";
+  };
+
   // Verificação de segurança para animais não definido ou não array
   if (!animais || !Array.isArray(animais)) {
     return (
@@ -53,7 +87,16 @@ export default function ExibicaoDeAnimais({
               />
             </div>
             <div className={styles.infoAnimais}>
-              <h1 className={styles.nomeAnimal}>{animal.nome}</h1>
+              <div className={styles.containerNome}>
+                <h1 className={styles.nomeAnimal}>
+                  {truncarNome(animal.nome)}
+                </h1>
+                {animal.nome.length > TAMANHO_MAX_NOME && (
+                  <div className={styles.tooltip}>
+                    {animal.nome}
+                  </div>
+                )}
+              </div>
               <p className={styles.dadosAnimais}>
                 Idade:{" "}
                 {opcoes.vincularLabel(animal.idade?.toString(), "idadeAnimais")}

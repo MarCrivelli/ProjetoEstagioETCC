@@ -1,24 +1,23 @@
 .cardAnimais {
   display: flex;
   flex-direction: column;
-  align-items: center;
   background-color: white;
   height: 500px;
-  flex: 1 396px;
+  flex: 1 360px;
   box-shadow: 5px 5px 1px #000000ac;
   border: 2px solid black;
   padding: 10px;
-  max-width: 550px;
+  max-width: 420px;
 }
 
-.cardAnimais:last-of-type {
+.cardAnimais:last-of-type{
   margin-right: auto;
 }
 
 .divImagem {
   display: flex;
   min-width: 100%;
-  max-height: 250px;
+  height: 250px;
 }
 
 .imagemAnimais {
@@ -29,6 +28,7 @@
 .infoAnimais {
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   width: 100%;
   height: 100%;
   padding-left: 3px;
@@ -47,7 +47,7 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  width: 80%;
+  width: auto;
   max-width: 295px;
   margin: auto auto 15px auto;
   border: none;
@@ -55,7 +55,7 @@
   color: white;
   font-weight: 600;
   border-radius: 10px;
-  height: 50px;
+  padding: 10px 45px;
   transition: 0.2s ease-in;
 }
 
@@ -103,27 +103,48 @@
 .textoPreCadastro {
   width: auto;
   max-width: 450px;
-  text-align: justify; /* Adicionado para centralizar o texto */
+  text-align: justify;
 }
 
-/* Adicione esta media query */
-@media (max-width: 768px) {
-  .imagemPreCadastro {
-    max-width: 100%; /* Ajuste conforme necessário */
-  }
-
-  .textoPreCadastro {
-    font-size: 1.5rem; /* Reduz um pouco o tamanho da fonte em mobile */
-  }
-  .cardAnimais {
-    flex-grow: 1;
-  }
+.containerNome {
+  position: relative;
+  display: inline-block;
 }
 
-@media (max-width: 1028px) {
-  .cardAnimais:last-of-type {
-    margin-right: 0;
-  }
+.tooltip {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: normal;
+  white-space: nowrap;
+  z-index: 1000;
+  transition: opacity 0.3s, visibility 0.3s;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+}
+
+.containerNome:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
 }
 
 @media (max-width: 1100px) {
@@ -135,8 +156,7 @@
 
   .cardAnimais {
     border-radius: 10px;
-    box-shadow: 3px 4px 2px #2f009c;
-    min-height: 520px;
+    box-shadow: 3px 4px 2px rgba(0, 0, 0, 0.532);
   }
 
   .divImagem {
@@ -157,5 +177,37 @@
     height: 20px;
     padding-block: 20px;
     transition: 0.2s ease-in;
+  }
+}
+
+@media (max-width: 900px) {
+  .cardAnimais {
+    height: 460px;
+    flex: 1 300px;
+  }
+  .infoAnimais {
+    gap: 5px;
+  }
+  .nomeAnimal {
+    font-size: 1.8rem;
+  }
+  .dadosAnimais{
+    font-size: 0.74rem;
+  }
+  .botaoCard{
+    padding: 18px 25px;
+  }
+}
+
+@media (max-width: 768px) {
+  .imagemPreCadastro {
+    max-width: 100%;
+  }
+
+  .textoPreCadastro {
+    font-size: 1.5rem;
+  }
+  .cardAnimais {
+    flex-grow: 1;
   }
 }

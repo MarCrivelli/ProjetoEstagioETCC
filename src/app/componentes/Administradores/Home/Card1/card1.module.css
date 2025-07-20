@@ -12,8 +12,7 @@
 }
 
 .cardTitle {
-  /* color: #00eeff;
-  -webkit-text-stroke: 1px rgb(0, 85, 255); */
+  padding-block: 5px;
 }
 
 .containerLembretes {
@@ -47,9 +46,9 @@
   background-color: #008cff;
 }
 
-@keyframes slideUp {
+@keyframes animacaoDeNovoLembrete {
   from {
-    transform: translateY(485px);
+    transform: translateY(649px);
     opacity: 0;
   }
   to {
@@ -59,7 +58,7 @@
 }
 
 .lembreteEntrada {
-  animation: slideUp 0.7s ease-out forwards;
+  animation: animacaoDeNovoLembrete 0.7s ease-out forwards;
 }
 
 .lembreteItem {

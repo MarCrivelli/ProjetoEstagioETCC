@@ -169,15 +169,14 @@ export default function FichasDeAnimais() {
     buscarAnimais();
   };
 
-
   // remover
   useEffect(() => {
-  console.log('Modo seleção:', modoSelecaoPostagem);
-  console.log('Animais selecionados:', animaisSelecionados);
-}, [modoSelecaoPostagem, animaisSelecionados]);
+    console.log('Modo seleção:', modoSelecaoPostagem);
+    console.log('Animais selecionados:', animaisSelecionados);
+  }, [modoSelecaoPostagem, animaisSelecionados]);
 
   return (
-    <div className={styles.fundoPagina}>
+    <div className={`${styles.fundoPagina} ${modoSelecaoPostagem ? styles.modoSelecaoAtivo : ''}`}>
       <HeaderAdms />
       <BotaoPagInicial />
       <RolarPCima />
@@ -224,7 +223,7 @@ export default function FichasDeAnimais() {
 
       {mostrarFiltros && (
         <div className={styles.modalOverlay}>
-          <div className={styles.modalContent}>
+          <div className={`${styles.modalContent} ${styles.modalFiltros}`}>
             <button
               className={styles.fecharModal}
               onClick={() => setMostrarFiltros(false)}
@@ -243,14 +242,14 @@ export default function FichasDeAnimais() {
 
       {mostrarCadastro && (
         <div className={styles.modalOverlay}>
-          <div className={styles.modalContent}>
+          <div className={`${styles.modalContent} ${styles.modalCadastro}`}>
             <button
               className={styles.fecharModal}
               onClick={() => setMostrarCadastro(false)}
             >
               ×
             </button>
-            <h2>Cadastrar Novo Animal</h2>
+            <h2>Cadastrar Animal</h2>
             <CadastroDeAnimais
               animais={animaisCompleto}
               setAnimais={setAnimaisCompleto}

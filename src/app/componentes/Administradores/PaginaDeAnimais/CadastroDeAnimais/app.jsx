@@ -163,7 +163,7 @@ export default function CadastroDeAnimais({ animais, setAnimais, onClose }) {
           />
         </div>
       </div>
-      <div className={styles.itemInserir2}>
+      <div className={styles.itemInserir}>
         <h1 className={styles.tituloItemInserir}>Dados de saúde</h1>
         <div className={styles.alinharDadosDeInsercao}>
           <label className={styles.labelDadosSaude}>Status de vacinação:</label>

@@ -176,14 +176,15 @@
   display: block;
   margin: 0 auto;
   border-radius: 15px;
-  border: 2px solid #5200f78e;
+  border: 5px solid white;
 }
 
 .botaoFecharModal {
   position: relative;
   margin-left: auto;
   margin-bottom: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.081);
+  background-color: white;
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -196,7 +197,7 @@
 }
 
 .botaoFecharModal:hover{
-  background-color: white;
+  background-color: transparent;
   cursor: pointer;
 }
 

@@ -12,6 +12,10 @@
   );
 }
 
+.modoSelecaoAtivo {
+  padding-bottom: 100px;
+}
+
 .fundoPainel {
   display: flex;
   justify-content: center;
@@ -31,7 +35,7 @@
   padding: 40px;
   border: 3px solid black;
   border-radius: 20px;
-  justify-content: center;
+  justify-content: space-between;
 }
 
 .botoesFlutuantes {
@@ -128,9 +132,8 @@ aplicadas: */
 
 .botaoPostar {
   border: 1px solid #9cccff;
-  padding: 10px 15px;
+  padding: 10px 45px;
   border-radius: 4px;
-  width: 100%;
   max-width: 200px;
   background-color: #0074f2;
   color: white;
@@ -151,15 +154,51 @@ aplicadas: */
 }
 
 .modalContent {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   background-color: white;
   padding: 20px;
   border-radius: 8px;
-  max-width: 90%;
-  max-height: 90vh;
   overflow-y: auto;
-  width: 600px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   position: relative;
+  animation: animacaoDeslizanteModal 0.5s ease-out forwards
+}
+
+.modalContent h2 {
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 2.3rem;
+  font-weight: 700;
+}
+
+@keyframes animacaoDeslizanteModal {
+  from {
+    transform: translateX(100vw);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0vw);
+    opacity: 1;
+  }
+}
+
+.modalFiltros {
+  height: 60vh;
+  max-width: 500px;
+}
+
+.modalCadastro {
+  height: 90vh;
+  max-height: 700px;
+  width: 90%;
+}
+
+
+
+.modalContent::-webkit-scrollbar {
+  display: none;
 }
 
 .fecharModal {
@@ -237,6 +276,12 @@ aplicadas: */
   }
 }
 
+@media (max-width: 891px) {
+  .painel {
+    justify-content: center;
+  }
+}
+
 @media (max-width: 720px) {
   .fundoPainel {
     padding: 0px;
@@ -266,13 +311,16 @@ aplicadas: */
   }
 
   .modalContent {
-    padding: 40px 10px 10px 10px;
+    padding: 20px;
     margin-top: 60px;
   }
 
   .fecharModal {
     padding: 0px 7px 0px 7px;
-    font-size: 1rem;
+    font-size: 1.4rem;
+    border: none;
+    right: -1px;
+    top: -1px;
   }
 
   .botaoPostarContainer {
@@ -280,5 +328,11 @@ aplicadas: */
     justify-content: center;
     flex-direction: column;
     row-gap: 10px;
+  }
+}
+
+@media (max-width: 705px) {
+  .modalContent h2 {
+    font-size: 1.9rem;
   }
 }

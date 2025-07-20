@@ -113,6 +113,9 @@
 }
 
 .descricaoCard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   width: 80%;
   height: auto;
   margin-inline: auto;
