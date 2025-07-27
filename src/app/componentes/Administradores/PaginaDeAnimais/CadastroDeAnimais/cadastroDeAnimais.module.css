@@ -2,6 +2,7 @@
   display: flex;
   gap: 30px;
   flex-wrap: wrap;
+  width: 100%;
   flex-grow: 1;
 }
 
@@ -29,13 +30,14 @@
 
 .labelDeImagem:hover,
 .botaoInserir:hover {
-  opacity: .9;
+  opacity: 0.9;
 }
 
 .previaImagem {
   width: 100%;
   height: auto;
   min-height: 270px;
+  max-height: 410px;
   object-fit: cover;
   border: 2px dashed #ccc;
   border-radius: 10px;
@@ -51,7 +53,6 @@
 .itemInserir {
   display: flex;
   flex-direction: column;
-  min-height: 200px;
   padding-bottom: 20px;
   row-gap: 20px;
   border: 1px solid #b3b3b3;
@@ -115,21 +116,44 @@
 }
 
 @media (max-width: 1100px) {
+  .tituloItemInserir {
+    font-size: 1.7rem;
+  }
+
   .itemInserir {
     padding: 0px 20px 20px 20px;
   }
 
   .alinharDadosDeInsercao {
-    flex-direction: column;
     align-items: flex-start;
-    gap: 0px;
+    padding-inline: 0;
   }
 
+  
+}
+
+@media (max-width: 705px) {
+  .inputDadosIdentificacao,
+  .selectInserirAnimal {
+    font-size: 0.7rem;
+  }
+  .tituloItemInserir {
+    font-size: 1.4rem;
+  }
+  .labelDeImagem{
+    padding: 7px 15px;
+    font-size: .8rem;
+  }
+  .nomeArquivo{
+    font-size: .73rem;
+  }
+
+  .labelDadosSaude,
   .labelDeIdentificacao {
-    width: 100%;
+    font-size: 0.8rem;
   }
-
-  .alinharDadosDeInsercao {
-    padding-inline: 0px;
+  .inputDadosIdentificacao,
+  .selectInserirAnimal {
+    font-size: 0.7rem;
   }
 }

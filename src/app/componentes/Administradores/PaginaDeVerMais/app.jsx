@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Select from "react-select";
+import { Tooltip } from "react-tooltip";
 
 import opcoes from "/src/app/componentes/Administradores/OpcoesDeSelecao/opcoes";
 import HeaderAdms from "../HeaderAdms/app";
@@ -12,181 +13,362 @@ import styles from "../PaginaDeVerMais/verMais.module.css";
 
 export default function VerMais() {
   const { id } = useParams();
-  const [animal, setAnimal] = useState(null);
-  const [editedAnimal, setEditedAnimal] = useState(null);
-  const [isDirty, setIsDirty] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const fileInputRef = useRef(null);
-  const [vacinacaoError, setVacinacaoError] = useState("");
-  // No início do componente, adicione:
-  const [modalAberto, setModalAberto] = useState(false);
-  const [imagemAmpliada, setImagemAmpliada] = useState("");
 
+  // Estados principais - controla os dados do animal
+  const [dadosOriginais, setDadosOriginais] = useState(null); // Dados como vieram do banco
+  const [dadosEditados, setDadosEditados] = useState(null); // Dados sendo editados pelo usuário
+
+  // Estados de controle da interface
+  const [modoEdicao, setModoEdicao] = useState(false); // Controla se está no modo de edição
+  const [existemAlteracoes, setExistemAlteracoes] = useState(false); // Se tem alterações pendentes
+  const [salvandoDados, setSalvandoDados] = useState(false); // Loading durante salvamento
+
+  // Estados específicos
+  const [referenciaArquivo, setReferenciaArquivo] = useState(useRef(null));
+  const [erroVacinacao, setErroVacinacao] = useState("");
+  const [modalImagemAberto, setModalImagemAberto] = useState(false);
+  const [imagemParaAmpliar, setImagemParaAmpliar] = useState("");
+
+  // Estado do seletor de descrição (entrada/saída)
+  const [descricaoSelecionada, setDescricaoSelecionada] = useState(
+    opcoes.descricoes.find(
+      (opcao) => opcao.value === "descricao" // Sempre inicia com descrição de entrada
+    ) || opcoes.descricoes[0]
+  );
+
+  // CARREGAMENTO INICIAL - Busca os dados do animal no banco
   useEffect(() => {
-    const buscarAnimal = async () => {
+    const buscarDadosDoAnimal = async () => {
       try {
         const resposta = await fetch(`http://localhost:3003/animais/${id}`);
         const dados = await resposta.json();
 
-        // Verifica automaticamente o status de vacinação
+        console.log("=== DADOS CARREGADOS DO BANCO ===");
+        console.log("descricao (entrada):", dados.descricao);
+        console.log("descricaoSaida:", dados.descricaoSaida);
+
+        // Garantir que os campos de descrição existem, mesmo que vazios
+        // Isso evita erros no frontend quando os campos são null
+        if (!dados.hasOwnProperty("descricao")) {
+          dados.descricao = "";
+        }
+        if (!dados.hasOwnProperty("descricaoSaida")) {
+          dados.descricaoSaida = "";
+        }
+
+        console.log("Dados após normalização:", dados);
+
+        // VALIDAÇÃO AUTOMÁTICA DA VACINAÇÃO
+        // Se a vacina foi há mais de 1 ano, marca como não vacinado
         const hoje = new Date();
         const umAnoAtras = new Date(hoje);
         umAnoAtras.setFullYear(hoje.getFullYear() - 1);
 
         if (dados.dataVacinacao && new Date(dados.dataVacinacao) < umAnoAtras) {
           dados.statusVacinacao = "naoVacinado";
-          setVacinacaoError(
+          setErroVacinacao(
             "Só será possível modificar o status de vacinação para vacinado quando a data de vacinação for menor que um ano em relação a data atual"
           );
         }
 
-        setAnimal(dados);
-        setEditedAnimal({ ...dados });
+        // Salva os dados nos estados
+        setDadosOriginais(dados);
+        setDadosEditados({ ...dados }); // Cria uma cópia para edição
+
+        console.log("Estados atualizados com sucesso");
       } catch (error) {
-        console.error("Erro ao buscar animal:", error);
+        console.error("Erro ao carregar dados do animal:", error);
       }
     };
 
-    buscarAnimal();
+    buscarDadosDoAnimal();
   }, [id]);
 
-  const handleInputChange = (e) => {
+  // HANDLERS DE MUDANÇA - Funções que capturam alterações nos inputs
+
+  // Captura mudanças em campos de texto normais (nome, idade, etc.)
+  const capturarMudancaCampo = (e) => {
     const { name, value } = e.target;
-    setEditedAnimal((prev) => {
-      const newState = { ...prev, [name]: value };
-      checkDirty(animal, newState); // Verifica imediatamente
-      return newState;
+    setDadosEditados((anterior) => {
+      const novoEstado = { ...anterior, [name]: value };
+      verificarSeExistemAlteracoes(dadosOriginais, novoEstado);
+      return novoEstado;
     });
   };
 
-  const handleTextareaChange = (e) => {
-    const { name, value } = e.target;
-    setEditedAnimal((prev) => {
-      const newState = { ...prev, [name]: value };
-      checkDirty(animal, newState);
-      return newState;
-    });
-  };
-
-  const handleSelectChange = (name, selectedOption) => {
-    setEditedAnimal((prev) => {
-      const newState = { ...prev, [name]: selectedOption.value };
-      checkDirty(animal, newState);
-      return newState;
-    });
-  };
-
-  const handleDateChange = (e) => {
+  // Captura mudanças específicas no textarea de descrição
+  const capturarMudancaDescricao = (e) => {
     const { value } = e.target;
-    setEditedAnimal((prev) => {
-      const newState = {
-        ...prev,
+    const campoAtual = obterCampoDescricaoAtual(); // descricao ou descricaoSaida
+
+    setDadosEditados((anterior) => {
+      const novoEstado = { ...anterior, [campoAtual]: value };
+
+      console.log(`=== ALTERAÇÃO NA DESCRIÇÃO ===`);
+      console.log(`Campo sendo alterado: ${campoAtual}`);
+      console.log(`Novo valor: "${value}"`);
+      console.log(`Estado completo após alteração:`, novoEstado);
+
+      verificarSeExistemAlteracoes(dadosOriginais, novoEstado);
+      return novoEstado;
+    });
+  };
+
+  // Captura mudanças nos selects (dropdowns)
+  const capturarMudancaSelecao = (nomeCampo, opcaoSelecionada) => {
+    setDadosEditados((anterior) => {
+      const novoEstado = { ...anterior, [nomeCampo]: opcaoSelecionada.value };
+      verificarSeExistemAlteracoes(dadosOriginais, novoEstado);
+      return novoEstado;
+    });
+  };
+
+  // Captura mudanças na data de vacinação (tem lógica especial)
+  const capturarMudancaData = (e) => {
+    const { value } = e.target;
+    setDadosEditados((anterior) => {
+      const novoEstado = {
+        ...anterior,
         dataVacinacao: value,
+        // Automaticamente define o status baseado na data
         statusVacinacao: value ? "vacinado" : "naoVacinado",
       };
-      checkDirty(animal, newState);
-      return newState;
+      verificarSeExistemAlteracoes(dadosOriginais, novoEstado);
+      return novoEstado;
     });
   };
 
-  const checkDirty = (original, edited) => {
-    if (!original || !edited) return false;
+  // VERIFICAÇÃO DE ALTERAÇÕES - Compara dados originais com editados
+  const verificarSeExistemAlteracoes = (original, editado) => {
+    if (!original || !editado) return false;
 
+    // Campos que devem ser ignorados na comparação
     const camposIgnorados = ["createdAt", "updatedAt"];
 
-    for (const key in edited) {
-      if (camposIgnorados.includes(key)) continue;
+    console.log(`=== VERIFICANDO SE EXISTEM ALTERAÇÕES ===`);
+    console.log(`Original descricao: "${original.descricao || ""}"`);
+    console.log(`Editado descricao: "${editado.descricao || ""}"`);
+    console.log(`Original descricaoSaida: "${original.descricaoSaida || ""}"`);
+    console.log(`Editado descricaoSaida: "${editado.descricaoSaida || ""}"`);
 
-      const valorOriginal = original[key] === null ? "" : original[key];
-      const valorEditado = edited[key] === null ? "" : edited[key];
+    // Loop para verificar cada campo
+    for (const campo in editado) {
+      if (camposIgnorados.includes(campo)) continue;
 
+      // Normalizar valores null para string vazia para comparação
+      const valorOriginal = original[campo] === null ? "" : original[campo];
+      const valorEditado = editado[campo] === null ? "" : editado[campo];
+
+      // Verificar se os tipos são diferentes
       if (typeof valorOriginal !== typeof valorEditado) {
-        setIsDirty(true);
+        console.log(
+          `Campo ${campo} mudou de tipo: ${typeof valorOriginal} -> ${typeof valorEditado}`
+        );
+        setExistemAlteracoes(true);
         return true;
       }
 
+      // Verificar datas especificamente
       if (valorOriginal instanceof Date || valorEditado instanceof Date) {
         if (
           new Date(valorOriginal).getTime() !== new Date(valorEditado).getTime()
         ) {
-          setIsDirty(true);
+          console.log(
+            `Campo ${campo} - data alterada: ${valorOriginal} -> ${valorEditado}`
+          );
+          setExistemAlteracoes(true);
           return true;
         }
-      } else if (String(valorOriginal) !== String(valorEditado)) {
-        setIsDirty(true);
+      }
+      // Verificar outros valores convertendo para string
+      else if (String(valorOriginal) !== String(valorEditado)) {
+        console.log(
+          `Campo ${campo} alterado: "${valorOriginal}" -> "${valorEditado}"`
+        );
+        setExistemAlteracoes(true);
         return true;
       }
     }
 
-    setIsDirty(false);
+    console.log(`Nenhuma alteração detectada`);
+    setExistemAlteracoes(false);
     return false;
   };
 
-  const handleImageUpload = async (file, fieldName) => {
-    if (!file) return;
+  // UPLOAD DE IMAGENS - Gerencia o envio de fotos
+  const processarUploadImagem = async (arquivo, tipoCampo) => {
+    if (!arquivo) return;
 
     try {
-      setIsLoading(true);
+      setSalvandoDados(true);
 
-      // Endpoint correto para imagem de saída
+      // Define o endpoint correto baseado no tipo de imagem
       const endpoint =
-        fieldName === "imagemSaida"
+        tipoCampo === "imagemSaida"
           ? `http://localhost:3003/animais/${id}/imagem-saida`
           : `http://localhost:3003/animais/${id}/imagem`;
 
-      const formData = new FormData();
-      formData.append(fieldName, file);
+      // Prepara os dados para envio
+      const dadosFormulario = new FormData();
+      dadosFormulario.append(tipoCampo, arquivo);
 
-      const response = await fetch(endpoint, {
+      const resposta = await fetch(endpoint, {
         method: "PUT",
-        body: formData,
+        body: dadosFormulario,
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Erro ao atualizar imagem");
+      if (!resposta.ok) {
+        const dadosErro = await resposta.json();
+        throw new Error(dadosErro.message || "Erro ao atualizar imagem");
       }
 
-      const result = await response.json();
-      setAnimal(result.animal);
-      setEditedAnimal({ ...result.animal });
+      const resultado = await resposta.json();
 
-      alert(result.message || "Imagem atualizada com sucesso!");
+      // Atualiza os estados com os novos dados
+      setDadosOriginais(resultado.animal);
+      setDadosEditados({ ...resultado.animal });
+
+      alert(resultado.message || "Imagem atualizada com sucesso!");
     } catch (error) {
-      console.error("Erro no upload:", error);
+      console.error("Erro no upload da imagem:", error);
       alert(`Erro: ${error.message}`);
     } finally {
-      setIsLoading(false);
+      setSalvandoDados(false);
     }
   };
 
-  const handleSaveChanges = async () => {
+  // SALVAMENTO - Funções para salvar as alterações
+
+  // Salva especificamente a descrição de saída
+  const salvarDescricaoSaida = async () => {
     try {
-      setIsLoading(true);
+      setSalvandoDados(true);
+
+      const resposta = await fetch(
+        `http://localhost:3003/animais/${id}/descricao-saida`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            descricaoSaida: dadosEditados.descricaoSaida,
+          }),
+        }
+      );
+
+      if (resposta.ok) {
+        const dados = await resposta.json();
+        setDadosOriginais(dados.animal);
+        setDadosEditados({ ...dados.animal });
+        setExistemAlteracoes(false);
+        alert("Descrição de saída atualizada com sucesso!");
+      } else {
+        alert("Erro ao atualizar descrição de saída.");
+      }
+    } catch (error) {
+      console.error("Erro ao salvar descrição de saída:", error);
+      alert("Erro ao atualizar descrição de saída.");
+    } finally {
+      setSalvandoDados(false);
+    }
+  };
+
+  // Função principal de salvamento
+  const salvarTodasAlteracoes = async () => {
+    try {
+      setSalvandoDados(true);
+
+      // Se está editando apenas a descrição de saída, usa endpoint específico
+      if (
+        descricaoSelecionada.value === "descricaoSaida" &&
+        existemAlteracoes
+      ) {
+        await salvarDescricaoSaida();
+        return;
+      }
+
+      // Caso contrário, salva todos os dados
+      const dadosParaEnviar = { ...dadosEditados };
+
       const resposta = await fetch(`http://localhost:3003/animais/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(editedAnimal),
+        body: JSON.stringify(dadosParaEnviar),
       });
 
       if (resposta.ok) {
         const dados = await resposta.json();
-        setAnimal(dados.animal);
-        setEditedAnimal({ ...dados.animal });
-        setIsDirty(false);
+        setDadosOriginais(dados.animal);
+        setDadosEditados({ ...dados.animal });
+        setExistemAlteracoes(false);
+        setModoEdicao(false); // Sai do modo de edição após salvar
         alert("Dados atualizados com sucesso!");
       } else {
         alert("Erro ao atualizar dados do animal.");
       }
     } catch (error) {
-      console.error("Erro ao atualizar animal:", error);
+      console.error("Erro ao salvar alterações:", error);
+      alert("Erro interno. Tente novamente.");
     } finally {
-      setIsLoading(false);
+      setSalvandoDados(false);
     }
   };
 
+  // FUNÇÕES AUXILIARES PARA DESCRIÇÃO
+
+  // Retorna qual campo está sendo editado (descricao ou descricaoSaida)
+  const obterCampoDescricaoAtual = () => {
+    console.log("Descrição selecionada:", descricaoSelecionada.value);
+
+    if (descricaoSelecionada.value === "descricaoSaida") {
+      return "descricaoSaida";
+    }
+    return "descricao"; // Para descrição de entrada
+  };
+
+  // Retorna o valor atual da descrição baseado na seleção
+  const obterValorDescricaoAtual = () => {
+    const campo = obterCampoDescricaoAtual();
+    const valor = dadosEditados[campo] || "";
+
+    console.log(`=== OBTENDO VALOR DA DESCRIÇÃO ===`);
+    console.log(`Seleção no dropdown: ${descricaoSelecionada.value}`);
+    console.log(`Campo mapeado: ${campo}`);
+    console.log(`Valor atual: "${valor}"`);
+    console.log(`Todas as descrições:`);
+    console.log(`  - descricao: "${dadosEditados.descricao || ""}"`);
+    console.log(`  - descricaoSaida: "${dadosEditados.descricaoSaida || ""}"`);
+
+    return valor;
+  };
+
+  // Define o placeholder correto para cada tipo de descrição
+  const obterPlaceholderDescricao = () => {
+    return descricaoSelecionada.value === "descricaoSaida"
+      ? "Adicione uma descrição sobre a saída do animal (motivo, condições, etc.)"
+      : "Adicione uma descrição sobre o animal (comportamento, histórico, etc.)";
+  };
+
+  // CONTROLES DE MODO DE EDIÇÃO
+
+  // Ativa o modo de edição
+  const ativarModoEdicao = () => {
+    console.log("Modo de edição ativado");
+    setModoEdicao(true);
+  };
+
+  // Cancela a edição e restaura dados originais
+  const cancelarEdicao = () => {
+    console.log("Edição cancelada - restaurando dados originais");
+    setDadosEditados({ ...dadosOriginais }); // Restaura dados originais
+    setExistemAlteracoes(false);
+    setModoEdicao(false);
+  };
+
+  // VALIDAÇÃO - Verifica se o animal pode ser vacinado
   const validarStatusVacinacao = (animal) => {
     if (!animal.dataVacinacao) return false;
 
@@ -197,17 +379,19 @@ export default function VerMais() {
     return dataVacinacao >= umAnoAtras;
   };
 
-  if (!animal || !editedAnimal) {
-    return <div>Carregando...</div>;
+  // LOADING - Exibe tela de carregamento se os dados não foram carregados
+  if (!dadosOriginais || !dadosEditados) {
+    return <div>Carregando dados do animal...</div>;
   }
 
+  // MODAL PARA AMPLIAR IMAGEM
   const ModalAmpliarImagem = () => {
-    if (!modalAberto) return null;
+    if (!modalImagemAberto) return null;
 
     return (
       <div
         className={styles.modalOverlay}
-        onClick={() => setModalAberto(false)}
+        onClick={() => setModalImagemAberto(false)}
       >
         <div
           className={styles.modalContent}
@@ -215,18 +399,76 @@ export default function VerMais() {
         >
           <label
             className={styles.botaoFecharModal}
-            onClick={() => setModalAberto(false)}
+            onClick={() => setModalImagemAberto(false)}
           >
-            &times; 
+            &times;
           </label>
           <img
-            src={imagemAmpliada}
+            src={imagemParaAmpliar}
             alt="Imagem ampliada"
             className={styles.imagemAmpliada}
           />
         </div>
       </div>
     );
+  };
+
+  // ESTILOS CUSTOMIZADOS PARA O SELECT DE TÍTULO
+  const estilosSelectTitulo = {
+    control: (provided) => ({
+      ...provided,
+      backgroundColor: "transparent",
+      border: "none",
+      boxShadow: "none",
+      minHeight: "auto",
+      padding: 0,
+      cursor: "pointer",
+      display: "flex",
+      justifyContent: "center",
+      "@media (max-width: 500px)": {
+        justifyContent: "flex-start",
+      },
+      "&:hover": {
+        border: "none",
+        boxShadow: "none",
+      },
+    }),
+    valueContainer: (provided) => ({
+      ...provided,
+      padding: 0,
+      flexWrap: "nowrap",
+      flex: "none",
+      width: "auto",
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      width: "auto",
+      flex: "none",
+      maxWidth: "none",
+      overflow: "visible",
+      position: "static",
+      transform: "none",
+      margin: 0,
+      fontFamily: '"Jockey One", sans-serif',
+      fontSize: "2rem",
+      "@media (max-width: 500px)": {
+        fontSize: "1.5rem",
+      },
+    }),
+    indicatorsContainer: (provided) => ({
+      ...provided,
+      flex: "none",
+      padding: 0,
+      marginLeft: "4px",
+    }),
+    dropdownIndicator: (provided) => ({
+      ...provided,
+      padding: 0,
+      margin: 0,
+    }),
+    indicatorSeparator: () => ({
+      display: "none",
+    }),
   };
 
   return (
@@ -238,6 +480,7 @@ export default function VerMais() {
 
       <div className={styles.fundoVermais}>
         <div className={styles.painel}>
+          {/* CARROSSEL DE IMAGENS */}
           <Carousel
             className={styles.carrossel}
             showThumbs={false}
@@ -247,91 +490,44 @@ export default function VerMais() {
             <div
               className={styles.slideImagemEntrada}
               style={{
-                backgroundImage: animal.imagem
-                  ? `url(http://localhost:3003/uploads/${animal.imagem})`
+                backgroundImage: dadosOriginais.imagem
+                  ? `url(http://localhost:3003/uploads/${dadosOriginais.imagem})`
                   : "url(/pagFichasDAnimais/imagemTeste.jpg)",
               }}
             >
               <div className={styles.containerImagemCarrossel}>
                 <img
                   src={
-                    animal.imagem
-                      ? `http://localhost:3003/uploads/${animal.imagem}`
+                    dadosOriginais.imagem
+                      ? `http://localhost:3003/uploads/${dadosOriginais.imagem}`
                       : "/pagFichasDAnimais/imagemTeste.jpg"
                   }
                   alt="Imagem de entrada"
                   className={styles.imagemPrincipal}
                 />
-                <div className={styles.botoesUtilitarios}>
-                  <label className={styles.botaoTrocarImagem}>
-                    <img src="/pagVerMais/galeria.png" alt="Trocar imagem" />
-                    <input
-                      type="file"
-                      onChange={(e) =>
-                        handleImageUpload(e.target.files[0], "imagem")
-                      }
-                      style={{ display: "none" }}
-                      accept="image/*"
-                      disabled={isLoading}
-                    />
-                  </label>
-                  <button
-                    className={styles.botaoVerAmpliado}
-                    onClick={() => {
-                      setImagemAmpliada(
-                        animal.imagem
-                          ? `http://localhost:3003/uploads/${animal.imagem}`
-                          : "/pagFichasDAnimais/imagemTeste.jpg"
-                      );
-                      setModalAberto(true);
-                    }}
-                  >
-                    <img src="/pagVerMais/olho.png" alt="Ver imagem ampliada" />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Slide da Imagem de Saída */}
-            <div
-              className={styles.slideImagemSaida}
-              style={{
-                backgroundImage: animal.imagemSaida
-                  ? `url(http://localhost:3003/uploads/${animal.imagemSaida})`
-                  : animal.imagem
-                  ? `url(http://localhost:3003/uploads/${animal.imagem})`
-                  : "none",
-              }}
-            >
-              {animal.imagemSaida ? (
-                <div className={styles.containerImagemCarrossel}>
-                  <img
-                    src={`http://localhost:3003/uploads/${animal.imagemSaida}`}
-                    alt="Imagem de saída"
-                    className={styles.imagemPrincipal}
-                  />
+                {modoEdicao && (
                   <div className={styles.botoesUtilitarios}>
                     <label className={styles.botaoTrocarImagem}>
                       <img src="/pagVerMais/galeria.png" alt="Trocar imagem" />
                       <input
                         type="file"
                         onChange={(e) =>
-                        handleImageUpload(e.target.files[0], "imagemSaida")
-                      }
+                          processarUploadImagem(e.target.files[0], "imagem")
+                        }
                         style={{ display: "none" }}
                         accept="image/*"
-                        disabled={isLoading}
+                        disabled={salvandoDados}
                       />
                     </label>
                     <button
                       className={styles.botaoVerAmpliado}
                       onClick={() => {
-                        setImagemAmpliada(
-                          animal.imagem
-                            ? `http://localhost:3003/uploads/${animal.imagemSaida}`
+                        setImagemParaAmpliar(
+                          dadosOriginais.imagem
+                            ? `http://localhost:3003/uploads/${dadosOriginais.imagem}`
                             : "/pagFichasDAnimais/imagemTeste.jpg"
                         );
-                        setModalAberto(true);
+                        setModalImagemAberto(true);
                       }}
                     >
                       <img
@@ -340,6 +536,66 @@ export default function VerMais() {
                       />
                     </button>
                   </div>
+                )}
+              </div>
+            </div>
+
+            {/* Slide da Imagem de Saída */}
+            <div
+              className={styles.slideImagemSaida}
+              style={{
+                backgroundImage: dadosOriginais.imagemSaida
+                  ? `url(http://localhost:3003/uploads/${dadosOriginais.imagemSaida})`
+                  : dadosOriginais.imagem
+                  ? `url(http://localhost:3003/uploads/${dadosOriginais.imagem})`
+                  : "none",
+              }}
+            >
+              {dadosOriginais.imagemSaida ? (
+                <div className={styles.containerImagemCarrossel}>
+                  <img
+                    src={`http://localhost:3003/uploads/${dadosOriginais.imagemSaida}`}
+                    alt="Imagem de saída"
+                    className={styles.imagemPrincipal}
+                  />
+                  {modoEdicao && (
+                    <div className={styles.botoesUtilitarios}>
+                      <label className={styles.botaoTrocarImagem}>
+                        <img
+                          src="/pagVerMais/galeria.png"
+                          alt="Trocar imagem"
+                        />
+                        <input
+                          type="file"
+                          onChange={(e) =>
+                            processarUploadImagem(
+                              e.target.files[0],
+                              "imagemSaida"
+                            )
+                          }
+                          style={{ display: "none" }}
+                          accept="image/*"
+                          disabled={salvandoDados}
+                        />
+                      </label>
+                      <button
+                        className={styles.botaoVerAmpliado}
+                        onClick={() => {
+                          setImagemParaAmpliar(
+                            dadosOriginais.imagemSaida
+                              ? `http://localhost:3003/uploads/${dadosOriginais.imagemSaida}`
+                              : "/pagFichasDAnimais/imagemTeste.jpg"
+                          );
+                          setModalImagemAberto(true);
+                        }}
+                      >
+                        <img
+                          src="/pagVerMais/olho.png"
+                          alt="Ver imagem ampliada"
+                        />
+                      </button>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className={styles.semImagemDeSaida}>
@@ -347,43 +603,56 @@ export default function VerMais() {
                     <img src="/pagVerMais/semImagem.png" alt="Sem imagem" />
                   </div>
                   <h1>Nenhuma imagem de saída foi cadastrada</h1>
-                  <p>
-                    Para inserir uma imagem,{" "}
-                    <label>
-                      clique aqui
-                      <input
-                        type="file"
-                        onChange={(e) =>
-                          handleImageUpload(e.target.files[0], "imagemSaida")
-                        }
-                        style={{ display: "none" }}
-                        accept="image/*"
-                        ref={fileInputRef}
-                        disabled={isLoading}
-                      />
-                    </label>{" "}
-                    e selecione uma imagem do seu dispositivo
-                  </p>
+                  {modoEdicao && (
+                    <p>
+                      Para inserir uma imagem,{" "}
+                      <label>
+                        clique aqui
+                        <input
+                          type="file"
+                          onChange={(e) =>
+                            processarUploadImagem(
+                              e.target.files[0],
+                              "imagemSaida"
+                            )
+                          }
+                          style={{ display: "none" }}
+                          accept="image/*"
+                          ref={referenciaArquivo}
+                          disabled={salvandoDados}
+                        />
+                      </label>{" "}
+                      e selecione uma imagem do seu dispositivo
+                    </p>
+                  )}
                 </div>
               )}
             </div>
           </Carousel>
 
           <div className={styles.alinharDadosDeIdentificacao}>
+            {/* SEÇÃO DE DESCRIÇÃO */}
             <div className={styles.dadosDeIdentificacao}>
-              <h1 className={styles.tituloDadosDeIdentificacao}>
-                Descrição do Animal
-              </h1>
+              <Select
+                options={opcoes.descricoes}
+                styles={estilosSelectTitulo}
+                isSearchable={false}
+                value={descricaoSelecionada}
+                onChange={(opcaoSelecionada) =>
+                  setDescricaoSelecionada(opcaoSelecionada)
+                }
+              />
               <textarea
                 className={styles.descricaoTextarea}
-                name="descricao"
-                value={editedAnimal.descricao || ""}
-                onChange={handleTextareaChange}
-                placeholder="Adicione uma descrição sobre o animal (comportamento, histórico, etc.)"
+                value={obterValorDescricaoAtual()}
+                onChange={capturarMudancaDescricao}
+                placeholder={obterPlaceholderDescricao()}
                 rows={5}
+                disabled={!modoEdicao} // Só permite edição no modo de edição
               />
             </div>
 
+            {/* DADOS DE IDENTIFICAÇÃO */}
             <div className={styles.dadosDeIdentificacao}>
               <h1 className={styles.tituloDadosDeIdentificacao}>
                 Dados de identificação
@@ -395,8 +664,9 @@ export default function VerMais() {
                   name="nome"
                   maxLength={30}
                   type="text"
-                  value={editedAnimal.nome || ""}
-                  onChange={handleInputChange}
+                  value={dadosEditados.nome || ""}
+                  onChange={capturarMudancaCampo}
+                  disabled={!modoEdicao}
                 />
               </div>
               <div className={styles.alinharDados}>
@@ -404,11 +674,12 @@ export default function VerMais() {
                 <input
                   className={styles.inputDadosIdentificacao}
                   name="idade"
-                  min="0"
+                  min="1"
                   max="20"
                   type="number"
-                  value={editedAnimal.idade || ""}
-                  onChange={handleInputChange}
+                  value={dadosEditados.idade || ""}
+                  onChange={capturarMudancaCampo}
+                  disabled={!modoEdicao}
                 />
               </div>
               <div className={styles.alinharDados}>
@@ -416,12 +687,13 @@ export default function VerMais() {
                 <Select
                   options={opcoes.sexoDoAnimal}
                   value={opcoes.sexoDoAnimal.find(
-                    (option) => option.value === editedAnimal.sexo
+                    (opcao) => opcao.value === dadosEditados.sexo
                   )}
-                  onChange={(selectedOption) =>
-                    handleSelectChange("sexo", selectedOption)
+                  onChange={(opcaoSelecionada) =>
+                    capturarMudancaSelecao("sexo", opcaoSelecionada)
                   }
                   className={styles.selectInserirAnimal}
+                  isDisabled={!modoEdicao}
                 />
               </div>
               <div className={styles.alinharDados}>
@@ -429,12 +701,13 @@ export default function VerMais() {
                 <Select
                   options={opcoes.tipoAnimal}
                   value={opcoes.tipoAnimal.find(
-                    (option) => option.value === editedAnimal.tipo
+                    (opcao) => opcao.value === dadosEditados.tipo
                   )}
-                  onChange={(selectedOption) =>
-                    handleSelectChange("tipo", selectedOption)
+                  onChange={(opcaoSelecionada) =>
+                    capturarMudancaSelecao("tipo", opcaoSelecionada)
                   }
                   className={styles.selectInserirAnimal}
+                  isDisabled={!modoEdicao}
                 />
               </div>
               <div className={styles.alinharDados}>
@@ -444,17 +717,21 @@ export default function VerMais() {
                 <Select
                   options={opcoes.StatusMicrochipagem}
                   value={opcoes.StatusMicrochipagem.find(
-                    (option) =>
-                      option.value === editedAnimal.statusMicrochipagem
+                    (opcao) => opcao.value === dadosEditados.statusMicrochipagem
                   )}
-                  onChange={(selectedOption) =>
-                    handleSelectChange("statusMicrochipagem", selectedOption)
+                  onChange={(opcaoSelecionada) =>
+                    capturarMudancaSelecao(
+                      "statusMicrochipagem",
+                      opcaoSelecionada
+                    )
                   }
                   className={styles.selectInserirAnimal}
+                  isDisabled={!modoEdicao}
                 />
               </div>
             </div>
 
+            {/* DADOS DE SAÚDE */}
             <div className={styles.dadosDeIdentificacao}>
               <h1 className={styles.tituloDadosDeIdentificacao}>
                 Dados de saúde
@@ -466,90 +743,51 @@ export default function VerMais() {
                 <Select
                   options={opcoes.StatusVacinacao}
                   value={opcoes.StatusVacinacao.find(
-                    (option) => option.value === editedAnimal.statusVacinacao
+                    (opcao) => opcao.value === dadosEditados.statusVacinacao
                   )}
-                  onChange={(selectedOption) => {
+                  onChange={(opcaoSelecionada) => {
+                    // Validação especial para vacinação
                     const hoje = new Date();
                     const umAnoAtras = new Date(hoje);
                     umAnoAtras.setFullYear(hoje.getFullYear() - 1);
 
-                    if (selectedOption.value === "vacinado") {
-                      if (!editedAnimal.dataVacinacao) {
-                        setVacinacaoError(
+                    if (opcaoSelecionada.value === "vacinado") {
+                      if (!dadosEditados.dataVacinacao) {
+                        setErroVacinacao(
                           "Informe a data de vacinação primeiro"
                         );
                         return;
                       } else if (
-                        new Date(editedAnimal.dataVacinacao) < umAnoAtras
+                        new Date(dadosEditados.dataVacinacao) < umAnoAtras
                       ) {
-                        setVacinacaoError(
+                        setErroVacinacao(
                           "Data de vacinação expirada (deve ser nos últimos 12 meses)"
                         );
                         return;
                       }
                     }
 
-                    setVacinacaoError("");
-                    handleSelectChange("statusVacinacao", selectedOption);
+                    setErroVacinacao("");
+                    capturarMudancaSelecao("statusVacinacao", opcaoSelecionada);
                   }}
                   className={styles.selectInserirAnimal}
                   isDisabled={
-                    editedAnimal.statusVacinacao === "naoVacinado" &&
-                    (!editedAnimal.dataVacinacao ||
-                      new Date(editedAnimal.dataVacinacao) <
-                        new Date(
-                          new Date().setFullYear(new Date().getFullYear() - 1)
-                        ))
+                    !modoEdicao ||
+                    (dadosEditados.statusVacinacao === "naoVacinado" &&
+                      (!dadosEditados.dataVacinacao ||
+                        new Date(dadosEditados.dataVacinacao) <
+                          new Date(
+                            new Date().setFullYear(new Date().getFullYear() - 1)
+                          )))
                   }
                 />
-                {vacinacaoError && (
-                  <p className={styles.errorMessage}>{vacinacaoError}</p>
+                {erroVacinacao && (
+                  <p className={styles.errorMessage}>{erroVacinacao}</p>
                 )}
-              </div>
-              <div className={styles.alinharDados}>
-                <label className={styles.labelDadosSaude}>
-                  Status de castração:
-                </label>
-                <Select
-                  options={opcoes.StatusCastracao}
-                  value={opcoes.StatusCastracao.find(
-                    (option) => option.value === editedAnimal.statusCastracao
-                  )}
-                  onChange={(selectedOption) =>
-                    handleSelectChange("statusCastracao", selectedOption)
-                  }
-                  className={styles.selectInserirAnimal}
-                />
-              </div>
-              <div className={styles.alinharDados}>
-                <label className={styles.labelDadosSaude}>
-                  Status de adoção:
-                </label>
-                <Select
-                  options={opcoes.StatusAdocao}
-                  value={opcoes.StatusAdocao.find(
-                    (option) => option.value === editedAnimal.statusAdocao
-                  )}
-                  onChange={(selectedOption) =>
-                    handleSelectChange("statusAdocao", selectedOption)
-                  }
-                  className={styles.selectInserirAnimal}
-                />
-              </div>
-              <div className={styles.alinharDados}>
-                <label className={styles.labelDadosSaude}>
-                  Status de vermifugação:
-                </label>
-                <Select
-                  options={opcoes.StatusVermifugacao}
-                  value={opcoes.StatusVermifugacao.find(
-                    (option) => option.value === editedAnimal.statusVermifugacao
-                  )}
-                  onChange={(selectedOption) =>
-                    handleSelectChange("statusVermifugacao", selectedOption)
-                  }
-                  className={styles.selectInserirAnimal}
-                />
+                <Tooltip id="idSelectNome" place="top">
+                  Clique na caixa abaixo e selecione o nome de algum animal para
+                  que suas informações apareçam no slide.
+                </Tooltip>
               </div>
               <div className={styles.alinharDados}>
                 <label className={styles.labelDadosSaude}>
@@ -560,34 +798,113 @@ export default function VerMais() {
                   type="date"
                   name="dataVacinacao"
                   value={
-                    editedAnimal.dataVacinacao
-                      ? editedAnimal.dataVacinacao.split("T")[0]
+                    dadosEditados.dataVacinacao
+                      ? dadosEditados.dataVacinacao.split("T")[0]
                       : ""
                   }
-                  onChange={handleDateChange}
+                  onChange={capturarMudancaData}
                   max={new Date().toISOString().split("T")[0]}
+                  disabled={!modoEdicao}
+                />
+              </div>
+              <div className={styles.alinharDados}>
+                <label className={styles.labelDadosSaude}>
+                  Status de castração:
+                </label>
+                <Select
+                  options={opcoes.StatusCastracao}
+                  value={opcoes.StatusCastracao.find(
+                    (opcao) => opcao.value === dadosEditados.statusCastracao
+                  )}
+                  onChange={(opcaoSelecionada) =>
+                    capturarMudancaSelecao("statusCastracao", opcaoSelecionada)
+                  }
+                  className={styles.selectInserirAnimal}
+                  isDisabled={!modoEdicao}
+                />
+              </div>
+              <div className={styles.alinharDados}>
+                <label className={styles.labelDadosSaude}>
+                  Status de adoção:
+                </label>
+                <Select
+                  options={opcoes.StatusAdocao}
+                  value={opcoes.StatusAdocao.find(
+                    (opcao) => opcao.value === dadosEditados.statusAdocao
+                  )}
+                  onChange={(opcaoSelecionada) =>
+                    capturarMudancaSelecao("statusAdocao", opcaoSelecionada)
+                  }
+                  className={styles.selectInserirAnimal}
+                  isDisabled={!modoEdicao}
+                />
+              </div>
+              <div className={styles.alinharDados}>
+                <label className={styles.labelDadosSaude}>
+                  Status de vermifugação:
+                </label>
+                <Select
+                  options={opcoes.StatusVermifugacao}
+                  value={opcoes.StatusVermifugacao.find(
+                    (opcao) => opcao.value === dadosEditados.statusVermifugacao
+                  )}
+                  onChange={(opcaoSelecionada) =>
+                    capturarMudancaSelecao(
+                      "statusVermifugacao",
+                      opcaoSelecionada
+                    )
+                  }
+                  className={styles.selectInserirAnimal}
+                  isDisabled={!modoEdicao}
                 />
               </div>
             </div>
           </div>
 
+          {/* BOTÕES DE CONTROLE */}
           <div className={styles.botaoSalvarContainer}>
-            <button
-              className={`${styles.botaoSalvar} ${
-                !isDirty || isLoading ? styles.desativado : ""
-              }`}
-              onClick={() => {
-                // Verificação final antes de salvar
-                if (!checkDirty(animal, editedAnimal)) {
-                  alert("Nenhuma alteração foi feita");
-                  return;
-                }
-                handleSaveChanges();
-              }}
-              disabled={!isDirty || isLoading}
-            >
-              {isLoading ? "Salvando..." : "Salvar Alterações"}
-            </button>
+            {!modoEdicao ? (
+              // Botão para ativar modo de edição
+              <button
+                className={styles.botaoEditar}
+                onClick={ativarModoEdicao}
+                disabled={salvandoDados}
+              >
+                {salvandoDados ? "Carregando..." : "Editar Dados"}
+              </button>
+            ) : (
+              // Botões quando está em modo de edição
+              <div className={styles.botoesEdicao}>
+                <button
+                  className={styles.botaoCancelar}
+                  onClick={cancelarEdicao}
+                  disabled={salvandoDados}
+                >
+                  Cancelar
+                </button>
+                <button
+                  className={`${styles.botaoSalvar} ${
+                    !existemAlteracoes || salvandoDados ? styles.desativado : ""
+                  }`}
+                  onClick={() => {
+                    // Verificação final antes de salvar
+                    if (
+                      !verificarSeExistemAlteracoes(
+                        dadosOriginais,
+                        dadosEditados
+                      )
+                    ) {
+                      alert("Nenhuma alteração foi feita");
+                      return;
+                    }
+                    salvarTodasAlteracoes();
+                  }}
+                  disabled={!existemAlteracoes || salvandoDados}
+                >
+                  {salvandoDados ? "Salvando..." : "Salvar Alterações"}
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

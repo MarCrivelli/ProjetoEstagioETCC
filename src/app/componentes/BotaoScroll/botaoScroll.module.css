@@ -9,13 +9,13 @@
   border-radius: 50%;
   cursor: pointer;
   z-index: 1000;
-  opacity: 0;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity ease, transform 1s ease;
 }
 
 .botaoScroll.visivel {
+  display: block;
   opacity: 1;
-  transform: translateX(-50%) translateY(0); /* Retorna à posição original */
+  transform: translateX(-50%) translateY(0); 
 }
 
 .botaoScroll:hover {

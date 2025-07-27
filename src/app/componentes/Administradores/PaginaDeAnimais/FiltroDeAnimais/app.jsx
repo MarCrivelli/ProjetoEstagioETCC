@@ -1,10 +1,9 @@
 import styles from "./filtroDeAnimais.module.css";
 import Select from "react-select";
 import { useState, useRef } from "react";
-import opcoes from '/src/app/componentes/Administradores/OpcoesDeSelecao/opcoes';
+import opcoes from "/src/app/componentes/Administradores/OpcoesDeSelecao/opcoes";
 
 export default function FiltroDeAnimais({ filtros, setFiltros }) {
-
   const [termoPesquisa, setTermoPesquisa] = useState(filtros.nome || "");
 
   // Refs para os componentes Select
@@ -53,145 +52,181 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
 
   return (
     <div className={styles.containerFiltrosDeSelecao}>
-      <Select
-        ref={tipoSelectRef}
-        isMulti
-        options={opcoes.tipoAnimal}
-        placeholder="Tipo de animal"
-        onChange={(selectedOptions) =>
-          setFiltros((prev) => ({
-            ...prev,
-            tipo: selectedOptions.map((opt) => opt.value),
-          }))
-        }
-        className={styles.filtroSelecao}
-        value={filtros.tipo.map((opt) =>
-          opcoes.tipoAnimal.find((o) => o.value === opt)
-        )}
-      />
-      <Select
-        ref={idadeSelectRef}
-        isMulti
-        options={opcoes.idadeAnimais}
-        placeholder="Idade"
-        onChange={(selectedOptions) =>
-          setFiltros((prev) => ({
-            ...prev,
-            idade: selectedOptions.map((opt) => opt.value),
-          }))
-        }
-        className={styles.filtroSelecao}
-        value={filtros.idade.map((opt) =>
-          opcoes.idadeAnimais.find((o) => o.value === opt)
-        )}
-      />
-      <Select
-        ref={sexoSelectRef}
-        isMulti
-        options={opcoes.sexoDoAnimal}
-        placeholder="Sexo"
-        onChange={(selectedOptions) =>
-          setFiltros((prev) => ({
-            ...prev,
-            sexo: selectedOptions.map((opt) => opt.value),
-          }))
-        }
-        className={styles.filtroSelecao}
-        value={filtros.sexo.map((opt) =>
-          opcoes.sexoDoAnimal.find((o) => o.value === opt)
-        )}
-      />
-      <Select
-        ref={vacinacaoSelectRef}
-        isMulti
-        options={opcoes.StatusVacinacao}
-        placeholder="Status de vacinação"
-        onChange={(selectedOptions) =>
-          setFiltros((prev) => ({
-            ...prev,
-            statusVacinacao: selectedOptions.map((opt) => opt.value),
-          }))
-        }
-        className={styles.filtroSelecao}
-        value={filtros.statusVacinacao.map((opt) =>
-          opcoes.StatusVacinacao.find((o) => o.value === opt)
-        )}
-      />
-      <Select
-        ref={castracaoSelectRef}
-        isMulti
-        options={opcoes.StatusCastracao}
-        placeholder="Status de castração"
-        onChange={(selectedOptions) =>
-          setFiltros((prev) => ({
-            ...prev,
-            statusCastracao: selectedOptions.map((opt) => opt.value),
-          }))
-        }
-        className={styles.filtroSelecao}
-        value={filtros.statusCastracao.map((opt) =>
-          opcoes.StatusCastracao.find((o) => o.value === opt)
-        )}
-      />
-      <Select
-        ref={adocaoSelectRef}
-        isMulti
-        options={opcoes.StatusAdocao}
-        placeholder="Status de adoção"
-        onChange={(selectedOptions) =>
-          setFiltros((prev) => ({
-            ...prev,
-            statusAdocao: selectedOptions.map((opt) => opt.value),
-          }))
-        }
-        className={styles.filtroSelecao}
-        value={filtros.statusAdocao.map((opt) =>
-          opcoes.StatusAdocao.find((o) => o.value === opt)
-        )}
-      />
-      <Select
-        ref={microchipSelectRef}
-        isMulti
-        options={opcoes.StatusMicrochipagem}
-        placeholder="Status de microchipagem"
-        onChange={(selectedOptions) =>
-          setFiltros((prev) => ({
-            ...prev,
-            statusMicrochipagem: selectedOptions.map((opt) => opt.value),
-          }))
-        }
-        className={styles.filtroSelecao}
-        value={filtros.statusMicrochipagem.map((opt) =>
-          opcoes.StatusMicrochipagem.find((o) => o.value === opt)
-        )}
-      />
-      <Select
-        ref={vermifugacaoSelectRef}
-        isMulti
-        options={opcoes.StatusVermifugacao}
-        placeholder="Status de vermifugação"
-        onChange={(selectedOptions) =>
-          setFiltros((prev) => ({
-            ...prev,
-            statusVermifugacao: selectedOptions.map((opt) => opt.value),
-          }))
-        }
-        className={styles.filtroSelecao}
-        value={filtros.statusVermifugacao.map((opt) =>
-          opcoes.StatusVermifugacao.find((o) => o.value === opt)
-        )}
-      />
-      <div className={styles.containerPesquisa}>
-        <input
-          className={styles.barrinhaDePesquisa}
-          type="text"
-          placeholder="Pesquise pelo nome"
-          value={termoPesquisa}
-          onChange={handlePesquisaNome}
-        />
+      <div className={styles.containerFiltro}>
+        <h1 className={styles.tituloItemFiltrar}>Dados de identificação</h1>
+        <div className={styles.alinharDadosDeFiltragem}>
+          <label className={styles.labelDeIdentificacao}>Nome:</label>
+          <input
+            className={styles.barrinhaDePesquisa}
+            type="text"
+            placeholder="Pesquise pelo nome"
+            value={termoPesquisa}
+            onChange={handlePesquisaNome}
+          />
+        </div>
+        <div className={styles.alinharDadosDeFiltragem}>
+          <label className={styles.labelDeIdentificacao}>Idade:</label>
+          <Select
+            ref={idadeSelectRef}
+            isMulti
+            options={opcoes.idadeAnimais}
+            placeholder="Idade"
+            onChange={(selectedOptions) =>
+              setFiltros((prev) => ({
+                ...prev,
+                idade: selectedOptions.map((opt) => opt.value),
+              }))
+            }
+            className={styles.selectFiltrarAnimal}
+            value={filtros.idade.map((opt) =>
+              opcoes.idadeAnimais.find((o) => o.value === opt)
+            )}
+          />
+        </div>
+        <div className={styles.alinharDadosDeFiltragem}>
+          <label className={styles.labelDeIdentificacao}>Sexo:</label>
+          <Select
+            ref={sexoSelectRef}
+            isMulti
+            options={opcoes.sexoDoAnimal}
+            placeholder="Sexo"
+            onChange={(selectedOptions) =>
+              setFiltros((prev) => ({
+                ...prev,
+                sexo: selectedOptions.map((opt) => opt.value),
+              }))
+            }
+            className={styles.selectFiltrarAnimal}
+            value={filtros.sexo.map((opt) =>
+              opcoes.sexoDoAnimal.find((o) => o.value === opt)
+            )}
+          />
+        </div>
+        <div className={styles.alinharDadosDeFiltragem}>
+          <label className={styles.labelDeIdentificacao}>Tipo:</label>
+          <Select
+            ref={tipoSelectRef}
+            isMulti
+            options={opcoes.tipoAnimal}
+            placeholder="Tipo de animal"
+            onChange={(selectedOptions) =>
+              setFiltros((prev) => ({
+                ...prev,
+                tipo: selectedOptions.map((opt) => opt.value),
+              }))
+            }
+            className={styles.selectFiltrarAnimal}
+            value={filtros.tipo.map((opt) =>
+              opcoes.tipoAnimal.find((o) => o.value === opt)
+            )}
+          />
+        </div>
+        <div className={styles.alinharDadosDeFiltragem}>
+          <label className={styles.labelDeIdentificacao}>
+            Status de microchipagem:
+          </label>
+          <Select
+            ref={microchipSelectRef}
+            isMulti
+            options={opcoes.StatusMicrochipagem}
+            placeholder="Status de microchipagem"
+            onChange={(selectedOptions) =>
+              setFiltros((prev) => ({
+                ...prev,
+                statusMicrochipagem: selectedOptions.map((opt) => opt.value),
+              }))
+            }
+            className={styles.selectFiltrarAnimal}
+            value={filtros.statusMicrochipagem.map((opt) =>
+              opcoes.StatusMicrochipagem.find((o) => o.value === opt)
+            )}
+          />
+        </div>
       </div>
 
-      <div className={styles.divLimparFiltro}>
+      <div className={styles.containerFiltro}>
+        <h1 className={styles.tituloItemFiltrar}>Dados de saúde</h1>
+        <div className={styles.alinharDadosDeFiltragem}>
+          <label className={styles.labelDadosSaude}>Status de vacinação:</label>
+          <Select
+            ref={vacinacaoSelectRef}
+            isMulti
+            options={opcoes.StatusVacinacao}
+            placeholder="Status de vacinação"
+            onChange={(selectedOptions) =>
+              setFiltros((prev) => ({
+                ...prev,
+                statusVacinacao: selectedOptions.map((opt) => opt.value),
+              }))
+            }
+            className={styles.selectFiltrarAnimal}
+            value={filtros.statusVacinacao.map((opt) =>
+              opcoes.StatusVacinacao.find((o) => o.value === opt)
+            )}
+          />
+        </div>
+        <div className={styles.alinharDadosDeFiltragem}>
+          <label className={styles.labelDadosSaude}>Status de castração:</label>
+          <Select
+            ref={castracaoSelectRef}
+            isMulti
+            options={opcoes.StatusCastracao}
+            placeholder="Status de castração"
+            onChange={(selectedOptions) =>
+              setFiltros((prev) => ({
+                ...prev,
+                statusCastracao: selectedOptions.map((opt) => opt.value),
+              }))
+            }
+            className={styles.selectFiltrarAnimal}
+            value={filtros.statusCastracao.map((opt) =>
+              opcoes.StatusCastracao.find((o) => o.value === opt)
+            )}
+          />
+        </div>
+        <div className={styles.alinharDadosDeFiltragem}>
+          <label className={styles.labelDadosSaude}>Status de adoção:</label>
+          <Select
+            ref={adocaoSelectRef}
+            isMulti
+            options={opcoes.StatusAdocao}
+            placeholder="Status de adoção"
+            onChange={(selectedOptions) =>
+              setFiltros((prev) => ({
+                ...prev,
+                statusAdocao: selectedOptions.map((opt) => opt.value),
+              }))
+            }
+            className={styles.selectFiltrarAnimal}
+            value={filtros.statusAdocao.map((opt) =>
+              opcoes.StatusAdocao.find((o) => o.value === opt)
+            )}
+          />
+        </div>
+        <div className={styles.alinharDadosDeFiltragem}>
+          <label className={styles.labelDadosSaude}>
+            Status de vermifugação:
+          </label>
+          <Select
+            ref={vermifugacaoSelectRef}
+            isMulti
+            options={opcoes.StatusVermifugacao}
+            placeholder="Status de vermifugação"
+            onChange={(selectedOptions) =>
+              setFiltros((prev) => ({
+                ...prev,
+                statusVermifugacao: selectedOptions.map((opt) => opt.value),
+              }))
+            }
+            className={styles.selectFiltrarAnimal}
+            value={filtros.statusVermifugacao.map((opt) =>
+              opcoes.StatusVermifugacao.find((o) => o.value === opt)
+            )}
+          />
+        </div>
+      </div>
+
+      <div className={styles.alinharBotaoInserir}>
         <button
           onClick={limparTodosFiltros}
           className={styles.botaoLimparFiltros}
@@ -199,6 +234,10 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
           Limpar todos os filtros
         </button>
       </div>
+
+      {/* <div className={styles.divLimparFiltro}>
+        
+      </div> */}
     </div>
   );
 }

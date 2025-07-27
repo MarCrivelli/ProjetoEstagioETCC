@@ -123,7 +123,7 @@ export default function CadastroDeAnimais({ animais, setAnimais, onClose }) {
           <label className={styles.labelDeIdentificacao}>Idade:</label>
           <input
             className={styles.inputDadosIdentificacao}
-            min="0"
+            min="1"
             max="20"
             type="number"
             placeholder="insira uma idade"
@@ -220,6 +220,7 @@ export default function CadastroDeAnimais({ animais, setAnimais, onClose }) {
           {isLoading ? "Cadastrando..." : "Inserir animal"}
         </button>
       </div>
+      
     </form>
   );
 }

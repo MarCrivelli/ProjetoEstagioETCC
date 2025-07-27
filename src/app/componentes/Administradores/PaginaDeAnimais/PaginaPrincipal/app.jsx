@@ -61,7 +61,7 @@ export default function FichasDeAnimais() {
     buscarAnimais();
   }, []);
 
-  // Verificar modo seleção ao carregar
+  // Verificar modo seleção e animais selecionados ao carregar
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const modoPostagem = urlParams.get("modoPostagem");
@@ -69,6 +69,17 @@ export default function FichasDeAnimais() {
     if (modoPostagem === "true") {
       setModoSelecaoPostagem(true);
       document.body.classList.add("modo-selecao-ativo");
+      
+      // Recuperar animais selecionados salvos na memória/URL
+      const animaisSalvos = urlParams.get("animaisSelecionados");
+      if (animaisSalvos) {
+        try {
+          const animaisArray = JSON.parse(decodeURIComponent(animaisSalvos));
+          setAnimaisSelecionados(animaisArray);
+        } catch (error) {
+          console.error("Erro ao recuperar animais selecionados:", error);
+        }
+      }
     }
 
     return () => {
@@ -76,9 +87,19 @@ export default function FichasDeAnimais() {
     };
   }, []);
 
+  // Salvar animais selecionados na URL quando mudarem
+  useEffect(() => {
+    if (modoSelecaoPostagem && animaisSelecionados.length > 0) {
+      const urlParams = new URLSearchParams(window.location.search);
+      urlParams.set("animaisSelecionados", encodeURIComponent(JSON.stringify(animaisSelecionados)));
+      const novaUrl = `${window.location.pathname}?${urlParams.toString()}`;
+      window.history.replaceState({}, "", novaUrl);
+    }
+  }, [animaisSelecionados, modoSelecaoPostagem]);
+
   // Controlar animações
   useEffect(() => {
-    const container = document.querySelector(`.${styles.botaoPostarContainer}`);
+    const container = document.querySelector(`.${styles.containerPostagem}`);
     const botaoSelecao = document.querySelector(
       `.${styles.botoesFlutuantes} .${styles.botaoAcao}:nth-child(3)`
     );
@@ -110,6 +131,24 @@ export default function FichasDeAnimais() {
         ? prev.filter((id) => id !== animalId)
         : [...prev, animalId]
     );
+  };
+
+  // Função para desativar o modo de seleção
+  const desativarModoSelecao = () => {
+    setModoSelecaoPostagem(false);
+    setAnimaisSelecionados([]);
+    document.body.classList.remove("modo-selecao-ativo");
+    
+    // Limpar parâmetros da URL
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.delete("modoPostagem");
+    urlParams.delete("animaisSelecionados");
+    
+    const novaUrl = urlParams.toString() 
+      ? `${window.location.pathname}?${urlParams.toString()}`
+      : window.location.pathname;
+    
+    window.history.replaceState({}, "", novaUrl);
   };
 
   const aplicarFiltros = () => {
@@ -171,12 +210,16 @@ export default function FichasDeAnimais() {
 
   // remover
   useEffect(() => {
-    console.log('Modo seleção:', modoSelecaoPostagem);
-    console.log('Animais selecionados:', animaisSelecionados);
+    console.log("Modo seleção:", modoSelecaoPostagem);
+    console.log("Animais selecionados:", animaisSelecionados);
   }, [modoSelecaoPostagem, animaisSelecionados]);
 
   return (
-    <div className={`${styles.fundoPagina} ${modoSelecaoPostagem ? styles.modoSelecaoAtivo : ''}`}>
+    <div
+      className={`${styles.fundoPagina} ${
+        modoSelecaoPostagem ? styles.modoSelecaoAtivo : ""
+      }`}
+    >
       <HeaderAdms />
       <BotaoPagInicial />
       <RolarPCima />
@@ -195,29 +238,21 @@ export default function FichasDeAnimais() {
         >
           <img src="/pagFichasDAnimais/addAnimal.png" alt="Adicionar animal" />
         </button>
-
-        <button
-          className={`${styles.botaoAcao} ${
-            modoSelecaoPostagem ? styles.ativo : ""
-          }`}
-          onClick={() => {
-            const novoModo = !modoSelecaoPostagem;
-            setModoSelecaoPostagem(novoModo);
-
-            if (!novoModo) {
-              setAnimaisSelecionados([]);
-            }
-          }}
-        >
-          <img
-            src="/pagFichasDAnimais/selecionarPost.png"
-            alt="Selecionar para postagem"
-          />
-        </button>
       </div>
 
-      <div className={styles.botaoPostarContainer}>
-        <p>{animaisSelecionados.length} animal(s) selecionado(s)</p>
+      <div className={styles.containerPostagem}>
+        <button
+          className={`${styles.fecharContainerPostagem} ${
+            modoSelecaoPostagem ? styles.ativo : ""
+          }`}
+          onClick={desativarModoSelecao}
+        >
+          X
+        </button>
+        <p>
+          {animaisSelecionados.length}
+          {animaisSelecionados.length === 1 ? " animal selecionado" : " animais selecionados"}
+        </p>
         <button className={styles.botaoPostar}>Postar</button>
       </div>
 

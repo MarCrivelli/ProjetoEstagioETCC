@@ -24,4 +24,6 @@ https://react-select.com/home
 
 https://react-bootstrap.github.io/docs/components/accordion
 
+https://react-select.com/advanced
+
 npx sequelize-cli db:migrate

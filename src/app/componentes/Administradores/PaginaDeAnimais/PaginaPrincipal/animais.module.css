@@ -13,7 +13,7 @@
 }
 
 .modoSelecaoAtivo {
-  padding-bottom: 100px;
+  padding-bottom: 140px;
 }
 
 .fundoPainel {
@@ -74,31 +74,7 @@
   object-fit: scale-down;
 }
 
-.botaoAcao:nth-child(3) {
-  display: none;
-}
-
-.botaoSelecaoAtivo {
-  animation: pulse-border 1.5s infinite;
-}
-
-@keyframes pulse-border {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 213, 0, 0.7);
-  }
-  70% {
-    box-shadow: 0 0 0 15px rgba(255, 213, 0, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 213, 0, 0);
-  }
-}
-
-.botaoAcao.ativo {
-  display: block;
-}
-
-.botaoPostarContainer {
+.containerPostagem {
   position: fixed;
   bottom: -100px;
   left: 0;
@@ -110,23 +86,44 @@
   transition: bottom 0.3s ease-out;
   background-color: rgb(22, 22, 22);
   border-top: 2px solid black;
-  padding: 20px;
+  padding: 40px 20px;
   opacity: 0;
   visibility: hidden;
+  gap: 10px;
 }
 
 /* quando o container aparece quando você seleciona um animal 
 para postar estiver na tela, as seguintes estilizações serão 
 aplicadas: */
-.botaoPostarContainer.visivel {
+.containerPostagem.visivel {
   bottom: 0;
   opacity: 1;
   visibility: visible;
 }
 
-.botaoPostarContainer p {
+.fecharContainerPostagem {
+  margin-left: auto;
+  top: -40px;
+  right: 5px;
+  position: absolute;
+  padding: 0px 8px;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: white;
+  background-color: #161616;
+  border-radius: 3px;
+  transition: background ease-in-out 0.3s;
+}
+
+.fecharContainerPostagem:hover {
+  background-color: #161616b7;
+}
+
+.containerPostagem p {
   color: white;
   margin-bottom: 0;
+  font-weight: 500;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -134,10 +131,14 @@ aplicadas: */
   border: 1px solid #9cccff;
   padding: 10px 45px;
   border-radius: 4px;
-  max-width: 200px;
   background-color: #0074f2;
   color: white;
   font-weight: 600;
+  transition: background ease-in-out 0.3s;
+}
+
+.botaoPostar:hover {
+  background: transparent;
 }
 
 .modalOverlay {
@@ -156,6 +157,7 @@ aplicadas: */
 .modalContent {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 10px;
   background-color: white;
   padding: 20px;
@@ -163,7 +165,9 @@ aplicadas: */
   overflow-y: auto;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   position: relative;
-  animation: animacaoDeslizanteModal 0.5s ease-out forwards
+  animation: animacaoDeslizanteModal 0.5s ease-out forwards;
+  height: 85dvh;
+  width: 90%;
 }
 
 .modalContent h2 {
@@ -171,6 +175,7 @@ aplicadas: */
   text-align: center;
   font-size: 2.3rem;
   font-weight: 700;
+  padding-inline: 20px;
 }
 
 @keyframes animacaoDeslizanteModal {
@@ -183,19 +188,6 @@ aplicadas: */
     opacity: 1;
   }
 }
-
-.modalFiltros {
-  height: 60vh;
-  max-width: 500px;
-}
-
-.modalCadastro {
-  height: 90vh;
-  max-height: 700px;
-  width: 90%;
-}
-
-
 
 .modalContent::-webkit-scrollbar {
   display: none;
@@ -269,10 +261,11 @@ aplicadas: */
   .fundoPainel {
     min-height: none;
   }
-
   .modalContent {
     width: 95%;
-    max-height: 80vh;
+  }
+  .modalContent h2 {
+    font-size: 2rem;
   }
 }
 
@@ -282,11 +275,7 @@ aplicadas: */
   }
 }
 
-@media (max-width: 720px) {
-  .fundoPainel {
-    padding: 0px;
-  }
-
+@media (max-width: 766px) {
   .painel {
     min-height: 100vh;
     padding: 40px 10px 40px 10px;
@@ -297,33 +286,30 @@ aplicadas: */
   }
 
   .botoesFlutuantes {
-    top: 75px;
+    display: flex;
+    bottom: 0;
     right: 5px;
     transform: none;
   }
 
   .botaoAcao {
-    position: relative;
     width: 45px;
     height: 45px;
-    box-shadow: none;
-    transition: all 0.3s ease;
+    padding: 7px;
   }
 
   .modalContent {
     padding: 20px;
-    margin-top: 60px;
   }
 
   .fecharModal {
-    padding: 0px 7px 0px 7px;
-    font-size: 1.4rem;
+    font-size: 1.7rem;
     border: none;
-    right: -1px;
-    top: -1px;
+    right: 3px;
+    top: 3px;
   }
 
-  .botaoPostarContainer {
+  .containerPostagem {
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -333,6 +319,14 @@ aplicadas: */
 
 @media (max-width: 705px) {
   .modalContent h2 {
-    font-size: 1.9rem;
+    font-size: 1.4rem;
+    width: 100%;
+    
+  }
+  .modalOverlay {
+    padding-block: 100px;
+  }
+  .modalContent {
+    height: 95dvh;
   }
 }

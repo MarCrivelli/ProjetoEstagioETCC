@@ -3,14 +3,14 @@
   flex-direction: column;
   background-color: white;
   height: 500px;
-  flex: 1 360px;
+  flex: 1 390px;
   box-shadow: 5px 5px 1px #000000ac;
   border: 2px solid black;
   padding: 10px;
-  max-width: 420px;
+  max-width: 390px;
 }
 
-.cardAnimais:last-of-type{
+.cardAnimais:last-of-type {
   margin-right: auto;
 }
 
@@ -191,11 +191,17 @@
   .nomeAnimal {
     font-size: 1.8rem;
   }
-  .dadosAnimais{
+  .dadosAnimais {
     font-size: 0.74rem;
   }
-  .botaoCard{
+  .botaoCard {
     padding: 18px 25px;
+  }
+}
+
+@media (max-width: 891px) {
+  .cardAnimais:last-of-type {
+    margin-right: 0;
   }
 }
 

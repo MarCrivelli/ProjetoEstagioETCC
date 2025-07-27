@@ -127,7 +127,7 @@
   max-height: 400px;
 }
 
-.botoesUtilitarios{
+.botoesUtilitarios {
   display: flex;
   padding-top: 10px;
   gap: 10px;
@@ -193,10 +193,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background ease-in .14s;
+  transition: background ease-in 0.14s;
 }
 
-.botaoFecharModal:hover{
+.botaoFecharModal:hover {
   background-color: transparent;
   cursor: pointer;
 }
@@ -216,15 +216,215 @@
   row-gap: 20px;
 }
 
-.tituloDadosDeIdentificacao {
-  width: 100%;
-  font-size: 2rem;
+.tituloDadosDeIdentificacao,
+.selectTitulo {
   text-align: center;
+  font-size: 2rem;
+  width: 100%;
+}
+
+.selectTitulo {
+  font-family: "Jockey One", sans-serif;
+}
+
+/* Estilo personalizado para o Select com classe selectTitulo */
+.selectTitulo .css-13cymwt-control {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  min-height: auto !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+  justify-content: center !important;
+}
+
+.selectTitulo .css-13cymwt-control:hover {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.selectTitulo .css-1fdsijx-ValueContainer {
+  padding: 0 !important;
+  flex-wrap: nowrap !important;
+}
+
+.selectTitulo .css-1xc3v61-indicatorContainer {
+  padding: 0 !important;
+  margin-left: 4px !important;
+  color: inherit !important;
+}
+
+.selectTitulo .css-1xc3v61-indicatorContainer svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+/* Múltiplas tentativas para remover o separador */
+.selectTitulo .css-1u9des2-indicatorSeparator,
+.selectTitulo span[class*="indicatorSeparator"],
+.selectTitulo div[class*="indicatorSeparator"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: none !important;
+}
+
+/* Seletor mais específico */
+.selectTitulo > div[class*="control"] .css-1u9des2-indicatorSeparator {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.selectTitulo .css-1pahdxg-control {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  min-height: auto !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+  justify-content: center !important;
+}
+
+.selectTitulo .css-1pahdxg-control:hover {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Estilo para o dropdown menu */
+.selectTitulo .css-1nmdiq5-menu {
+  margin-top: 8px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid #e1e5e9 !important;
+}
+
+.selectTitulo .css-d7l1ni-option {
+  padding: 12px 16px !important;
+  cursor: pointer !important;
+}
+
+.selectTitulo .css-d7l1ni-option:hover {
+  background-color: #f8f9fa !important;
+}
+
+/* Fallback para diferentes versões do react-select */
+.selectTitulo .react-select__control {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  min-height: auto !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+  justify-content: center !important;
+}
+
+.selectTitulo .react-select__control:hover {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.selectTitulo .react-select__value-container {
+  padding: 0 !important;
+  flex-wrap: nowrap !important;
+}
+
+.selectTitulo .react-select__indicator {
+  padding: 0 !important;
+  margin-left: 4px !important;
+  color: inherit !important;
+}
+
+.selectTitulo .react-select__indicator svg {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.selectTitulo .react-select__indicator-separator,
+.selectTitulo span[class*="indicatorSeparator"],
+.selectTitulo div[class*="indicatorSeparator"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: none !important;
+}
+
+.selectTitulo .react-select__menu {
+  margin-top: 8px !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid #e1e5e9 !important;
+}
+
+.selectTitulo .react-select__option {
+  padding: 12px 16px !important;
+  cursor: pointer !important;
+}
+
+.selectTitulo .react-select__option:hover {
+  background-color: #f8f9fa !important;
+}
+
+/* Estilo adicional para garantir que funcione em diferentes temas */
+.selectTitulo div[class*="control"] {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  min-height: auto !important;
+  padding: 0 !important;
+  cursor: pointer !important;
+  justify-content: center !important;
+}
+
+.selectTitulo div[class*="ValueContainer"] {
+  padding: 0 !important;
+  flex-wrap: nowrap !important;
+}
+
+.selectTitulo div[class*="indicatorContainer"] {
+  padding: 0 !important;
+  margin-left: 4px !important;
+  color: inherit !important;
+}
+
+.selectTitulo div[class*="indicatorSeparator"],
+.selectTitulo span[class*="indicatorSeparator"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  background: none !important;
+}
+
+/* Seletor ainda mais específico */
+.selectTitulo > div > div[class*="indicatorSeparator"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 .descricaoTextarea {
   height: 100%;
-  min-height: 50px;
+  min-height: 200px;
+  max-height: 375px;
   padding: 6px 0px 6px 12px;
 }
 
@@ -259,21 +459,45 @@
   align-items: center;
 }
 
+.botaoEditar,
+.botaoCancelar,
 .botaoSalvar {
   padding: 10px 30px;
+  border-radius: 7px;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+}
+
+.botaoEditar {
+  background-color: #1987ff;
+  border: 1px solid #115eb2;
+  box-shadow: 2px 2px 1px #115eb2;
+}
+
+.botoesEdicao {
+  display: flex;
+  gap: 20px;
+  padding-inline: 10px;
+}
+
+.botaoCancelar {
+  background-color: red;
+  border: 1px solid #b20000;
+  box-shadow: 2px 2px 1px #b20000;
+}
+
+.botaoSalvar {
   border: 1px solid #2c5b6c;
   box-shadow: 2px 2px 1px #2c5b6c;
   background-color: #4793af;
-  border-radius: 7px;
-  color: rgb(255, 255, 255);
-  cursor: pointer;
-  transition: filter ease-in-out .3s;
+
+  transition: filter ease-in-out 0.3s;
 }
 
 .desativado {
   cursor: not-allowed;
   filter: grayscale(1);
-  transition: filter ease-in-out .4s;
+  transition: filter ease-in-out 0.4s;
 }
 
 @media (max-width: 500px) {
@@ -309,7 +533,7 @@
     padding-inline: 10px;
   }
 
-  .semImagemDeSaida h1{
+  .semImagemDeSaida h1 {
     font-size: 1.4rem;
     margin-top: 10px;
     text-align: start;
@@ -338,5 +562,18 @@
   .alinharDadosDeIdentificacao {
     padding: 20px;
     gap: 20px;
+  }
+
+  .descricaoTextarea {
+    max-height: 315px;
+  }
+  .botaoEditar{
+    padding: 7px 30px;
+  }
+  
+  .botaoCancelar,
+  .botaoSalvar {
+    padding: 8px 25px;
+    font-size: .7rem;
   }
 }

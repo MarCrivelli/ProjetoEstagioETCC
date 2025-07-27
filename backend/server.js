@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const routes = require('./routers/routes');
 const setupAssociations = require('./models/Associacoes.js'); 
+const { sequelize } = require('./config/connection'); // Ajustado para sua estrutura
 
 const app = express();
 
@@ -26,8 +27,18 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Erro interno do servidor' });
 });
 
-// Iniciar servidor
+// Sincronizar banco de dados e iniciar servidor
 const PORT = process.env.PORT || 3003;
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
-});
+
+sequelize.sync({ force: true }) // ATENÇÃO: Isso vai DELETAR todas as tabelas e dados!
+  .then(() => {
+    console.log('Banco de dados sincronizado com force: true');
+    console.log('⚠️  ATENÇÃO: Todos os dados foram perdidos!');
+    
+    app.listen(PORT, () => {
+      console.log(`Servidor rodando na porta ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error('Erro ao sincronizar banco de dados:', error);
+  });

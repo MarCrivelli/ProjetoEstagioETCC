@@ -23,7 +23,7 @@ const procurarAnimais = async (req, res) => {
         'statusMicrochipagem', 'statusVacinacao',
         'statusCastracao', 'statusAdocao', 
         'statusVermifugacao', 'imagem', 'imagemSaida',
-        'dataVacinacao', 'descricao' // Adicionados
+        'dataVacinacao', 'descricao', 'descricaoSaida'  // ADICIONADO
       ],
       order: [['id', 'ASC']]
     });
@@ -95,7 +95,10 @@ const atualizarAnimal = async (req, res) => {
       statusAdocao,
       statusVermifugacao,
       descricao,
+      descricaoSaida, // Adicionado aqui
     } = req.body;
+
+    console.log("Dados recebidos para atualizar:", req.body); // Debug
 
     const animal = await Animais.findByPk(id);
     if (!animal) {
@@ -113,11 +116,19 @@ const atualizarAnimal = async (req, res) => {
     animal.statusAdocao = statusAdocao;
     animal.statusVermifugacao = statusVermifugacao;
     animal.descricao = descricao;
+    
+    // Atualizar descricaoSaida se vier no body
+    if (descricaoSaida !== undefined) {
+      animal.descricaoSaida = descricaoSaida;
+      console.log("Atualizando descricaoSaida para:", descricaoSaida); // Debug
+    }
 
     // Atualiza o status de vacinação automaticamente
     atualizarStatusVacinacao(animal);
 
     await animal.save();
+
+    console.log("Animal salvo com descricaoSaida:", animal.descricaoSaida); // Debug
 
     res.json({ 
       message: "Animal atualizado com sucesso!", 
@@ -136,7 +147,14 @@ const buscarAnimalPorId = async (req, res) => {
     if (!animal) {
       return res.status(404).json({ message: "Animal não encontrado." });
     }
-    res.json(animal);
+    
+    // Garantir que descricaoSaida existe no objeto retornado, mesmo que seja null
+    const animalData = animal.toJSON();
+    if (!animalData.hasOwnProperty('descricaoSaida')) {
+      animalData.descricaoSaida = null;
+    }
+    
+    res.json(animalData);
   } catch (error) {
     console.error("Erro ao buscar animal:", error);
     res.status(500).json({ message: "Erro ao buscar animal." });
@@ -206,15 +224,20 @@ const atualizarImagemEntrada = async (req, res) => {
 const atualizarDescricaoSaida = async (req, res) => {
   try {
     const { id } = req.params;
-    const { descricaoSaida } = req.body;
+    const { descricaoSaida } = req.body;  // CORRIGIDO: usar descricaoSaida
+    
+    console.log("ID recebido:", id);
+    console.log("descricaoSaida recebida:", descricaoSaida);
     
     const animal = await Animais.findByPk(id);
     if (!animal) {
       return res.status(404).json({ error: 'Animal não encontrado' });
     }
     
-    animal.descricaoSaida = descricaoSaida;
+    animal.descricaoSaida = descricaoSaida;  // CORRIGIDO: usar descricaoSaida
     await animal.save();
+    
+    console.log("Animal salvo com descricaoSaida:", animal.descricaoSaida);
     
     return res.json({
       success: true,
@@ -222,7 +245,7 @@ const atualizarDescricaoSaida = async (req, res) => {
       animal
     });
   } catch (error) {
-    console.error(error);
+    console.error("Erro ao atualizar descrição de saída:", error);
     return res.status(500).json({ 
       success: false,
       error: 'Erro ao atualizar descrição de saída',
@@ -230,7 +253,6 @@ const atualizarDescricaoSaida = async (req, res) => {
     });
   }
 };
-
 
 module.exports = {
   procurarAnimais,

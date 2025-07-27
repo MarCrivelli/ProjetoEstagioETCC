@@ -26,6 +26,7 @@ routes.get("/animais/:id", animalController.buscarAnimalPorId);
 routes.put("/animais/:id", animalController.atualizarAnimal);
 routes.put("/animais/:id/imagem", upload.single("imagem"), animalController.atualizarImagemEntrada);
 routes.put("/animais/:id/imagem-saida", upload.single("imagemSaida"), animalController.atualizarImagemSaida);
+routes.put('/animais/:id/descricao-saida', animalController.atualizarDescricaoSaida);
 
 // Rotas do carrossel
 routes.get('/carrossel/animais/selecao', carrosselAnimaisController.listarAnimaisParaSelecao);
