@@ -9,7 +9,7 @@ export default function ExibicaoDeAnimais({
   animaisSelecionados,
   toggleSelecaoAnimal,
 }) {
-  // Configuração do truncamento - altere este valor conforme necessário
+  // Configuração do truncamento 
   const TAMANHO_MAX_NOME = 15;
   
   // Função para truncar o nome do animal

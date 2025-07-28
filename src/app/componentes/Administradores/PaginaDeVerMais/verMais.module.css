@@ -52,6 +52,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   height: 100%;
   width: 100%;
   margin-inline: auto;
@@ -82,11 +83,12 @@
   position: relative;
   z-index: 1;
   background-color: rgb(255, 255, 255);
+  height: auto;
   padding: 20px;
 }
 
 .semImagemDeSaida {
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   flex: 1;
   min-width: 25%;
@@ -120,11 +122,12 @@
 }
 
 .containerImagemCarrossel > img {
-  height: 100%;
+  flex-grow: 1;
   width: auto;
   max-width: 100%;
   object-fit: scale-down;
   max-height: 400px;
+  min-height: 300px;
 }
 
 .botoesUtilitarios {
@@ -149,6 +152,16 @@
   cursor: pointer;
   opacity: 0.9;
   transform: scale(1.05);
+}
+
+.botaoTrocarImagem.desativado {
+  filter: grayscale(1);
+  opacity: 0.6;
+}
+
+.botaoTrocarImagem.desativado:hover {
+  transform: none !important;
+  opacity: 0.6 !important;
 }
 
 .modalOverlay {
@@ -448,6 +461,24 @@
   font-size: 0.875rem;
   margin-top: 0.25rem;
   margin-left: 0.5rem;
+}
+
+.inputDesativado {
+  background-color: #f2f2f2 !important;
+  border-color: #e6e6e6 !important;
+  cursor: not-allowed !important;
+}
+
+/* Estilo para selects desativados - já existe no react-select, mas garantindo consistência */
+.selectInserirAnimal .react-select__control--is-disabled {
+  background-color: #f2f2f2 !important;
+  border-color: #e6e6e6 !important;
+  cursor: not-allowed !important;
+}
+
+/* Garantir que os selects desativados também tenham o cursor correto */
+.selectInserirAnimal .react-select__control--is-disabled .react-select__value-container {
+  cursor: not-allowed !important;
 }
 
 .botaoSalvarContainer {

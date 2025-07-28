@@ -115,7 +115,7 @@
 .botaoAdicionar {
   display: flex;
   position: absolute;
-  right: -15px;
+  right: -13px;
   top: 50%;
   transform: translateY(-50%);
   width: 40px;
@@ -124,7 +124,7 @@
   background-color: #009dff;
   color: white;
   border: none;
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: bold;
   cursor: pointer;
   display: flex;
@@ -163,6 +163,18 @@
   width: 400px;
   max-width: 90%;
   gap: 20px;
+  animation: deslizarModal .5s ease-out forwards;
+}
+
+@keyframes deslizarModal {
+  from {
+    transform: translateY(120vh);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0vh);
+    opacity: 1;
+  }
 }
 
 .modal h1 {
@@ -238,13 +250,21 @@
   border: none;
 }
 
-
 @media (max-width: 1100px) {
-
   .card1 {
     width: 100%;
     grid-column: 1 / 10;
     grid-row: 1 / 6;
   }
+}
 
+@media (max-width: 700px) {
+  .cardTitle {
+    font-size: 2rem;
+  }
+  .botaoAdicionar {
+    width: 35px;
+    height: 35px;
+    font-size: 1.2rem;
+  }
 }

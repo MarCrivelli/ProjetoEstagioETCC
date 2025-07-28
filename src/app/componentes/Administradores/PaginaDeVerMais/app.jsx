@@ -15,28 +15,47 @@ export default function VerMais() {
   const { id } = useParams();
 
   // Estados principais - controla os dados do animal
-  const [dadosOriginais, setDadosOriginais] = useState(null); // Dados como vieram do banco
-  const [dadosEditados, setDadosEditados] = useState(null); // Dados sendo editados pelo usuário
+  const [dadosOriginais, setDadosOriginais] = useState(null);
+  const [dadosEditados, setDadosEditados] = useState(null);
 
   // Estados de controle da interface
-  const [modoEdicao, setModoEdicao] = useState(false); // Controla se está no modo de edição
-  const [existemAlteracoes, setExistemAlteracoes] = useState(false); // Se tem alterações pendentes
-  const [salvandoDados, setSalvandoDados] = useState(false); // Loading durante salvamento
+  const [modoEdicao, setModoEdicao] = useState(false);
+  const [existemAlteracoes, setExistemAlteracoes] = useState(false);
+  const [salvandoDados, setSalvandoDados] = useState(false);
 
   // Estados específicos
   const [referenciaArquivo, setReferenciaArquivo] = useState(useRef(null));
-  const [erroVacinacao, setErroVacinacao] = useState("");
   const [modalImagemAberto, setModalImagemAberto] = useState(false);
   const [imagemParaAmpliar, setImagemParaAmpliar] = useState("");
+
+  // Novos estados para controle de imagens pendentes
+  const [imagemEntradaPendente, setImagemEntradaPendente] = useState(null);
+  const [imagemSaidaPendente, setImagemSaidaPendente] = useState(null);
 
   // Estado do seletor de descrição (entrada/saída)
   const [descricaoSelecionada, setDescricaoSelecionada] = useState(
     opcoes.descricoes.find(
-      (opcao) => opcao.value === "descricao" // Sempre inicia com descrição de entrada
+      (opcao) => opcao.value === "descricao"
     ) || opcoes.descricoes[0]
   );
 
-  // CARREGAMENTO INICIAL - Busca os dados do animal no banco
+  // Hook para detectar tentativa de sair da página sem salvar
+  useEffect(() => {
+    const handleBeforeUnload = (event) => {
+      if (existemAlteracoes) {
+        event.preventDefault();
+        event.returnValue = "Você tem alterações não salvas. Deseja sair mesmo assim?";
+        return event.returnValue;
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [existemAlteracoes]);
+
+  // CARREGAMENTO INICIAL
   useEffect(() => {
     const buscarDadosDoAnimal = async () => {
       try {
@@ -47,8 +66,6 @@ export default function VerMais() {
         console.log("descricao (entrada):", dados.descricao);
         console.log("descricaoSaida:", dados.descricaoSaida);
 
-        // Garantir que os campos de descrição existem, mesmo que vazios
-        // Isso evita erros no frontend quando os campos são null
         if (!dados.hasOwnProperty("descricao")) {
           dados.descricao = "";
         }
@@ -58,22 +75,8 @@ export default function VerMais() {
 
         console.log("Dados após normalização:", dados);
 
-        // VALIDAÇÃO AUTOMÁTICA DA VACINAÇÃO
-        // Se a vacina foi há mais de 1 ano, marca como não vacinado
-        const hoje = new Date();
-        const umAnoAtras = new Date(hoje);
-        umAnoAtras.setFullYear(hoje.getFullYear() - 1);
-
-        if (dados.dataVacinacao && new Date(dados.dataVacinacao) < umAnoAtras) {
-          dados.statusVacinacao = "naoVacinado";
-          setErroVacinacao(
-            "Só será possível modificar o status de vacinação para vacinado quando a data de vacinação for menor que um ano em relação a data atual"
-          );
-        }
-
-        // Salva os dados nos estados
         setDadosOriginais(dados);
-        setDadosEditados({ ...dados }); // Cria uma cópia para edição
+        setDadosEditados({ ...dados });
 
         console.log("Estados atualizados com sucesso");
       } catch (error) {
@@ -84,9 +87,7 @@ export default function VerMais() {
     buscarDadosDoAnimal();
   }, [id]);
 
-  // HANDLERS DE MUDANÇA - Funções que capturam alterações nos inputs
-
-  // Captura mudanças em campos de texto normais (nome, idade, etc.)
+  // HANDLERS DE MUDANÇA
   const capturarMudancaCampo = (e) => {
     const { name, value } = e.target;
     setDadosEditados((anterior) => {
@@ -96,10 +97,9 @@ export default function VerMais() {
     });
   };
 
-  // Captura mudanças específicas no textarea de descrição
   const capturarMudancaDescricao = (e) => {
     const { value } = e.target;
-    const campoAtual = obterCampoDescricaoAtual(); // descricao ou descricaoSaida
+    const campoAtual = obterCampoDescricaoAtual();
 
     setDadosEditados((anterior) => {
       const novoEstado = { ...anterior, [campoAtual]: value };
@@ -114,7 +114,6 @@ export default function VerMais() {
     });
   };
 
-  // Captura mudanças nos selects (dropdowns)
   const capturarMudancaSelecao = (nomeCampo, opcaoSelecionada) => {
     setDadosEditados((anterior) => {
       const novoEstado = { ...anterior, [nomeCampo]: opcaoSelecionada.value };
@@ -123,26 +122,38 @@ export default function VerMais() {
     });
   };
 
-  // Captura mudanças na data de vacinação (tem lógica especial)
+  // Nova função para capturar mudança na data de vacinação
   const capturarMudancaData = (e) => {
     const { value } = e.target;
+    
+    // Calcula automaticamente o status de vacinação baseado na data
+    let novoStatusVacinacao = "naoVacinado";
+    if (value) {
+      const dataVacinacao = new Date(value);
+      const hoje = new Date();
+      const umAnoAtras = new Date(hoje);
+      umAnoAtras.setFullYear(hoje.getFullYear() - 1);
+      
+      if (dataVacinacao >= umAnoAtras) {
+        novoStatusVacinacao = "vacinado";
+      }
+    }
+
     setDadosEditados((anterior) => {
       const novoEstado = {
         ...anterior,
         dataVacinacao: value,
-        // Automaticamente define o status baseado na data
-        statusVacinacao: value ? "vacinado" : "naoVacinado",
+        statusVacinacao: novoStatusVacinacao
       };
       verificarSeExistemAlteracoes(dadosOriginais, novoEstado);
       return novoEstado;
     });
   };
 
-  // VERIFICAÇÃO DE ALTERAÇÕES - Compara dados originais com editados
+  // VERIFICAÇÃO DE ALTERAÇÕES
   const verificarSeExistemAlteracoes = (original, editado) => {
     if (!original || !editado) return false;
 
-    // Campos que devem ser ignorados na comparação
     const camposIgnorados = ["createdAt", "updatedAt"];
 
     console.log(`=== VERIFICANDO SE EXISTEM ALTERAÇÕES ===`);
@@ -151,15 +162,15 @@ export default function VerMais() {
     console.log(`Original descricaoSaida: "${original.descricaoSaida || ""}"`);
     console.log(`Editado descricaoSaida: "${editado.descricaoSaida || ""}"`);
 
-    // Loop para verificar cada campo
+    // Verificar se há imagens pendentes
+    const temImagensPendentes = imagemEntradaPendente !== null || imagemSaidaPendente !== null;
+
     for (const campo in editado) {
       if (camposIgnorados.includes(campo)) continue;
 
-      // Normalizar valores null para string vazia para comparação
       const valorOriginal = original[campo] === null ? "" : original[campo];
       const valorEditado = editado[campo] === null ? "" : editado[campo];
 
-      // Verificar se os tipos são diferentes
       if (typeof valorOriginal !== typeof valorEditado) {
         console.log(
           `Campo ${campo} mudou de tipo: ${typeof valorOriginal} -> ${typeof valorEditado}`
@@ -168,7 +179,6 @@ export default function VerMais() {
         return true;
       }
 
-      // Verificar datas especificamente
       if (valorOriginal instanceof Date || valorEditado instanceof Date) {
         if (
           new Date(valorOriginal).getTime() !== new Date(valorEditado).getTime()
@@ -179,9 +189,7 @@ export default function VerMais() {
           setExistemAlteracoes(true);
           return true;
         }
-      }
-      // Verificar outros valores convertendo para string
-      else if (String(valorOriginal) !== String(valorEditado)) {
+      } else if (String(valorOriginal) !== String(valorEditado)) {
         console.log(
           `Campo ${campo} alterado: "${valorOriginal}" -> "${valorEditado}"`
         );
@@ -190,56 +198,70 @@ export default function VerMais() {
       }
     }
 
+    if (temImagensPendentes) {
+      console.log(`Imagens pendentes detectadas`);
+      setExistemAlteracoes(true);
+      return true;
+    }
+
     console.log(`Nenhuma alteração detectada`);
     setExistemAlteracoes(false);
     return false;
   };
 
-  // UPLOAD DE IMAGENS - Gerencia o envio de fotos
+  // UPLOAD DE IMAGENS
   const processarUploadImagem = async (arquivo, tipoCampo) => {
     if (!arquivo) return;
 
-    try {
-      setSalvandoDados(true);
+    // Se é imagem de saída e não existe uma ainda, salva imediatamente
+    if (tipoCampo === "imagemSaida" && !dadosOriginais.imagemSaida) {
+      try {
+        setSalvandoDados(true);
+        
+        const endpoint = `http://localhost:3003/animais/${id}/imagem-saida`;
+        const dadosFormulario = new FormData();
+        dadosFormulario.append(tipoCampo, arquivo);
 
-      // Define o endpoint correto baseado no tipo de imagem
-      const endpoint =
-        tipoCampo === "imagemSaida"
-          ? `http://localhost:3003/animais/${id}/imagem-saida`
-          : `http://localhost:3003/animais/${id}/imagem`;
+        const resposta = await fetch(endpoint, {
+          method: "PUT",
+          body: dadosFormulario,
+        });
 
-      // Prepara os dados para envio
-      const dadosFormulario = new FormData();
-      dadosFormulario.append(tipoCampo, arquivo);
+        if (!resposta.ok) {
+          const dadosErro = await resposta.json();
+          throw new Error(dadosErro.message || "Erro ao atualizar imagem");
+        }
 
-      const resposta = await fetch(endpoint, {
-        method: "PUT",
-        body: dadosFormulario,
-      });
+        const resultado = await resposta.json();
 
-      if (!resposta.ok) {
-        const dadosErro = await resposta.json();
-        throw new Error(dadosErro.message || "Erro ao atualizar imagem");
+        // Atualiza os estados com os novos dados
+        setDadosOriginais(resultado.animal);
+        setDadosEditados({ ...resultado.animal });
+
+        alert("Imagem de saída adicionada com sucesso!");
+      } catch (error) {
+        console.error("Erro no upload da imagem:", error);
+        alert(`Erro: ${error.message}`);
+      } finally {
+        setSalvandoDados(false);
       }
-
-      const resultado = await resposta.json();
-
-      // Atualiza os estados com os novos dados
-      setDadosOriginais(resultado.animal);
-      setDadosEditados({ ...resultado.animal });
-
-      alert(resultado.message || "Imagem atualizada com sucesso!");
-    } catch (error) {
-      console.error("Erro no upload da imagem:", error);
-      alert(`Erro: ${error.message}`);
-    } finally {
-      setSalvandoDados(false);
+      return;
     }
+
+    // Para outros casos (imagem de entrada ou alteração de imagem de saída existente)
+    const urlTemporaria = URL.createObjectURL(arquivo);
+    
+    if (tipoCampo === "imagemSaida") {
+      setImagemSaidaPendente({ arquivo, url: urlTemporaria });
+    } else {
+      setImagemEntradaPendente({ arquivo, url: urlTemporaria });
+    }
+
+    // Força a verificação de alterações
+    verificarSeExistemAlteracoes(dadosOriginais, dadosEditados);
   };
 
-  // SALVAMENTO - Funções para salvar as alterações
-
-  // Salva especificamente a descrição de saída
+  // SALVAMENTO
   const salvarDescricaoSaida = async () => {
     try {
       setSalvandoDados(true);
@@ -262,19 +284,40 @@ export default function VerMais() {
         setDadosOriginais(dados.animal);
         setDadosEditados({ ...dados.animal });
         setExistemAlteracoes(false);
-        alert("Descrição de saída atualizada com sucesso!");
       } else {
-        alert("Erro ao atualizar descrição de saída.");
+        throw new Error("Erro ao atualizar descrição de saída.");
       }
     } catch (error) {
       console.error("Erro ao salvar descrição de saída:", error);
-      alert("Erro ao atualizar descrição de saída.");
+      throw error;
     } finally {
       setSalvandoDados(false);
     }
   };
 
-  // Função principal de salvamento
+  // Upload real das imagens para o servidor
+  const uploadImagemParaServidor = async (imagemPendente, tipoCampo) => {
+    const endpoint =
+      tipoCampo === "imagemSaida"
+        ? `http://localhost:3003/animais/${id}/imagem-saida`
+        : `http://localhost:3003/animais/${id}/imagem`;
+
+    const dadosFormulario = new FormData();
+    dadosFormulario.append(tipoCampo, imagemPendente.arquivo);
+
+    const resposta = await fetch(endpoint, {
+      method: "PUT",
+      body: dadosFormulario,
+    });
+
+    if (!resposta.ok) {
+      const dadosErro = await resposta.json();
+      throw new Error(dadosErro.message || "Erro ao atualizar imagem");
+    }
+
+    return await resposta.json();
+  };
+
   const salvarTodasAlteracoes = async () => {
     try {
       setSalvandoDados(true);
@@ -282,13 +325,26 @@ export default function VerMais() {
       // Se está editando apenas a descrição de saída, usa endpoint específico
       if (
         descricaoSelecionada.value === "descricaoSaida" &&
-        existemAlteracoes
+        existemAlteracoes &&
+        !imagemEntradaPendente &&
+        !imagemSaidaPendente
       ) {
         await salvarDescricaoSaida();
         return;
       }
 
-      // Caso contrário, salva todos os dados
+      // Upload das imagens pendentes
+      if (imagemEntradaPendente) {
+        await uploadImagemParaServidor(imagemEntradaPendente, "imagem");
+        setImagemEntradaPendente(null);
+      }
+
+      if (imagemSaidaPendente) {
+        await uploadImagemParaServidor(imagemSaidaPendente, "imagemSaida");
+        setImagemSaidaPendente(null);
+      }
+
+      // Salvar dados textuais
       const dadosParaEnviar = { ...dadosEditados };
 
       const resposta = await fetch(`http://localhost:3003/animais/${id}`, {
@@ -304,32 +360,38 @@ export default function VerMais() {
         setDadosOriginais(dados.animal);
         setDadosEditados({ ...dados.animal });
         setExistemAlteracoes(false);
-        setModoEdicao(false); // Sai do modo de edição após salvar
+        setModoEdicao(false);
+        
+        // Limpar URLs temporárias
+        if (imagemEntradaPendente) {
+          URL.revokeObjectURL(imagemEntradaPendente.url);
+        }
+        if (imagemSaidaPendente) {
+          URL.revokeObjectURL(imagemSaidaPendente.url);
+        }
+        
         alert("Dados atualizados com sucesso!");
       } else {
-        alert("Erro ao atualizar dados do animal.");
+        throw new Error("Erro ao atualizar dados do animal.");
       }
     } catch (error) {
       console.error("Erro ao salvar alterações:", error);
-      alert("Erro interno. Tente novamente.");
+      alert(`Erro: ${error.message}`);
     } finally {
       setSalvandoDados(false);
     }
   };
 
   // FUNÇÕES AUXILIARES PARA DESCRIÇÃO
-
-  // Retorna qual campo está sendo editado (descricao ou descricaoSaida)
   const obterCampoDescricaoAtual = () => {
     console.log("Descrição selecionada:", descricaoSelecionada.value);
 
     if (descricaoSelecionada.value === "descricaoSaida") {
       return "descricaoSaida";
     }
-    return "descricao"; // Para descrição de entrada
+    return "descricao";
   };
 
-  // Retorna o valor atual da descrição baseado na seleção
   const obterValorDescricaoAtual = () => {
     const campo = obterCampoDescricaoAtual();
     const valor = dadosEditados[campo] || "";
@@ -345,7 +407,6 @@ export default function VerMais() {
     return valor;
   };
 
-  // Define o placeholder correto para cada tipo de descrição
   const obterPlaceholderDescricao = () => {
     return descricaoSelecionada.value === "descricaoSaida"
       ? "Adicione uma descrição sobre a saída do animal (motivo, condições, etc.)"
@@ -353,33 +414,49 @@ export default function VerMais() {
   };
 
   // CONTROLES DE MODO DE EDIÇÃO
-
-  // Ativa o modo de edição
   const ativarModoEdicao = () => {
     console.log("Modo de edição ativado");
     setModoEdicao(true);
   };
 
-  // Cancela a edição e restaura dados originais
   const cancelarEdicao = () => {
     console.log("Edição cancelada - restaurando dados originais");
-    setDadosEditados({ ...dadosOriginais }); // Restaura dados originais
+    setDadosEditados({ ...dadosOriginais });
     setExistemAlteracoes(false);
     setModoEdicao(false);
+    
+    // Limpar imagens pendentes
+    if (imagemEntradaPendente) {
+      URL.revokeObjectURL(imagemEntradaPendente.url);
+      setImagemEntradaPendente(null);
+    }
+    if (imagemSaidaPendente) {
+      URL.revokeObjectURL(imagemSaidaPendente.url);
+      setImagemSaidaPendente(null);
+    }
   };
 
-  // VALIDAÇÃO - Verifica se o animal pode ser vacinado
-  const validarStatusVacinacao = (animal) => {
-    if (!animal.dataVacinacao) return false;
-
-    const dataVacinacao = new Date(animal.dataVacinacao);
-    const umAnoAtras = new Date();
-    umAnoAtras.setFullYear(umAnoAtras.getFullYear() - 1);
-
-    return dataVacinacao >= umAnoAtras;
+  // Função para obter a URL da imagem de entrada (com preview se pendente)
+  const obterUrlImagemEntrada = () => {
+    if (imagemEntradaPendente) {
+      return imagemEntradaPendente.url;
+    }
+    return dadosOriginais.imagem
+      ? `http://localhost:3003/uploads/${dadosOriginais.imagem}`
+      : "/pagFichasDAnimais/imagemTeste.jpg";
   };
 
-  // LOADING - Exibe tela de carregamento se os dados não foram carregados
+  // Função para obter a URL da imagem de saída (com preview se pendente)
+  const obterUrlImagemSaida = () => {
+    if (imagemSaidaPendente) {
+      return imagemSaidaPendente.url;
+    }
+    return dadosOriginais.imagemSaida
+      ? `http://localhost:3003/uploads/${dadosOriginais.imagemSaida}`
+      : null;
+  };
+
+  // LOADING
   if (!dadosOriginais || !dadosEditados) {
     return <div>Carregando dados do animal...</div>;
   }
@@ -490,43 +567,91 @@ export default function VerMais() {
             <div
               className={styles.slideImagemEntrada}
               style={{
-                backgroundImage: dadosOriginais.imagem
-                  ? `url(http://localhost:3003/uploads/${dadosOriginais.imagem})`
-                  : "url(/pagFichasDAnimais/imagemTeste.jpg)",
+                backgroundImage: `url(${obterUrlImagemEntrada()})`,
               }}
             >
               <div className={styles.containerImagemCarrossel}>
                 <img
-                  src={
-                    dadosOriginais.imagem
-                      ? `http://localhost:3003/uploads/${dadosOriginais.imagem}`
-                      : "/pagFichasDAnimais/imagemTeste.jpg"
-                  }
+                  src={obterUrlImagemEntrada()}
                   alt="Imagem de entrada"
                   className={styles.imagemPrincipal}
                 />
-                {modoEdicao && (
+                <div className={styles.botoesUtilitarios}>
+                  <label 
+                    className={`${styles.botaoTrocarImagem} ${!modoEdicao ? styles.desativado : ''}`}
+                    style={{ cursor: !modoEdicao ? 'not-allowed' : 'pointer' }}
+                  >
+                    <img src="/pagVerMais/galeria.png" alt="Trocar imagem" />
+                    <input
+                      type="file"
+                      onChange={(e) =>
+                        processarUploadImagem(e.target.files[0], "imagem")
+                      }
+                      style={{ display: "none" }}
+                      accept="image/*"
+                      disabled={!modoEdicao || salvandoDados}
+                    />
+                  </label>
+                  <button
+                    className={styles.botaoVerAmpliado}
+                    onClick={() => {
+                      setImagemParaAmpliar(obterUrlImagemEntrada());
+                      setModalImagemAberto(true);
+                    }}
+                  >
+                    <img
+                      src="/pagVerMais/olho.png"
+                      alt="Ver imagem ampliada"
+                    />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Slide da Imagem de Saída */}
+            <div
+              className={styles.slideImagemSaida}
+              style={{
+                backgroundImage: obterUrlImagemSaida() 
+                  ? `url(${obterUrlImagemSaida()})`
+                  : dadosOriginais.imagem
+                  ? `url(http://localhost:3003/uploads/${dadosOriginais.imagem})`
+                  : "none",
+              }}
+            >
+              {obterUrlImagemSaida() ? (
+                <div className={styles.containerImagemCarrossel}>
+                  <img
+                    src={obterUrlImagemSaida()}
+                    alt="Imagem de saída"
+                    className={styles.imagemPrincipal}
+                  />
                   <div className={styles.botoesUtilitarios}>
-                    <label className={styles.botaoTrocarImagem}>
-                      <img src="/pagVerMais/galeria.png" alt="Trocar imagem" />
+                    <label 
+                      className={`${styles.botaoTrocarImagem} ${!modoEdicao ? styles.desativado : ''}`}
+                      style={{ cursor: !modoEdicao ? 'not-allowed' : 'pointer' }}
+                    >
+                      <img
+                        src="/pagVerMais/galeria.png"
+                        alt="Trocar imagem"
+                      />
                       <input
                         type="file"
                         onChange={(e) =>
-                          processarUploadImagem(e.target.files[0], "imagem")
+                          processarUploadImagem(
+                            e.target.files[0],
+                            "imagemSaida"
+                          )
                         }
                         style={{ display: "none" }}
                         accept="image/*"
-                        disabled={salvandoDados}
+                        disabled={!modoEdicao || salvandoDados}
                       />
                     </label>
                     <button
                       className={styles.botaoVerAmpliado}
                       onClick={() => {
-                        setImagemParaAmpliar(
-                          dadosOriginais.imagem
-                            ? `http://localhost:3003/uploads/${dadosOriginais.imagem}`
-                            : "/pagFichasDAnimais/imagemTeste.jpg"
-                        );
+                        setImagemParaAmpliar(obterUrlImagemSaida());
                         setModalImagemAberto(true);
                       }}
                     >
@@ -536,66 +661,6 @@ export default function VerMais() {
                       />
                     </button>
                   </div>
-                )}
-              </div>
-            </div>
-
-            {/* Slide da Imagem de Saída */}
-            <div
-              className={styles.slideImagemSaida}
-              style={{
-                backgroundImage: dadosOriginais.imagemSaida
-                  ? `url(http://localhost:3003/uploads/${dadosOriginais.imagemSaida})`
-                  : dadosOriginais.imagem
-                  ? `url(http://localhost:3003/uploads/${dadosOriginais.imagem})`
-                  : "none",
-              }}
-            >
-              {dadosOriginais.imagemSaida ? (
-                <div className={styles.containerImagemCarrossel}>
-                  <img
-                    src={`http://localhost:3003/uploads/${dadosOriginais.imagemSaida}`}
-                    alt="Imagem de saída"
-                    className={styles.imagemPrincipal}
-                  />
-                  {modoEdicao && (
-                    <div className={styles.botoesUtilitarios}>
-                      <label className={styles.botaoTrocarImagem}>
-                        <img
-                          src="/pagVerMais/galeria.png"
-                          alt="Trocar imagem"
-                        />
-                        <input
-                          type="file"
-                          onChange={(e) =>
-                            processarUploadImagem(
-                              e.target.files[0],
-                              "imagemSaida"
-                            )
-                          }
-                          style={{ display: "none" }}
-                          accept="image/*"
-                          disabled={salvandoDados}
-                        />
-                      </label>
-                      <button
-                        className={styles.botaoVerAmpliado}
-                        onClick={() => {
-                          setImagemParaAmpliar(
-                            dadosOriginais.imagemSaida
-                              ? `http://localhost:3003/uploads/${dadosOriginais.imagemSaida}`
-                              : "/pagFichasDAnimais/imagemTeste.jpg"
-                          );
-                          setModalImagemAberto(true);
-                        }}
-                      >
-                        <img
-                          src="/pagVerMais/olho.png"
-                          alt="Ver imagem ampliada"
-                        />
-                      </button>
-                    </div>
-                  )}
                 </div>
               ) : (
                 <div className={styles.semImagemDeSaida}>
@@ -603,28 +668,26 @@ export default function VerMais() {
                     <img src="/pagVerMais/semImagem.png" alt="Sem imagem" />
                   </div>
                   <h1>Nenhuma imagem de saída foi cadastrada</h1>
-                  {modoEdicao && (
-                    <p>
-                      Para inserir uma imagem,{" "}
-                      <label>
-                        clique aqui
-                        <input
-                          type="file"
-                          onChange={(e) =>
-                            processarUploadImagem(
-                              e.target.files[0],
-                              "imagemSaida"
-                            )
-                          }
-                          style={{ display: "none" }}
-                          accept="image/*"
-                          ref={referenciaArquivo}
-                          disabled={salvandoDados}
-                        />
-                      </label>{" "}
-                      e selecione uma imagem do seu dispositivo
-                    </p>
-                  )}
+                  <p>
+                    Para inserir uma imagem,{" "}
+                    <label>
+                      clique aqui
+                      <input
+                        type="file"
+                        onChange={(e) =>
+                          processarUploadImagem(
+                            e.target.files[0],
+                            "imagemSaida"
+                          )
+                        }
+                        style={{ display: "none" }}
+                        accept="image/*"
+                        ref={referenciaArquivo}
+                        disabled={salvandoDados}
+                      />
+                    </label>{" "}
+                    e selecione uma imagem do seu dispositivo
+                  </p>
                 </div>
               )}
             </div>
@@ -648,7 +711,7 @@ export default function VerMais() {
                 onChange={capturarMudancaDescricao}
                 placeholder={obterPlaceholderDescricao()}
                 rows={5}
-                disabled={!modoEdicao} // Só permite edição no modo de edição
+                disabled={!modoEdicao}
               />
             </div>
 
@@ -660,7 +723,7 @@ export default function VerMais() {
               <div className={styles.alinharDados}>
                 <label className={styles.labelDeIdentificacao}>Nome:</label>
                 <input
-                  className={styles.inputDadosIdentificacao}
+                  className={`${styles.inputDadosIdentificacao} ${!modoEdicao ? styles.inputDesativado : ''}`}
                   name="nome"
                   maxLength={30}
                   type="text"
@@ -672,7 +735,7 @@ export default function VerMais() {
               <div className={styles.alinharDados}>
                 <label className={styles.labelDeIdentificacao}>Idade:</label>
                 <input
-                  className={styles.inputDadosIdentificacao}
+                  className={`${styles.inputDadosIdentificacao} ${!modoEdicao ? styles.inputDesativado : ''}`}
                   name="idade"
                   min="1"
                   max="20"
@@ -745,48 +808,11 @@ export default function VerMais() {
                   value={opcoes.StatusVacinacao.find(
                     (opcao) => opcao.value === dadosEditados.statusVacinacao
                   )}
-                  onChange={(opcaoSelecionada) => {
-                    // Validação especial para vacinação
-                    const hoje = new Date();
-                    const umAnoAtras = new Date(hoje);
-                    umAnoAtras.setFullYear(hoje.getFullYear() - 1);
-
-                    if (opcaoSelecionada.value === "vacinado") {
-                      if (!dadosEditados.dataVacinacao) {
-                        setErroVacinacao(
-                          "Informe a data de vacinação primeiro"
-                        );
-                        return;
-                      } else if (
-                        new Date(dadosEditados.dataVacinacao) < umAnoAtras
-                      ) {
-                        setErroVacinacao(
-                          "Data de vacinação expirada (deve ser nos últimos 12 meses)"
-                        );
-                        return;
-                      }
-                    }
-
-                    setErroVacinacao("");
-                    capturarMudancaSelecao("statusVacinacao", opcaoSelecionada);
-                  }}
                   className={styles.selectInserirAnimal}
-                  isDisabled={
-                    !modoEdicao ||
-                    (dadosEditados.statusVacinacao === "naoVacinado" &&
-                      (!dadosEditados.dataVacinacao ||
-                        new Date(dadosEditados.dataVacinacao) <
-                          new Date(
-                            new Date().setFullYear(new Date().getFullYear() - 1)
-                          )))
-                  }
+                  isDisabled={true} // Sempre desabilitado pois é controlado pela data
                 />
-                {erroVacinacao && (
-                  <p className={styles.errorMessage}>{erroVacinacao}</p>
-                )}
                 <Tooltip id="idSelectNome" place="top">
-                  Clique na caixa abaixo e selecione o nome de algum animal para
-                  que suas informações apareçam no slide.
+                  O status de vacinação é controlado automaticamente pela data da vacinação.
                 </Tooltip>
               </div>
               <div className={styles.alinharDados}>
@@ -794,7 +820,7 @@ export default function VerMais() {
                   Data da última vacinação
                 </label>
                 <input
-                  className={styles.inputDadosIdentificacao}
+                  className={`${styles.inputDadosIdentificacao} ${!modoEdicao ? styles.inputDesativado : ''}`}
                   type="date"
                   name="dataVacinacao"
                   value={
@@ -892,7 +918,7 @@ export default function VerMais() {
                       !verificarSeExistemAlteracoes(
                         dadosOriginais,
                         dadosEditados
-                      )
+                      ) && !imagemEntradaPendente && !imagemSaidaPendente
                     ) {
                       alert("Nenhuma alteração foi feita");
                       return;
