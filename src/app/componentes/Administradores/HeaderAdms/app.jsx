@@ -4,6 +4,39 @@ import { useState, useEffect } from 'react';
 
 export default function HeaderAdms() {
   const [menuAberto, setMenuAberto] = useState(false);
+  const [usuarioLogado, setUsuarioLogado] = useState(null);
+
+  // Carregar dados do usuário logado
+  useEffect(() => {
+    const carregarUsuario = () => {
+      try {
+        const dadosUsuario = localStorage.getItem("usuario");
+        const token = localStorage.getItem("token");
+        
+        if (dadosUsuario && token) {
+          const usuario = JSON.parse(dadosUsuario);
+          setUsuarioLogado(usuario);
+          console.log("👤 Usuário logado carregado:", usuario);
+        } else {
+          console.log("❌ Nenhum usuário logado encontrado");
+        }
+      } catch (error) {
+        console.error("Erro ao carregar dados do usuário:", error);
+      }
+    };
+
+    carregarUsuario();
+  }, []);
+
+  // Função para fazer logout
+  const handleLogout = () => {
+    localStorage.removeItem("usuario");
+    localStorage.removeItem("token");
+    setUsuarioLogado(null);
+    console.log("🚪 Usuário deslogado");
+    // Opcional: redirecionar para página de login
+    // window.location.href = '/autenticar';
+  };
 
   // Fecha o menu quando a tela for redimensionada para mais de 700px
   useEffect(() => {
@@ -55,17 +88,40 @@ export default function HeaderAdms() {
               </Link>
             </li>
             <li>
-              <Link
-                className={styles.linkUsuario}
-                to="/autenticar"
-                title="usuário"
-              >
-                <img
-                  src="/usuarioTeste.jpeg"
-                  alt="Botão que leva à página de autenticação"
-                  className={styles.iconeUsuario}
-                />
-              </Link>
+              {usuarioLogado ? (
+                <div className={styles.usuarioLogado}>
+                  <img
+                    src={usuarioLogado.foto || "/usuarioTeste.jpeg"}
+                    alt={`Avatar de ${usuarioLogado.nome}`}
+                    className={styles.iconeUsuario}
+                    title={`Logado como: ${usuarioLogado.nome}`}
+                  />
+                  {/* <div className={styles.dropdownUsuario}>
+                    <div className={styles.infoUsuario}>
+                      <strong>{usuarioLogado.nome}</strong>
+                      <small>{usuarioLogado.email}</small>
+                    </div>
+                    <button 
+                      onClick={handleLogout}
+                      className={styles.btnLogout}
+                    >
+                      Sair
+                    </button>
+                  </div> */}
+                </div>
+              ) : (
+                <Link
+                  className={styles.linkUsuario}
+                  to="/autenticar"
+                  title="Fazer login"
+                >
+                  <img
+                    src="/usuarioTeste.jpeg"
+                    alt="Botão que leva à página de autenticação"
+                    className={styles.iconeUsuario}
+                  />
+                </Link>
+              )}
             </li>
             <li>
               <button 
@@ -98,6 +154,31 @@ export default function HeaderAdms() {
         >
           ×
         </button>
+        
+        {/* Informações do usuário no menu mobile */}
+        {usuarioLogado && (
+          <div className={styles.usuarioMobile}>
+            <img
+              src={usuarioLogado.foto || "/usuarioTeste.jpeg"}
+              alt={`Avatar de ${usuarioLogado.nome}`}
+              className={styles.avatarMobile}
+            />
+            {/* <div className={styles.infoUsuarioMobile}>
+              <strong>{usuarioLogado.nome}</strong>
+              <small>{usuarioLogado.email}</small>
+            </div>
+            <button 
+              onClick={() => {
+                handleLogout();
+                setMenuAberto(false);
+              }}
+              className={styles.btnLogoutMobile}
+            >
+              Sair
+            </button> */}
+          </div>
+        )}
+        
         <nav>
           <ul>
             <li>
@@ -106,7 +187,7 @@ export default function HeaderAdms() {
                 className={styles.linkMenuMobile}
                 onClick={() => setMenuAberto(false)}
               >
-                <img src="/headerAdms/pata.png"/>
+                <img src="/headerAdms/pata.png" alt=""/>
                 Fichas de animais
               </Link>
             </li>
@@ -116,7 +197,7 @@ export default function HeaderAdms() {
                 className={styles.linkMenuMobile}
                 onClick={() => setMenuAberto(false)}
               >
-                <img src="/headerAdms/post.png"/>
+                <img src="/headerAdms/post.png" alt=""/>
                 Postagens
               </Link>
             </li>
@@ -126,7 +207,7 @@ export default function HeaderAdms() {
                 className={styles.linkMenuMobile}
                 onClick={() => setMenuAberto(false)}
               >
-                <img src="/headerAdms/engrenagem.png"/>
+                <img src="/headerAdms/engrenagem.png" alt=""/>
                 Configurações
               </Link>
             </li>

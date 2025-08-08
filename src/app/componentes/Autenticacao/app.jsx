@@ -7,7 +7,7 @@ import BotaoParaPaginaDeAdms from "../Visitantes/BotaoPagInicialVisitantes/app";
 export default function Autenticacao() {
   const googleButtonCadastroRef = useRef(null);
   const googleButtonLoginRef = useRef(null);
-  
+
   const [usuario, setUsuario] = useState({
     nome: "",
     email: "",
@@ -19,20 +19,24 @@ export default function Autenticacao() {
 
   // Inicializar Google Login
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://accounts.google.com/gsi/client';
+    const script = document.createElement("script");
+    script.src = "https://accounts.google.com/gsi/client";
     script.async = true;
     script.defer = true;
     document.body.appendChild(script);
 
     // Adicione antes de definir o Client ID
-console.log('🌐 URL atual:', window.location.origin);
-console.log('🔑 Client ID:', '173898638940-la9trlrtts8ngmsj8t2mv455og5s8g86.apps.googleusercontent.com');
+    console.log("🌐 URL atual:", window.location.origin);
+    console.log(
+      "🔑 Client ID:",
+      "173898638940-la9trlrtts8ngmsj8t2mv455og5s8g86.apps.googleusercontent.com"
+    );
 
     script.onload = () => {
       if (window.google) {
         window.google.accounts.id.initialize({
-          client_id: '173898638940-la9trlrtts8ngmsj8t2mv455og5s8g86.apps.googleusercontent.com', 
+          client_id:
+            "173898638940-la9trlrtts8ngmsj8t2mv455og5s8g86.apps.googleusercontent.com",
           callback: handleGoogleResponse,
         });
 
@@ -41,10 +45,10 @@ console.log('🔑 Client ID:', '173898638940-la9trlrtts8ngmsj8t2mv455og5s8g86.ap
           window.google.accounts.id.renderButton(
             googleButtonCadastroRef.current,
             {
-              theme: 'outline',
-              size: 'large',
-              text: 'signup_with',
-              shape: 'rectangular',
+              theme: "outline",
+              size: "large",
+              text: "signup_with",
+              shape: "rectangular",
               width: 280,
             }
           );
@@ -52,16 +56,13 @@ console.log('🔑 Client ID:', '173898638940-la9trlrtts8ngmsj8t2mv455og5s8g86.ap
 
         // Renderizar botão de login
         if (googleButtonLoginRef.current) {
-          window.google.accounts.id.renderButton(
-            googleButtonLoginRef.current,
-            {
-              theme: 'outline',
-              size: 'large',
-              text: 'signin_with',
-              shape: 'rectangular',
-              width: 280,
-            }
-          );
+          window.google.accounts.id.renderButton(googleButtonLoginRef.current, {
+            theme: "outline",
+            size: "large",
+            text: "signin_with",
+            shape: "rectangular",
+            width: 280,
+          });
         }
       }
     };
@@ -77,7 +78,7 @@ console.log('🔑 Client ID:', '173898638940-la9trlrtts8ngmsj8t2mv455og5s8g86.ap
   const handleGoogleResponse = async (response) => {
     try {
       const decoded = parseJwt(response.credential);
-      console.log('Dados do Google:', decoded);
+      console.log("Dados do Google:", decoded);
 
       // Salvar dados do usuário do Google
       const dadosGoogle = {
@@ -89,21 +90,22 @@ console.log('🔑 Client ID:', '173898638940-la9trlrtts8ngmsj8t2mv455og5s8g86.ap
 
       // Aqui você pode enviar os dados para seu backend
       await processarLoginGoogle(dadosGoogle, response.credential);
-
     } catch (error) {
-      console.error('Erro ao processar login do Google:', error);
-      alert('Erro ao fazer login com Google');
+      console.error("Erro ao processar login do Google:", error);
+      alert("Erro ao fazer login com Google");
     }
   };
 
   // Processar login/cadastro com Google
+  // Substitua a função processarLoginGoogle no seu componente de autenticação
+
   const processarLoginGoogle = async (dadosGoogle, token) => {
     setCarregando(true);
-    
+
     try {
       const urlApi = "http://localhost:3003";
 
-      // Enviar dados do Google para seu backend
+      // Enviar dados do Google para seu backend (incluindo a foto)
       const resposta = await fetch(`${urlApi}/login-google`, {
         method: "POST",
         headers: {
@@ -113,7 +115,7 @@ console.log('🔑 Client ID:', '173898638940-la9trlrtts8ngmsj8t2mv455og5s8g86.ap
           nome: dadosGoogle.nome,
           email: dadosGoogle.email,
           googleId: dadosGoogle.googleId,
-          foto: dadosGoogle.foto,
+          foto: dadosGoogle.foto, // Foto do Google
           googleToken: token,
         }),
       });
@@ -122,9 +124,14 @@ console.log('🔑 Client ID:', '173898638940-la9trlrtts8ngmsj8t2mv455og5s8g86.ap
 
       if (resposta.ok && !dados.erro) {
         alert("Login com Google realizado com sucesso!");
-        
-        // Salvar dados do usuário logado
-        salvarDadosUsuario(dados.usuario, dados.token);
+
+        // Salvar dados do usuário logado (incluindo a foto)
+        const dadosParaSalvar = {
+          ...dados.usuario,
+          foto: dadosGoogle.foto, // Garantir que a foto seja salva
+        };
+
+        salvarDadosUsuario(dadosParaSalvar, dados.token);
 
         // Redirecionar para dashboard ou página do usuário
         // window.location.href = '/dashboard';
@@ -143,7 +150,7 @@ console.log('🔑 Client ID:', '173898638940-la9trlrtts8ngmsj8t2mv455og5s8g86.ap
   // Decodificar JWT do Google
   const parseJwt = (token) => {
     try {
-      return JSON.parse(atob(token.split('.')[1]));
+      return JSON.parse(atob(token.split(".")[1]));
     } catch (e) {
       return null;
     }
@@ -264,11 +271,10 @@ console.log('🔑 Client ID:', '173898638940-la9trlrtts8ngmsj8t2mv455og5s8g86.ap
       setCarregando(false);
     }
   };
-  
 
   return (
     <>
-      <div style={{backgroundColor: '#0d0907'}}>
+      <div style={{ backgroundColor: "#0d0907" }}>
         <Header />
       </div>
       <BotaoParaPaginaDeAdms />
@@ -286,20 +292,40 @@ console.log('🔑 Client ID:', '173898638940-la9trlrtts8ngmsj8t2mv455og5s8g86.ap
               <h1 className={styles.tituloFormulario}>Crie sua Conta</h1>
 
               {/* Botão do Google para Cadastro */}
-              <div style={{ margin: '20px 0', display: 'flex', justifyContent: 'center' }}>
+              <div
+                style={{
+                  margin: "20px 0",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
                 <div ref={googleButtonCadastroRef}></div>
               </div>
 
               {/* Divisor "ou" */}
-              <div style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                margin: '20px 0',
-                color: '#666'
-              }}>
-                <hr style={{ flex: 1, border: 'none', borderTop: '1px solid #ccc' }} />
-                <span style={{ padding: '0 15px', fontSize: '14px' }}>ou</span>
-                <hr style={{ flex: 1, border: 'none', borderTop: '1px solid #ccc' }} />
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  margin: "20px 0",
+                  color: "#666",
+                }}
+              >
+                <hr
+                  style={{
+                    flex: 1,
+                    border: "none",
+                    borderTop: "1px solid #ccc",
+                  }}
+                />
+                <span style={{ padding: "0 15px", fontSize: "14px" }}>ou</span>
+                <hr
+                  style={{
+                    flex: 1,
+                    border: "none",
+                    borderTop: "1px solid #ccc",
+                  }}
+                />
               </div>
 
               <input
@@ -307,7 +333,9 @@ console.log('🔑 Client ID:', '173898638940-la9trlrtts8ngmsj8t2mv455og5s8g86.ap
                 type="text"
                 placeholder="Digite seu nome completo"
                 value={usuario.nome}
-                onChange={(e) => setUsuario({...usuario, nome: e.target.value})}
+                onChange={(e) =>
+                  setUsuario({ ...usuario, nome: e.target.value })
+                }
                 disabled={carregando}
                 required
               />
@@ -349,20 +377,40 @@ console.log('🔑 Client ID:', '173898638940-la9trlrtts8ngmsj8t2mv455og5s8g86.ap
               <h1 className={styles.tituloFormulario}>Fazer Login</h1>
 
               {/* Botão do Google para Login */}
-              <div style={{ margin: '20px 0', display: 'flex', justifyContent: 'center' }}>
+              <div
+                style={{
+                  margin: "20px 0",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
                 <div ref={googleButtonLoginRef}></div>
               </div>
 
               {/* Divisor "ou" */}
-              <div style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                margin: '20px 0',
-                color: '#666'
-              }}>
-                <hr style={{ flex: 1, border: 'none', borderTop: '1px solid #ccc' }} />
-                <span style={{ padding: '0 15px', fontSize: '14px' }}>ou</span>
-                <hr style={{ flex: 1, border: 'none', borderTop: '1px solid #ccc' }} />
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  margin: "20px 0",
+                  color: "#666",
+                }}
+              >
+                <hr
+                  style={{
+                    flex: 1,
+                    border: "none",
+                    borderTop: "1px solid #ccc",
+                  }}
+                />
+                <span style={{ padding: "0 15px", fontSize: "14px" }}>ou</span>
+                <hr
+                  style={{
+                    flex: 1,
+                    border: "none",
+                    borderTop: "1px solid #ccc",
+                  }}
+                />
               </div>
 
               <input

@@ -155,6 +155,74 @@ const autenticarUsuario = async (req, res) => {
     }
 };
 
+// NOVA FUNÇÃO PARA LOGIN COM GOOGLE
+const loginComGoogle = async (req, res) => {
+  try {
+    const { nome, email, googleId, foto, googleToken } = req.body;
+    
+    console.log('📧 Login Google recebido:', { nome, email, googleId, foto });
+
+    if (!nome || !email) {
+        return res.status(400).json({
+            erro: true,
+            mensagem: 'Nome e email são obrigatórios'
+        });
+    }
+
+    // Verificar se o usuário já existe no banco
+    let usuario = await Usuario.findOne({ 
+      where: { email: email.toLowerCase().trim() } 
+    });
+
+    if (!usuario) {
+      // Se não existir, criar novo usuário
+      const senhaPadrao = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+      const senhaCriptografada = await bcrypt.hash(senhaPadrao, 10);
+
+      usuario = await Usuario.create({
+        nome: nome.trim(),
+        email: email.toLowerCase().trim(),
+        senha: senhaCriptografada, // Senha aleatória criptografada
+        nivelDeAcesso: 'usuario'
+      });
+      
+      console.log('✅ Novo usuário criado via Google:', usuario.email);
+    } else {
+      console.log('✅ Usuário existente logado via Google:', usuario.email);
+    }
+
+    // Gerar token JWT para sua aplicação
+    const token = jwt.sign(
+      { 
+        id: usuario.id, 
+        email: usuario.email,
+        nivelDeAcesso: usuario.nivelDeAcesso 
+      }, 
+      process.env.SEGREDO || 'chave_secreta_desenvolvimento',
+      { expiresIn: '24h' }
+    );
+
+    res.json({
+      erro: false,
+      mensagem: 'Login com Google realizado com sucesso!',
+      usuario: {
+        id: usuario.id,
+        nome: usuario.nome,
+        email: usuario.email,
+        nivelDeAcesso: usuario.nivelDeAcesso
+      },
+      token: token
+    });
+
+  } catch (error) {
+    console.error('❌ Erro no login Google:', error);
+    res.status(500).json({
+      erro: true,
+      mensagem: 'Erro interno do servidor: ' + error.message
+    });
+  }
+};
+
 const encontrarUsuario = async (req, res) => {
     try {
         const id = parseInt(req.params.id);
@@ -326,11 +394,13 @@ const modificarDadosUsuario = async (req, res) => {
     }
 };
 
+// IMPORTANTE: Adicionar loginComGoogle na exportação
 module.exports = { 
     cadastrarUsuario, 
     encontrarUsuario, 
     procurarUsuarios, 
     deletarUsuario, 
     modificarDadosUsuario, 
-    autenticarUsuario 
+    autenticarUsuario,
+    loginComGoogle // ESTA LINHA É CRUCIAL
 };

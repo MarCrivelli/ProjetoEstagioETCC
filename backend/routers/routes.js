@@ -28,7 +28,7 @@ const upload = multer({ storage: storage });
 // ============================================================================
 routes.post('/cadastro', usuarioController.cadastrarUsuario);
 routes.post('/login', usuarioController.autenticarUsuario);
-routes.post('/login-google', usuarioController.loginComGoogle);
+routes.post('/login-google', usuarioController.loginComGoogle); // ROTA GOOGLE ADICIONADA
 
 // ============================================================================
 // ROTAS DE USUÁRIOS
@@ -78,76 +78,6 @@ routes.put('/avisos/:id', avisoController.atualizarAviso);
 routes.delete('/avisos/:id', avisoController.deletarAviso);
 
 // ============================================================================
-// ROTA DE LOGIN COM GOOGLE
-// ============================================================================
-routes.post('/login-google', async (req, res) => {
-  try {
-    const { nome, email, googleId, foto, googleToken } = req.body;
-    
-    console.log('📧 Login Google recebido:', { nome, email, googleId });
-
-    // Verificar se o usuário já existe no banco
-    let usuario = await Usuario.findOne({ where: { email: email.toLowerCase().trim() } });
-
-    if (!usuario) {
-      // Se não existir, criar novo usuário
-      const senhaPadrao = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-      const senhaCriptografada = await bcrypt.hash(senhaPadrao, 10);
-
-      usuario = await Usuario.create({
-        nome: nome.trim(),
-        email: email.toLowerCase().trim(),
-        senha: senhaCriptografada, // Senha aleatória criptografada
-        googleId: googleId,
-        tipoLogin: 'google',
-        nivelDeAcesso: 'usuario'
-      });
-      
-      console.log('✅ Novo usuário criado via Google:', usuario.email);
-    } else {
-      // Se existir, atualizar dados do Google (caso não tenha)
-      if (!usuario.googleId) {
-        await Usuario.update(
-          { googleId: googleId, tipoLogin: 'google' },
-          { where: { id: usuario.id } }
-        );
-      }
-      console.log('✅ Usuário existente logado via Google:', usuario.email);
-    }
-
-    // Gerar token JWT para sua aplicação
-    const token = jwt.sign(
-      { 
-        id: usuario.id, 
-        email: usuario.email,
-        nivelDeAcesso: usuario.nivelDeAcesso 
-      }, 
-      process.env.SEGREDO || 'chave_secreta_desenvolvimento',
-      { expiresIn: '24h' }
-    );
-
-    res.json({
-      erro: false,
-      mensagem: 'Login com Google realizado com sucesso!',
-      usuario: {
-        id: usuario.id,
-        nome: usuario.nome,
-        email: usuario.email,
-        nivelDeAcesso: usuario.nivelDeAcesso
-      },
-      token: token
-    });
-
-  } catch (error) {
-    console.error('❌ Erro no login Google:', error);
-    res.status(500).json({
-      erro: true,
-      mensagem: 'Erro interno do servidor'
-    });
-  }
-});
-
-// ============================================================================
 // MIDDLEWARE DE DEBUG PARA AJUDAR A IDENTIFICAR PROBLEMAS
 // ============================================================================
 routes.use((req, res, next) => {
@@ -168,7 +98,8 @@ routes.get('/teste', (req, res) => {
     endpoints: {
       autenticacao: [
         'POST /cadastro',
-        'POST /login'
+        'POST /login',
+        'POST /login-google' // ADICIONADO AQUI TAMBÉM
       ],
       usuarios: [
         'GET /usuarios',
