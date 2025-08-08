@@ -118,6 +118,13 @@
   height: 460px;
 }
 
+/* Container para permitir overlay na imagem */
+.imagemContainer {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
 .preRenderImagem,
 .imagemAnimal {
   height: 100%;
@@ -141,6 +148,34 @@
   object-fit: cover;
 }
 
+/* Overlay para edição de imagem */
+.overlayImagem {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.imagemContainer:hover .overlayImagem {
+  opacity: 1;
+}
+
+.iconeOverlay {
+  width: 50px;
+  height: 50px;
+  filter: brightness(0) invert(1); /* Torna o ícone branco */
+}
+
 .containerDados {
   display: flex;
   flex-direction: column;
@@ -148,11 +183,27 @@
   gap: 20px;
 }
 
-.containerNomem,
+.containerNome,
 .containerDescricao {
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+
+/* Input para edição do nome */
+.inputNomeEdicao {
+  font-size: 2rem;
+  font-weight: bold;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  padding: 8px 12px;
+  background-color: white;
+  transition: border-color 0.3s ease;
+}
+
+.inputNomeEdicao:focus {
+  outline: none;
+  border-color: #4400ff;
 }
 
 .alinharLabelComAjuda {
@@ -193,7 +244,7 @@
 .containerDescricao {
   flex: 5;
   gap: 5px;
-  transition: ease-in-out .4s;
+  transition: ease-in-out 0.4s;
 }
 
 .semDescricao,
@@ -211,6 +262,18 @@
 .descricaoAnimal {
   border: 1px solid #b3b3b3;
   text-align: start;
+}
+
+/* Estilos para textarea em modo de edição */
+.descricaoAnimal:focus {
+  outline: none;
+  border-color: #4400ff;
+}
+
+.tooltip {
+  max-width: 250px !important;
+  text-align: center !important;
+  word-break: break-word !important;
 }
 
 .divBotaoSlide {
@@ -233,7 +296,7 @@
   opacity: 0.7;
 }
 
-.divBotoesEdicao{
+.divBotoesEdicao {
   display: flex;
   gap: 10px;
 }
@@ -252,6 +315,12 @@
 
 .botaoSalvar:hover {
   cursor: pointer;
+}
+
+.botaoSalvar.desativado {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .botaoCancelar {
@@ -306,10 +375,23 @@
   opacity: 0.9;
 }
 
+.mensagemDeErro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.mensagemDeErro h2 {
+  font-size: 2rem;
+  font-weight: 300;
+  font-style: italic;
+}
+
 @media (max-width: 993px) {
   .setaCarrossel {
-    width: 25px;
-    height: 25px;
+    display: none;
   }
   .conteudoSlide {
     padding-inline: 10px;
@@ -346,10 +428,19 @@
     width: 100%;
     height: 100%;
   }
+
+  .inputNomeEdicao {
+    font-size: 1.5rem;
+  }
+
+  .iconeOverlay {
+    width: 40px;
+    height: 40px;
+  }
 }
 
 @media (max-width: 450px) {
-  .erro{
+  .erro {
     gap: 5px;
   }
   .carregando p,
@@ -363,5 +454,32 @@
     padding: 8px 20px;
     height: auto;
     font-size: 0.8rem;
+  }
+
+  .inputNomeEdicao {
+    font-size: 1.2rem;
+    padding: 6px 10px;
+  }
+
+  .tooltip {
+    max-width: 70vw !important;
+    font-size: 12px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .iconeOverlay {
+    width: 35px;
+    height: 35px;
+  }
+
+  .divBotoesEdicao button {
+    padding: 10px 15px;
+    font-size: 0.8rem;
+  }
+  .mensagemDeErro h2 {
+    font-size: 1.6rem;
+    font-weight: 300;
+    font-style: italic;
   }
 }

@@ -1,8 +1,8 @@
 import styles from "./card1.module.css";
 
-const Lembrete = ({ data, descricao, corData, onRemover }) => {
+const Lembrete = ({ data, descricao, corData, onRemover, isNovo = false }) => {
   return (
-    <div className={`${styles.lembreteItem} ${styles.lembreteEntrada}`}>
+    <div className={`${styles.lembreteItem} ${isNovo ? styles.lembreteNovoAdicionado : styles.lembreteCarregado}`}>
       <span className={styles.lembreteData} style={{ color: corData }}>
         {data + ": "}
         <span className={styles.lembreteDescricao}>{descricao}</span>
@@ -24,6 +24,7 @@ export default function Card1({
   adicionarLembrete,
   fecharFormulario,
   removerLembrete,
+  ultimoLembreteId, // ✅ Novo prop para identificar o último lembrete adicionado
 }) {
   return (
     <div className={styles.card1}>
@@ -38,6 +39,7 @@ export default function Card1({
               descricao={lembrete.descricao}
               corData={lembrete.corData}
               onRemover={() => removerLembrete(lembrete.id)}
+              isNovo={lembrete.id === ultimoLembreteId} // ✅ Aplicar animação apenas ao último adicionado
             />
           ))}
         </div>

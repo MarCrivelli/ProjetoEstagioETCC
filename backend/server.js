@@ -1,44 +1,85 @@
-require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const routes = require('./routers/routes');
-const setupAssociations = require('./models/Associacoes.js'); 
-const { sequelize } = require('./config/connection'); // Ajustado para sua estrutura
+const path = require('path');
+require('dotenv').config();
 
 const app = express();
-
-// Configurações básicas
-app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Configuração para servir arquivos estáticos
-app.use('/uploads', express.static('uploads'));
-
-// Configurar associações dos modelos
-setupAssociations();
-
-// Rotas
-app.use('/', routes);
-
-// Tratamento de erros
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: 'Erro interno do servidor' });
-});
-
-// Sincronizar banco de dados e iniciar servidor
 const PORT = process.env.PORT || 3003;
 
-sequelize.sync({ force: true }) // ATENÇÃO: Isso vai DELETAR todas as tabelas e dados!
-  .then(() => {
-    console.log('Banco de dados sincronizado com force: true');
-    console.log('⚠️  ATENÇÃO: Todos os dados foram perdidos!');
-    
-    app.listen(PORT, () => {
-      console.log(`Servidor rodando na porta ${PORT}`);
-    });
-  })
-  .catch((error) => {
-    console.error('Erro ao sincronizar banco de dados:', error);
+// ============================================================================
+// CONFIGURAÇÃO DE CORS - MUITO IMPORTANTE!
+// ============================================================================
+app.use(cors({
+  origin: [
+    'http://localhost:3000',  // React padrão
+    'http://localhost:3001',  // Next.js padrão
+    'http://localhost:5173',  // Vite padrão
+    'http://localhost:4173',  // Vite preview
+    'http://127.0.0.1:5173',  // Vite alternativo
+    'http://127.0.0.1:3000',  // React alternativo
+    'http://127.0.0.1:3001',  // Next.js alternativo
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+}));
+
+// ============================================================================
+// MIDDLEWARES
+// ============================================================================
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Servir arquivos estáticos (uploads)
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// Log de requisições para debug
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path} - Origin: ${req.get('origin')}`);
+  next();
+});
+
+// ============================================================================
+// ROTAS
+// ============================================================================
+const routes = require('./routers/routes');
+app.use('/', routes);
+
+// ============================================================================
+// ROTA DE TESTE PARA VERIFICAR SE ESTÁ FUNCIONANDO
+// ============================================================================
+app.get('/teste-cors', (req, res) => {
+  res.json({
+    erro: false,
+    mensagem: 'CORS está funcionando!',
+    timestamp: new Date().toISOString(),
+    origin: req.get('origin')
   });
+});
+
+// ============================================================================
+// MIDDLEWARE DE TRATAMENTO DE ERROS
+// ============================================================================
+app.use((err, req, res, next) => {
+  console.error('❌ Erro não tratado:', err);
+  res.status(500).json({
+    erro: true,
+    mensagem: 'Erro interno do servidor'
+  });
+});
+
+// ============================================================================
+// INICIAR SERVIDOR
+// ============================================================================
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor rodando na porta ${PORT}`);
+  console.log(`🌐 Backend: http://localhost:${PORT}`);
+  console.log(`✅ CORS habilitado para:`);
+  console.log(`   - http://localhost:3000`);
+  console.log(`   - http://localhost:3001`);
+  console.log(`   - http://localhost:5173`);
+  console.log(`📋 Teste: http://localhost:${PORT}/teste`);
+  console.log(`🔧 Teste CORS: http://localhost:${PORT}/teste-cors`);
+});
+
+module.exports = app;

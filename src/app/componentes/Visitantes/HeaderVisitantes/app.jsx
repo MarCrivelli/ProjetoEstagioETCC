@@ -1,6 +1,5 @@
 import styles from "./headerVisitantes.module.css";
 import { Link } from "react-router-dom";
-import { FaHeart } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 
 export default function Header() {
@@ -64,11 +63,10 @@ export default function Header() {
               <Link
                 className={styles.linkUsuario}
                 to="/autenticar"
-                title="usuário"
+                
               >
                 <img
-                  src="/usuarioTeste.jpeg"
-                  alt="Botão que leva à página de autenticação"
+                  src={"/usuarioTeste.jpeg"}
                   className={styles.iconeUsuario}
                 />
               </Link>
@@ -104,6 +102,7 @@ export default function Header() {
         >
           ×
         </button>
+        
         <nav>
           <ul>
             <li>
@@ -139,7 +138,7 @@ export default function Header() {
                 className={styles.linkMenuMobile}
                 onClick={() => setMenuAberto(false)}
               >
-                <FaHeart/>
+                Saúde única
               </Link>
             </li>
           </ul>

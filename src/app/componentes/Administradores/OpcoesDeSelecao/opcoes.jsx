@@ -38,6 +38,11 @@ const StatusVacinacao = [
   { value: "naoVacinado", label: "Não vacinado" },
 ];
 
+const DataVacinacao = [
+  { value: "possuiData", label: "Possui data de vacinação" },
+  { value: "naoPossuiData", label: "Não possui data de vacinação" },
+];
+
 const StatusCastracao = [
   { value: "castrado", label: "Castrado" },
   { value: "naoCastrado", label: "Não castrado" },
@@ -73,6 +78,7 @@ export const vincularLabel = (value, optionType) => {
     idadeAnimais,
     sexoDoAnimal,
     StatusVacinacao,
+    DataVacinacao,
     StatusCastracao,
     StatusAdocao,
     StatusMicrochipagem,
@@ -90,6 +96,7 @@ export default {
   idadeAnimais,
   sexoDoAnimal,
   StatusVacinacao,
+  DataVacinacao,
   StatusCastracao,
   StatusAdocao,
   StatusMicrochipagem,

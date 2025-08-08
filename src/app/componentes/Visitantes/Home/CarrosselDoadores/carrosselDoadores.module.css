@@ -8,6 +8,7 @@
   width: 100%;
   min-height: 495px;
   box-sizing: border-box;
+  
 }
 
 .containerImagem,
@@ -100,6 +101,8 @@
   justify-content: center;
   align-items: center;
   margin: auto;
+  flex-grow: 1;
+  width: 100%;
   padding-inline: 15px;
 }
 

@@ -207,7 +207,8 @@
 
 @media (max-width: 768px) {
   .imagemPreCadastro {
-    max-width: 100%;
+   width: 100%;
+   max-width: 260px; 
   }
 
   .textoPreCadastro {

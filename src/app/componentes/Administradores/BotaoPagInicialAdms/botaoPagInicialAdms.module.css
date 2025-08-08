@@ -1,11 +1,8 @@
 .linkBotaoSolto {
   position: fixed;
-  left: -70px;
   top: 50%;
   transform: translateY(-50%);
-  padding: 3px;
   z-index: 90000000;
-  border-radius: 50%;
 }
 
 .botaoPagInicial {
@@ -16,7 +13,9 @@
   height: 100px;
   background-color: rgba(39, 39, 39, 0.89);
   border-radius: 50%;
-  transition: .3s ease-in-out;
+  position: relative;
+  left: -70px;
+  transition: left 0.5s ease-in-out, background-color 0.5s ease-in-out;
   transition-delay: 0.15s;
 }
 
@@ -24,13 +23,13 @@
   width: 45%;
   height: 45%;
   opacity: 0;
-  transition: 0.6s ease-in-out;
+  transition: opacity 0.6s ease-in-out;
 }
 
 .botaoPagInicial:hover,
 .botaoPagInicial.active {
   cursor: pointer;
-  transform: translateX(60px);
+  left: -10px; 
   background-color: rgb(39, 39, 39);
 }
 
@@ -39,10 +38,13 @@
   opacity: 1;
 }
 
-
 @media (max-width: 310px) {
-  .linkBotaoSolto {
+  .botaoPagInicial {
     left: -85px;
-    transform: translateY(-50%);
+  }
+  
+  .botaoPagInicial:hover,
+  .botaoPagInicial.active {
+    left: -25px;
   }
 }

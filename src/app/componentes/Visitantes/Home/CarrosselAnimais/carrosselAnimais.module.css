@@ -118,6 +118,84 @@
   right: 15px;
 }
 
+.containerCarregamento,
+.containerErro,
+.containerVazio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  min-height: 400px;
+  background-color: var(--cor-branca);
+  flex-grow: 1;
+}
+
+.iconeCarregamento {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 16px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.containerCarregamento p {
+  color: var(--cor-texto);
+  font-size: 16px;
+  margin: 0;
+  font-weight: 500;
+}
+
+.mensagemErro {
+  color: #e74c3c;
+  font-size: 16px;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.botaoTentarNovamente {
+  background-color: var(--cor-primaria);
+  color: var(--cor-branca);
+  border: 2px solid var(--cor-fundo);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  filter: drop-shadow(3px 3px var(--cor-fundo));
+}
+
+.botaoTentarNovamente:hover {
+  background-color: var(--cor-secundaria);
+  transform: scale(1.05);
+}
+
+.botaoTentarNovamente:active {
+  transform: translateY(1px);
+}
+
+.mensagemVazia {
+  color: var(--cor-texto);
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0;
+  padding: 30px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  border: 3px dashed var(--cor-clara);
+  max-width: 400px;
+}
+
 @media (max-width: 1023px) {
   .itemCarrosselAnimal {
     padding: 0 10px 0 10px;
@@ -162,5 +240,40 @@
     font-size: 0.8rem;
     margin: 0 0 0 0;
     max-width: 200px;
+  }
+
+  .containerCarregamento,
+  .containerErro,
+  .containerVazio {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 768px){
+  .containerCarregamento,
+  .containerErro,
+  .containerVazio {
+    min-height: 250px;
+    padding: 30px 15px;
+  }
+
+  .iconeCarregamento {
+    width: 45px;
+    height: 45px;
+  }
+
+  .mensagemErro,
+  .containerCarregamento p {
+    font-size: 14px;
+  }
+
+  .mensagemVazia {
+    font-size: 16px;
+    padding: 20px;
+  }
+
+  .botaoTentarNovamente {
+    padding: 10px 20px;
+    font-size: 13px;
   }
 }

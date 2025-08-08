@@ -18,10 +18,11 @@
 .containerLembretes {
   width: 100%;
   height: 100%;
-  max-height: 696px;
+  max-height: 702px;
   padding: 0 10px 0 10px;
   background-color: #191919;
   overflow-y: scroll;
+  overflow-x: hidden;
   border-radius: 10px;
   position: relative;
   flex-wrap: wrap;
@@ -50,15 +51,23 @@
   from {
     transform: translateY(649px);
     opacity: 0;
+    position: absolute;
   }
   to {
     transform: translateY(0px);
     opacity: 1;
+    position: relative;
   }
 }
 
-.lembreteEntrada {
+.lembreteNovoAdicionado {
   animation: animacaoDeNovoLembrete 0.7s ease-out forwards;
+}
+
+.lembreteCarregado {
+  /* Sem animação, apenas aparecer normalmente */
+  opacity: 1;
+  transform: translateY(0px);
 }
 
 .lembreteItem {
@@ -163,7 +172,7 @@
   width: 400px;
   max-width: 90%;
   gap: 20px;
-  animation: deslizarModal .5s ease-out forwards;
+  animation: deslizarModal 0.5s ease-out forwards;
 }
 
 @keyframes deslizarModal {
@@ -266,5 +275,8 @@
     width: 35px;
     height: 35px;
     font-size: 1.2rem;
+  }
+  .lembreteData {
+    font-size: .7rem;
   }
 }

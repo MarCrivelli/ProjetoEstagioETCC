@@ -16,6 +16,7 @@ export default function FichasDeAnimais() {
     idade: [],
     sexo: [],
     statusVacinacao: [],
+    dataVacinacao: [],
     statusCastracao: [],
     statusAdocao: [],
     statusMicrochipagem: [],
@@ -61,11 +62,22 @@ export default function FichasDeAnimais() {
     buscarAnimais();
   }, []);
 
-  // Verificar modo seleção e animais selecionados ao carregar
+  // Verificar parâmetros da URL para aplicar filtros automáticos
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
+    const filtroVacinacao = urlParams.get("filtroVacinacao");
     const modoPostagem = urlParams.get("modoPostagem");
 
+    // Aplicar filtro de vacinação se presente na URL
+    if (filtroVacinacao === "naoVacinado") {
+      setFiltros(prev => ({
+        ...prev,
+        statusVacinacao: ["naoVacinado"]
+      }));
+      setMostrarFiltros(true); // Mostra o painel de filtros para destacar o filtro aplicado
+    }
+
+    // Configurar modo de seleção para postagem
     if (modoPostagem === "true") {
       setModoSelecaoPostagem(true);
       document.body.classList.add("modo-selecao-ativo");
@@ -157,18 +169,52 @@ export default function FichasDeAnimais() {
       return;
     }
 
+    const hoje = new Date();
+    const umAnoAtras = new Date(hoje);
+    umAnoAtras.setFullYear(hoje.getFullYear() - 1);
+
     const animaisFiltrados = animaisCompleto.filter((animal) => {
       const nomeMatch =
         !filtros.nome ||
         animal.nome.toLowerCase().includes(filtros.nome.toLowerCase());
+
+      // Lógica especial para filtro de vacinação - mais inteligente
+      let vacinacaoMatch = true;
+      if (filtros.statusVacinacao.length > 0) {
+        if (filtros.statusVacinacao.includes("naoVacinado")) {
+          // Animal precisa de vacinação se:
+          // 1. Não tem data de vacinação E status é "naoVacinado" OU
+          // 2. Tem data de vacinação mas está vencida (mais de 1 ano)
+          const naoTemDataEStatusNaoVacinado = !animal.dataVacinacao && animal.statusVacinacao === "naoVacinado";
+          const vacinacaoVencida = animal.dataVacinacao && new Date(animal.dataVacinacao) < umAnoAtras;
+          
+          vacinacaoMatch = naoTemDataEStatusNaoVacinado || vacinacaoVencida;
+        } else if (filtros.statusVacinacao.includes("vacinado")) {
+          // Animal é considerado "vacinado" se:
+          // 1. Tem data de vacinação dentro do último ano OU
+          // 2. Não tem data mas status é "vacinado"
+          const temDataVacinaRecente = animal.dataVacinacao && new Date(animal.dataVacinacao) >= umAnoAtras;
+          const naoTemDataMasStatusVacinado = !animal.dataVacinacao && animal.statusVacinacao === "vacinado";
+          
+          vacinacaoMatch = temDataVacinaRecente || naoTemDataMasStatusVacinado;
+        }
+      }
+
+      // Filtro específico para data de vacinação
+      let dataVacinacaoMatch = true;
+      if (filtros.dataVacinacao.length > 0) {
+        if (filtros.dataVacinacao.includes("possuiData")) {
+          dataVacinacaoMatch = !!animal.dataVacinacao;
+        } else if (filtros.dataVacinacao.includes("naoPossuiData")) {
+          dataVacinacaoMatch = !animal.dataVacinacao;
+        }
+      }
 
       const outrosFiltrosMatch =
         (filtros.tipo.length === 0 || filtros.tipo.includes(animal.tipo)) &&
         (filtros.idade.length === 0 ||
           filtros.idade.includes(animal.idade.toString())) &&
         (filtros.sexo.length === 0 || filtros.sexo.includes(animal.sexo)) &&
-        (filtros.statusVacinacao.length === 0 ||
-          filtros.statusVacinacao.includes(animal.statusVacinacao)) &&
         (filtros.statusCastracao.length === 0 ||
           filtros.statusCastracao.includes(animal.statusCastracao)) &&
         (filtros.statusAdocao.length === 0 ||
@@ -178,7 +224,7 @@ export default function FichasDeAnimais() {
         (filtros.statusVermifugacao.length === 0 ||
           filtros.statusVermifugacao.includes(animal.statusVermifugacao));
 
-      return nomeMatch && outrosFiltrosMatch;
+      return nomeMatch && vacinacaoMatch && dataVacinacaoMatch && outrosFiltrosMatch;
     });
 
     setFiltrosAplicados(
@@ -206,6 +252,18 @@ export default function FichasDeAnimais() {
       }
     };
     buscarAnimais();
+  };
+
+  // Função para limpar filtro de vacinação da URL
+  const limparFiltroVacinacaoUrl = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has("filtroVacinacao")) {
+      urlParams.delete("filtroVacinacao");
+      const novaUrl = urlParams.toString() 
+        ? `${window.location.pathname}?${urlParams.toString()}`
+        : window.location.pathname;
+      window.history.replaceState({}, "", novaUrl);
+    }
   };
 
   // remover
@@ -261,7 +319,10 @@ export default function FichasDeAnimais() {
           <div className={`${styles.modalContent} ${styles.modalFiltros}`}>
             <button
               className={styles.fecharModal}
-              onClick={() => setMostrarFiltros(false)}
+              onClick={() => {
+                setMostrarFiltros(false);
+                limparFiltroVacinacaoUrl();
+              }}
             >
               ×
             </button>
@@ -269,7 +330,10 @@ export default function FichasDeAnimais() {
             <FiltroDeAnimais
               filtros={filtros}
               setFiltros={setFiltros}
-              onClose={() => setMostrarFiltros(false)}
+              onClose={() => {
+                setMostrarFiltros(false);
+                limparFiltroVacinacaoUrl();
+              }}
             />
           </div>
         </div>

@@ -12,7 +12,6 @@ import { useState, useEffect } from "react";
 
 export default function PaginaInicialVisitantes() {
   const [carrosselAtivo, setCarrosselAtivo] = useState("doadores");
-  const [indiceAnimalAtual, setIndiceAnimalAtual] = useState(0);
   const titulos = {
     doadores: "Doadores recentes",
     animais: "Animais Resgatados pelo Instituto Esperança",
@@ -32,29 +31,6 @@ export default function PaginaInicialVisitantes() {
       window.removeEventListener("resize", lidarComRedimensionamento);
     };
   }, []);
-
-  const animais = [
-    {
-      id: 1,
-      nome: "Rex",
-      antes: "/scooby.jpg",
-      depois: "/mainVisitantes/testeAnimal.jpg",
-      descricaoAntes:
-        "O animal foi resgatado em condições precárias, desnutrido e com sinais de maus-tratos. Após exames veterinários, recebeu tratamento adequado e agora está em recuperação. Seu comportamento é dócil e sociável, adaptando-se bem ao ambiente do abrigo. Necessita de um lar responsável, com cuidados básicos e muito carinho. Interessados devem agendar visita para conhecer o pet e passar por avaliação. A adoção é um ato de amor e responsabilidade. Ajude a transformar a vida desse animal!",
-      descricaoDepois:
-        "Após 3 meses de cuidados, foi adotado por uma família amorosa.",
-    },
-    {
-      id: 2,
-      nome: "Lua",
-      antes: "/animal1.jpg",
-      depois: "/mainVisitantes/testeVaca.jpg",
-      descricaoAntes:
-        "Encontrado abandonado e desnutrido em um terreno baldio.",
-      descricaoDepois:
-        "Após 3 meses de cuidados, foi adotado por uma família amorosa.",
-    },
-  ];
 
   return (
     <div className={styles.paginaInicialVisitantes}>
@@ -177,12 +153,7 @@ export default function PaginaInicialVisitantes() {
               <CarrosselDoador ehMobile={ehMobile} />
             )}
             {carrosselAtivo === "animais" && (
-              <CarrosselAnimais
-                animais={animais}
-                ehMobile={ehMobile}
-                indiceAnimalAtual={indiceAnimalAtual}
-                setIndiceAnimalAtual={setIndiceAnimalAtual}
-              />
+              <CarrosselAnimais ehMobile={ehMobile} />
             )}
           </div>
         </div>

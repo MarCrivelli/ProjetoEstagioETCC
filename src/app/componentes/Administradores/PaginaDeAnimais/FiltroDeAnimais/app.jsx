@@ -11,6 +11,7 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
   const idadeSelectRef = useRef(null);
   const sexoSelectRef = useRef(null);
   const vacinacaoSelectRef = useRef(null);
+  const dataVacinacaoSelectRef = useRef(null);
   const castracaoSelectRef = useRef(null);
   const adocaoSelectRef = useRef(null);
   const microchipSelectRef = useRef(null);
@@ -32,6 +33,7 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
       idade: [],
       sexo: [],
       statusVacinacao: [],
+      dataVacinacao: [],
       statusCastracao: [],
       statusAdocao: [],
       statusMicrochipagem: [],
@@ -44,6 +46,7 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
     idadeSelectRef.current?.clearValue();
     sexoSelectRef.current?.clearValue();
     vacinacaoSelectRef.current?.clearValue();
+    dataVacinacaoSelectRef.current?.clearValue();
     castracaoSelectRef.current?.clearValue();
     adocaoSelectRef.current?.clearValue();
     microchipSelectRef.current?.clearValue();
@@ -162,6 +165,25 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
             className={styles.selectFiltrarAnimal}
             value={filtros.statusVacinacao.map((opt) =>
               opcoes.StatusVacinacao.find((o) => o.value === opt)
+            )}
+          />
+        </div>
+        <div className={styles.alinharDadosDeFiltragem}>
+          <label className={styles.labelDadosSaude}>Data de vacinação:</label>
+          <Select
+            ref={dataVacinacaoSelectRef}
+            isMulti
+            options={opcoes.DataVacinacao}
+            placeholder="Possui ou não data de vacinação"
+            onChange={(selectedOptions) =>
+              setFiltros((prev) => ({
+                ...prev,
+                dataVacinacao: selectedOptions.map((opt) => opt.value),
+              }))
+            }
+            className={styles.selectFiltrarAnimal}
+            value={filtros.dataVacinacao.map((opt) =>
+              opcoes.DataVacinacao.find((o) => o.value === opt)
             )}
           />
         </div>

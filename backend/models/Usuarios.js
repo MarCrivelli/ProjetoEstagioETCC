@@ -1,13 +1,17 @@
 const connection = require("../config/connection");
 
-const User = connection.sequelize.define("db_user", {
+const Usuario = connection.sequelize.define("db_usuario", {
   id: {
     type: connection.Sequelize.INTEGER,
     autoIncrement: true,
     allowNull: false,
     primaryKey: true,
   },
-  senha: {
+  nome: { 
+    type: connection.Sequelize.STRING,
+    allowNull: false,
+  },
+  senha: { 
     type: connection.Sequelize.STRING,
     allowNull: false,
   },
@@ -19,8 +23,9 @@ const User = connection.sequelize.define("db_user", {
   nivelDeAcesso: {
     type: connection.Sequelize.STRING,
     allowNull: false,
-    unique: true,
+    defaultValue: 'usuario',
   },
 });
-User.sync();
-module.exports = User;
+
+Usuario.sync();
+module.exports = Usuario;

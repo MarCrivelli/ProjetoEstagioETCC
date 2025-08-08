@@ -15,9 +15,9 @@
   flex-direction: column;
   background-color: var(--cor-branca);
   min-height: 200vh;
+  overflow-x: hidden;
 }
 
-/* Seção do cabeçalho */
 .imagemDeFundo {
   width: 100%;
   min-height: 70vh;
@@ -60,6 +60,18 @@
   height: auto;
   max-height: 300px;
   object-fit: contain;
+  animation: efeitoDeslizanteImagemLogo 1.3s ease-out forwards;
+}
+
+@keyframes efeitoDeslizanteImagemLogo {
+  from {
+    transform: translateX(-60vw);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0vw);
+    opacity: 1;
+  }
 }
 
 .textoLogoPreLogin {
@@ -69,6 +81,18 @@
   max-width: 500px;
   justify-content: center;
   align-items: center;
+  animation: efeitoDeslizanteTextoLogo 1.3s ease-out forwards;
+}
+
+@keyframes efeitoDeslizanteTextoLogo {
+  from {
+    transform: translateX(60vw);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0vw);
+    opacity: 1;
+  }
 }
 
 .textoLogoPreLogin h1 {
@@ -81,7 +105,6 @@
   color: white;
 }
 
-/* Seção de cards */
 .alinharCards {
   display: flex;
   width: 100%;
@@ -272,15 +295,13 @@
 }
 
 .tituloCarrossel {
-  margin-bottom: 0px;
+  margin-bottom: auto;
   color: var(--cor-fundo);
   font-size: 2rem;
   width: 100%;
   text-align: center;
   padding-top: 20px;
 }
-
-
 
 @media (max-width: 1490px) {
   .alinharCards {
@@ -345,6 +366,7 @@
     top: -25px;
     transform: translateX(-50%);
   }
+  
 }
 
 @media (max-width: 768px) {
@@ -399,5 +421,6 @@
     padding: 30px 0 20px 0; 
   }
 
+  
   
 }

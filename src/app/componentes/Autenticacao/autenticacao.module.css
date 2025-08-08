@@ -155,14 +155,12 @@
 }
 
 /* Estados Ativos */
-.containerAutenticacao.painelAtivo .painelLogin {
-  transform: translateX(100%);
-}
 
 .containerAutenticacao.painelAtivo .painelCadastro {
-  transform: translateX(0);
+  transform: translateX(0%);
   z-index: 5;
   transition: ease-in-out 0.65s;
+  opacity: 1;
 }
 
 .containerAutenticacao.painelAtivo .containerOverlay {
@@ -190,7 +188,7 @@
   .painelFormulario {
     position: relative;
     top: 0;
-    min-height: calc(50vh - 35px);
+    height: auto;
   }
 
   .painelCadastro {
@@ -207,10 +205,12 @@
   .formulario,
   .containerOverlay{
     min-height: 400px;
+    
   }
 
   .formulario {
     padding: 20px;
+    height: calc(100vh - 70px);
   }
 
   /* Aqui começa a parte de troca de formulários */
