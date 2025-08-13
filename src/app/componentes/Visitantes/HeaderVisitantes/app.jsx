@@ -1,9 +1,55 @@
 import styles from "./headerVisitantes.module.css";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-export default function Header() {
+export default function Header({ tipo = "padrao" }) {
   const [menuAberto, setMenuAberto] = useState(false);
+  const [usuarioLogado, setUsuarioLogado] = useState(null);
+
+  // Configurações para cada tipo de header
+  const tiposConfig = {
+    padrao: {
+      logoSrc: "/logos/logoBranca.png",
+      headerClass: styles.headerPadrao,
+      linksClass: styles.linksPadrao,
+      hamburguerClass: styles.hamburguerPadrao,
+    },
+    linkPreto: {
+      logoSrc: "/logos/logoPreta.png", // Assumindo que você tem essa logo
+      headerClass: styles.headerLinkPreto,
+      linksClass: styles.linksPreto,
+      hamburguerClass: styles.hamburguerPreto,
+    },
+    modoDark: {
+      logoSrc: "/logos/logoBranca.png",
+      headerClass: styles.headerModoDark,
+      linksClass: styles.linksModoDark,
+      hamburguerClass: styles.hamburguerModoDark,
+    },
+  };
+
+  const config = tiposConfig[tipo] || tiposConfig.padrao;
+
+  useEffect(() => {
+    const carregarUsuario = () => {
+      try {
+        const dadosUsuario = localStorage.getItem("usuario");
+        const token = localStorage.getItem("token");
+
+        if (dadosUsuario && token) {
+          const usuario = JSON.parse(dadosUsuario);
+          setUsuarioLogado(usuario);
+          console.log("👤 Usuário logado carregado:", usuario);
+        } else {
+          console.log("❌ Nenhum usuário logado encontrado");
+        }
+      } catch (error) {
+        console.error("Erro ao carregar dados do usuário:", error);
+      }
+    };
+
+    carregarUsuario();
+  }, []);
 
   // Fecha o menu quando a tela for redimensionada para mais de 700px
   useEffect(() => {
@@ -13,25 +59,25 @@ export default function Header() {
       }
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Impede rolagem quando o menu está aberto
   useEffect(() => {
     if (menuAberto) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = "auto";
     }
   }, [menuAberto]);
 
   return (
     <>
-      <header className={styles.headerVisitantes}>
+      <header className={`${styles.headerVisitantes} ${config.headerClass}`}>
         <Link className={styles.linkLogo} to="/" title="Instituto Esperança">
           <img
-            src="/logos/logoBranca.png"
+            src={config.logoSrc}
             className={styles.logo}
             alt="Logo do Instituto Esperança"
           />
@@ -40,22 +86,34 @@ export default function Header() {
         <nav className={styles.nav}>
           <ul className={styles.menu} role="menu">
             <li>
-              <Link to="/quero_adotar" className={styles.linkSubPaginas}>
+              <Link
+                to="/quero_adotar"
+                className={`${styles.linkSubPaginas} ${config.linksClass}`}
+              >
                 Quero adotar!
               </Link>
             </li>
             <li>
-              <Link to="/como_doar" className={styles.linkSubPaginas}>
+              <Link
+                to="/como_doar"
+                className={`${styles.linkSubPaginas} ${config.linksClass}`}
+              >
                 Como doar?
               </Link>
             </li>
             <li>
-              <Link to="/denuncie" className={styles.linkSubPaginas}>
+              <Link
+                to="/denuncie"
+                className={`${styles.linkSubPaginas} ${config.linksClass}`}
+              >
                 Denuncie
               </Link>
             </li>
             <li>
-              <Link to="/saude_unica" className={styles.linkSubPaginas}>
+              <Link
+                to="/saude_unica"
+                className={`${styles.linkSubPaginas} ${config.linksClass}`}
+              >
                 Saúde única
               </Link>
             </li>
@@ -63,21 +121,32 @@ export default function Header() {
               <Link
                 className={styles.linkUsuario}
                 to="/autenticar"
-                
+                title={
+                  usuarioLogado
+                    ? `Logado como: ${usuarioLogado.nome}`
+                    : "Fazer login"
+                }
               >
                 <img
-                  src={"/usuarioTeste.jpeg"}
+                  src={usuarioLogado?.foto || "/usuarioTeste.jpeg"}
+                  alt={
+                    usuarioLogado
+                      ? `Avatar de ${usuarioLogado.nome}`
+                      : "Botão que leva à página de autenticação"
+                  }
                   className={styles.iconeUsuario}
                 />
               </Link>
             </li>
             <li>
-              <button 
+              <button
                 className={styles.btnMobile}
                 onClick={() => setMenuAberto(!menuAberto)}
                 aria-label="Menu"
               >
-                <span className={styles.hamburguerVisitantes}></span>
+                <span
+                  className={`${styles.hamburguerVisitantes} ${config.hamburguerClass}`}
+                ></span>
               </button>
             </li>
           </ul>
@@ -86,28 +155,29 @@ export default function Header() {
 
       {/* Overlay escuro */}
       {menuAberto && (
-        <div 
-          className={styles.overlay} 
-          onClick={() => setMenuAberto(false)}
-        />
+        <div className={styles.overlay} onClick={() => setMenuAberto(false)} />
       )}
 
       {/* Menu lateral */}
-      <div className={`${styles.menuLateral} ${menuAberto ? styles.menuAberto : ''}`}>
+      <div
+        className={`${styles.menuLateral} ${
+          menuAberto ? styles.menuAberto : ""
+        } ${tipo === "modoDark" ? styles.menuLateralDark : ""}`}
+      >
         {/* Botão de fechar */}
-        <button 
+        <button
           className={styles.botaoFechar}
           onClick={() => setMenuAberto(false)}
           aria-label="Fechar menu"
         >
           ×
         </button>
-        
+
         <nav>
           <ul>
             <li>
-              <Link 
-                to="/quero_adotar" 
+              <Link
+                to="/quero_adotar"
                 className={styles.linkMenuMobile}
                 onClick={() => setMenuAberto(false)}
               >
@@ -115,8 +185,8 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link 
-                to="/como_doar" 
+              <Link
+                to="/como_doar"
                 className={styles.linkMenuMobile}
                 onClick={() => setMenuAberto(false)}
               >
@@ -124,8 +194,8 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link 
-                to="/denuncie" 
+              <Link
+                to="/denuncie"
                 className={styles.linkMenuMobile}
                 onClick={() => setMenuAberto(false)}
               >
@@ -133,8 +203,8 @@ export default function Header() {
               </Link>
             </li>
             <li>
-              <Link 
-                to="/saude_unica" 
+              <Link
+                to="/saude_unica"
                 className={styles.linkMenuMobile}
                 onClick={() => setMenuAberto(false)}
               >

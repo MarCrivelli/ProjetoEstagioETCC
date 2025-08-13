@@ -3,6 +3,7 @@
   padding: 100px 20% 150px 20%;
   row-gap: 100px;
   flex-wrap: wrap;
+  background-color: white;
 }
 
 .sobreNos,
@@ -63,7 +64,12 @@
 }
 
 @media (max-width: 768px){
-    .infoInstituto {
+
+  .tituloSeccao{
+    font-size: 2rem;
+  }
+
+  .infoInstituto {
     padding-inline: 10%;
   }
 

@@ -1,18 +1,18 @@
 import styles from "./headerAdm.module.css";
 import { Link } from "react-router-dom";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export default function HeaderAdms() {
   const [menuAberto, setMenuAberto] = useState(false);
   const [usuarioLogado, setUsuarioLogado] = useState(null);
 
-  // Carregar dados do usuário logado
+  
   useEffect(() => {
     const carregarUsuario = () => {
       try {
         const dadosUsuario = localStorage.getItem("usuario");
         const token = localStorage.getItem("token");
-        
+
         if (dadosUsuario && token) {
           const usuario = JSON.parse(dadosUsuario);
           setUsuarioLogado(usuario);
@@ -46,23 +46,27 @@ export default function HeaderAdms() {
       }
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Impede rolagem quando o menu está aberto
   useEffect(() => {
     if (menuAberto) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'auto';
+      document.body.style.overflow = "auto";
     }
   }, [menuAberto]);
 
   return (
     <>
       <header className={styles.headerAdms}>
-        <Link className={styles.linkLogo} to="/administracao" title="Instituto Esperança">
+        <Link
+          className={styles.linkLogo}
+          to="/administracao"
+          title="Instituto Esperança"
+        >
           <img
             src="/logos/logoBranca.png"
             className={styles.logo}
@@ -88,43 +92,28 @@ export default function HeaderAdms() {
               </Link>
             </li>
             <li>
-              {usuarioLogado ? (
-                <div className={styles.usuarioLogado}>
-                  <img
-                    src={usuarioLogado.foto || "/usuarioTeste.jpeg"}
-                    alt={`Avatar de ${usuarioLogado.nome}`}
-                    className={styles.iconeUsuario}
-                    title={`Logado como: ${usuarioLogado.nome}`}
-                  />
-                  {/* <div className={styles.dropdownUsuario}>
-                    <div className={styles.infoUsuario}>
-                      <strong>{usuarioLogado.nome}</strong>
-                      <small>{usuarioLogado.email}</small>
-                    </div>
-                    <button 
-                      onClick={handleLogout}
-                      className={styles.btnLogout}
-                    >
-                      Sair
-                    </button>
-                  </div> */}
-                </div>
-              ) : (
-                <Link
-                  className={styles.linkUsuario}
-                  to="/autenticar"
-                  title="Fazer login"
-                >
-                  <img
-                    src="/usuarioTeste.jpeg"
-                    alt="Botão que leva à página de autenticação"
-                    className={styles.iconeUsuario}
-                  />
-                </Link>
-              )}
+              <Link
+                className={styles.linkUsuario}
+                to="/autenticar"
+                title={
+                  usuarioLogado
+                    ? `Logado como: ${usuarioLogado.nome}`
+                    : "Fazer login"
+                }
+              >
+                <img
+                  src={usuarioLogado?.foto || "/usuarioTeste.jpeg"}
+                  alt={
+                    usuarioLogado
+                      ? `Avatar de ${usuarioLogado.nome}`
+                      : "Botão que leva à página de autenticação"
+                  }
+                  className={styles.iconeUsuario}
+                />
+              </Link>
             </li>
             <li>
-              <button 
+              <button
                 className={styles.btnMobile}
                 onClick={() => setMenuAberto(!menuAberto)}
                 aria-label="Menu"
@@ -138,76 +127,53 @@ export default function HeaderAdms() {
 
       {/* Overlay escuro */}
       {menuAberto && (
-        <div 
-          className={styles.overlay} 
-          onClick={() => setMenuAberto(false)}
-        />
+        <div className={styles.overlay} onClick={() => setMenuAberto(false)} />
       )}
 
       {/* Menu lateral */}
-      <div className={`${styles.menuLateral} ${menuAberto ? styles.menuAberto : ''}`}>
+      <div
+        className={`${styles.menuLateral} ${
+          menuAberto ? styles.menuAberto : ""
+        }`}
+      >
         {/* Botão de fechar */}
-        <button 
+        <button
           className={styles.botaoFechar}
           onClick={() => setMenuAberto(false)}
           aria-label="Fechar menu"
         >
           ×
         </button>
-        
-        {/* Informações do usuário no menu mobile */}
-        {usuarioLogado && (
-          <div className={styles.usuarioMobile}>
-            <img
-              src={usuarioLogado.foto || "/usuarioTeste.jpeg"}
-              alt={`Avatar de ${usuarioLogado.nome}`}
-              className={styles.avatarMobile}
-            />
-            {/* <div className={styles.infoUsuarioMobile}>
-              <strong>{usuarioLogado.nome}</strong>
-              <small>{usuarioLogado.email}</small>
-            </div>
-            <button 
-              onClick={() => {
-                handleLogout();
-                setMenuAberto(false);
-              }}
-              className={styles.btnLogoutMobile}
-            >
-              Sair
-            </button> */}
-          </div>
-        )}
-        
+
         <nav>
           <ul>
             <li>
-              <Link 
-                to="/fichas_de_animais" 
+              <Link
+                to="/fichas_de_animais"
                 className={styles.linkMenuMobile}
                 onClick={() => setMenuAberto(false)}
               >
-                <img src="/headerAdms/pata.png" alt=""/>
+                <img src="/headerAdms/pata.png" alt="" />
                 Fichas de animais
               </Link>
             </li>
             <li>
-              <Link 
-                to="/programar_postagem" 
+              <Link
+                to="/programar_postagem"
                 className={styles.linkMenuMobile}
                 onClick={() => setMenuAberto(false)}
               >
-                <img src="/headerAdms/post.png" alt=""/>
+                <img src="/headerAdms/post.png" alt="" />
                 Postagens
               </Link>
             </li>
             <li>
-              <Link 
-                to="/configuracoes" 
+              <Link
+                to="/configuracoes"
                 className={styles.linkMenuMobile}
                 onClick={() => setMenuAberto(false)}
               >
-                <img src="/headerAdms/engrenagem.png" alt=""/>
+                <img src="/headerAdms/engrenagem.png" alt="" />
                 Configurações
               </Link>
             </li>

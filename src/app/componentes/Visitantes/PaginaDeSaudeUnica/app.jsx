@@ -11,7 +11,7 @@ export default function SaudeUnica() {
       <div className={styles.ajusteElementosDaPagina}>
         <div className={styles.seccao}>
           <h1>
-            Para começar, o que é <q>Saúde Única</q>?
+            O que é Saúde Única?
           </h1>
           <p>
             A Saúde Única é uma abordagem integrada e interdisciplinar proposta

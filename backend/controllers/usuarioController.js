@@ -3,10 +3,119 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 
-const cadastrarUsuario = async (req, res) => {
-    const { nome, senha, email } = req.body;
+// ═══════════════════════════════════════════════════════════════
+// 🔐 CONFIGURAÇÕES DO ADMINISTRADOR FIXO
+// ═══════════════════════════════════════════════════════════════
+const ADMIN_FIXO = {
+    nome: '',
+    email: 'admin@instituto.com',
+    senha: 'Admin123!@#',
+    nivelDeAcesso: 'administrador',
+    telefone: '',
+    tema: 'claro',
+    receberEmailEventos: true,
+    receberMensagensEventos: true,
+    ativo: true
+};
+
+// ═══════════════════════════════════════════════════════════════
+// 🚀 FUNÇÃO PARA CRIAR ADMINISTRADOR FIXO
+// ═══════════════════════════════════════════════════════════════
+const garantirAdminFixo = async () => {
+    try {
+        const adminExistente = await Usuario.findOne({
+            where: { email: ADMIN_FIXO.email.toLowerCase().trim() }
+        });
+
+        if (adminExistente) {
+            // Atualizar campos se necessário
+            const camposParaAtualizar = {};
+            if (adminExistente.nivelDeAcesso !== 'administrador') {
+                camposParaAtualizar.nivelDeAcesso = 'administrador';
+            }
+            if (!adminExistente.ativo) {
+                camposParaAtualizar.ativo = true;
+            }
+
+            if (Object.keys(camposParaAtualizar).length > 0) {
+                await Usuario.update(camposParaAtualizar, { where: { id: adminExistente.id } });
+                console.log('🔄 Admin fixo atualizado');
+            }
+            console.log('✅ Admin fixo já existe no sistema');
+            return;
+        }
+
+        // Criar o administrador fixo
+        const senhaCriptografada = await bcrypt.hash(ADMIN_FIXO.senha, 10);
+
+        const novoAdmin = await Usuario.create({
+            nome: ADMIN_FIXO.nome,
+            email: ADMIN_FIXO.email.toLowerCase().trim(),
+            senha: senhaCriptografada,
+            nivelDeAcesso: ADMIN_FIXO.nivelDeAcesso,
+            telefone: ADMIN_FIXO.telefone,
+            tema: ADMIN_FIXO.tema,
+            receberEmailEventos: ADMIN_FIXO.receberEmailEventos,
+            receberMensagensEventos: ADMIN_FIXO.receberMensagensEventos,
+            ativo: ADMIN_FIXO.ativo,
+            dataUltimoLogin: new Date()
+        });
+
+        console.log('═══════════════════════════════════════');
+        console.log('🎉 ADMINISTRADOR FIXO CRIADO!');
+        console.log(`📧 Email: ${ADMIN_FIXO.email}`);
+        console.log(`🔐 Senha: ${ADMIN_FIXO.senha}`);
+        console.log('═══════════════════════════════════════');
+
+        return novoAdmin;
+
+    } catch (error) {
+        console.error('❌ Erro ao garantir admin fixo:', error);
+        throw error;
+    }
+};
+
+// ═══════════════════════════════════════════════════════════════
+// 📝 FUNÇÕES DE VALIDAÇÃO
+// ═══════════════════════════════════════════════════════════════
+
+const validarTelefone = (telefone) => {
+    if (!telefone || telefone.trim() === '') return true; // Opcional
     
-    // Validação básica
+    // Regex para telefones brasileiros
+    const phoneRegex = /^(\+55\s?)?\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/;
+    return phoneRegex.test(telefone.replace(/\s/g, ''));
+};
+
+const validarTema = (tema) => {
+    const temasPermitidos = ['claro', 'escuro', 'automatico'];
+    return temasPermitidos.includes(tema);
+};
+
+const limparTelefone = (telefone) => {
+    if (!telefone) return null;
+    // Remove espaços e caracteres especiais, mantém apenas números e +
+    return telefone.replace(/[^\d+()-\s]/g, '').trim();
+};
+
+// ═══════════════════════════════════════════════════════════════
+// 📝 CONTROLADORES ATUALIZADOS
+// ═══════════════════════════════════════════════════════════════
+
+const cadastrarUsuario = async (req, res) => {
+    const { 
+        nome, 
+        senha, 
+        email, 
+        telefone, 
+        tema = 'claro', 
+        receberEmailEventos = true, 
+        receberMensagensEventos = true 
+    } = req.body;
+    
+    await garantirAdminFixo();
+    
+    // Validações básicas
     if (!nome || !senha || !email) {
         return res.status(400).json({
             erro: true,
@@ -14,7 +123,6 @@ const cadastrarUsuario = async (req, res) => {
         });
     }
 
-    // Validação de email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
         return res.status(400).json({
@@ -23,7 +131,6 @@ const cadastrarUsuario = async (req, res) => {
         });
     }
 
-    // Validação de senha
     if (senha.length < 6) {
         return res.status(400).json({
             erro: true,
@@ -31,8 +138,22 @@ const cadastrarUsuario = async (req, res) => {
         });
     }
 
+    // Validações dos novos campos
+    if (telefone && !validarTelefone(telefone)) {
+        return res.status(400).json({
+            erro: true,
+            mensagem: 'Telefone deve estar no formato válido (ex: +55 67 99999-9999)'
+        });
+    }
+
+    if (tema && !validarTema(tema)) {
+        return res.status(400).json({
+            erro: true,
+            mensagem: 'Tema deve ser: claro, escuro ou automatico'
+        });
+    }
+
     try {
-        // Verificar se o usuário já existe
         const usuarioExistente = await Usuario.findOne({ where: { email } });
         if (usuarioExistente) {
             return res.status(400).json({
@@ -41,17 +162,21 @@ const cadastrarUsuario = async (req, res) => {
             });
         }
 
-        // Criptografar a senha
         const senhaCriptografada = await bcrypt.hash(senha, 10);
 
         const novoUsuario = await Usuario.create({
             nome: nome.trim(),
             senha: senhaCriptografada,
             email: email.toLowerCase().trim(),
-            nivelDeAcesso: 'usuario'
+            telefone: limparTelefone(telefone),
+            tema: tema || 'claro',
+            receberEmailEventos: receberEmailEventos !== false,
+            receberMensagensEventos: receberMensagensEventos !== false,
+            nivelDeAcesso: 'usuario',
+            ativo: true,
+            dataUltimoLogin: new Date()
         });
 
-        // Gerar token JWT para login automático
         const token = jwt.sign(
             { 
                 id: novoUsuario.id, 
@@ -69,16 +194,27 @@ const cadastrarUsuario = async (req, res) => {
                 id: novoUsuario.id,
                 nome: novoUsuario.nome,
                 email: novoUsuario.email,
-                nivelDeAcesso: novoUsuario.nivelDeAcesso
+                telefone: novoUsuario.telefone,
+                tema: novoUsuario.tema,
+                receberEmailEventos: novoUsuario.receberEmailEventos,
+                receberMensagensEventos: novoUsuario.receberMensagensEventos,
+                nivelDeAcesso: novoUsuario.nivelDeAcesso,
+                foto: novoUsuario.foto
             },
-            token: token, // Token para login automático
-            loginAutomatico: true // Flag para o frontend identificar
+            token: token,
+            loginAutomatico: true
         });
-        console.log(`✅ Usuário cadastrado e logado automaticamente: ${email}`);
+        console.log(`✅ Usuário cadastrado: ${email}`);
     } catch (erro) {
         console.error('❌ Erro no cadastro:', erro);
         
-        // Tratamento específico para erros do Sequelize
+        if (erro.name === 'SequelizeValidationError') {
+            return res.status(400).json({
+                erro: true,
+                mensagem: erro.errors[0].message
+            });
+        }
+        
         if (erro.name === 'SequelizeUniqueConstraintError') {
             return res.status(400).json({
                 erro: true,
@@ -96,6 +232,8 @@ const cadastrarUsuario = async (req, res) => {
 const autenticarUsuario = async (req, res) => {
     const { email, senha } = req.body;
 
+    await garantirAdminFixo();
+
     if (!email || !senha) {
         return res.status(400).json({
             erro: true,
@@ -105,7 +243,10 @@ const autenticarUsuario = async (req, res) => {
 
     try {
         const usuario = await Usuario.findOne({
-            where: { email: email.toLowerCase().trim() }
+            where: { 
+                email: email.toLowerCase().trim(),
+                ativo: true // Apenas usuários ativos podem fazer login
+            }
         });
 
         if (!usuario) {
@@ -115,7 +256,6 @@ const autenticarUsuario = async (req, res) => {
             });
         }
 
-        // Verificar senha
         const senhaValida = await bcrypt.compare(senha, usuario.senha);
         
         if (!senhaValida) {
@@ -124,6 +264,12 @@ const autenticarUsuario = async (req, res) => {
                 mensagem: 'Email ou senha incorretos'
             });
         }
+
+        // Atualizar data do último login
+        await Usuario.update(
+            { dataUltimoLogin: new Date() },
+            { where: { id: usuario.id } }
+        );
 
         const token = jwt.sign(
             { 
@@ -142,7 +288,12 @@ const autenticarUsuario = async (req, res) => {
                 id: usuario.id,
                 nome: usuario.nome,
                 email: usuario.email,
-                nivelDeAcesso: usuario.nivelDeAcesso
+                telefone: usuario.telefone,
+                tema: usuario.tema,
+                receberEmailEventos: usuario.receberEmailEventos,
+                receberMensagensEventos: usuario.receberMensagensEventos,
+                nivelDeAcesso: usuario.nivelDeAcesso,
+                foto: usuario.foto
             },
             token: token
         });
@@ -155,76 +306,100 @@ const autenticarUsuario = async (req, res) => {
     }
 };
 
-// NOVA FUNÇÃO PARA LOGIN COM GOOGLE
 const loginComGoogle = async (req, res) => {
-  try {
-    const { nome, email, googleId, foto, googleToken } = req.body;
-    
-    console.log('📧 Login Google recebido:', { nome, email, googleId, foto });
+    try {
+        await garantirAdminFixo();
 
-    if (!nome || !email) {
-        return res.status(400).json({
+        const { nome, email, googleId, foto, googleToken } = req.body;
+        
+        console.log('📧 Login Google recebido:', { nome, email, googleId, foto });
+
+        if (!nome || !email) {
+            return res.status(400).json({
+                erro: true,
+                mensagem: 'Nome e email são obrigatórios'
+            });
+        }
+
+        let usuario = await Usuario.findOne({ 
+            where: { email: email.toLowerCase().trim() } 
+        });
+
+        if (!usuario) {
+            const senhaPadrao = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+            const senhaCriptografada = await bcrypt.hash(senhaPadrao, 10);
+
+            usuario = await Usuario.create({
+                nome: nome.trim(),
+                email: email.toLowerCase().trim(),
+                senha: senhaCriptografada,
+                googleId: googleId,
+                foto: foto,
+                tema: 'claro', // Tema padrão
+                receberEmailEventos: true,
+                receberMensagensEventos: true,
+                nivelDeAcesso: 'usuario',
+                ativo: true,
+                dataUltimoLogin: new Date()
+            });
+            
+            console.log('✅ Novo usuário criado via Google:', usuario.email);
+        } else {
+            // Atualizar dados do Google se necessário
+            const atualizacoes = {};
+            if (foto && foto !== usuario.foto) atualizacoes.foto = foto;
+            if (googleId && googleId !== usuario.googleId) atualizacoes.googleId = googleId;
+            atualizacoes.dataUltimoLogin = new Date();
+
+            if (Object.keys(atualizacoes).length > 0) {
+                await Usuario.update(atualizacoes, { where: { id: usuario.id } });
+                // Recarregar dados atualizados
+                usuario = await Usuario.findOne({ where: { id: usuario.id } });
+            }
+            
+            console.log('✅ Usuário existente logado via Google:', usuario.email);
+        }
+
+        const token = jwt.sign(
+            { 
+                id: usuario.id, 
+                email: usuario.email,
+                nivelDeAcesso: usuario.nivelDeAcesso 
+            }, 
+            process.env.SEGREDO || 'chave_secreta_desenvolvimento',
+            { expiresIn: '24h' }
+        );
+
+        res.json({
+            erro: false,
+            mensagem: 'Login com Google realizado com sucesso!',
+            usuario: {
+                id: usuario.id,
+                nome: usuario.nome,
+                email: usuario.email,
+                telefone: usuario.telefone,
+                tema: usuario.tema,
+                receberEmailEventos: usuario.receberEmailEventos,
+                receberMensagensEventos: usuario.receberMensagensEventos,
+                nivelDeAcesso: usuario.nivelDeAcesso,
+                foto: usuario.foto
+            },
+            token: token
+        });
+
+    } catch (error) {
+        console.error('❌ Erro no login Google:', error);
+        res.status(500).json({
             erro: true,
-            mensagem: 'Nome e email são obrigatórios'
+            mensagem: 'Erro interno do servidor: ' + error.message
         });
     }
-
-    // Verificar se o usuário já existe no banco
-    let usuario = await Usuario.findOne({ 
-      where: { email: email.toLowerCase().trim() } 
-    });
-
-    if (!usuario) {
-      // Se não existir, criar novo usuário
-      const senhaPadrao = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-      const senhaCriptografada = await bcrypt.hash(senhaPadrao, 10);
-
-      usuario = await Usuario.create({
-        nome: nome.trim(),
-        email: email.toLowerCase().trim(),
-        senha: senhaCriptografada, // Senha aleatória criptografada
-        nivelDeAcesso: 'usuario'
-      });
-      
-      console.log('✅ Novo usuário criado via Google:', usuario.email);
-    } else {
-      console.log('✅ Usuário existente logado via Google:', usuario.email);
-    }
-
-    // Gerar token JWT para sua aplicação
-    const token = jwt.sign(
-      { 
-        id: usuario.id, 
-        email: usuario.email,
-        nivelDeAcesso: usuario.nivelDeAcesso 
-      }, 
-      process.env.SEGREDO || 'chave_secreta_desenvolvimento',
-      { expiresIn: '24h' }
-    );
-
-    res.json({
-      erro: false,
-      mensagem: 'Login com Google realizado com sucesso!',
-      usuario: {
-        id: usuario.id,
-        nome: usuario.nome,
-        email: usuario.email,
-        nivelDeAcesso: usuario.nivelDeAcesso
-      },
-      token: token
-    });
-
-  } catch (error) {
-    console.error('❌ Erro no login Google:', error);
-    res.status(500).json({
-      erro: true,
-      mensagem: 'Erro interno do servidor: ' + error.message
-    });
-  }
 };
 
 const encontrarUsuario = async (req, res) => {
     try {
+        await garantirAdminFixo();
+
         const id = parseInt(req.params.id);
         
         if (isNaN(id)) {
@@ -236,7 +411,12 @@ const encontrarUsuario = async (req, res) => {
 
         const usuario = await Usuario.findOne({
             where: { id },
-            attributes: ['id', 'nome', 'email', 'nivelDeAcesso', 'createdAt', 'updatedAt']
+            attributes: [
+                'id', 'nome', 'email', 'telefone', 'tema', 
+                'receberEmailEventos', 'receberMensagensEventos', 
+                'nivelDeAcesso', 'foto', 'ativo', 'dataUltimoLogin',
+                'createdAt', 'updatedAt'
+            ]
         });
         
         if (!usuario) {
@@ -261,8 +441,15 @@ const encontrarUsuario = async (req, res) => {
 
 const procurarUsuarios = async (req, res) => {
     try {
+        await garantirAdminFixo();
+
         const usuarios = await Usuario.findAll({
-            attributes: ['id', 'nome', 'email', 'nivelDeAcesso', 'createdAt', 'updatedAt'],
+            attributes: [
+                'id', 'nome', 'email', 'telefone', 'tema',
+                'receberEmailEventos', 'receberMensagensEventos',
+                'nivelDeAcesso', 'foto', 'ativo', 'dataUltimoLogin',
+                'createdAt', 'updatedAt'
+            ],
             order: [['createdAt', 'DESC']]
         });
         
@@ -293,6 +480,14 @@ const deletarUsuario = async (req, res) => {
             });
         }
 
+        const usuario = await Usuario.findOne({ where: { id } });
+        if (usuario && usuario.email === ADMIN_FIXO.email.toLowerCase().trim()) {
+            return res.status(403).json({
+                erro: true,
+                mensagem: 'Não é possível excluir o administrador fixo do sistema'
+            });
+        }
+
         const resultado = await Usuario.destroy({ where: { id } });
         
         if (resultado === 0) {
@@ -317,7 +512,16 @@ const deletarUsuario = async (req, res) => {
 };
 
 const modificarDadosUsuario = async (req, res) => {
-    const { nome, senha, email } = req.body;
+    const { 
+        nome, 
+        senha, 
+        email, 
+        telefone, 
+        tema, 
+        receberEmailEventos, 
+        receberMensagensEventos,
+        foto
+    } = req.body;
     
     try {
         const id = parseInt(req.params.id);
@@ -332,6 +536,7 @@ const modificarDadosUsuario = async (req, res) => {
         const dadosParaAtualizar = {};
         
         if (nome) dadosParaAtualizar.nome = nome.trim();
+        
         if (email) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
@@ -343,7 +548,6 @@ const modificarDadosUsuario = async (req, res) => {
             dadosParaAtualizar.email = email.toLowerCase().trim();
         }
         
-        // Se uma nova senha foi fornecida, criptografá-la
         if (senha) {
             if (senha.length < 6) {
                 return res.status(400).json({
@@ -352,6 +556,39 @@ const modificarDadosUsuario = async (req, res) => {
                 });
             }
             dadosParaAtualizar.senha = await bcrypt.hash(senha, 10);
+        }
+
+        // Novos campos
+        if (telefone !== undefined) {
+            if (telefone && !validarTelefone(telefone)) {
+                return res.status(400).json({
+                    erro: true,
+                    mensagem: 'Telefone deve estar no formato válido'
+                });
+            }
+            dadosParaAtualizar.telefone = limparTelefone(telefone);
+        }
+
+        if (tema) {
+            if (!validarTema(tema)) {
+                return res.status(400).json({
+                    erro: true,
+                    mensagem: 'Tema deve ser: claro, escuro ou automatico'
+                });
+            }
+            dadosParaAtualizar.tema = tema;
+        }
+
+        if (receberEmailEventos !== undefined) {
+            dadosParaAtualizar.receberEmailEventos = Boolean(receberEmailEventos);
+        }
+
+        if (receberMensagensEventos !== undefined) {
+            dadosParaAtualizar.receberMensagensEventos = Boolean(receberMensagensEventos);
+        }
+
+        if (foto !== undefined) {
+            dadosParaAtualizar.foto = foto;
         }
         
         if (Object.keys(dadosParaAtualizar).length === 0) {
@@ -372,13 +609,31 @@ const modificarDadosUsuario = async (req, res) => {
             });
         }
         
+        // Retornar usuário atualizado
+        const usuarioAtualizado = await Usuario.findOne({
+            where: { id },
+            attributes: [
+                'id', 'nome', 'email', 'telefone', 'tema',
+                'receberEmailEventos', 'receberMensagensEventos',
+                'nivelDeAcesso', 'foto', 'ativo'
+            ]
+        });
+        
         res.json({
             erro: false,
-            mensagem: 'Usuário alterado com sucesso!'
+            mensagem: 'Usuário alterado com sucesso!',
+            usuario: usuarioAtualizado
         });
         console.log(`✏️ Usuário ID ${id} atualizado`);
     } catch (erro) {
         console.error('❌ Erro ao alterar usuário:', erro);
+        
+        if (erro.name === 'SequelizeValidationError') {
+            return res.status(400).json({
+                erro: true,
+                mensagem: erro.errors[0].message
+            });
+        }
         
         if (erro.name === 'SequelizeUniqueConstraintError') {
             return res.status(400).json({
@@ -394,7 +649,21 @@ const modificarDadosUsuario = async (req, res) => {
     }
 };
 
-// IMPORTANTE: Adicionar loginComGoogle na exportação
+// ═══════════════════════════════════════════════════════════════
+// 🚀 INICIALIZAÇÃO DO SISTEMA
+// ═══════════════════════════════════════════════════════════════
+const inicializarSistema = async () => {
+    try {
+        console.log('🔄 Inicializando sistema com novos campos...');
+        await garantirAdminFixo();
+        console.log('✅ Sistema inicializado com sucesso!');
+    } catch (error) {
+        console.error('❌ Erro na inicialização do sistema:', error);
+    }
+};
+
+inicializarSistema();
+
 module.exports = { 
     cadastrarUsuario, 
     encontrarUsuario, 
@@ -402,5 +671,7 @@ module.exports = {
     deletarUsuario, 
     modificarDadosUsuario, 
     autenticarUsuario,
-    loginComGoogle // ESTA LINHA É CRUCIAL
+    loginComGoogle,
+    garantirAdminFixo,
+    inicializarSistema
 };

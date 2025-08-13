@@ -5,7 +5,7 @@ export default function Footer() {
     <>
       <div className={styles.infoInstituto}>
         <div className={styles.sobreNos}>
-          <h1>Sobre nós</h1>
+          <h1 className={styles.tituloSeccao}>Sobre nós</h1>
           <p>
             O instituto Esperança é uma instituição sem fins lucrativos que atua
             diretamente na causa animal com o objetivo principal de
@@ -23,7 +23,7 @@ export default function Footer() {
           </p>
         </div>
         <div className={styles.redesSociais}>
-          <h1>Nos siga nas redes sociais!</h1>
+          <h1 className={styles.tituloSeccao}>Nos siga nas redes sociais!</h1>
           <div className={styles.alinharRedesSociais}>
             <a
               href="https://www.instagram.com/esperancaavozdosanimais/"
@@ -40,7 +40,7 @@ export default function Footer() {
           </div>
         </div>
         <div className={styles.contato}>
-          <h1>Contate-nos</h1>
+          <h1 className={styles.tituloSeccao}>Contate-nos</h1>
           <div className={styles.alinharInfoContato}>
             <strong>Telefone:</strong>
             <p>+55 67 99904-2349</p>
