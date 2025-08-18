@@ -25,9 +25,6 @@ const Usuario = connection.sequelize.define("db_usuario", {
     allowNull: false,
     defaultValue: "visitante",
   },
-  // ═══════════════════════════════════════════════════════════════
-  // 📱 NOVOS CAMPOS ADICIONADOS
-  // ═══════════════════════════════════════════════════════════════
   telefone: {
     type: connection.Sequelize.STRING,
     allowNull: true, // Opcional

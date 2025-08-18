@@ -2,7 +2,7 @@ import styles from "./headerVisitantes.module.css";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
-export default function Header({ tipo = "padrao" }) {
+export default function HeaderVisitantes({ tipo = "padrao" }) {
   const [menuAberto, setMenuAberto] = useState(false);
   const [usuarioLogado, setUsuarioLogado] = useState(null);
 
@@ -128,7 +128,7 @@ export default function Header({ tipo = "padrao" }) {
                 }
               >
                 <img
-                  src={usuarioLogado?.foto || "/usuarioTeste.jpeg"}
+                  src={usuarioLogado?.foto || "/user.png"}
                   alt={
                     usuarioLogado
                       ? `Avatar de ${usuarioLogado.nome}`

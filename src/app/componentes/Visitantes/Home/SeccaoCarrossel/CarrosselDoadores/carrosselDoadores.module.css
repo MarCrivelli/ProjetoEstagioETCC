@@ -1,25 +1,24 @@
-.itemCarrossel {
+.carrossel {
+  flex-grow: 1;
+}
+
+.renderizacaoSlideDoadores {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  padding: 20px 20px 55px 20px;
   height: 100%;
   width: 100%;
-  min-height: 495px;
   box-sizing: border-box;
-  
+  padding-bottom: 50px;
 }
 
-.containerImagem,
+.bordaImagem,
 .fotoDoador {
   border-radius: 50%;
 }
 
-.containerImagem {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+.bordaImagem {
   border: 3px solid var(--cor-destaque);
   width: 200px;
   height: 200px;
@@ -28,21 +27,24 @@
 .fotoDoador {
   width: 100%;
   height: 100%;
+  max-width: 200px;
   object-fit: cover;
 }
 
 .infoDoador {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  height: auto;
   width: 100%;
+  flex-direction: column;
+  align-items: center;
 }
 
 .infoDoador h1,
 .infoDoador p {
   width: auto;
   max-width: 800px;
+  padding-inline: 20px;
 }
 
 .infoDoador h1 {
@@ -51,6 +53,7 @@
 
 .infoDoador p {
   text-align: justify;
+  min-height: 96px;
 }
 
 .nomeDoador {
@@ -62,7 +65,7 @@
 .setaCarrossel {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-100px);
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -96,54 +99,21 @@
   right: 15px;
 }
 
-.fundoCarrosselVisitantes {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-  flex-grow: 1;
-  width: 100%;
-  padding-inline: 15px;
-}
-
-.fundoCarrosselVisitantes h2{
-  text-align: center;
-}
-
 @media (max-width: 768px) {
-  .itemCarrossel {
-    margin-top: 0px;
-    min-height: 0;
-    background-color: #ffffff;
+  .setaCarrossel {
+    width: 30px;
+    height: 30px;
+    font-size: .8rem;
   }
-
+  .bordaImagem {
+    width: 120px;
+    height: 120px;
+  }
   .infoDoador h1 {
-    font-size: 1rem; /* ver depois */
+    font-size: 1.6rem;
   }
 
-  .containerImagem {
-    border: 4px solid var(--cor-crow);
-  }
-}
-
-@media (max-width: 450px) {
-  .containerImagem {
-    width: 150px;
-    height: 150px;
-  }
-
-  .itemCarrossel {
-    padding-inline: 10px;
-  }
-
-  .itemCarrossel h1,
-  .itemCarrossel p {
-    width: 100%;
-    margin-bottom: 0;
-  }
-
-  .itemCarrossel p {
-    height: 100%;
-    font-size: 0.8rem;
+  .infoDoador p {
+    font-size: .8rem;
   }
 }

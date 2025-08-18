@@ -1,10 +1,13 @@
+//================ Importações externas ================//
 import { useState, useEffect } from "react";
 import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+
+//================ Minhas importações ================//
 import styles from "./carrosselAnimais.module.css";
 
-export default function CarrosselAnimais({ ehMobile }) {
+export default function CarrosselDeAnimaisVisitantes({ ehMobile }) {
   const [animais, setAnimais] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");

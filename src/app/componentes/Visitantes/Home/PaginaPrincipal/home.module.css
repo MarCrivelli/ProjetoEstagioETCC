@@ -1,4 +1,4 @@
-/* home.module.css */
+
 :root {
   --cor-primaria: #014895;
   --cor-secundaria: #578fca;
@@ -229,58 +229,6 @@
   min-height: 622px;
   touch-action: pan-y;
   border: 3px solid black;
-}
-
-.botoesCarrossel {
-  position: absolute;
-  left: 98.7%;
-  top: 14%;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  z-index: 10;
-}
-
-.botaoCarrossel {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background-color: var(--cor-fundo);
-  color: white;
-  border: 3px solid black;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 1.5rem;
-  padding: 0;
-  margin: 0;
-}
-
-.botaoCarrossel.ativo {
-  background-color: var(--cor-primaria);
-  transform: scale(1.1);
-}
-
-.botaoCarrossel:hover {
-  background-color: var(--cor-primaria);
-}
-
-.iconeWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-
-.iconeCarrossel {
-  font-size: 1.5rem;
-  margin: 0;
-  padding: 0;
-  display: block;
 }
 
 .conteudoCarrossel {

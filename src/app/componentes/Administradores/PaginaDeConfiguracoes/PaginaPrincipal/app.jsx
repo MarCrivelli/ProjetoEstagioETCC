@@ -46,8 +46,8 @@ export default function Configuracoes() {
       console.log("🚪 Usuário deslogado");
       alert("Logout realizado com sucesso!");
       
-      // Redirecionar para página de autenticação após logout
-      navigate("/autenticar");
+      // Redirecionar para página inicial após deslogar
+      navigate("/");
     }
   };
 

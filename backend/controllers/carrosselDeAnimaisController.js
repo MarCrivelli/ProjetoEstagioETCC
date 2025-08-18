@@ -1,9 +1,35 @@
 const Animais = require('../models/Animais');
 const CarrosselAnimais = require('../models/CarrosselDeAnimais');
 
+// ============================================================================
+// FUNÇÃO AUXILIAR PARA VERIFICAR SE AS ASSOCIAÇÕES ESTÃO FUNCIONANDO
+// ============================================================================
+const verificarAssociacoes = async () => {
+  try {
+    // Testa se consegue fazer uma query básica
+    const count = await CarrosselAnimais.count();
+    console.log(`🔍 [VERIFY] Total de registros em CarrosselAnimais: ${count}`);
+    
+    // Testa se as associações estão funcionando
+    const testeAssociacao = await CarrosselAnimais.findOne({
+      include: [{
+        model: Animais,
+        as: 'animal',
+        required: false // LEFT JOIN em vez de INNER JOIN
+      }]
+    });
+    
+    console.log(`✅ [VERIFY] Associações funcionando: ${!!testeAssociacao}`);
+    return true;
+  } catch (error) {
+    console.error(`❌ [VERIFY] Erro nas associações:`, error.message);
+    return false;
+  }
+};
+
 const listarAnimaisParaSelecao = async (req, res) => {
   try {
-    console.log('🔍 Buscando animais para seleção...');
+    console.log('🔍 [SELECAO] Buscando animais para seleção...');
     
     // Busca todos os animais com os campos necessários
     const todosAnimais = await Animais.findAll({
@@ -11,7 +37,7 @@ const listarAnimaisParaSelecao = async (req, res) => {
       order: [['nome', 'ASC']]
     });
     
-    console.log(`📦 Total de animais encontrados: ${todosAnimais.length}`);
+    console.log(`📦 [SELECAO] Total de animais encontrados: ${todosAnimais.length}`);
     
     // Busca IDs dos animais já no carrossel
     const animaisNoCarrossel = await CarrosselAnimais.findAll({
@@ -19,11 +45,9 @@ const listarAnimaisParaSelecao = async (req, res) => {
     });
     
     const idsNoCarrossel = animaisNoCarrossel.map(item => item.animalId);
-    console.log('🎠 IDs já no carrossel:', idsNoCarrossel);
+    console.log('🎠 [SELECAO] IDs já no carrossel:', idsNoCarrossel);
     
-    // Filtra animais que:
-    // 1. Não estão no carrossel
-    // 2. Têm todos os dados necessários (nome, descrições, imagens)
+    // Filtra animais disponíveis
     const animaisDisponiveis = todosAnimais.filter(animal => {
       const naoEstaNoCarrossel = !idsNoCarrossel.includes(animal.id);
       const temDadosCompletos = 
@@ -36,27 +60,22 @@ const listarAnimaisParaSelecao = async (req, res) => {
       const disponivel = naoEstaNoCarrossel && temDadosCompletos;
       
       if (!disponivel) {
-        console.log(`⚠️ Animal ${animal.nome} (ID: ${animal.id}) não disponível:`);
+        console.log(`⚠️ [SELECAO] Animal ${animal.nome} (ID: ${animal.id}) não disponível:`);
         console.log(`   - Não está no carrossel: ${naoEstaNoCarrossel}`);
         console.log(`   - Tem dados completos: ${temDadosCompletos}`);
-        console.log(`   - Nome: ${!!animal.nome}`);
-        console.log(`   - Descrição: ${!!animal.descricao}`);
-        console.log(`   - Descrição Saída: ${!!animal.descricaoSaida}`);
-        console.log(`   - Imagem: ${!!animal.imagem}`);
-        console.log(`   - Imagem Saída: ${!!animal.imagemSaida}`);
       }
       
       return disponivel;
     });
     
-    console.log(`✅ Animais disponíveis para seleção: ${animaisDisponiveis.length}`);
+    console.log(`✅ [SELECAO] Animais disponíveis: ${animaisDisponiveis.length}`);
     
     res.status(200).json(animaisDisponiveis);
   } catch (error) {
-    console.error('❌ Erro em listarAnimaisParaSelecao:', error);
+    console.error('❌ [SELECAO] Erro:', error);
     res.status(500).json({ 
       success: false,
-      message: 'Erro ao buscar animais',
+      message: 'Erro ao buscar animais para seleção',
       error: error.message 
     });
   }
@@ -65,26 +84,24 @@ const listarAnimaisParaSelecao = async (req, res) => {
 const buscarAnimalPorId = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log('🔍 Buscando animal por ID:', id);
+    console.log('🔍 [BY_ID] Buscando animal por ID:', id);
     
     const animal = await Animais.findByPk(id, {
       attributes: ['id', 'nome', 'imagem', 'imagemSaida', 'descricao', 'descricaoSaida']
     });
     
     if (!animal) {
-      console.log('❌ Animal não encontrado:', id);
+      console.log('❌ [BY_ID] Animal não encontrado:', id);
       return res.status(404).json({ 
         success: false,
         message: 'Animal não encontrado' 
       });
     }
     
-    console.log('✅ Animal encontrado:', animal.nome);
-    
-    // Retorna o animal diretamente (não encapsulado em 'data')
+    console.log('✅ [BY_ID] Animal encontrado:', animal.nome);
     res.status(200).json(animal);
   } catch (error) {
-    console.error('❌ Erro ao buscar animal:', error);
+    console.error('❌ [BY_ID] Erro:', error);
     res.status(500).json({ 
       success: false,
       message: 'Erro ao buscar animal',
@@ -97,7 +114,7 @@ const adicionarAnimalAoCarrossel = async (req, res) => {
   try {
     const { animalId, descricaoSaida } = req.body;
     
-    console.log('🎠 Adicionando animal ao carrossel:', { animalId, descricaoSaida });
+    console.log('🎠 [ADD] Adicionando animal ao carrossel:', { animalId, descricaoSaida });
     
     // Verifica se o animal existe
     const animal = await Animais.findByPk(animalId);
@@ -125,11 +142,11 @@ const adicionarAnimalAoCarrossel = async (req, res) => {
     
     const novoItem = await CarrosselAnimais.create({
       animalId,
-      descricaoSaida: descricaoSaida || animal.descricaoSaida, // Usa a descrição do animal se não fornecida
+      descricaoSaida: descricaoSaida || animal.descricaoSaida,
       ordem: novaOrdem
     });
     
-    console.log('✅ Animal adicionado com sucesso ao carrossel');
+    console.log('✅ [ADD] Animal adicionado com sucesso ao carrossel');
     
     res.status(201).json({
       success: true,
@@ -137,7 +154,7 @@ const adicionarAnimalAoCarrossel = async (req, res) => {
       data: novoItem
     });
   } catch (error) {
-    console.error('❌ Erro ao adicionar animal ao carrossel:', error);
+    console.error('❌ [ADD] Erro:', error);
     res.status(500).json({ 
       success: false,
       message: 'Erro ao adicionar animal ao carrossel',
@@ -148,24 +165,75 @@ const adicionarAnimalAoCarrossel = async (req, res) => {
 
 const listarAnimaisDoCarrossel = async (req, res) => {
   try {
-    console.log('🎠 Listando animais do carrossel...');
+    console.log('🎠 [LIST] Iniciando listagem de animais do carrossel...');
+    
+    // Primeira verificação: verificar se as associações estão funcionando
+    const associacoesOk = await verificarAssociacoes();
+    
+    if (!associacoesOk) {
+      console.log('⚠️ [LIST] Associações com problema, tentando abordagem alternativa...');
+      
+      // Busca dados separadamente
+      const carrosselItems = await CarrosselAnimais.findAll({
+        order: [['ordem', 'ASC']]
+      });
+      
+      const dadosProcessados = [];
+      
+      for (const item of carrosselItems) {
+        const animal = await Animais.findByPk(item.animalId, {
+          attributes: ['id', 'nome', 'imagem', 'imagemSaida', 'descricao']
+        });
+        
+        if (animal) {
+          dadosProcessados.push({
+            id: item.id,
+            animalId: item.animalId,
+            descricaoSaida: item.descricaoSaida,
+            ordem: item.ordem,
+            animal: {
+              id: animal.id,
+              nome: animal.nome || "Animal sem nome",
+              imagem: animal.imagem || null,
+              imagemSaida: animal.imagemSaida || null,
+              descricao: animal.descricao || "Sem descrição"
+            }
+          });
+        }
+      }
+      
+      console.log(`✅ [LIST] Dados processados manualmente: ${dadosProcessados.length} itens`);
+      
+      return res.status(200).json({
+        success: true,
+        data: dadosProcessados,
+        note: 'Dados obtidos com método alternativo'
+      });
+    }
+    
+    // Se as associações estão OK, usa o método padrão
+    console.log('✅ [LIST] Associações OK, usando método padrão...');
     
     const animaisCarrossel = await CarrosselAnimais.findAll({
       include: [{
         model: Animais,
         as: 'animal',
-        attributes: ['id', 'nome', 'imagem', 'imagemSaida', 'descricao']
+        attributes: ['id', 'nome', 'imagem', 'imagemSaida', 'descricao'],
+        required: false // LEFT JOIN para não falhar se não encontrar o animal
       }],
       order: [['ordem', 'ASC']]
     });
     
-    console.log(`✅ Encontrados ${animaisCarrossel.length} animais no carrossel`);
+    console.log(`📦 [LIST] Encontrados ${animaisCarrossel.length} animais no carrossel`);
     
-    // Processa os dados para garantir que todos os campos estejam presentes
+    // Processa os dados garantindo que todos os campos estejam presentes
     const dadosProcessados = animaisCarrossel
       .filter((item) => item?.animal) // Remove itens sem animal
       .map((item) => ({
-        ...item.toJSON(), // Converte para objeto simples
+        id: item.id,
+        animalId: item.animalId,
+        descricaoSaida: item.descricaoSaida, // ⭐ CAMPO IMPORTANTE! Vem da tabela CarrosselAnimais
+        ordem: item.ordem,
         animal: {
           ...item.animal.toJSON(),
           imagem: item.animal.imagem || null,
@@ -175,16 +243,33 @@ const listarAnimaisDoCarrossel = async (req, res) => {
         },
       }));
     
+    console.log(`✅ [LIST] Dados processados: ${dadosProcessados.length} itens`);
+    
     res.status(200).json({
       success: true,
       data: dadosProcessados
     });
+    
   } catch (error) {
-    console.error('❌ Erro ao listar animais do carrossel:', error);
+    console.error('❌ [LIST] Erro detalhado:', {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+      sql: error.sql || 'N/A'
+    });
+    
+    // Tentativa final: retornar array vazio em caso de erro crítico
+    console.log('🔄 [LIST] Tentativa final: retornando array vazio...');
+    
     res.status(500).json({ 
       success: false,
       message: 'Erro ao listar animais do carrossel',
-      error: error.message 
+      error: error.message,
+      data: [], // Array vazio para não quebrar o frontend
+      debug: process.env.NODE_ENV === 'development' ? {
+        stack: error.stack,
+        sql: error.sql
+      } : undefined
     });
   }
 };
@@ -192,28 +277,28 @@ const listarAnimaisDoCarrossel = async (req, res) => {
 const removerAnimalDoCarrossel = async (req, res) => {
   try {
     const { id } = req.params;
-    console.log('🗑️ Removendo animal do carrossel, ID:', id);
+    console.log('🗑️ [REMOVE] Removendo animal do carrossel, ID:', id);
     
     const result = await CarrosselAnimais.destroy({ 
       where: { id: id } 
     });
     
     if (result === 0) {
-      console.log('❌ Item do carrossel não encontrado:', id);
+      console.log('❌ [REMOVE] Item do carrossel não encontrado:', id);
       return res.status(404).json({ 
         success: false,
         message: 'Item do carrossel não encontrado' 
       });
     }
     
-    console.log('✅ Animal removido do carrossel com sucesso');
+    console.log('✅ [REMOVE] Animal removido do carrossel com sucesso');
     
     res.status(200).json({
       success: true,
       message: 'Animal removido do carrossel com sucesso'
     });
   } catch (error) {
-    console.error('❌ Erro ao remover animal do carrossel:', error);
+    console.error('❌ [REMOVE] Erro:', error);
     res.status(500).json({ 
       success: false,
       message: 'Erro ao remover animal do carrossel',
@@ -227,7 +312,7 @@ const atualizarDescricaoSaida = async (req, res) => {
     const { id } = req.params;
     const { descricaoSaida } = req.body;
     
-    console.log('📝 Atualizando descrição de saída:', { id, descricaoSaida });
+    console.log('📝 [UPDATE] Atualizando descrição de saída:', { id, descricaoSaida });
     
     // Validação básica
     if (!descricaoSaida || descricaoSaida.trim() === '') {
@@ -259,7 +344,7 @@ const atualizarDescricaoSaida = async (req, res) => {
       });
     }
     
-    console.log('✅ Descrição de saída atualizada com sucesso');
+    console.log('✅ [UPDATE] Descrição de saída atualizada com sucesso');
     
     res.status(200).json({ 
       success: true,
@@ -271,7 +356,7 @@ const atualizarDescricaoSaida = async (req, res) => {
     });
     
   } catch (error) {
-    console.error('❌ Erro ao atualizar descrição de saída:', error);
+    console.error('❌ [UPDATE] Erro:', error);
     res.status(500).json({ 
       success: false,
       message: 'Erro interno do servidor ao atualizar descrição',

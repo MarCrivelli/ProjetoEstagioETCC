@@ -1,0 +1,591 @@
+"use client";
+import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import styles from "./painelUsuario.module.css";
+import HeaderVisitantes from "../../Visitantes/HeaderVisitantes/app";
+import Footer from "../../Visitantes/Footer/app";
+
+export default function PainelUsuario({ usuarioLogado, onLogout, onUsuarioAtualizado }) {
+  const googleButtonRef = useRef(null);
+  // Estados para o overlay de exclusão
+  const [overlayExclusaoAtivo, setOverlayExclusaoAtivo] = useState(false);
+  const [dadosExclusao, setDadosExclusao] = useState({
+    nome: "",
+    email: "",
+  });
+  const [carregandoExclusao, setCarregandoExclusao] = useState(false);
+
+  // Estados para edição de campos
+  const [dadosEdicao, setDadosEdicao] = useState({
+    nome: usuarioLogado?.nome || "",
+    senha: "",
+    telefone: usuarioLogado?.telefone || "",
+  });
+  const [carregandoEdicao, setCarregandoEdicao] = useState({
+    nome: false,
+    senha: false,
+    telefone: false,
+  });
+  const [mensagens, setMensagens] = useState({
+    nome: "",
+    senha: "",
+    telefone: "",
+  });
+
+  // Estados para Google Login
+  const [carregandoGoogle, setCarregandoGoogle] = useState(false);
+
+  // Inicializar Google Login
+  useEffect(() => {
+    // Sempre carregar o script do Google se não estiver carregado
+    if (!window.google && !document.querySelector('script[src*="accounts.google.com"]')) {
+      const script = document.createElement("script");
+      script.src = "https://accounts.google.com/gsi/client";
+      script.async = true;
+      script.defer = true;
+      document.body.appendChild(script);
+
+      script.onload = () => {
+        initializeGoogleButton();
+      };
+    } else if (window.google) {
+      // Se o Google já está carregado, inicializar diretamente
+      initializeGoogleButton();
+    }
+  }, [usuarioLogado?.googleId]);
+
+  const initializeGoogleButton = () => {
+    // Só renderizar o botão se o usuário não estiver conectado e o ref existir
+    if (!usuarioLogado?.googleId && googleButtonRef.current && window.google) {
+      // Limpar conteúdo anterior do botão
+      googleButtonRef.current.innerHTML = '';
+      
+      window.google.accounts.id.initialize({
+        client_id: "173898638940-la9trlrtts8ngmsj8t2mv455og5s8g86.apps.googleusercontent.com",
+        callback: handleGoogleResponse,
+      });
+
+      window.google.accounts.id.renderButton(googleButtonRef.current, {
+        theme: "outline",
+        size: "medium",
+        text: "signin_with",
+        shape: "rectangular",
+        width: 200,
+      });
+    }
+  };
+
+  // Função para lidar com a resposta do Google
+  const handleGoogleResponse = async (response) => {
+    try {
+      const decoded = parseJwt(response.credential);
+      console.log("Dados do Google:", decoded);
+
+      const dadosGoogle = {
+        nome: decoded.name,
+        email: decoded.email,
+        foto: decoded.picture,
+        googleId: decoded.sub,
+      };
+
+      await processarLoginGoogle(dadosGoogle, response.credential);
+    } catch (error) {
+      console.error("Erro ao processar login do Google:", error);
+      alert("Erro ao conectar com Google");
+    }
+  };
+
+  const processarLoginGoogle = async (dadosGoogle, token) => {
+    setCarregandoGoogle(true);
+
+    try {
+      const urlApi = "http://localhost:3003";
+      const tokenAuth = localStorage.getItem("token");
+
+      // Atualizar o usuário atual com dados do Google
+      const resposta = await fetch(`${urlApi}/usuarios/${usuarioLogado.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${tokenAuth}`,
+        },
+        body: JSON.stringify({
+          googleId: dadosGoogle.googleId,
+          foto: dadosGoogle.foto,
+        }),
+      });
+
+      const dados = await resposta.json();
+
+      if (resposta.ok && !dados.erro) {
+        alert("Conta conectada com Google com sucesso!");
+        
+        // Atualizar o usuário logado no estado pai
+        if (onUsuarioAtualizado && dados.usuario) {
+          onUsuarioAtualizado(dados.usuario);
+        }
+
+        // Limpar o botão do Google após conexão bem-sucedida
+        if (googleButtonRef.current) {
+          googleButtonRef.current.innerHTML = '';
+        }
+      } else {
+        alert(`Erro: ${dados.mensagem || "Erro ao conectar com Google"}`);
+      }
+    } catch (erro) {
+      console.error("Erro ao conectar com Google:", erro);
+      alert("Erro de conexão. Tente novamente.");
+    } finally {
+      setCarregandoGoogle(false);
+    }
+  };
+
+  // Decodificar JWT do Google
+  const parseJwt = (token) => {
+    try {
+      return JSON.parse(atob(token.split(".")[1]));
+    } catch (e) {
+      return null;
+    }
+  };
+
+  // Funções para exclusão de conta
+  const abrirOverlayExclusao = () => {
+    setOverlayExclusaoAtivo(true);
+    setDadosExclusao({ nome: "", email: "" });
+  };
+
+  const fecharOverlayExclusao = () => {
+    setOverlayExclusaoAtivo(false);
+    setDadosExclusao({ nome: "", email: "" });
+  };
+
+  const handleExcluirConta = async (evento) => {
+    evento.preventDefault();
+
+    // Validar se os dados digitados correspondem ao usuário logado
+    if (
+      dadosExclusao.nome.trim() !== usuarioLogado.nome.trim() ||
+      dadosExclusao.email.trim().toLowerCase() !==
+        usuarioLogado.email.trim().toLowerCase()
+    ) {
+      alert("Os dados digitados não correspondem ao usuário logado!");
+      return;
+    }
+
+    if (
+      !window.confirm(
+        "Esta ação é irreversível! Tem certeza que deseja excluir sua conta permanentemente?"
+      )
+    ) {
+      return;
+    }
+
+    setCarregandoExclusao(true);
+
+    try {
+      const urlApi = "http://localhost:3003";
+      const token = localStorage.getItem("token");
+
+      const resposta = await fetch(`${urlApi}/usuarios/${usuarioLogado.id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const dados = await resposta.json();
+
+      if (resposta.ok && !dados.erro) {
+        alert("Conta excluída com sucesso!");
+        localStorage.removeItem("usuario");
+        localStorage.removeItem("token");
+        onUsuarioAtualizado(null);
+        setOverlayExclusaoAtivo(false);
+      } else {
+        alert(`Erro: ${dados.mensagem || "Erro ao excluir conta"}`);
+      }
+    } catch (erro) {
+      console.error("Erro ao excluir conta:", erro);
+      alert("Erro de conexão. Tente novamente.");
+    } finally {
+      setCarregandoExclusao(false);
+    }
+  };
+
+  // Função para atualizar um campo específico
+  const atualizarCampo = async (campo, valor) => {
+    // Validações básicas
+    if (campo === "nome" && (!valor || valor.trim().length < 2)) {
+      setMensagens(prev => ({ ...prev, [campo]: "Nome deve ter pelo menos 2 caracteres" }));
+      return;
+    }
+
+    if (campo === "senha" && (!valor || valor.length < 6)) {
+      setMensagens(prev => ({ ...prev, [campo]: "Senha deve ter pelo menos 6 caracteres" }));
+      return;
+    }
+
+    if (campo === "telefone" && valor && valor.trim() !== "") {
+      const phoneRegex = /^(\+55\s?)?\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/;
+      if (!phoneRegex.test(valor.replace(/\s/g, ""))) {
+        setMensagens(prev => ({ ...prev, [campo]: "Formato de telefone inválido" }));
+        return;
+      }
+    }
+
+    setCarregandoEdicao(prev => ({ ...prev, [campo]: true }));
+    setMensagens(prev => ({ ...prev, [campo]: "" }));
+
+    try {
+      const urlApi = "http://localhost:3003";
+      const token = localStorage.getItem("token");
+
+      const dadosParaEnviar = {};
+      dadosParaEnviar[campo] = valor;
+
+      const resposta = await fetch(`${urlApi}/usuarios/${usuarioLogado.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(dadosParaEnviar),
+      });
+
+      const dados = await resposta.json();
+
+      if (resposta.ok && !dados.erro) {
+        setMensagens(prev => ({ 
+          ...prev, 
+          [campo]: `${campo.charAt(0).toUpperCase() + campo.slice(1)} atualizado com sucesso!` 
+        }));
+        
+        // Atualizar o usuário logado no estado pai
+        if (onUsuarioAtualizado && dados.usuario) {
+          onUsuarioAtualizado(dados.usuario);
+        }
+
+        // Limpar mensagem após 3 segundos
+        setTimeout(() => {
+          setMensagens(prev => ({ ...prev, [campo]: "" }));
+        }, 3000);
+
+        // Limpar o campo senha após atualização bem-sucedida
+        if (campo === "senha") {
+          setDadosEdicao(prev => ({ ...prev, senha: "" }));
+        }
+      } else {
+        setMensagens(prev => ({ 
+          ...prev, 
+          [campo]: `Erro: ${dados.mensagem || "Erro ao atualizar"}` 
+        }));
+      }
+    } catch (erro) {
+      console.error(`Erro ao atualizar ${campo}:`, erro);
+      setMensagens(prev => ({ 
+        ...prev, 
+        [campo]: "Erro de conexão. Tente novamente." 
+      }));
+    } finally {
+      setCarregandoEdicao(prev => ({ ...prev, [campo]: false }));
+    }
+  };
+
+  // Função para lidar com mudanças nos inputs
+  const handleInputChange = (campo, valor) => {
+    setDadosEdicao(prev => ({ ...prev, [campo]: valor }));
+    // Limpar mensagens quando o usuário começar a digitar
+    if (mensagens[campo]) {
+      setMensagens(prev => ({ ...prev, [campo]: "" }));
+    }
+  };
+
+  // Função para lidar com Enter nos inputs
+  const handleKeyPress = (e, campo) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      const valor = dadosEdicao[campo];
+      
+      // Para o campo nome, usar o valor atual do usuário se o input estiver vazio
+      if (campo === "nome" && !valor.trim()) {
+        return;
+      }
+      
+      atualizarCampo(campo, valor);
+    }
+  };
+
+  return (
+    <div className={styles.conteudoPosLogin}>
+      <HeaderVisitantes />
+      <div className={styles.alinharPainel}>
+        <div className={styles.painel}>
+          <h1 className={styles.tituloPosLogin}>Painel do usuário</h1>
+          <div className={styles.alinharBlocos}>
+            <div className={`${styles.bloco} ${styles.utilitarios}`}>
+              <h1 className={styles.tituloBloco}>Dados de usuário</h1>
+              <div className={styles.agruparDadosUsuario}>
+                <div
+                  className={`${styles.dadoUsuario} ${styles.semFlexao}`}
+                >
+                  <p>Ícone de usuário</p>
+                  <div className={styles.containerImagem}>
+                    <img
+                      className={styles.iconeUsuario}
+                      src={usuarioLogado.foto || "/user.png"}
+                      alt="Avatar do usuário"
+                    />
+                  </div>
+                </div>
+                <div className={styles.dadoUsuario}>
+                  <p>Nome</p>
+                  <div className={styles.alinharItensUtilitarios}>
+                    <input
+                      type="text"
+                      placeholder={usuarioLogado.nome}
+                      value={dadosEdicao.nome}
+                      onChange={(e) => handleInputChange("nome", e.target.value)}
+                      onKeyPress={(e) => handleKeyPress(e, "nome")}
+                      className={styles.inputDado}
+                      disabled={carregandoEdicao.nome}
+                      title="Pressione Enter para salvar"
+                    />
+                    {carregandoEdicao.nome && <span>Salvando...</span>}
+                  </div>
+                  {mensagens.nome && (
+                    <small style={{ 
+                      color: mensagens.nome.includes("sucesso") ? "green" : "red",
+                      fontSize: "0.8em",
+                      marginTop: "4px",
+                      display: "block"
+                    }}>
+                      {mensagens.nome}
+                    </small>
+                  )}
+                </div>
+                <div className={styles.dadoUsuario}>
+                  <p>E-mail</p>
+                  <h6>{usuarioLogado.email}</h6>
+                </div>
+                <div className={styles.dadoUsuario}>
+                  <p>Senha</p>
+                  <div className={styles.alinharItensUtilitarios}>
+                    <input
+                      type="password"
+                      placeholder="Digite nova senha"
+                      value={dadosEdicao.senha}
+                      onChange={(e) => handleInputChange("senha", e.target.value)}
+                      onKeyPress={(e) => handleKeyPress(e, "senha")}
+                      className={styles.inputDado}
+                      disabled={carregandoEdicao.senha}
+                      title="Pressione Enter para salvar"
+                    />
+                    {carregandoEdicao.senha && <span>Salvando...</span>}
+                  </div>
+                  {mensagens.senha && (
+                    <small style={{ 
+                      color: mensagens.senha.includes("sucesso") ? "green" : "red",
+                      fontSize: "0.8em",
+                      marginTop: "4px",
+                      display: "block"
+                    }}>
+                      {mensagens.senha}
+                    </small>
+                  )}
+                </div>
+                <div className={styles.dadoUsuario}>
+                  <p>Telefone</p>
+                  <div className={styles.alinharItensUtilitarios}>
+                    <input
+                      type="text"
+                      placeholder={usuarioLogado.telefone || "Inserir telefone"}
+                      value={dadosEdicao.telefone}
+                      onChange={(e) => handleInputChange("telefone", e.target.value)}
+                      onKeyPress={(e) => handleKeyPress(e, "telefone")}
+                      className={styles.inputDado}
+                      disabled={carregandoEdicao.telefone}
+                      title="Pressione Enter para salvar"
+                    />
+                    {carregandoEdicao.telefone && <span>Salvando...</span>}
+                  </div>
+                  {mensagens.telefone && (
+                    <small style={{ 
+                      color: mensagens.telefone.includes("sucesso") ? "green" : "red",
+                      fontSize: "0.8em",
+                      marginTop: "4px",
+                      display: "block"
+                    }}>
+                      {mensagens.telefone}
+                    </small>
+                  )}
+                </div>
+                <div className={styles.dadoUsuario}>
+                  <p>Sair da conta</p>
+                  <div className={styles.alinharItensUtilitarios}>
+                    <button
+                      onClick={onLogout}
+                      className={`${styles.botaoBloco} ${styles.botaoDeslogar}`}
+                    >
+                      Deslogar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className={`${styles.bloco} ${styles.utilitarios}`}>
+              <h1 className={styles.tituloBloco}>Configurações</h1>
+              <div className={styles.agruparDadosUsuario}>
+                <div className={styles.dadoUsuario}>
+                  <p>Receber e-mails de novidades</p>
+                  <h6>{usuarioLogado.receberEmailEventos ? "Habilitado" : "Desabilitado"}</h6>
+                </div>
+                <div className={styles.dadoUsuario}>
+                  <p>Receber mensagens de novidades</p>
+                  <h6>{usuarioLogado.receberMensagensEventos ? "Habilitado" : "Desabilitado"}</h6>
+                </div>
+                <div className={styles.dadoUsuario}>
+                  <p>Tema do site</p>
+                  <h6>{usuarioLogado.tema ? usuarioLogado.tema.charAt(0).toUpperCase() + usuarioLogado.tema.slice(1) : "Claro"}</h6>
+                </div>
+                <div className={styles.dadoUsuario}>
+                  <p>Contas conectadas</p>
+                  <div className={`${styles.alinharItensUtilitarios} ${styles.agruparBotoesLog}`}>
+                    {usuarioLogado?.googleId ? (
+                      // Usuário já conectado com Google - mostrar botão verde
+                      <button className={`${styles.botaoContaLogada} ${styles.botaoContaConectada}`}>
+                        <div className={styles.alinharIconeLog}>
+                          <img className={styles.iconeLog} src="/pagAutenticacao/Google.png" alt="Google"/>
+                        </div>
+                        <label className={styles.textoBotaoLog}>Google ✓</label>
+                      </button>
+                    ) : (
+                      // Usuário não conectado - mostrar botão para conectar ou estado de carregamento
+                      carregandoGoogle ? (
+                        <button className={styles.botaoContaLogada} disabled>
+                          <div className={styles.alinharIconeLog}>
+                            <img className={styles.iconeLog} src="/pagAutenticacao/Google.png" alt="Google"/>
+                          </div>
+                          <label className={styles.textoBotaoLog}>Conectando...</label>
+                        </button>
+                      ) : (
+                        <div 
+                          ref={googleButtonRef} 
+                          style={{ minHeight: '40px', minWidth: '200px' }}
+                        ></div>
+                      )
+                    )}
+                  </div>
+                </div>
+                <div className={styles.dadoUsuario}>
+                  <p>Excluir conta</p>
+                  <div className={styles.alinharItensUtilitarios}>
+                    <button
+                      onClick={abrirOverlayExclusao}
+                      className={`${styles.botaoBloco} ${styles.botaoExcluir}`}
+                    >
+                      Excluir
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={styles.bloco}>
+              <h1 className={styles.tituloBloco}>Quero me tornar parceiro!</h1>
+              <p className={styles.subtitulo}>
+                O processo de tratamento dos nossos animais exige a atenção
+                de cada um de nossos membros, pois como nós, eles precisam
+                de afeto, alimentação adequada e um ambiente limpo e seguro.
+                Ao tornar-se parceiro você pode participar da nossa escala
+                de cuidado, onde ficará responsável, juntamente com outro
+                parceiro, pela limpeza do local onde os animais residem e
+                pela troca da água e comida. Além de poder ajudar nossos
+                animais, nossos parceiros podem também ganhar um acesso
+                especial em nosso site, além de um destaque como
+                colaborador. Vale ressaltar que não é necessário ser
+                colaborador para contribuir! Você pode também doar qualquer
+                quantia em dinheiro, além de ração &#40;para filhotes ou
+                adultos&#41; e equipamentos &#40;cones, coleiras,
+                comedouros, etc...&#41;. Quer saber mais sobre como doar?{" "}
+                {""}
+                <Link to="/como_doar">Clique aqui</Link>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Overlay de Exclusão de Conta */}
+      {overlayExclusaoAtivo && (
+        <div className={styles.overlayExclusao}>
+          <div className={styles.cardExclusao}>
+            <h2 className={styles.tituloExclusao}>Excluir Conta</h2>
+            <p className={styles.avisoExclusao}>
+              Para confirmar a exclusão da sua conta, digite seu nome e
+              e-mail exatamente como aparecem no seu perfil:
+            </p>
+
+            <form
+              onSubmit={handleExcluirConta}
+              className={styles.formularioExclusao}
+            >
+              <input
+                type="text"
+                placeholder="Digite seu nome completo"
+                value={dadosExclusao.nome}
+                onChange={(e) =>
+                  setDadosExclusao({
+                    ...dadosExclusao,
+                    nome: e.target.value,
+                  })
+                }
+                className={styles.campoExclusao}
+                required
+                disabled={carregandoExclusao}
+              />
+
+              <input
+                type="email"
+                placeholder="Digite seu e-mail"
+                value={dadosExclusao.email}
+                onChange={(e) =>
+                  setDadosExclusao({
+                    ...dadosExclusao,
+                    email: e.target.value,
+                  })
+                }
+                className={styles.campoExclusao}
+                required
+                disabled={carregandoExclusao}
+              />
+
+              <div className={styles.botoesExclusao}>
+                <button
+                  type="button"
+                  onClick={fecharOverlayExclusao}
+                  className={`${styles.botaoExclusaoSecundario}`}
+                  disabled={carregandoExclusao}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className={`${styles.botaoExclusaoPrincipal}`}
+                  disabled={carregandoExclusao}
+                >
+                  {carregandoExclusao
+                    ? "Excluindo..."
+                    : "Confirmar Exclusão"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      <Footer />
+    </div>
+  );
+}

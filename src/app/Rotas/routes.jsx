@@ -2,7 +2,7 @@
 import { BrowserRouter, Route, Routes} from 'react-router-dom';
 //Importações para as páginas de visitantes
 import HomeVisitantes from '../componentes/Visitantes/Home/PaginaPrincipal/app';
-import Autenticacao from '../componentes/Autenticacao/app';
+import GerenciarUsuario from '../componentes/PaginaDeUsuarios/PaginaPrincipal/app';
 import QueroAdotar from '../componentes/Visitantes/PaginaDeAdocoes/app';
 import ComoDoar from '../componentes/Visitantes/PaginaDeDoacoes/app';
 import Denuncie from '../componentes/Visitantes/PaginaDeDenuncias/app';
@@ -20,7 +20,7 @@ export default function Rotas() {
         <Routes>
             {/*O "path" é uma indicação do que vai aparecer na URL do navegador*/}
             <Route path='/' element={<HomeVisitantes/>}/>
-            <Route path='/autenticar' element={<Autenticacao/>}/>
+            <Route path='/autenticar' element={<GerenciarUsuario/>}/>
             <Route path='/quero_adotar' element={<QueroAdotar/>}/>
             <Route path='/como_doar' element={<ComoDoar/>}/>
             <Route path='/denuncie' element={<Denuncie/>}/>

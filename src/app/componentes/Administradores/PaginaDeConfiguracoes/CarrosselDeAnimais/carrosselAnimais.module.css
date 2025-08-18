@@ -203,7 +203,7 @@
 
 .inputNomeEdicao:focus {
   outline: none;
-  border-color: #4400ff;
+  border-color: #0073ff;
 }
 
 .alinharLabelComAjuda {
@@ -267,7 +267,7 @@
 /* Estilos para textarea em modo de edição */
 .descricaoAnimal:focus {
   outline: none;
-  border-color: #4400ff;
+  border-color: #006aff;
 }
 
 .tooltip {

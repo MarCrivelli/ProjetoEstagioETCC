@@ -14,11 +14,7 @@ export default function ComoDoar() {
             Ficou interessado em realizar uma doação para a nossa causa? Saiba como:
           </h1>
           <p>
-            <strong className={styles.strong}>Dica 1: </strong>É importante
-            manter a calma nesses momentos e não fazer nada com as próprias
-            mãos, a não ser que seja estritamente necessário, pois do contrário,
-            em alguns casos, pode acabar resultando em agressões físicas ou até
-            a morte, tanto para o animal quanto para você!
+            <strong className={styles.strong}>1- </strong>Você pode fazer uma doação em dinheiro escaneando o QR code abaixo. Qualquer quantia é bem vinda, doe o que puder.
           </p>
           <p>
             <strong className={styles.strong}>Dica 2: </strong>Todo estado

@@ -29,13 +29,13 @@ export default function Footer() {
               href="https://www.instagram.com/esperancaavozdosanimais/"
               target="_blank"
             >
-              <img src="/mainVisitantes/instagram.png"></img>
+              <img src="/footer/instagram.png"></img>
             </a>
             <a
               href="https://www.facebook.com/esperanca.a.voz.dos.animais"
               target="_blank"
             >
-              <img src="/mainVisitantes/facebook.png"></img>
+              <img src="/footer/facebook.png"></img>
             </a>
           </div>
         </div>

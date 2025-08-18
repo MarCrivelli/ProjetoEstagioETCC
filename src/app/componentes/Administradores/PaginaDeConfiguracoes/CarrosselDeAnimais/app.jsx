@@ -324,7 +324,7 @@ export default function CarrosselAnimais() {
     }
   };
 
-  // FUNÇÃO PARA ALTERNAR DADOS DO FORMULÁRIO (REINTRODUZIDA)
+  // FUNÇÃO PARA ALTERNAR DADOS DO FORMULÁRIO 
   const alternarDadosFormulario = () => {
     if (animalSelecionado) {
       setMostrarSaidaFormulario(!mostrarSaidaFormulario);
@@ -1018,7 +1018,7 @@ export default function CarrosselAnimais() {
                         className={styles.botaoEditar}
                         onClick={() => iniciarEdicaoSlide(slide)}
                         style={{
-                          backgroundColor: "#4400ff",
+                          backgroundColor: "#0066ff",
                         }}
                       >
                         Editar slide

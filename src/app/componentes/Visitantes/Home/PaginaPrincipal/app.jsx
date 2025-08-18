@@ -2,20 +2,14 @@ import styles from "./home.module.css";
 import Header from "../../HeaderVisitantes/app";
 import Footer from "../../Footer/app";
 import BotaoParaPaginaDeAdms from "../../BotaoPagInicialVisitantes/app";
-import CarrosselDoador from "../CarrosselDoadores/app";
-import CarrosselAnimais from "../CarrosselAnimais/app";
+import SeccaoCarrossel from "../SeccaoCarrossel/ComponentePrincipal/app";
+import QuadroDeAvisos from "../../QuadroDeAvisos/app";
 
-import { FaPaw, FaHandHoldingHeart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { useState, useEffect } from "react";
 
 export default function PaginaInicialVisitantes() {
-  const [carrosselAtivo, setCarrosselAtivo] = useState("doadores");
-  const titulos = {
-    doadores: "Doadores recentes",
-    animais: "Animais Resgatados pelo Instituto Esperança",
-  };
 
   const [ehMobile, setEhMobile] = useState(false);
 
@@ -35,6 +29,7 @@ export default function PaginaInicialVisitantes() {
   return (
     <div className={styles.paginaInicialVisitantes}>
       <BotaoParaPaginaDeAdms />
+      <QuadroDeAvisos/>
 
       <div className={styles.imagemDeFundo}>
         <Header tipo="padrao" />
@@ -116,46 +111,7 @@ export default function PaginaInicialVisitantes() {
         </div>
       </div>
 
-      <div className={styles.secaoCarrossel}>
-        <div className={styles.containerCarrossel}>
-          <div className={styles.botoesCarrossel}>
-            <button
-              className={`${styles.botaoCarrossel} ${
-                carrosselAtivo === "doadores" ? styles.ativo : ""
-              }`}
-              onClick={() => setCarrosselAtivo("doadores")}
-              aria-label="Doadores"
-            >
-              <div className={styles.iconeWrapper}>
-                <FaHandHoldingHeart className={styles.iconeCarrossel} />
-              </div>
-            </button>
-            <button
-              className={`${styles.botaoCarrossel} ${
-                carrosselAtivo === "animais" ? styles.ativo : ""
-              }`}
-              onClick={() => setCarrosselAtivo("animais")}
-              aria-label="Nossos Animais"
-            >
-              <div className={styles.iconeWrapper}>
-                <FaPaw className={styles.iconeCarrossel} />
-              </div>
-            </button>
-          </div>
-
-          <div className={styles.conteudoCarrossel}>
-            <h1 className={styles.tituloCarrossel}>
-              {titulos[carrosselAtivo]}
-            </h1>
-            {carrosselAtivo === "doadores" && (
-              <CarrosselDoador ehMobile={ehMobile} />
-            )}
-            {carrosselAtivo === "animais" && (
-              <CarrosselAnimais ehMobile={ehMobile} />
-            )}
-          </div>
-        </div>
-      </div>
+      <SeccaoCarrossel/>
 
       <Footer />
     </div>
