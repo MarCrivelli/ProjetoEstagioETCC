@@ -1,7 +1,7 @@
 "use client";
 import styles from "./paginaPrincipal.module.css";
 import { useState, useEffect } from "react";
-import BotaoParaPaginaDeAdms from "../../Visitantes/BotaoPagInicialVisitantes/app";
+import BotaoParaPaginaDeAdms from "../../Visitantes/BotaoParaPaginaDeAdms/app";
 import CadastroELogin from "../CadastroELogin/app";
 import PainelUsuario from "../PainelDeUsuario/app";
 

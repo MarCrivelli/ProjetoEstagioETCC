@@ -6,7 +6,6 @@ export default function FuncoesDeAdministrador() {
   // Estados para gerenciar dados e carregamento
   const [usuarios, setUsuarios] = useState([]);
   const [carregando, setCarregando] = useState(false);
-  const [usuarioLogado, setUsuarioLogado] = useState(null);
 
   // Estados para os formulários
   const [usuarioSelecionadoExcluir, setUsuarioSelecionadoExcluir] = useState(null);
@@ -32,40 +31,10 @@ export default function FuncoesDeAdministrador() {
     { value: "usuario", label: "Usuário" }
   ];
 
-  // Verificar se usuário está logado e é admin
+  // Carregar lista de usuários quando o componente é montado
   useEffect(() => {
-    const verificarUsuarioAdmin = () => {
-      try {
-        const dadosUsuario = localStorage.getItem("usuario");
-        const token = localStorage.getItem("token");
-
-        if (dadosUsuario && token) {
-          const usuario = JSON.parse(dadosUsuario);
-          if (usuario.nivelDeAcesso === 'administrador') {
-            setUsuarioLogado(usuario);
-          } else {
-            alert("Acesso negado! Apenas administradores podem acessar esta área.");
-            // Redirecionar ou esconder componente
-            return;
-          }
-        } else {
-          alert("É necessário estar logado como administrador.");
-          return;
-        }
-      } catch (error) {
-        console.error("Erro ao verificar usuário admin:", error);
-      }
-    };
-
-    verificarUsuarioAdmin();
+    carregarUsuarios();
   }, []);
-
-  // Carregar lista de usuários
-  useEffect(() => {
-    if (usuarioLogado) {
-      carregarUsuarios();
-    }
-  }, [usuarioLogado]);
 
   const carregarUsuarios = async () => {
     try {
@@ -169,6 +138,11 @@ export default function FuncoesDeAdministrador() {
       setCarregando(true);
       const token = localStorage.getItem("token");
 
+      console.log("🔄 Alterando nível de acesso:", {
+        usuarioId: usuarioSelecionadoAlterar.value,
+        novoNivel: novoNivelAcesso.value
+      });
+
       const resposta = await fetch(`http://localhost:3003/usuarios/${usuarioSelecionadoAlterar.value}`, {
         method: "PUT",
         headers: {
@@ -181,6 +155,7 @@ export default function FuncoesDeAdministrador() {
       });
 
       const dados = await resposta.json();
+      console.log("📥 Resposta do servidor:", dados);
 
       if (resposta.ok && !dados.erro) {
         alert("Nível de acesso alterado com sucesso!");
@@ -188,10 +163,11 @@ export default function FuncoesDeAdministrador() {
         setNovoNivelAcesso(null);
         await carregarUsuarios(); // Recarregar lista
       } else {
-        alert(`Erro ao alterar nível de acesso: ${dados.mensagem}`);
+        console.error("❌ Erro na resposta:", dados);
+        alert(`Erro ao alterar nível de acesso: ${dados.mensagem || 'Erro desconhecido'}`);
       }
     } catch (error) {
-      console.error("Erro ao alterar nível de acesso:", error);
+      console.error("❌ Erro ao alterar nível de acesso:", error);
       alert("Erro de conexão ao alterar nível de acesso.");
     } finally {
       setCarregando(false);
@@ -260,18 +236,6 @@ export default function FuncoesDeAdministrador() {
   const handleInserirFacebook = () => {
     alert("Funcionalidade de integração com Facebook ainda não implementada.");
   };
-
-  // Se não for admin, não renderizar o componente
-  if (!usuarioLogado || usuarioLogado.nivelDeAcesso !== 'administrador') {
-    return (
-      <div className={styles.conteudoFuncoesAdm}>
-        <div className={styles.blocoFuncao}>
-          <h1 className={styles.tituloConfig}>Acesso Negado</h1>
-          <p>Apenas administradores podem acessar esta área.</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className={styles.conteudoFuncoesAdm}>

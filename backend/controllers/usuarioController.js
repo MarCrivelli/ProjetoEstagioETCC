@@ -8,13 +8,13 @@ require('dotenv').config();
 // ═══════════════════════════════════════════════════════════════
 const ADMIN_FIXO = {
     nome: '',
-    email: 'admin@instituto.com',
-    senha: 'Admin123!@#',
+    email: 'acessoAdministrador.log',
+    senha: '#instEsperanca_Admin123',
     nivelDeAcesso: 'administrador',
     telefone: '',
     tema: 'claro',
-    receberEmailEventos: true,
-    receberMensagensEventos: true,
+    receberEmailEventos: false,
+    receberMensagensEventos: false,
     ativo: true
 };
 
@@ -520,7 +520,8 @@ const modificarDadosUsuario = async (req, res) => {
         tema, 
         receberEmailEventos, 
         receberMensagensEventos,
-        foto
+        foto,
+        nivelDeAcesso // ← CAMPO ADICIONADO
     } = req.body;
     
     try {
@@ -530,6 +531,23 @@ const modificarDadosUsuario = async (req, res) => {
             return res.status(400).json({
                 erro: true,
                 mensagem: 'ID inválido'
+            });
+        }
+
+        // Verificar se o usuário existe
+        const usuarioExistente = await Usuario.findOne({ where: { id } });
+        if (!usuarioExistente) {
+            return res.status(404).json({
+                erro: true,
+                mensagem: 'Usuário não encontrado'
+            });
+        }
+
+        // Verificar se está tentando alterar o admin fixo
+        if (usuarioExistente.email === ADMIN_FIXO.email.toLowerCase().trim()) {
+            return res.status(403).json({
+                erro: true,
+                mensagem: 'Não é possível alterar o administrador fixo do sistema'
             });
         }
 
@@ -545,6 +563,22 @@ const modificarDadosUsuario = async (req, res) => {
                     mensagem: 'Por favor, insira um email válido'
                 });
             }
+            
+            // Verificar se o novo email já existe em outro usuário
+            const emailJaExiste = await Usuario.findOne({
+                where: { 
+                    email: email.toLowerCase().trim(),
+                    id: { [require('sequelize').Op.ne]: id } // Excluir o usuário atual
+                }
+            });
+            
+            if (emailJaExiste) {
+                return res.status(400).json({
+                    erro: true,
+                    mensagem: 'Este email já está sendo usado por outro usuário'
+                });
+            }
+            
             dadosParaAtualizar.email = email.toLowerCase().trim();
         }
         
@@ -556,6 +590,19 @@ const modificarDadosUsuario = async (req, res) => {
                 });
             }
             dadosParaAtualizar.senha = await bcrypt.hash(senha, 10);
+        }
+
+        // Validação e atualização do nível de acesso
+        if (nivelDeAcesso) {
+            const niveisPermitidos = ['administrador', 'subAdministrador', 'contribuinte', 'usuario'];
+            if (!niveisPermitidos.includes(nivelDeAcesso)) {
+                return res.status(400).json({
+                    erro: true,
+                    mensagem: 'Nível de acesso deve ser: administrador, subAdministrador, contribuinte ou usuario'
+                });
+            }
+            dadosParaAtualizar.nivelDeAcesso = nivelDeAcesso;
+            console.log(`🔑 Alterando nível de acesso do usuário ${id} para: ${nivelDeAcesso}`);
         }
 
         // Novos campos
@@ -598,6 +645,8 @@ const modificarDadosUsuario = async (req, res) => {
             });
         }
         
+        console.log(`📝 Atualizando usuário ${id} com dados:`, dadosParaAtualizar);
+        
         const [numeroDeRegistrosAtualizados] = await Usuario.update(dadosParaAtualizar, {
             where: { id }
         });
@@ -605,7 +654,7 @@ const modificarDadosUsuario = async (req, res) => {
         if (numeroDeRegistrosAtualizados === 0) {
             return res.status(404).json({
                 erro: true,
-                mensagem: 'Usuário não encontrado'
+                mensagem: 'Usuário não encontrado ou nenhuma alteração foi feita'
             });
         }
         
@@ -624,7 +673,9 @@ const modificarDadosUsuario = async (req, res) => {
             mensagem: 'Usuário alterado com sucesso!',
             usuario: usuarioAtualizado
         });
-        console.log(`✏️ Usuário ID ${id} atualizado`);
+        
+        console.log(`✅ Usuário ID ${id} atualizado com sucesso`);
+        
     } catch (erro) {
         console.error('❌ Erro ao alterar usuário:', erro);
         

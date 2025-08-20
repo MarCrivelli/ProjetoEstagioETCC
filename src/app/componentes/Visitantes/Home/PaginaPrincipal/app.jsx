@@ -1,7 +1,7 @@
 import styles from "./home.module.css";
 import Header from "../../HeaderVisitantes/app";
 import Footer from "../../Footer/app";
-import BotaoParaPaginaDeAdms from "../../BotaoPagInicialVisitantes/app";
+import BotaoParaPaginaDeAdms from "../../BotaoParaPaginaDeAdms/app";
 import SeccaoCarrossel from "../SeccaoCarrossel/ComponentePrincipal/app";
 import QuadroDeAvisos from "../../QuadroDeAvisos/app";
 
