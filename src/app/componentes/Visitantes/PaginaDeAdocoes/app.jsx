@@ -61,12 +61,11 @@ export default function QueroAdotar() {
             mínima para garantir que o animal tenha uma boa convivência e saúde.
           </p>
           <p>
-            Vale ressaltar que podemos fazer visitas surpresa no casa do novo
-            pai de pet, além de, caso necessário, perguntar aos vizinhos como
-            vai sua convivência como o novo animal e caso seja determinado que
-            esse animal não têm condições de ficar no local, podemos trazer o
-            animal de volta para o Instituto. Recomendamos que não minta na hora
-            da avaliação.
+            Vale ressaltar que podemos fazer visitas surpresa na casa do novo
+            pai de pet, além de, caso necessário, buscar informações com a
+            vizinhança. Caso seja determinado que o animal não têm condições
+            de ficar no local, podemos trazer o animal de volta para o
+            Instituto. Recomendamos que não minta na hora da avaliação.
           </p>
         </div>
       </div>

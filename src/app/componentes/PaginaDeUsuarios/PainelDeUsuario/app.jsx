@@ -1,13 +1,56 @@
 "use client";
+
+//================ Importações externas ================//
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import Select from "react-select";
+
+//================ Minhas importações ================//
 import styles from "./painelUsuario.module.css";
 import HeaderVisitantes from "../../Visitantes/HeaderVisitantes/app";
 import Footer from "../../Visitantes/Footer/app";
+import opcoes from "/src/app/componentes/Administradores/OpcoesDeSelecao/opcoes";
 
-export default function PainelUsuario({ usuarioLogado, onLogout, onUsuarioAtualizado }) {
-  const googleButtonRef = useRef(null);
-  // Estados para o overlay de exclusão
+// Função para gerenciar tema (exportada para uso em outros componentes)
+export const gerenciadorTema = {
+  aplicarTema: (temaEscuro) => {
+    if (temaEscuro) {
+      document.body.classList.add("tema-escuro");
+    } else {
+      document.body.classList.remove("tema-escuro");
+    }
+  },
+
+  salvarTema: (temaEscuro) => {
+    localStorage.setItem("tema-escuro", temaEscuro.toString());
+  },
+
+  carregarTema: () => {
+    return localStorage.getItem("tema-escuro") === "true";
+  },
+
+  obterClasseTema: (temaEscuro) => {
+    return temaEscuro ? "tema-escuro" : "tema-claro";
+  },
+};
+
+export default function PainelUsuario({
+  usuarioLogado,
+  funcaoDeslogarRequerida,
+  onUsuarioAtualizado,
+}) {
+  //================ Estados do botões com switch ================//
+  const [emailAtivado, setEmailAtivado] = useState(
+    usuarioLogado?.receberEmails || false
+  );
+  const [whatsappAtivado, setWhatsappAtivado] = useState(
+    usuarioLogado?.receberWhatsapp || false
+  );
+  const [temaEscuro, setTemaEscuro] = useState(
+    usuarioLogado?.temaEscuro || false
+  );
+
+  //================ Estados para exclusão de conta ================//
   const [overlayExclusaoAtivo, setOverlayExclusaoAtivo] = useState(false);
   const [dadosExclusao, setDadosExclusao] = useState({
     nome: "",
@@ -15,72 +58,107 @@ export default function PainelUsuario({ usuarioLogado, onLogout, onUsuarioAtuali
   });
   const [carregandoExclusao, setCarregandoExclusao] = useState(false);
 
-  // Estados para edição de campos
-  const [dadosEdicao, setDadosEdicao] = useState({
-    nome: usuarioLogado?.nome || "",
-    senha: "",
-    telefone: usuarioLogado?.telefone || "",
-  });
-  const [carregandoEdicao, setCarregandoEdicao] = useState({
-    nome: false,
-    senha: false,
-    telefone: false,
-  });
-  const [mensagens, setMensagens] = useState({
-    nome: "",
-    senha: "",
-    telefone: "",
-  });
-
-  // Estados para Google Login
+  //================ Estados para Google Login ================//
+  const googleButtonRef = useRef(null);
   const [carregandoGoogle, setCarregandoGoogle] = useState(false);
 
-  // Inicializar Google Login
+  // Debug: verificar se usuário tem Google ID
   useEffect(() => {
-    // Sempre carregar o script do Google se não estiver carregado
-    if (!window.google && !document.querySelector('script[src*="accounts.google.com"]')) {
-      const script = document.createElement("script");
-      script.src = "https://accounts.google.com/gsi/client";
-      script.async = true;
-      script.defer = true;
-      document.body.appendChild(script);
+    console.log("Status da conta Google:", {
+      googleId: usuarioLogado?.googleId,
+      temGoogleId: !!usuarioLogado?.googleId,
+      usuario: usuarioLogado,
+    });
+  }, [usuarioLogado]);
 
-      script.onload = () => {
+  //================ useEffect para carregar tema salvo ================//
+  useEffect(() => {
+    const temaSalvo = gerenciadorTema.carregarTema();
+    setTemaEscuro(temaSalvo);
+    gerenciadorTema.aplicarTema(temaSalvo);
+  }, []);
+
+  //================ useEffect para Google Login ================//
+  useEffect(() => {
+    // Verificar se o token ainda é válido antes de tentar fazer requisições
+    const verificarToken = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return false;
+
+      try {
+        const response = await fetch("http://localhost:3003/verificar-token", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        return response.ok;
+      } catch (error) {
+        console.error("Erro ao verificar token:", error);
+        return false;
+      }
+    };
+
+    const inicializarGoogle = async () => {
+      const tokenValido = await verificarToken();
+      if (!tokenValido) {
+        console.warn("Token expirado ou inválido");
+        // Opcional: redirecionar para login ou renovar token
+        return;
+      }
+
+      if (
+        !window.google &&
+        !document.querySelector('script[src*="accounts.google.com"]')
+      ) {
+        const script = document.createElement("script");
+        script.src = "https://accounts.google.com/gsi/client";
+        script.async = true;
+        script.defer = true;
+        document.body.appendChild(script);
+
+        script.onload = () => {
+          initializeGoogleButton();
+        };
+      } else if (window.google) {
         initializeGoogleButton();
-      };
-    } else if (window.google) {
-      // Se o Google já está carregado, inicializar diretamente
-      initializeGoogleButton();
-    }
+      }
+    };
+
+    inicializarGoogle();
   }, [usuarioLogado?.googleId]);
 
+  //================ Função para inicializar botão do Google ================//
   const initializeGoogleButton = () => {
-    // Só renderizar o botão se o usuário não estiver conectado e o ref existir
+    // Renderizar botão do Google apenas se não estiver conectado e o Google estiver disponível
     if (!usuarioLogado?.googleId && googleButtonRef.current && window.google) {
-      // Limpar conteúdo anterior do botão
-      googleButtonRef.current.innerHTML = '';
-      
-      window.google.accounts.id.initialize({
-        client_id: "173898638940-la9trlrtts8ngmsj8t2mv455og5s8g86.apps.googleusercontent.com",
-        callback: handleGoogleResponse,
-      });
+      googleButtonRef.current.innerHTML = "";
 
-      window.google.accounts.id.renderButton(googleButtonRef.current, {
-        theme: "outline",
-        size: "medium",
-        text: "signin_with",
-        shape: "rectangular",
-        width: 200,
-      });
+      try {
+        window.google.accounts.id.initialize({
+          client_id:
+            "173898638940-la9trlrtts8ngmsj8t2mv455og5s8g86.apps.googleusercontent.com",
+          callback: handleGoogleResponse,
+          auto_select: false,
+          cancel_on_tap_outside: true,
+        });
+
+        window.google.accounts.id.renderButton(googleButtonRef.current, {
+          theme: "outline",
+          size: "medium",
+          text: "signin_with",
+          shape: "rectangular",
+          width: 200,
+        });
+      } catch (error) {
+        console.error("Erro ao inicializar botão do Google:", error);
+      }
     }
   };
 
-  // Função para lidar com a resposta do Google
+  //================ Função para lidar com resposta do Google ================//
   const handleGoogleResponse = async (response) => {
     try {
       const decoded = parseJwt(response.credential);
-      console.log("Dados do Google:", decoded);
-
       const dadosGoogle = {
         nome: decoded.name,
         email: decoded.email,
@@ -95,14 +173,22 @@ export default function PainelUsuario({ usuarioLogado, onLogout, onUsuarioAtuali
     }
   };
 
+  //================ Função para processar login do Google ================//
   const processarLoginGoogle = async (dadosGoogle, token) => {
     setCarregandoGoogle(true);
 
     try {
       const urlApi = "http://localhost:3003";
-      const tokenAuth = localStorage.getItem("token");
+      const tokenAuth = localStorage.getItem(token);
 
-      // Atualizar o usuário atual com dados do Google
+      // Verificar se o token ainda é válido
+      if (!tokenAuth) {
+        alert("Sessão expirada. Por favor, faça login novamente.");
+        // Opcional: redirecionar para página de login
+        setCarregandoGoogle(false);
+        return;
+      }
+
       const resposta = await fetch(`${urlApi}/usuarios/${usuarioLogado.id}`, {
         method: "PUT",
         headers: {
@@ -117,17 +203,20 @@ export default function PainelUsuario({ usuarioLogado, onLogout, onUsuarioAtuali
 
       const dados = await resposta.json();
 
+      if (resposta.status === 401) {
+        alert("Sua sessão expirou. Por favor, faça login novamente.");
+        localStorage.removeItem("token");
+        localStorage.removeItem("usuario");
+        // Opcional: redirecionar para página de login
+        setCarregandoGoogle(false);
+        return;
+      }
+
       if (resposta.ok && !dados.erro) {
         alert("Conta conectada com Google com sucesso!");
-        
-        // Atualizar o usuário logado no estado pai
+
         if (onUsuarioAtualizado && dados.usuario) {
           onUsuarioAtualizado(dados.usuario);
-        }
-
-        // Limpar o botão do Google após conexão bem-sucedida
-        if (googleButtonRef.current) {
-          googleButtonRef.current.innerHTML = '';
         }
       } else {
         alert(`Erro: ${dados.mensagem || "Erro ao conectar com Google"}`);
@@ -140,7 +229,7 @@ export default function PainelUsuario({ usuarioLogado, onLogout, onUsuarioAtuali
     }
   };
 
-  // Decodificar JWT do Google
+  //================ Função para decodificar JWT do Google ================//
   const parseJwt = (token) => {
     try {
       return JSON.parse(atob(token.split(".")[1]));
@@ -149,7 +238,111 @@ export default function PainelUsuario({ usuarioLogado, onLogout, onUsuarioAtuali
     }
   };
 
-  // Funções para exclusão de conta
+  //================ Função para ativar ou desativar e-mail ================//
+  const ativarEmail = async () => {
+    const novoEstado = !emailAtivado;
+    setEmailAtivado(novoEstado);
+
+    try {
+      const urlApi = "http://localhost:3003";
+      const token = localStorage.getItem("token");
+
+      const resposta = await fetch(`${urlApi}/usuarios/${usuarioLogado.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          receberEmails: novoEstado,
+        }),
+      });
+
+      const dados = await resposta.json();
+
+      if (resposta.ok && !dados.erro) {
+        if (onUsuarioAtualizado && dados.usuario) {
+          onUsuarioAtualizado(dados.usuario);
+        }
+      } else {
+        // Reverter estado se houver erro
+        setEmailAtivado(!novoEstado);
+        alert(`Erro: ${dados.mensagem || "Erro ao atualizar configuração"}`);
+      }
+    } catch (erro) {
+      // Reverter estado se houver erro
+      setEmailAtivado(!novoEstado);
+      console.error("Erro ao atualizar configuração de e-mail:", erro);
+      alert("Erro de conexão. Tente novamente.");
+    }
+  };
+
+  //================ Função para ativar ou desativar mensagens ================//
+  const ativarMensagensWhatsapp = async () => {
+    const novoEstado = !whatsappAtivado;
+    setWhatsappAtivado(novoEstado);
+
+    try {
+      const urlApi = "http://localhost:3003";
+      const token = localStorage.getItem("token");
+
+      const resposta = await fetch(`${urlApi}/usuarios/${usuarioLogado.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          receberWhatsapp: novoEstado,
+        }),
+      });
+
+      const dados = await resposta.json();
+
+      if (resposta.ok && !dados.erro) {
+        if (onUsuarioAtualizado && dados.usuario) {
+          onUsuarioAtualizado(dados.usuario);
+        }
+      } else {
+        // Reverter estado se houver erro
+        setWhatsappAtivado(!novoEstado);
+        alert(`Erro: ${dados.mensagem || "Erro ao atualizar configuração"}`);
+      }
+    } catch (erro) {
+      // Reverter estado se houver erro
+      setWhatsappAtivado(!novoEstado);
+      console.error("Erro ao atualizar configuração de WhatsApp:", erro);
+      alert("Erro de conexão. Tente novamente.");
+    }
+  };
+
+  //================ Função para alternar tema ================//
+  const alternarTema = async (novoTema) => {
+    setTemaEscuro(novoTema);
+    gerenciadorTema.aplicarTema(novoTema);
+    gerenciadorTema.salvarTema(novoTema);
+
+    // Opcional: salvar no backend também
+    try {
+      const urlApi = "http://localhost:3003";
+      const token = localStorage.getItem("token");
+
+      await fetch(`${urlApi}/usuarios/${usuarioLogado.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          temaEscuro: novoTema,
+        }),
+      });
+    } catch (erro) {
+      console.error("Erro ao salvar tema no servidor:", erro);
+    }
+  };
+
+  //================ Funções para exclusão de conta ================//
   const abrirOverlayExclusao = () => {
     setOverlayExclusaoAtivo(true);
     setDadosExclusao({ nome: "", email: "" });
@@ -201,6 +394,7 @@ export default function PainelUsuario({ usuarioLogado, onLogout, onUsuarioAtuali
         alert("Conta excluída com sucesso!");
         localStorage.removeItem("usuario");
         localStorage.removeItem("token");
+        localStorage.removeItem("tema-escuro");
         onUsuarioAtualizado(null);
         setOverlayExclusaoAtivo(false);
       } else {
@@ -214,304 +408,205 @@ export default function PainelUsuario({ usuarioLogado, onLogout, onUsuarioAtuali
     }
   };
 
-  // Função para atualizar um campo específico
-  const atualizarCampo = async (campo, valor) => {
-    // Validações básicas
-    if (campo === "nome" && (!valor || valor.trim().length < 2)) {
-      setMensagens(prev => ({ ...prev, [campo]: "Nome deve ter pelo menos 2 caracteres" }));
-      return;
+  //================ Renderizar botão do Google ================//
+  const renderizarBotaoGoogle = () => {
+    if (usuarioLogado?.googleId) {
+      // Usuário já está conectado - mostrar botão com classe especial
+      return (
+        <button className={`${styles.botaoDadoGoogle} contaConectada`} disabled>
+          <div className={styles.alinharIconeLog}>
+            <img
+              className={styles.iconeLog}
+              src="/pagAutenticacao/Google.png"
+              alt="Google"
+            />
+          </div>
+          <label className={styles.textoBotaoLog}>Google ✓</label>
+        </button>
+      );
     }
 
-    if (campo === "senha" && (!valor || valor.length < 6)) {
-      setMensagens(prev => ({ ...prev, [campo]: "Senha deve ter pelo menos 6 caracteres" }));
-      return;
+    if (carregandoGoogle) {
+      // Estado de carregamento
+      return (
+        <button className={styles.botaoDadoGoogle} disabled>
+            <img
+              className={styles.iconeLog}
+              src="/pagAutenticacao/Google.png"
+              alt="Google"
+            />
+          <label className={styles.textoBotaoLog}>Conectando...</label>
+        </button>
+      );
     }
 
-    if (campo === "telefone" && valor && valor.trim() !== "") {
-      const phoneRegex = /^(\+55\s?)?\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/;
-      if (!phoneRegex.test(valor.replace(/\s/g, ""))) {
-        setMensagens(prev => ({ ...prev, [campo]: "Formato de telefone inválido" }));
-        return;
-      }
-    }
+    // Usuário não conectado - mostrar botão padrão do Google ou fallback
+    return (
+      <div className={styles.containerBotaoGoogle}>
+        <div ref={googleButtonRef}></div>
+        {/* Fallback caso o botão do Google não carregue */}
+        {!window.google && (
+          <button className={styles.botaoDadoGoogle} disabled>
+            <img
+              className={styles.iconeLog}
+              src="/pagAutenticacao/Google.png"
+              alt="Google"
+            />
 
-    setCarregandoEdicao(prev => ({ ...prev, [campo]: true }));
-    setMensagens(prev => ({ ...prev, [campo]: "" }));
-
-    try {
-      const urlApi = "http://localhost:3003";
-      const token = localStorage.getItem("token");
-
-      const dadosParaEnviar = {};
-      dadosParaEnviar[campo] = valor;
-
-      const resposta = await fetch(`${urlApi}/usuarios/${usuarioLogado.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(dadosParaEnviar),
-      });
-
-      const dados = await resposta.json();
-
-      if (resposta.ok && !dados.erro) {
-        setMensagens(prev => ({ 
-          ...prev, 
-          [campo]: `${campo.charAt(0).toUpperCase() + campo.slice(1)} atualizado com sucesso!` 
-        }));
-        
-        // Atualizar o usuário logado no estado pai
-        if (onUsuarioAtualizado && dados.usuario) {
-          onUsuarioAtualizado(dados.usuario);
-        }
-
-        // Limpar mensagem após 3 segundos
-        setTimeout(() => {
-          setMensagens(prev => ({ ...prev, [campo]: "" }));
-        }, 3000);
-
-        // Limpar o campo senha após atualização bem-sucedida
-        if (campo === "senha") {
-          setDadosEdicao(prev => ({ ...prev, senha: "" }));
-        }
-      } else {
-        setMensagens(prev => ({ 
-          ...prev, 
-          [campo]: `Erro: ${dados.mensagem || "Erro ao atualizar"}` 
-        }));
-      }
-    } catch (erro) {
-      console.error(`Erro ao atualizar ${campo}:`, erro);
-      setMensagens(prev => ({ 
-        ...prev, 
-        [campo]: "Erro de conexão. Tente novamente." 
-      }));
-    } finally {
-      setCarregandoEdicao(prev => ({ ...prev, [campo]: false }));
-    }
+            <label className={styles.textoBotaoLog}>Carregando Google...</label>
+          </button>
+        )}
+      </div>
+    );
   };
 
-  // Função para lidar com mudanças nos inputs
-  const handleInputChange = (campo, valor) => {
-    setDadosEdicao(prev => ({ ...prev, [campo]: valor }));
-    // Limpar mensagens quando o usuário começar a digitar
-    if (mensagens[campo]) {
-      setMensagens(prev => ({ ...prev, [campo]: "" }));
-    }
-  };
+  //================ Conteúdo do bloco DADOS DE USUÁRIO ================//
+  const ConteudoDadosUsuario = (
+    <>
+      <div
+        className={`${styles.alinharDadoEDescricaoDado} ${styles.excessaoIconeUsuario}`}
+      >
+        <p className={styles.descricaoDado}>Ícone de usuário</p>
+        <div className={styles.espacamentoDado}>
+          <img
+            className={styles.iconeUsuario}
+            src={usuarioLogado.foto || "/user.png"}
+            alt="Avatar do usuário"
+          />
+        </div>
+      </div>
+      <div className={styles.alinharDadoEDescricaoDado}>
+        <p className={styles.descricaoDado}>Nome</p>
+        <div className={styles.espacamentoDado}>
+          <input
+            className={styles.inputDado}
+            placeholder={usuarioLogado.nome}
+          />
+        </div>
+      </div>
+      <div className={styles.alinharDadoEDescricaoDado}>
+        <p className={styles.descricaoDado}>E-mail</p>
+        <div className={styles.espacamentoDado}>
+          <input
+            className={styles.inputDado}
+            placeholder={usuarioLogado.email}
+            disabled
+          />
+        </div>
+      </div>
+      <div className={styles.alinharDadoEDescricaoDado}>
+        <p className={styles.descricaoDado}>Senha</p>
+        <div className={styles.espacamentoDado}>
+          <input
+            className={styles.inputDado}
+            type="password"
+            placeholder="Digite nova senha"
+          />
+        </div>
+      </div>
+      <div className={styles.alinharDadoEDescricaoDado}>
+        <p className={styles.descricaoDado}>Telefone</p>
+        <div className={styles.espacamentoDado}>
+          <input
+            className={styles.inputDado}
+            placeholder={usuarioLogado.telefone || "Inserir número de telefone"}
+          />
+        </div>
+      </div>
+    </>
+  );
 
-  // Função para lidar com Enter nos inputs
-  const handleKeyPress = (e, campo) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      const valor = dadosEdicao[campo];
-      
-      // Para o campo nome, usar o valor atual do usuário se o input estiver vazio
-      if (campo === "nome" && !valor.trim()) {
-        return;
-      }
-      
-      atualizarCampo(campo, valor);
-    }
-  };
+  //================ Conteúdo do bloco CONFIGURAÇÕES ================//
+  const ConteudoConfiguracoes = (
+    <>
+      <div className={styles.alinharDadoEDescricaoDado}>
+        <p className={styles.descricaoDado}>Receber e-mails</p>
+        <div className={styles.espacamentoDado}>
+          <button
+            className={`${styles.botaoComSwitch} ${
+              emailAtivado ? styles.botaoAtivado : ""
+            }`}
+            onClick={ativarEmail}
+          >
+            <div className={styles.switch}></div>
+          </button>
+        </div>
+      </div>
+      <div className={styles.alinharDadoEDescricaoDado}>
+        <p className={styles.descricaoDado}>Receber mensagens via Whatsapp</p>
+        <div className={styles.espacamentoDado}>
+          <button
+            className={`${styles.botaoComSwitch} ${
+              whatsappAtivado ? styles.botaoAtivado : ""
+            }`}
+            onClick={ativarMensagensWhatsapp}
+          >
+            <div className={styles.switch}></div>
+          </button>
+        </div>
+      </div>
+      <div className={styles.alinharDadoEDescricaoDado}>
+        <p className={styles.descricaoDado}>Tema do site</p>
+        <div className={styles.espacamentoDado}>
+          <Select
+            className={styles.selectDado}
+            options={opcoes.temasDoSite}
+            onChange={(opcaoSelecionada) =>
+              alternarTema(opcaoSelecionada.value)
+            }
+            placeholder="Selecione"
+            isSearchable={false}
+          />
+        </div>
+      </div>
+      <div className={styles.alinharDadoEDescricaoDado}>
+        <p className={styles.descricaoDado}>Contas conectadas</p>
+        <div className={`${styles.espacamentoDado} ${styles.seccaoContas}`}>
+          {renderizarBotaoGoogle()}
+        </div>
+      </div>
+      <div className={styles.alinharDadoEDescricaoDado}>
+        <p className={styles.descricaoDado}>Sair da conta</p>
+        <div className={styles.espacamentoDado}>
+          <button
+            className={`${styles.botaoDado} ${styles.botaoDeslogar}`}
+            onClick={funcaoDeslogarRequerida}
+          >
+            Deslogar
+          </button>
+        </div>
+      </div>
+      <div className={styles.alinharDadoEDescricaoDado}>
+        <p className={styles.descricaoDado}>Excluir conta</p>
+        <div className={styles.espacamentoDado}>
+          <button
+            className={`${styles.botaoDado} ${styles.botaoExcluir}`}
+            onClick={abrirOverlayExclusao}
+          >
+            Excluir
+          </button>
+        </div>
+      </div>
+    </>
+  );
 
   return (
-    <div className={styles.conteudoPosLogin}>
+    <div className={styles.fundoDaPagina}>
       <HeaderVisitantes />
-      <div className={styles.alinharPainel}>
-        <div className={styles.painel}>
-          <h1 className={styles.tituloPosLogin}>Painel do usuário</h1>
-          <div className={styles.alinharBlocos}>
-            <div className={`${styles.bloco} ${styles.utilitarios}`}>
+
+      <div className={styles.ajustePainelUsuario}>
+        <div className={styles.painelUsuario}>
+          <h1 className={styles.tituloPainel}>Painel de Usuários</h1>
+
+          <div className={styles.containerBlocos}>
+            <div className={styles.bloco}>
               <h1 className={styles.tituloBloco}>Dados de usuário</h1>
-              <div className={styles.agruparDadosUsuario}>
-                <div
-                  className={`${styles.dadoUsuario} ${styles.semFlexao}`}
-                >
-                  <p>Ícone de usuário</p>
-                  <div className={styles.containerImagem}>
-                    <img
-                      className={styles.iconeUsuario}
-                      src={usuarioLogado.foto || "/user.png"}
-                      alt="Avatar do usuário"
-                    />
-                  </div>
-                </div>
-                <div className={styles.dadoUsuario}>
-                  <p>Nome</p>
-                  <div className={styles.alinharItensUtilitarios}>
-                    <input
-                      type="text"
-                      placeholder={usuarioLogado.nome}
-                      value={dadosEdicao.nome}
-                      onChange={(e) => handleInputChange("nome", e.target.value)}
-                      onKeyPress={(e) => handleKeyPress(e, "nome")}
-                      className={styles.inputDado}
-                      disabled={carregandoEdicao.nome}
-                      title="Pressione Enter para salvar"
-                    />
-                    {carregandoEdicao.nome && <span>Salvando...</span>}
-                  </div>
-                  {mensagens.nome && (
-                    <small style={{ 
-                      color: mensagens.nome.includes("sucesso") ? "green" : "red",
-                      fontSize: "0.8em",
-                      marginTop: "4px",
-                      display: "block"
-                    }}>
-                      {mensagens.nome}
-                    </small>
-                  )}
-                </div>
-                <div className={styles.dadoUsuario}>
-                  <p>E-mail</p>
-                  <h6>{usuarioLogado.email}</h6>
-                </div>
-                <div className={styles.dadoUsuario}>
-                  <p>Senha</p>
-                  <div className={styles.alinharItensUtilitarios}>
-                    <input
-                      type="password"
-                      placeholder="Digite nova senha"
-                      value={dadosEdicao.senha}
-                      onChange={(e) => handleInputChange("senha", e.target.value)}
-                      onKeyPress={(e) => handleKeyPress(e, "senha")}
-                      className={styles.inputDado}
-                      disabled={carregandoEdicao.senha}
-                      title="Pressione Enter para salvar"
-                    />
-                    {carregandoEdicao.senha && <span>Salvando...</span>}
-                  </div>
-                  {mensagens.senha && (
-                    <small style={{ 
-                      color: mensagens.senha.includes("sucesso") ? "green" : "red",
-                      fontSize: "0.8em",
-                      marginTop: "4px",
-                      display: "block"
-                    }}>
-                      {mensagens.senha}
-                    </small>
-                  )}
-                </div>
-                <div className={styles.dadoUsuario}>
-                  <p>Telefone</p>
-                  <div className={styles.alinharItensUtilitarios}>
-                    <input
-                      type="text"
-                      placeholder={usuarioLogado.telefone || "Inserir telefone"}
-                      value={dadosEdicao.telefone}
-                      onChange={(e) => handleInputChange("telefone", e.target.value)}
-                      onKeyPress={(e) => handleKeyPress(e, "telefone")}
-                      className={styles.inputDado}
-                      disabled={carregandoEdicao.telefone}
-                      title="Pressione Enter para salvar"
-                    />
-                    {carregandoEdicao.telefone && <span>Salvando...</span>}
-                  </div>
-                  {mensagens.telefone && (
-                    <small style={{ 
-                      color: mensagens.telefone.includes("sucesso") ? "green" : "red",
-                      fontSize: "0.8em",
-                      marginTop: "4px",
-                      display: "block"
-                    }}>
-                      {mensagens.telefone}
-                    </small>
-                  )}
-                </div>
-                <div className={styles.dadoUsuario}>
-                  <p>Sair da conta</p>
-                  <div className={styles.alinharItensUtilitarios}>
-                    <button
-                      onClick={onLogout}
-                      className={`${styles.botaoBloco} ${styles.botaoDeslogar}`}
-                    >
-                      Deslogar
-                    </button>
-                  </div>
-                </div>
-              </div>
+              {ConteudoDadosUsuario}
             </div>
 
-            <div className={`${styles.bloco} ${styles.utilitarios}`}>
-              <h1 className={styles.tituloBloco}>Configurações</h1>
-              <div className={styles.agruparDadosUsuario}>
-                <div className={styles.dadoUsuario}>
-                  <p>Receber e-mails de novidades</p>
-                  <h6>{usuarioLogado.receberEmailEventos ? "Habilitado" : "Desabilitado"}</h6>
-                </div>
-                <div className={styles.dadoUsuario}>
-                  <p>Receber mensagens de novidades</p>
-                  <h6>{usuarioLogado.receberMensagensEventos ? "Habilitado" : "Desabilitado"}</h6>
-                </div>
-                <div className={styles.dadoUsuario}>
-                  <p>Tema do site</p>
-                  <h6>{usuarioLogado.tema ? usuarioLogado.tema.charAt(0).toUpperCase() + usuarioLogado.tema.slice(1) : "Claro"}</h6>
-                </div>
-                <div className={styles.dadoUsuario}>
-                  <p>Contas conectadas</p>
-                  <div className={`${styles.alinharItensUtilitarios} ${styles.agruparBotoesLog}`}>
-                    {usuarioLogado?.googleId ? (
-                      // Usuário já conectado com Google - mostrar botão verde
-                      <button className={`${styles.botaoContaLogada} ${styles.botaoContaConectada}`}>
-                        <div className={styles.alinharIconeLog}>
-                          <img className={styles.iconeLog} src="/pagAutenticacao/Google.png" alt="Google"/>
-                        </div>
-                        <label className={styles.textoBotaoLog}>Google ✓</label>
-                      </button>
-                    ) : (
-                      // Usuário não conectado - mostrar botão para conectar ou estado de carregamento
-                      carregandoGoogle ? (
-                        <button className={styles.botaoContaLogada} disabled>
-                          <div className={styles.alinharIconeLog}>
-                            <img className={styles.iconeLog} src="/pagAutenticacao/Google.png" alt="Google"/>
-                          </div>
-                          <label className={styles.textoBotaoLog}>Conectando...</label>
-                        </button>
-                      ) : (
-                        <div 
-                          ref={googleButtonRef} 
-                          style={{ minHeight: '40px', minWidth: '200px' }}
-                        ></div>
-                      )
-                    )}
-                  </div>
-                </div>
-                <div className={styles.dadoUsuario}>
-                  <p>Excluir conta</p>
-                  <div className={styles.alinharItensUtilitarios}>
-                    <button
-                      onClick={abrirOverlayExclusao}
-                      className={`${styles.botaoBloco} ${styles.botaoExcluir}`}
-                    >
-                      Excluir
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
             <div className={styles.bloco}>
-              <h1 className={styles.tituloBloco}>Quero me tornar parceiro!</h1>
-              <p className={styles.subtitulo}>
-                O processo de tratamento dos nossos animais exige a atenção
-                de cada um de nossos membros, pois como nós, eles precisam
-                de afeto, alimentação adequada e um ambiente limpo e seguro.
-                Ao tornar-se parceiro você pode participar da nossa escala
-                de cuidado, onde ficará responsável, juntamente com outro
-                parceiro, pela limpeza do local onde os animais residem e
-                pela troca da água e comida. Além de poder ajudar nossos
-                animais, nossos parceiros podem também ganhar um acesso
-                especial em nosso site, além de um destaque como
-                colaborador. Vale ressaltar que não é necessário ser
-                colaborador para contribuir! Você pode também doar qualquer
-                quantia em dinheiro, além de ração &#40;para filhotes ou
-                adultos&#41; e equipamentos &#40;cones, coleiras,
-                comedouros, etc...&#41;. Quer saber mais sobre como doar?{" "}
-                {""}
-                <Link to="/como_doar">Clique aqui</Link>
-              </p>
+              <h1 className={styles.tituloBloco}>Configurações</h1>
+              {ConteudoConfiguracoes}
             </div>
           </div>
         </div>
@@ -523,8 +618,8 @@ export default function PainelUsuario({ usuarioLogado, onLogout, onUsuarioAtuali
           <div className={styles.cardExclusao}>
             <h2 className={styles.tituloExclusao}>Excluir Conta</h2>
             <p className={styles.avisoExclusao}>
-              Para confirmar a exclusão da sua conta, digite seu nome e
-              e-mail exatamente como aparecem no seu perfil:
+              Para confirmar a exclusão da sua conta, digite seu nome e e-mail
+              exatamente como aparecem no seu perfil:
             </p>
 
             <form
@@ -536,10 +631,7 @@ export default function PainelUsuario({ usuarioLogado, onLogout, onUsuarioAtuali
                 placeholder="Digite seu nome completo"
                 value={dadosExclusao.nome}
                 onChange={(e) =>
-                  setDadosExclusao({
-                    ...dadosExclusao,
-                    nome: e.target.value,
-                  })
+                  setDadosExclusao({ ...dadosExclusao, nome: e.target.value })
                 }
                 className={styles.campoExclusao}
                 required
@@ -551,10 +643,7 @@ export default function PainelUsuario({ usuarioLogado, onLogout, onUsuarioAtuali
                 placeholder="Digite seu e-mail"
                 value={dadosExclusao.email}
                 onChange={(e) =>
-                  setDadosExclusao({
-                    ...dadosExclusao,
-                    email: e.target.value,
-                  })
+                  setDadosExclusao({ ...dadosExclusao, email: e.target.value })
                 }
                 className={styles.campoExclusao}
                 required
@@ -565,19 +654,17 @@ export default function PainelUsuario({ usuarioLogado, onLogout, onUsuarioAtuali
                 <button
                   type="button"
                   onClick={fecharOverlayExclusao}
-                  className={`${styles.botaoExclusaoSecundario}`}
+                  className={styles.botaoExclusaoSecundario}
                   disabled={carregandoExclusao}
                 >
                   Cancelar
                 </button>
                 <button
                   type="submit"
-                  className={`${styles.botaoExclusaoPrincipal}`}
+                  className={styles.botaoExclusaoPrincipal}
                   disabled={carregandoExclusao}
                 >
-                  {carregandoExclusao
-                    ? "Excluindo..."
-                    : "Confirmar Exclusão"}
+                  {carregandoExclusao ? "Excluindo..." : "Confirmar Exclusão"}
                 </button>
               </div>
             </form>

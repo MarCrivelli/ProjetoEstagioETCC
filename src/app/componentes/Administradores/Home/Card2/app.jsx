@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./card2.module.css";
 
-export default function Card2() {
+export default function Card2Content() {
   const [animaisParaVacinar, setAnimaisParaVacinar] = useState(0);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -52,21 +52,18 @@ export default function Card2() {
   };
 
   return (
-    <div className={styles.card2}>
-      <h1 className={styles.tituloLembrete}>Lembrete de vacinação</h1>
-      <div className={styles.containerLembrete}>
-        <p className={styles.textoLembrete}>
-          Há{" "}
-          <span 
-            className={styles.sublinhadoVacinacao}
-            onClick={handleClickVacinacao}
-            style={{ cursor: "pointer" }}
-          >
-            {loading ? "..." : animaisParaVacinar}
-          </span>{" "}
-          {animaisParaVacinar === 1 ? "animal a ser vacinado" : "animais a serem vacinados"}
-        </p>
-      </div>
+    <div className={styles.containerLembrete}>
+      <p className={styles.textoLembrete}>
+        Há{" "}
+        <span 
+          className={styles.sublinhadoVacinacao}
+          onClick={handleClickVacinacao}
+          style={{ cursor: "pointer" }}
+        >
+          {loading ? "..." : animaisParaVacinar}
+        </span>{" "}
+        {animaisParaVacinar === 1 ? "animal a ser vacinado" : "animais a serem vacinados"}
+      </p>
     </div>
   );
 }

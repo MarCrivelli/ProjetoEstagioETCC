@@ -103,11 +103,7 @@ export default function HeaderAdms() {
               >
                 <img
                   src={usuarioLogado?.foto || "/user.png"}
-                  alt={
-                    usuarioLogado
-                      ? `Avatar de ${usuarioLogado.nome}`
-                      : "Botão que leva à página de autenticação"
-                  }
+                  alt="perfil"
                   className={styles.iconeUsuario}
                 />
               </Link>

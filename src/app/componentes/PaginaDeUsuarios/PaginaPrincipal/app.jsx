@@ -56,7 +56,7 @@ export default function GerenciarUsuario() {
       {usuarioLogado ? (
         <PainelUsuario 
           usuarioLogado={usuarioLogado}
-          onLogout={handleLogout}
+          funcaoDeslogarRequerida={handleLogout}
           onUsuarioAtualizado={setUsuarioLogado}
         />
       ) : (

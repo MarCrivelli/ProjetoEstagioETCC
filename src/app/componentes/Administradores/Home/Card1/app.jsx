@@ -14,7 +14,7 @@ const Lembrete = ({ data, descricao, corData, onRemover, isNovo = false }) => {
   );
 };
 
-export default function Card1({
+export default function Card1Content({
   lembretes,
   abrirFormulario,
   containerRef,
@@ -24,12 +24,10 @@ export default function Card1({
   adicionarLembrete,
   fecharFormulario,
   removerLembrete,
-  ultimoLembreteId, // ✅ Novo prop para identificar o último lembrete adicionado
+  ultimoLembreteId,
 }) {
   return (
-    <div className={styles.card1}>
-      <h1 className={styles.cardTitle}>Quadro de Avisos</h1>
-
+    <>
       <div className={styles.containerWrapper}>
         <div className={styles.containerLembretes} ref={containerRef}>
           {lembretes.map((lembrete) => (
@@ -39,7 +37,7 @@ export default function Card1({
               descricao={lembrete.descricao}
               corData={lembrete.corData}
               onRemover={() => removerLembrete(lembrete.id)}
-              isNovo={lembrete.id === ultimoLembreteId} // ✅ Aplicar animação apenas ao último adicionado
+              isNovo={lembrete.id === ultimoLembreteId}
             />
           ))}
         </div>
@@ -122,6 +120,6 @@ export default function Card1({
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }

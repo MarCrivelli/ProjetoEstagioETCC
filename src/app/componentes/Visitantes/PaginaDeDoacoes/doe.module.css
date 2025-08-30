@@ -1,4 +1,4 @@
-.ajusteHeader {
+.fundoDaPagina{
   background: linear-gradient(
     to right,
     #06202B 0%,
@@ -18,17 +18,6 @@
   row-gap: 50px;
   padding: 3% 10% 6% 10%;
   min-height: calc(100vh - 70px);
-  background: linear-gradient(
-    to right,
-    #06202B 0%,
-    #06202B 25%,
-    #077A7D 25%,
-    #077A7D 50%,
-    #7AE2CF 50%,
-    #7AE2CF 75%,
-    #F5EEDD 75%,
-    #F5EEDD 100%
-  );
 }
 
 .seccao {
@@ -63,15 +52,12 @@
   margin-bottom: 0;
 }
 
-.selectEstados {
-  max-width: 250px;
-  width: 100%;
-  margin-top: 10px;
+.lista{
+  margin-top: 5px;
+  font-weight: 500;
 }
 
-.link {
-  color: currentColor;
-}
+
 
 @media (max-width: 768px) {
   .ajusteElementosDaPagina {

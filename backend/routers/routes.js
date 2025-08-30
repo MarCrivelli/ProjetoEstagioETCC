@@ -110,6 +110,20 @@ routes.post('/cadastro', usuarioController.cadastrarUsuario);
 routes.post('/login', usuarioController.autenticarUsuario);
 routes.post('/login-google', usuarioController.loginComGoogle);
 
+
+// Adicione esta rota no seu arquivo de rotas
+routes.get('/verificar-token', authenticateToken, (req, res) => {
+  res.json({ 
+    erro: false, 
+    valido: true, 
+    usuario: {
+      id: req.user.id,
+      email: req.user.email,
+      nivelDeAcesso: req.user.nivelDeAcesso
+    }
+  });
+});
+
 // ============================================================================
 // ROTAS DE USUÁRIOS (COM AUTENTICAÇÃO)
 // ============================================================================

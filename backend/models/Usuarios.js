@@ -81,7 +81,7 @@ const Usuario = connection.sequelize.define("db_usuario", {
   ativo: {
     type: connection.Sequelize.BOOLEAN,
     allowNull: false,
-    defaultValue: true, // Por padrão, usuários estão ativos
+    defaultValue: true, 
   },
 });
 
