@@ -218,12 +218,16 @@ export default function VerMais() {
       try {
         setSalvandoDados(true);
         
+        const token = localStorage.getItem('token');
         const endpoint = `http://localhost:3003/animais/${id}/imagem-saida`;
         const dadosFormulario = new FormData();
         dadosFormulario.append(tipoCampo, arquivo);
 
         const resposta = await fetch(endpoint, {
           method: "PUT",
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
           body: dadosFormulario,
         });
 
@@ -257,8 +261,8 @@ export default function VerMais() {
       setImagemEntradaPendente({ arquivo, url: urlTemporaria });
     }
 
-    // Força a verificação de alterações
-    verificarSeExistemAlteracoes(dadosOriginais, dadosEditados);
+    // CORREÇÃO: Marca explicitamente que existem alterações
+    setExistemAlteracoes(true);
   };
 
   // SALVAMENTO

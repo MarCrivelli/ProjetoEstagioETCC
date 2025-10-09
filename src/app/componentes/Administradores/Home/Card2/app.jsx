@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./card2.module.css";
 
-export default function Card2Content() {
+export default function Card2() {
   const [animaisParaVacinar, setAnimaisParaVacinar] = useState(0);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();

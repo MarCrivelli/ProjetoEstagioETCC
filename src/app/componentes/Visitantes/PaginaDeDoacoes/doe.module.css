@@ -57,7 +57,10 @@
   font-weight: 500;
 }
 
-
+.QRCode{
+  width: 100%;
+  max-width: 190px;
+}
 
 @media (max-width: 768px) {
   .ajusteElementosDaPagina {

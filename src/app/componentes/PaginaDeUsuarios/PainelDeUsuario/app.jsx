@@ -22,11 +22,12 @@ export const gerenciadorTema = {
   },
 
   salvarTema: (temaEscuro) => {
-    localStorage.setItem("tema-escuro", temaEscuro.toString());
+    // Removido localStorage - usar apenas estado React
+    console.log("Tema salvo:", temaEscuro);
   },
 
   carregarTema: () => {
-    return localStorage.getItem("tema-escuro") === "true";
+    return false; // Valor padrão
   },
 
   obterClasseTema: (temaEscuro) => {
@@ -41,13 +42,13 @@ export default function PainelUsuario({
 }) {
   //================ Estados do botões com switch ================//
   const [emailAtivado, setEmailAtivado] = useState(
-    usuarioLogado?.receberEmails || false
+    usuarioLogado?.receberEmailEventos || false
   );
   const [whatsappAtivado, setWhatsappAtivado] = useState(
-    usuarioLogado?.receberWhatsapp || false
+    usuarioLogado?.receberMensagensEventos || false
   );
   const [temaEscuro, setTemaEscuro] = useState(
-    usuarioLogado?.temaEscuro || false
+    usuarioLogado?.tema === "escuro" || false
   );
 
   //================ Estados para exclusão de conta ================//
@@ -61,76 +62,75 @@ export default function PainelUsuario({
   //================ Estados para Google Login ================//
   const googleButtonRef = useRef(null);
   const [carregandoGoogle, setCarregandoGoogle] = useState(false);
+  const [googleScriptCarregado, setGoogleScriptCarregado] = useState(false);
 
-  // Debug: verificar se usuário tem Google ID
+  //================ useEffect para sincronizar estados com usuário ================//
   useEffect(() => {
-    console.log("Status da conta Google:", {
-      googleId: usuarioLogado?.googleId,
-      temGoogleId: !!usuarioLogado?.googleId,
-      usuario: usuarioLogado,
-    });
+    if (usuarioLogado) {
+      setEmailAtivado(usuarioLogado.receberEmailEventos || false);
+      setWhatsappAtivado(usuarioLogado.receberMensagensEventos || false);
+      setTemaEscuro(usuarioLogado.tema === "escuro");
+      gerenciadorTema.aplicarTema(usuarioLogado.tema === "escuro");
+    }
   }, [usuarioLogado]);
-
-  //================ useEffect para carregar tema salvo ================//
-  useEffect(() => {
-    const temaSalvo = gerenciadorTema.carregarTema();
-    setTemaEscuro(temaSalvo);
-    gerenciadorTema.aplicarTema(temaSalvo);
-  }, []);
 
   //================ useEffect para Google Login ================//
   useEffect(() => {
-    // Verificar se o token ainda é válido antes de tentar fazer requisições
-    const verificarToken = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) return false;
-
-      try {
-        const response = await fetch("http://localhost:3003/verificar-token", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        return response.ok;
-      } catch (error) {
-        console.error("Erro ao verificar token:", error);
-        return false;
-      }
-    };
-
-    const inicializarGoogle = async () => {
-      const tokenValido = await verificarToken();
-      if (!tokenValido) {
-        console.warn("Token expirado ou inválido");
-        // Opcional: redirecionar para login ou renovar token
+    const carregarGoogleScript = async () => {
+      // Verificar se já existe o script
+      if (document.querySelector('script[src*="accounts.google.com"]')) {
+        setGoogleScriptCarregado(true);
         return;
       }
 
-      if (
-        !window.google &&
-        !document.querySelector('script[src*="accounts.google.com"]')
-      ) {
+      // Verificar se o token ainda é válido antes de carregar
+      const token =
+        document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("token="))
+          ?.split("=")[1] ||
+        sessionStorage.getItem("token") ||
+        new URLSearchParams(window.location.search).get("token");
+
+      if (!token) {
+        console.warn("Token não encontrado para Google Login");
+        return;
+      }
+
+      try {
         const script = document.createElement("script");
         script.src = "https://accounts.google.com/gsi/client";
         script.async = true;
         script.defer = true;
-        document.body.appendChild(script);
 
         script.onload = () => {
-          initializeGoogleButton();
+          console.log("Google Script carregado");
+          setGoogleScriptCarregado(true);
         };
-      } else if (window.google) {
-        initializeGoogleButton();
+
+        script.onerror = () => {
+          console.error("Erro ao carregar script do Google");
+        };
+
+        document.head.appendChild(script);
+      } catch (error) {
+        console.error("Erro ao adicionar script do Google:", error);
       }
     };
 
-    inicializarGoogle();
-  }, [usuarioLogado?.googleId]);
+    carregarGoogleScript();
+  }, []);
+
+  //================ useEffect para inicializar botão Google ================//
+  useEffect(() => {
+    if (googleScriptCarregado && !usuarioLogado?.googleId && window.google) {
+      initializeGoogleButton();
+    }
+  }, [googleScriptCarregado, usuarioLogado?.googleId]);
 
   //================ Função para inicializar botão do Google ================//
   const initializeGoogleButton = () => {
-    // Renderizar botão do Google apenas se não estiver conectado e o Google estiver disponível
-    if (!usuarioLogado?.googleId && googleButtonRef.current && window.google) {
+    if (googleButtonRef.current && window.google) {
       googleButtonRef.current.innerHTML = "";
 
       try {
@@ -149,6 +149,8 @@ export default function PainelUsuario({
           shape: "rectangular",
           width: 200,
         });
+
+        console.log("Botão Google inicializado");
       } catch (error) {
         console.error("Erro ao inicializar botão do Google:", error);
       }
@@ -157,6 +159,7 @@ export default function PainelUsuario({
 
   //================ Função para lidar com resposta do Google ================//
   const handleGoogleResponse = async (response) => {
+    setCarregandoGoogle(true);
     try {
       const decoded = parseJwt(response.credential);
       const dadosGoogle = {
@@ -169,23 +172,19 @@ export default function PainelUsuario({
       await processarLoginGoogle(dadosGoogle, response.credential);
     } catch (error) {
       console.error("Erro ao processar login do Google:", error);
-      alert("Erro ao conectar com Google");
+    } finally {
+      setCarregandoGoogle(false);
     }
   };
 
   //================ Função para processar login do Google ================//
   const processarLoginGoogle = async (dadosGoogle, token) => {
-    setCarregandoGoogle(true);
-
     try {
       const urlApi = "http://localhost:3003";
-      const tokenAuth = localStorage.getItem(token);
+      const tokenAuth = obterToken();
 
-      // Verificar se o token ainda é válido
       if (!tokenAuth) {
-        alert("Sessão expirada. Por favor, faça login novamente.");
-        // Opcional: redirecionar para página de login
-        setCarregandoGoogle(false);
+        console.error("Token de autenticação não encontrado");
         return;
       }
 
@@ -204,28 +203,22 @@ export default function PainelUsuario({
       const dados = await resposta.json();
 
       if (resposta.status === 401) {
-        alert("Sua sessão expirou. Por favor, faça login novamente.");
-        localStorage.removeItem("token");
-        localStorage.removeItem("usuario");
-        // Opcional: redirecionar para página de login
-        setCarregandoGoogle(false);
+        console.error("Sessão expirada");
         return;
       }
 
       if (resposta.ok && !dados.erro) {
-        alert("Conta conectada com Google com sucesso!");
-
+        console.log("Conta conectada com Google com sucesso!");
         if (onUsuarioAtualizado && dados.usuario) {
           onUsuarioAtualizado(dados.usuario);
         }
       } else {
-        alert(`Erro: ${dados.mensagem || "Erro ao conectar com Google"}`);
+        console.error(
+          `Erro: ${dados.mensagem || "Erro ao conectar com Google"}`
+        );
       }
     } catch (erro) {
       console.error("Erro ao conectar com Google:", erro);
-      alert("Erro de conexão. Tente novamente.");
-    } finally {
-      setCarregandoGoogle(false);
     }
   };
 
@@ -238,14 +231,72 @@ export default function PainelUsuario({
     }
   };
 
+  //================ Função para obter token de autenticação ================//
+  const obterToken = () => {
+    // Debug: verificar todas as fontes de token
+    const localStorageToken = localStorage.getItem("token");
+    const sessionStorageToken = sessionStorage.getItem("token");
+    const cookieToken = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("token="))
+      ?.split("=")[1];
+
+    console.log("Debug - Tokens disponíveis:");
+    console.log("localStorage:", localStorageToken ? "EXISTS" : "NULL");
+    console.log("sessionStorage:", sessionStorageToken ? "EXISTS" : "NULL");
+    console.log("cookie:", cookieToken ? "EXISTS" : "NULL");
+
+    // Tentar múltiplas fontes de token
+    const token = localStorageToken || sessionStorageToken || cookieToken;
+
+    if (!token) {
+      console.error("NENHUM TOKEN ENCONTRADO EM LUGAR ALGUM!");
+      console.log("localStorage keys:", Object.keys(localStorage));
+      console.log("sessionStorage keys:", Object.keys(sessionStorage));
+      console.log("document.cookie:", document.cookie);
+    }
+
+    return token;
+  };
+
+  //================ Debug da autenticação ================//
+  useEffect(() => {
+    console.log("=== DEBUG AUTENTICAÇÃO ===");
+    console.log("usuarioLogado:", usuarioLogado);
+    console.log("Token check:", obterToken() ? "EXISTE" : "NÃO EXISTE");
+
+    // Verificar se o componente pai está passando as informações corretas
+    if (!usuarioLogado) {
+      console.error("PROBLEMA: usuarioLogado está undefined/null");
+    }
+
+    if (!funcaoDeslogarRequerida) {
+      console.error("PROBLEMA: funcaoDeslogarRequerida não foi passada");
+    }
+
+    if (!onUsuarioAtualizado) {
+      console.error("PROBLEMA: onUsuarioAtualizado não foi passada");
+    }
+  }, [usuarioLogado]);
+
   //================ Função para ativar ou desativar e-mail ================//
   const ativarEmail = async () => {
     const novoEstado = !emailAtivado;
-    setEmailAtivado(novoEstado);
 
     try {
       const urlApi = "http://localhost:3003";
-      const token = localStorage.getItem("token");
+      const token = obterToken();
+
+      if (!token) {
+        console.error("Token de autenticação não encontrado");
+        return;
+      }
+
+      console.log(
+        "Enviando requisição para:",
+        `${urlApi}/usuarios/${usuarioLogado.id}`
+      );
+      console.log("Token presente:", !!token);
 
       const resposta = await fetch(`${urlApi}/usuarios/${usuarioLogado.id}`, {
         method: "PUT",
@@ -254,37 +305,40 @@ export default function PainelUsuario({
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          receberEmails: novoEstado,
+          receberEmailEventos: novoEstado,
         }),
       });
 
       const dados = await resposta.json();
+      console.log("Resposta da API:", dados);
 
       if (resposta.ok && !dados.erro) {
+        setEmailAtivado(novoEstado);
         if (onUsuarioAtualizado && dados.usuario) {
           onUsuarioAtualizado(dados.usuario);
         }
       } else {
-        // Reverter estado se houver erro
-        setEmailAtivado(!novoEstado);
-        alert(`Erro: ${dados.mensagem || "Erro ao atualizar configuração"}`);
+        console.error(
+          `Erro: ${dados.mensagem || "Erro ao atualizar configuração"}`
+        );
       }
     } catch (erro) {
-      // Reverter estado se houver erro
-      setEmailAtivado(!novoEstado);
       console.error("Erro ao atualizar configuração de e-mail:", erro);
-      alert("Erro de conexão. Tente novamente.");
     }
   };
 
   //================ Função para ativar ou desativar mensagens ================//
   const ativarMensagensWhatsapp = async () => {
     const novoEstado = !whatsappAtivado;
-    setWhatsappAtivado(novoEstado);
 
     try {
       const urlApi = "http://localhost:3003";
-      const token = localStorage.getItem("token");
+      const token = obterToken();
+
+      if (!token) {
+        console.error("Token de autenticação não encontrado");
+        return;
+      }
 
       const resposta = await fetch(`${urlApi}/usuarios/${usuarioLogado.id}`, {
         method: "PUT",
@@ -293,39 +347,41 @@ export default function PainelUsuario({
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          receberWhatsapp: novoEstado,
+          receberMensagensEventos: novoEstado,
         }),
       });
 
       const dados = await resposta.json();
 
       if (resposta.ok && !dados.erro) {
+        setWhatsappAtivado(novoEstado);
         if (onUsuarioAtualizado && dados.usuario) {
           onUsuarioAtualizado(dados.usuario);
         }
       } else {
-        // Reverter estado se houver erro
-        setWhatsappAtivado(!novoEstado);
-        alert(`Erro: ${dados.mensagem || "Erro ao atualizar configuração"}`);
+        console.error(
+          `Erro: ${dados.mensagem || "Erro ao atualizar configuração"}`
+        );
       }
     } catch (erro) {
-      // Reverter estado se houver erro
-      setWhatsappAtivado(!novoEstado);
       console.error("Erro ao atualizar configuração de WhatsApp:", erro);
-      alert("Erro de conexão. Tente novamente.");
     }
   };
 
   //================ Função para alternar tema ================//
-  const alternarTema = async (novoTema) => {
-    setTemaEscuro(novoTema);
-    gerenciadorTema.aplicarTema(novoTema);
-    gerenciadorTema.salvarTema(novoTema);
+  const alternarTema = async (novoTemaValue) => {
+    const novoTemaEscuro = novoTemaValue === "escuro";
+    setTemaEscuro(novoTemaEscuro);
+    gerenciadorTema.aplicarTema(novoTemaEscuro);
 
-    // Opcional: salvar no backend também
     try {
       const urlApi = "http://localhost:3003";
-      const token = localStorage.getItem("token");
+      const token = obterToken();
+
+      if (!token) {
+        console.error("Token de autenticação não encontrado");
+        return;
+      }
 
       await fetch(`${urlApi}/usuarios/${usuarioLogado.id}`, {
         method: "PUT",
@@ -334,7 +390,7 @@ export default function PainelUsuario({
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          temaEscuro: novoTema,
+          tema: novoTemaValue,
         }),
       });
     } catch (erro) {
@@ -362,7 +418,7 @@ export default function PainelUsuario({
       dadosExclusao.email.trim().toLowerCase() !==
         usuarioLogado.email.trim().toLowerCase()
     ) {
-      alert("Os dados digitados não correspondem ao usuário logado!");
+      console.error("Os dados digitados não correspondem ao usuário logado!");
       return;
     }
 
@@ -378,7 +434,13 @@ export default function PainelUsuario({
 
     try {
       const urlApi = "http://localhost:3003";
-      const token = localStorage.getItem("token");
+      const token = obterToken();
+
+      if (!token) {
+        console.error("Token de autenticação não encontrado");
+        setCarregandoExclusao(false);
+        return;
+      }
 
       const resposta = await fetch(`${urlApi}/usuarios/${usuarioLogado.id}`, {
         method: "DELETE",
@@ -391,18 +453,14 @@ export default function PainelUsuario({
       const dados = await resposta.json();
 
       if (resposta.ok && !dados.erro) {
-        alert("Conta excluída com sucesso!");
-        localStorage.removeItem("usuario");
-        localStorage.removeItem("token");
-        localStorage.removeItem("tema-escuro");
+        console.log("Conta excluída com sucesso!");
         onUsuarioAtualizado(null);
         setOverlayExclusaoAtivo(false);
       } else {
-        alert(`Erro: ${dados.mensagem || "Erro ao excluir conta"}`);
+        console.error(`Erro: ${dados.mensagem || "Erro ao excluir conta"}`);
       }
     } catch (erro) {
       console.error("Erro ao excluir conta:", erro);
-      alert("Erro de conexão. Tente novamente.");
     } finally {
       setCarregandoExclusao(false);
     }
@@ -411,7 +469,7 @@ export default function PainelUsuario({
   //================ Renderizar botão do Google ================//
   const renderizarBotaoGoogle = () => {
     if (usuarioLogado?.googleId) {
-      // Usuário já está conectado - mostrar botão com classe especial
+      // Usuário já está conectado
       return (
         <button className={`${styles.botaoDadoGoogle} contaConectada`} disabled>
           <div className={styles.alinharIconeLog}>
@@ -427,35 +485,34 @@ export default function PainelUsuario({
     }
 
     if (carregandoGoogle) {
-      // Estado de carregamento
       return (
         <button className={styles.botaoDadoGoogle} disabled>
-            <img
-              className={styles.iconeLog}
-              src="/pagAutenticacao/Google.png"
-              alt="Google"
-            />
+          <img
+            className={styles.iconeLog}
+            src="/pagAutenticacao/Google.png"
+            alt="Google"
+          />
           <label className={styles.textoBotaoLog}>Conectando...</label>
         </button>
       );
     }
 
-    // Usuário não conectado - mostrar botão padrão do Google ou fallback
+    if (!googleScriptCarregado) {
+      return (
+        <button className={styles.botaoDadoGoogle} disabled>
+          <img
+            className={styles.iconeLog}
+            src="/pagAutenticacao/Google.png"
+            alt="Google"
+          />
+          <label className={styles.textoBotaoLog}>Carregando Google...</label>
+        </button>
+      );
+    }
+
     return (
       <div className={styles.containerBotaoGoogle}>
         <div ref={googleButtonRef}></div>
-        {/* Fallback caso o botão do Google não carregue */}
-        {!window.google && (
-          <button className={styles.botaoDadoGoogle} disabled>
-            <img
-              className={styles.iconeLog}
-              src="/pagAutenticacao/Google.png"
-              alt="Google"
-            />
-
-            <label className={styles.textoBotaoLog}>Carregando Google...</label>
-          </button>
-        )}
       </div>
     );
   };
@@ -551,6 +608,12 @@ export default function PainelUsuario({
           <Select
             className={styles.selectDado}
             options={opcoes.temasDoSite}
+            value={opcoes.temasDoSite.find(
+              (option) =>
+                (option.value === "escuro" && temaEscuro) ||
+                (option.value === "claro" && !temaEscuro) ||
+                option.value === usuarioLogado?.tema
+            )}
             onChange={(opcaoSelecionada) =>
               alternarTema(opcaoSelecionada.value)
             }
@@ -596,7 +659,7 @@ export default function PainelUsuario({
 
       <div className={styles.ajustePainelUsuario}>
         <div className={styles.painelUsuario}>
-          <h1 className={styles.tituloPainel}>Painel de Usuários</h1>
+          <h1 className={styles.tituloPainel}>Painel de Usuário</h1>
 
           <div className={styles.containerBlocos}>
             <div className={styles.bloco}>
@@ -618,8 +681,11 @@ export default function PainelUsuario({
           <div className={styles.cardExclusao}>
             <h2 className={styles.tituloExclusao}>Excluir Conta</h2>
             <p className={styles.avisoExclusao}>
-              Para confirmar a exclusão da sua conta, digite seu nome e e-mail
-              exatamente como aparecem no seu perfil:
+              Para confirmar a exclusão da sua conta, insira seu nome{" "}
+              <span>&#40;{usuarioLogado.nome}&#41;</span>{" "} 
+              e e-mail {" "}
+              <span>&#40;{usuarioLogado.email}&#41;</span>{" "}
+              nos campos abaixo:
             </p>
 
             <form

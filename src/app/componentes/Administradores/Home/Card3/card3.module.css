@@ -1,6 +1,25 @@
-.containerArquivos {
-  height: calc(100% - 48px);
+.carrosselDocumentos {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  background-color: rgba(255, 0, 0, 0.177);
   width: 100%;
+}
+
+.slideCarrossel {
+  display: flex;
+  height: 100%;
+  background-color: blueviolet;
+}
+
+.documentos {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  grid-template-columns: repeat(7, 50px);
+}
+
+.estilizacaoDocumento {
+  border: 1px solid #b3b3b3;
 }
 
 @media (max-width: 1100px) {

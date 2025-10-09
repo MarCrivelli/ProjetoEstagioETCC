@@ -14,7 +14,7 @@ const Lembrete = ({ data, descricao, corData, onRemover, isNovo = false }) => {
   );
 };
 
-export default function Card1Content({
+export default function Card1({
   lembretes,
   abrirFormulario,
   containerRef,

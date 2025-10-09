@@ -144,8 +144,8 @@ export default function Denuncie() {
           <p>
             <strong className={styles.strong}>Dica 3: </strong> Você pode ligar
             para a polícia ambiental ou militar para essas situações também,
-            especialmente se a ocorrência envolver animais silvestres &#40;
-            animais que não são domesticos, que vivem na natureza &#41;.
+            especialmente se a ocorrência envolver animais silvestres 
+            &#40;animais que não são domesticos, que vivem na natureza&#41;.
           </p>
         </div>
 
@@ -170,7 +170,7 @@ export default function Denuncie() {
             água e comida sozinhos. É preciso fornecer a quantidade recomendada
             de ração de acordo com o porte do animal, água o tempo todo, um
             lugar coberto para não pegarem chuva ou sol, visitas ao veterinário
-            &#40; quando necessário &#41; e passeios e banhos semanais.
+            &#40;quando necessário&#41; e passeios e banhos semanais.
           </p>
           <p>
             <strong className={styles.strong}>3- Agressões: </strong> apesar de
@@ -183,8 +183,8 @@ export default function Denuncie() {
             tipos de exploração animal é motivo de denúncia. Neste caso, o termo
             &quot;exploração&quot; pode se encaixar em: explorar para fins
             lucrativos, não cuidando da saúde do animal e fazendo-o ir além de
-            seus limites &#40; um exemplo é o que acontece com animais que são
-            resgatados de círcos clandestinos &#41;. E explorar para fins
+            seus limites &#40;um exemplo é o que acontece com animais que são
+            resgatados de círcos clandestinos&#41;. E explorar para fins
             próprios, como realizar tarefas pesadas ou atos sexuais.
           </p>
           <p>

@@ -5,9 +5,9 @@ import HeaderAdms from "../../HeaderAdms/app";
 import BotaoPagInicial from "../../BotaoPagInicialAdms/app";
 import RolarPCima from "../../../BotaoScroll/app";
 import { useState, useRef, useEffect } from "react";
-import Card1Content from "../Card1/app";
-import Card2Content from "../Card2/app";
-import Card3Content from "../Card3/app";
+import Card1 from "../Card1/app";
+import Card2 from "../Card2/app";
+import Card3 from "../Card3/app";
 
 // Configuração da API - ajuste conforme seu ambiente
 const API_BASE_URL = "http://localhost:3003"; // Porta do seu backend
@@ -214,7 +214,7 @@ export default function PaginaInicialAdministradores() {
           
           <div className={`${styles.padraoCard} ${styles.card1}`}>
             <h1 className={styles.tituloCards}>Quadro de Avisos</h1>
-            <Card1Content
+            <Card1
               lembretes={lembretes}
               abrirFormulario={abrirFormulario}
               containerRef={containerRef}
@@ -230,12 +230,12 @@ export default function PaginaInicialAdministradores() {
 
           <div className={`${styles.padraoCard} ${styles.card2}`}>
             <h1 className={styles.tituloCards}>Lembrete de vacinação</h1>
-            <Card2Content />
+            <Card2 />
           </div>
 
           <div className={`${styles.padraoCard} ${styles.card3}`}>
             <h1 className={styles.tituloCards}>Inserir Arquivo</h1>
-            <Card3Content />
+            <Card3 />
           </div>
         </div>
       </div>

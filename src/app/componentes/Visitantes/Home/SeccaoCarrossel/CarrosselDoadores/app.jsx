@@ -34,15 +34,15 @@ export default function CarrosselDoadoresVisitantes({ ehMobile }) {
 
   if (carregando) {
     return (
-      <div className={styles.fundoCarrosselVisitantes}>
-        <div className={styles.carregando}>Carregando doadores...</div>
+      <div className={styles.carregando}>
+        <h2>Carregando doadores...</h2>
       </div>
     );
   }
 
   if (erro) {
     return (
-      <div className={styles.renderizacaoSlideDoadores}>
+      <div className={styles.erro}>
         <h2>ops, parece que ocorreu um erro ¯\_(ツ)_/¯</h2>
       </div>
     );
@@ -50,10 +50,8 @@ export default function CarrosselDoadoresVisitantes({ ehMobile }) {
 
   if (doadores.length === 0) {
     return (
-      <div className={styles.renderizacaoSlideDoadores}>
-        <div className={styles.semDoadores}>
-          <h2>Nenhum doador por enquanto :&#40;</h2>
-        </div>
+      <div className={styles.semDoadores}>
+        <h2>Nenhum doador por enquanto :&#40;</h2>
       </div>
     );
   }

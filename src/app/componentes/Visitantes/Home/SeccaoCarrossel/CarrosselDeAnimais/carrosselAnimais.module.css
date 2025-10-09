@@ -123,7 +123,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
   text-align: center;
   min-height: 400px;
   background-color: var(--cor-branca);
@@ -164,7 +163,7 @@
   background-color: var(--cor-primaria);
   color: var(--cor-branca);
   border: 2px solid var(--cor-fundo);
-  padding: 12px 24px;
+  padding: 10px 24px;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 600;
@@ -252,7 +251,6 @@
   .containerErro,
   .containerVazio {
     min-height: 250px;
-    padding: 30px 15px;
   }
 
   .iconeCarregamento {
@@ -262,7 +260,7 @@
 
   .mensagemErro,
   .containerCarregamento p {
-    font-size: 14px;
+    font-size: .8rem;
   }
 
   .mensagemVazia {
@@ -271,7 +269,7 @@
   }
 
   .botaoTentarNovamente {
-    padding: 10px 20px;
-    font-size: 13px;
+    padding: 6px 17px;
+    font-size: .7rem;
   }
 }

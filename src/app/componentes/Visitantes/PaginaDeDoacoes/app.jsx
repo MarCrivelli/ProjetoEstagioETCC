@@ -12,11 +12,14 @@ export default function ComoDoar() {
             Ficou interessado em realizar uma doação para a nossa causa? Saiba
             como:
           </h1>
-          <p>
-            <strong className={styles.strong}>1- </strong>Você pode fazer uma
-            doação em dinheiro escaneando o QR code abaixo. Qualquer quantia é
-            bem vinda, doe o que puder.
-          </p>
+          <div>
+            <p>
+              <strong className={styles.strong}>1- </strong>Você pode fazer uma
+              doação em dinheiro escaneando o QR code abaixo. Qualquer quantia é
+              bem vinda, doe o que puder.
+            </p>
+            <img src="/QRCodeDoacao/QRCodeTeste.png" className={styles.QRCode}></img>
+          </div>
           <p>
             <strong className={styles.strong}>2- </strong> Você pode mandar
             suprimentos ou equipamentos para o <span>nosso Instituto,</span>{" "}
@@ -32,9 +35,9 @@ export default function ComoDoar() {
             </ul>
             <strong className={styles.strong}>Importante!</strong> A ração
             precisa estar totalmente fechada e na embalagem original, pois do
-            contrário não aceitaremos. Além disso, não doe caminhas ou cobertores
-            usados de seu pet caso o mesmo esteja com doenças ou infecções
-            contagiosas, como sarna ou cinomose, por exemplo.
+            contrário não aceitaremos. Além disso, não doe caminhas ou
+            cobertores usados de seu pet caso o mesmo esteja com doenças ou
+            infecções contagiosas, como sarna ou cinomose, por exemplo.
           </p>
         </div>
       </div>
