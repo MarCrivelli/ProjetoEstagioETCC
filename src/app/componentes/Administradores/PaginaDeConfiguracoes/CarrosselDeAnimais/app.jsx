@@ -785,7 +785,7 @@ export default function CarrosselAnimais() {
                     ?
                   </button>
                   <Tooltip className={styles.tooltip} id="idSelectNome" place="top">
-                    Selecione um animal que possui todos os dados necessários para o carrossel (nome, descrições de entrada e saída, e ambas as imagens).
+                    Selecione um animal que possui todos os dados necessários para o carrossel (nome, descrição de entrada e saída, e imagem de entrada e saída).
                   </Tooltip>
                 </div>
                 <Select

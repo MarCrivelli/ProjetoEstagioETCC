@@ -468,8 +468,9 @@ export default function PainelUsuario({
 
   //================ Renderizar botão do Google ================//
   const renderizarBotaoGoogle = () => {
-    if (usuarioLogado?.googleId) {
+    if (usuarioLogado?.id) {
       // Usuário já está conectado
+      
       return (
         <button className={`${styles.botaoDadoGoogle} contaConectada`} disabled>
           <div className={styles.alinharIconeLog}>
@@ -557,7 +558,7 @@ export default function PainelUsuario({
           <input
             className={styles.inputDado}
             type="password"
-            placeholder="Digite nova senha"
+            placeholder="Digite a nova senha"
           />
         </div>
       </div>
@@ -624,9 +625,11 @@ export default function PainelUsuario({
       </div>
       <div className={styles.alinharDadoEDescricaoDado}>
         <p className={styles.descricaoDado}>Contas conectadas</p>
+
         <div className={`${styles.espacamentoDado} ${styles.seccaoContas}`}>
           {renderizarBotaoGoogle()}
         </div>
+
       </div>
       <div className={styles.alinharDadoEDescricaoDado}>
         <p className={styles.descricaoDado}>Sair da conta</p>

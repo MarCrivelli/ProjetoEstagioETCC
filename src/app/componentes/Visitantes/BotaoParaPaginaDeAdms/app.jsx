@@ -37,11 +37,12 @@ export default function BotaoParaPaginaDeAdms() {
   
 
   return (
-    <div className={styles.linkBotaoSolto} onClick={handleClick}>
+    <div className={styles.linkBotaoSolto}>
       <div
         className={`${styles.botaoPagInicial} ${
           clicked && isMobile ? styles.active : ""
         }`}
+        onClick={handleClick}
       >
         <img src="/logos/logoBranca.png" alt="Ícone de Página Inicial" />
       </div>

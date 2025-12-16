@@ -80,7 +80,6 @@ const cadastrarAnimal = async (req, res) => {
   }
 };
 
-// FUNÇÃO CORRIGIDA - Atualizar animal
 const atualizarAnimal = async (req, res) => {
   try {
     const { id } = req.params;

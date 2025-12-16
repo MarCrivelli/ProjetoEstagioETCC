@@ -7,6 +7,47 @@ require('dotenv').config();
 // ═══════════════════════════════════════════════════════════════
 const verificarToken = async (req, res, next) => {
     try {
+        // 🔍 DEBUG: Verificar variáveis de ambiente
+        console.log('🔍 [DEBUG] BYPASS_AUTH =', process.env.BYPASS_AUTH);
+        console.log('🔍 [DEBUG] Tipo:', typeof process.env.BYPASS_AUTH);
+        console.log('🔍 [DEBUG] Comparação:', process.env.BYPASS_AUTH === 'true');
+        
+        // 🚨 TEMPORÁRIO - BYPASS PARA DESENVOLVIMENTO
+        if (process.env.BYPASS_AUTH === 'true') {
+            console.log('⚠️ [DEV] BYPASS DE AUTENTICAÇÃO ATIVADO');
+            
+            // Buscar o primeiro administrador ativo do banco
+            const adminReal = await Usuario.findOne({
+                where: {
+                    nivelDeAcesso: 'administrador',
+                    ativo: true
+                },
+                attributes: ['id', 'nome', 'email', 'nivelDeAcesso']
+            });
+
+            if (adminReal) {
+                req.user = {
+                    id: adminReal.id,
+                    nome: adminReal.nome,
+                    email: adminReal.email,
+                    nivelDeAcesso: adminReal.nivelDeAcesso
+                };
+                console.log(`🔓 [DEV] Autenticado automaticamente como: ${adminReal.email}`);
+                return next();
+            } else {
+                console.log('⚠️ [DEV] Nenhum administrador encontrado no banco');
+                // Fallback para usuário mock se não encontrar admin
+                req.user = {
+                    id: 999,
+                    nome: 'Dev User',
+                    email: 'dev@test.com',
+                    nivelDeAcesso: 'administrador'
+                };
+                console.log('🔓 [DEV] Usando usuário mock');
+                return next();
+            }
+        }
+
         const authorization = req.headers.authorization;
 
         if (!authorization) {
@@ -104,7 +145,7 @@ const administradorOuSub = (req, res, next) => {
     next();
 };
 
-// CONTRIBUINTE OU SUPERIOR (CORRIGIDO)
+// CONTRIBUINTE OU SUPERIOR 
 const contribuinteOuSuperior = (req, res, next) => {
     const niveisPermitidos = ['contribuinte', 'subAdministrador', 'administrador'];
     

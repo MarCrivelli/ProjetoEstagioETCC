@@ -11,18 +11,24 @@ export default function Card2() {
     const buscarAnimaisParaVacinar = async () => {
       try {
         setLoading(true);
+        /* Busca todos os animais */
         const resposta = await fetch("http://localhost:3003/animais");
-        
+        /* Verifica se há algo de errado */
         if (!resposta.ok) {
           throw new Error("Erro ao buscar animais");
         }
 
+        /* Se tudo deu certo, converte a resposta para json */
         const animais = await resposta.json();
+
+        /* Data atual */
         const hoje = new Date();
+
+        /* Calcula a data de hoje com a de um ano atrás */
         const umAnoAtras = new Date(hoje);
         umAnoAtras.setFullYear(hoje.getFullYear() - 1);
 
-        // Contar animais que precisam de vacinação
+        // Filtra os animais que precisam de vacinação
         const animaisQueNecessitamVacinacao = animais.filter(animal => {
           // Se não tem data de vacinação, usa o status de vacinação manual
           if (!animal.dataVacinacao) {

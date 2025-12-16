@@ -110,7 +110,7 @@ routes.post('/cadastro', usuarioController.cadastrarUsuario);
 routes.post('/login', usuarioController.autenticarUsuario);
 routes.post('/login-google', usuarioController.loginComGoogle);
 
-// CORREÇÃO: Usar o middleware correto
+
 routes.get('/verificar-token', verificarToken, (req, res) => {
   res.json({ 
     erro: false, 

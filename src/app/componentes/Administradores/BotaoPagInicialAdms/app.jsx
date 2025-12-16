@@ -37,11 +37,12 @@ export default function BotaoPagInicial() {
   
 
   return (
-    <div className={styles.linkBotaoSolto} onClick={handleClick}>
+    <div className={styles.linkBotaoSolto} >
       <div
         className={`${styles.botaoPagInicial} ${
           clicked && isMobile ? styles.active : ""
         }`}
+        onClick={handleClick}
       >
         <img src="/homeAdms/home.png" alt="Ícone de Página Inicial" />
       </div>
