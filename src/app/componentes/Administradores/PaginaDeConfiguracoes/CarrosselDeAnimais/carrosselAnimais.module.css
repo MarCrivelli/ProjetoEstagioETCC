@@ -113,12 +113,11 @@
 
 .containerImagem {
   max-width: 724px;
-  min-width: 360px; /* alterar em telas menores */
+  min-width: 360px; 
   width: auto;
   height: 460px;
 }
 
-/* Container para permitir overlay na imagem */
 .imagemContainer {
   position: relative;
   height: 100%;
@@ -148,7 +147,6 @@
   object-fit: cover;
 }
 
-/* Overlay para edição de imagem */
 .overlayImagem {
   position: absolute;
   top: 0;

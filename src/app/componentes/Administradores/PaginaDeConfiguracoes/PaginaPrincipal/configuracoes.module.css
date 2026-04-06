@@ -203,7 +203,6 @@
   opacity: 0.3;
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
   .acessoNegado,
   .acessoNegadoElegante {

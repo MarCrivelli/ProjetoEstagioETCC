@@ -207,19 +207,3 @@
     padding: 10px 0 10px 0;
   }
 }
-
-/* Mantenha os estilos existentes que você já tem */
-
-/* .containerImagemDoador,
-.containerInfoDoador {
-  display: flex;
-  flex-direction: column;
-}
-
-.containerImagemDoador {
-  flex: 2 400px;
-}
-
-.containerInfoDoador {
-  flex: 4 400px;
-} */

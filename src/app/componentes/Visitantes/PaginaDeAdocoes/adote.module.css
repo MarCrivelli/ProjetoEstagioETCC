@@ -1,84 +1,77 @@
-.fundoPagina {
-  background-image: url(https://institutopetbrasil.com/storage/438/Banner_B2C_01_1900x1300_01.jpg);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.ajusteElementosDaPagina {
-  display: flex;
-  flex-direction: column;
-  row-gap: 50px;
-  padding: 3% 14% 6% 14%;
-  min-height: calc(100vh - 70px);
-}
-
-.seccao {
-  display: flex;
-  flex-direction: column;
-  row-gap: 30px;
-  background-color: white;
-  padding: 7% 8%;
-  border-radius: 10px;
-  position: relative;
-  z-index: 1;
-}
-
-.seccao h1 {
-  font-size: 2.3rem;
-}
-
-.seccao p,
-.seccao .strong {
-  font-size: 1.15rem;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  text-align: justify;
-}
-
-.strong {
-  font-weight: 700;
-}
-
-.seccao p {
-  margin-bottom: 0;
-}
-
-.selectEstados {
-  max-width: 250px;
+.containerParallax{
   width: 100%;
-  margin-top: 10px;
+  margin: 0 auto;
 }
 
-.link {
-  color: currentColor;
+main{
+  display: block;
+  background-color: white;
 }
 
-@media (max-width: 768px) {
-  .ajusteElementosDaPagina {
-    padding: 50px 5%;
-  }
-  .ajusteElementosDaPagina::after {
-    right: -20px;
-    top: 30px;
-    transform: rotate(10deg);
-  }
+.conteudo{
+  width: 100%;
+}
 
-  .seccao {
-    padding: 35px 8%;
-    box-shadow: 4px 5px 1px #2d0080c1;
-  }
+section.modulo.conteudo{
+  padding: 20px;
+}
 
-  .seccao h1 {
-    font-size: 1.4rem;
-    text-align: center;
-    margin-bottom: 20px;
-  }
+section.modulo.conteudo p{
+  background-color: rgb(0, 208, 255);
+  padding: 30px;
+  border: 3px solid black;
+}
 
-  .seccao p,
-  .seccao .strong {
-    font-size: 0.8rem;
-  }
-  .seccao p {
-    margin-bottom: 10px;
-  }
+.instrucoes{
+  display: flex;
+  background-color: blueviolet;
+}
+
+section.modulo.parallax{
+  display: flex;
+  flex-direction: column;
+  height: 100vh !important;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+section.modulo.parallax:not(:first-child){
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+section.modulo.parallax:after{
+  content: "";
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 10;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0, rgba(0,0,0,0) 40%, #000000cf 100%);
+}
+
+section.modulo.parallax h1{
+  margin: auto;
+  color: white;
+  font-size: 5rem;
+  z-index: 50;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+section.modulo.parallax1{
+  background-image: url(https://institutopetbrasil.com/storage/438/Banner_B2C_01_1900x1300_01.jpg);
+}
+
+section.modulo.parallax2{
+  background-image: url(https://institutofaunabrasil.org.br/wp-content/uploads/2024/02/Banner-site-sem-granu4.jpg);
+}
+
+section.modulo.parallax3{
+  background-image: url(https://institutopetbrasil.com/storage/438/Banner_B2C_01_1900x1300_01.jpg);
 }
