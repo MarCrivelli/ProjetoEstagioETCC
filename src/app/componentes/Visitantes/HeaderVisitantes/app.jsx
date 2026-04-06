@@ -15,7 +15,7 @@ export default function HeaderVisitantes({ tipo = "padrao" }) {
       hamburguerClass: styles.hamburguerPadrao,
     },
     linkPreto: {
-      logoSrc: "/logos/logoPreta.png", // Assumindo que você tem essa logo
+      logoSrc: "/logos/logoPreta.png",
       headerClass: styles.headerLinkPreto,
       linksClass: styles.linksPreto,
       hamburguerClass: styles.hamburguerPreto,

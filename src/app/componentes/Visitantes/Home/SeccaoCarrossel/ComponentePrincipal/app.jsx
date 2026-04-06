@@ -11,7 +11,7 @@ export default function SeccaoCarrossel() {
   const [carrosselAtivo, setCarrosselAtivo] = useState("doadores");
   const titulosCarrossel = {
     doadores: "Doadores recentes",
-    animais: "Animais Resgatados pelo Instituto Esperança",
+    animais: "Animais Resgatados",
   };
 
   //================ Botões que alternam entre os carrosséis ================//

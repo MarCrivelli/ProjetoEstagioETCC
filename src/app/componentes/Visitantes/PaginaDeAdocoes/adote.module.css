@@ -1,34 +1,16 @@
-.ajusteHeader {
-  background: linear-gradient(
-    to right,
-    #4800cd 0%,
-    #4800cd 25%,
-    #713dff 25%,
-    #713dff 50%,
-    #9067ff 50%,
-    #9067ff 75%,
-    #a888ff 75%,
-    #a888ff 100%
-  );
+.fundoPagina {
+  background-image: url(https://institutopetbrasil.com/storage/438/Banner_B2C_01_1900x1300_01.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .ajusteElementosDaPagina {
   display: flex;
   flex-direction: column;
   row-gap: 50px;
-  padding: 3% 10% 6% 10%;
+  padding: 3% 14% 6% 14%;
   min-height: calc(100vh - 70px);
-  background: linear-gradient(
-    to right,
-    #4800cd 0%,
-    #4800cd 25%,
-    #713dff 25%,
-    #713dff 50%,
-    #9067ff 50%,
-    #9067ff 75%,
-    #a888ff 75%,
-    #a888ff 100%
-  );
 }
 
 .seccao {
@@ -37,8 +19,6 @@
   row-gap: 30px;
   background-color: white;
   padding: 7% 8%;
-  border: 2px solid black;
-  box-shadow: 7px 8px 1px #2d0080c1;
   border-radius: 10px;
   position: relative;
   z-index: 1;

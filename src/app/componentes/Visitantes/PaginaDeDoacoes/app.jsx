@@ -33,7 +33,7 @@ export default function ComoDoar() {
                 Caminha de cachorro ou cobertores &#40;pode ser usado&#41;.
               </li>
             </ul>
-            <strong className={styles.strong}>Importante!</strong> A ração
+            <strong className={styles.strong}>Importante:</strong> A ração
             precisa estar totalmente fechada e na embalagem original, pois do
             contrário não aceitaremos. Além disso, não doe caminhas ou
             cobertores usados de seu pet caso o mesmo esteja com doenças ou

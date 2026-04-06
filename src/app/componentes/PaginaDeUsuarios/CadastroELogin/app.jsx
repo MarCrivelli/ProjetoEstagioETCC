@@ -308,7 +308,7 @@ export default function CadastroELogin({ onLoginSucesso }) {
               <input
                 className={styles.campoInput}
                 type="text"
-                placeholder="Digite seu nome completo"
+                placeholder="Digite seu nome de usuário"
                 value={usuario.nome}
                 onChange={(e) =>
                   setUsuario({ ...usuario, nome: e.target.value })

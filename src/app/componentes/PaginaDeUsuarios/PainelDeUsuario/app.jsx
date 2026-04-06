@@ -2,7 +2,6 @@
 
 //================ Importações externas ================//
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
 import Select from "react-select";
 
 //================ Minhas importações ================//
@@ -10,30 +9,6 @@ import styles from "./painelUsuario.module.css";
 import HeaderVisitantes from "../../Visitantes/HeaderVisitantes/app";
 import Footer from "../../Visitantes/Footer/app";
 import opcoes from "/src/app/componentes/Administradores/OpcoesDeSelecao/opcoes";
-
-// Função para gerenciar tema (exportada para uso em outros componentes)
-export const gerenciadorTema = {
-  aplicarTema: (temaEscuro) => {
-    if (temaEscuro) {
-      document.body.classList.add("tema-escuro");
-    } else {
-      document.body.classList.remove("tema-escuro");
-    }
-  },
-
-  salvarTema: (temaEscuro) => {
-    // Removido localStorage - usar apenas estado React
-    console.log("Tema salvo:", temaEscuro);
-  },
-
-  carregarTema: () => {
-    return false; // Valor padrão
-  },
-
-  obterClasseTema: (temaEscuro) => {
-    return temaEscuro ? "tema-escuro" : "tema-claro";
-  },
-};
 
 export default function PainelUsuario({
   usuarioLogado,
@@ -46,9 +21,6 @@ export default function PainelUsuario({
   );
   const [whatsappAtivado, setWhatsappAtivado] = useState(
     usuarioLogado?.receberMensagensEventos || false
-  );
-  const [temaEscuro, setTemaEscuro] = useState(
-    usuarioLogado?.tema === "escuro" || false
   );
 
   //================ Estados para exclusão de conta ================//
@@ -69,8 +41,6 @@ export default function PainelUsuario({
     if (usuarioLogado) {
       setEmailAtivado(usuarioLogado.receberEmailEventos || false);
       setWhatsappAtivado(usuarioLogado.receberMensagensEventos || false);
-      setTemaEscuro(usuarioLogado.tema === "escuro");
-      gerenciadorTema.aplicarTema(usuarioLogado.tema === "escuro");
     }
   }, [usuarioLogado]);
 
@@ -368,36 +338,6 @@ export default function PainelUsuario({
     }
   };
 
-  //================ Função para alternar tema ================//
-  const alternarTema = async (novoTemaValue) => {
-    const novoTemaEscuro = novoTemaValue === "escuro";
-    setTemaEscuro(novoTemaEscuro);
-    gerenciadorTema.aplicarTema(novoTemaEscuro);
-
-    try {
-      const urlApi = "http://localhost:3003";
-      const token = obterToken();
-
-      if (!token) {
-        console.error("Token de autenticação não encontrado");
-        return;
-      }
-
-      await fetch(`${urlApi}/usuarios/${usuarioLogado.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          tema: novoTemaValue,
-        }),
-      });
-    } catch (erro) {
-      console.error("Erro ao salvar tema no servidor:", erro);
-    }
-  };
-
   //================ Funções para exclusão de conta ================//
   const abrirOverlayExclusao = () => {
     setOverlayExclusaoAtivo(true);
@@ -472,15 +412,13 @@ export default function PainelUsuario({
       // Usuário já está conectado
       
       return (
-        <button className={`${styles.botaoDadoGoogle} contaConectada`} disabled>
-          <div className={styles.alinharIconeLog}>
+        <button className={`${styles.botaoDadoGoogle} ${styles.contaConectada}`} disabled>
             <img
               className={styles.iconeLog}
               src="/pagAutenticacao/Google.png"
               alt="Google"
             />
-          </div>
-          <label className={styles.textoBotaoLog}>Google ✓</label>
+          <label className={styles.textoBotaoLog}>Conectado</label>
         </button>
       );
     }
@@ -603,26 +541,7 @@ export default function PainelUsuario({
           </button>
         </div>
       </div>
-      <div className={styles.alinharDadoEDescricaoDado}>
-        <p className={styles.descricaoDado}>Tema do site</p>
-        <div className={styles.espacamentoDado}>
-          <Select
-            className={styles.selectDado}
-            options={opcoes.temasDoSite}
-            value={opcoes.temasDoSite.find(
-              (option) =>
-                (option.value === "escuro" && temaEscuro) ||
-                (option.value === "claro" && !temaEscuro) ||
-                option.value === usuarioLogado?.tema
-            )}
-            onChange={(opcaoSelecionada) =>
-              alternarTema(opcaoSelecionada.value)
-            }
-            placeholder="Selecione"
-            isSearchable={false}
-          />
-        </div>
-      </div>
+  
       <div className={styles.alinharDadoEDescricaoDado}>
         <p className={styles.descricaoDado}>Contas conectadas</p>
 

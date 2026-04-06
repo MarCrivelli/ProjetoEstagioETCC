@@ -29,6 +29,7 @@ export default function Card1({
   return (
     <>
       <div className={styles.containerWrapper}>
+
         <div className={styles.containerLembretes} ref={containerRef}>
           {lembretes.map((lembrete) => (
             <Lembrete
@@ -45,6 +46,7 @@ export default function Card1({
         <button className={styles.botaoAdicionar} onClick={abrirFormulario}>
           +
         </button>
+        
       </div>
 
       {mostrarFormulario && (

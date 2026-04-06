@@ -4,10 +4,8 @@ import styles from "./adote.module.css";
 
 export default function QueroAdotar() {
   return (
-    <>
-      <div className={styles.ajusteHeader}>
-        <Header />
-      </div>
+    <div className={styles.fundoPagina}>
+      <Header />
       <div className={styles.ajusteElementosDaPagina}>
         <div className={styles.seccao}>
           <h1>
@@ -63,13 +61,13 @@ export default function QueroAdotar() {
           <p>
             Vale ressaltar que podemos fazer visitas surpresa na casa do novo
             pai de pet, além de, caso necessário, buscar informações com a
-            vizinhança. Caso seja determinado que o animal não têm condições
-            de ficar no local, podemos trazer o animal de volta para o
-            Instituto. Recomendamos que não minta na hora da avaliação.
+            vizinhança. Caso seja determinado que o animal não têm condições de
+            ficar no local, podemos trazer o animal de volta para o Instituto.
+            Recomendamos que não minta na hora da avaliação.
           </p>
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }

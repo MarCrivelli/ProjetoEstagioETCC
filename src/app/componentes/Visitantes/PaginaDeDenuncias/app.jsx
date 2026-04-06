@@ -93,10 +93,8 @@ export default function Denuncie() {
     setEstadoSelecionado(selectedOption);
   };
   return (
-    <>
-      <div className={styles.ajusteHeader}>
-        <Header />
-      </div>
+    <div className={styles.fundoPagina}>
+      <Header />
       <div className={styles.ajusteElementosDaPagina}>
         <div className={styles.seccao}>
           <h1>
@@ -128,23 +126,23 @@ export default function Denuncie() {
             {/* Mostra o link se um estado foi selecionado */}
             {estadoSelecionado && (
               <p>
-                Para acessar a delegacia virtual de {estadoSelecionado.label}, clique aqui:{" "}
+                Para acessar a delegacia virtual de {estadoSelecionado.label},
+                clique aqui:{" "}
                 <a
                   href={estadoSelecionado.link}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.link}
                 >
-                   {estadoSelecionado.link}
+                  {estadoSelecionado.link}
                 </a>
-                
               </p>
             )}
           </div>
           <p>
             <strong className={styles.strong}>Dica 3: </strong> Você pode ligar
             para a polícia ambiental ou militar para essas situações também,
-            especialmente se a ocorrência envolver animais silvestres 
+            especialmente se a ocorrência envolver animais silvestres
             &#40;animais que não são domesticos, que vivem na natureza&#41;.
           </p>
         </div>
@@ -202,6 +200,6 @@ export default function Denuncie() {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }

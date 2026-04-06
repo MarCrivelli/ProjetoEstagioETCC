@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 require("dotenv").config();
 
 // ═══════════════════════════════════════════════════════════════
-// 🔐 CONFIGURAÇÕES DO ADMINISTRADOR FIXO
+// CONFIGURAÇÕES DO ADMINISTRADOR FIXO
 // ═══════════════════════════════════════════════════════════════
 const ADMIN_FIXO = {
   nome: "",
@@ -12,14 +12,13 @@ const ADMIN_FIXO = {
   senha: "#instEsperanca_Admin123",
   nivelDeAcesso: "administrador",
   telefone: "",
-  tema: "claro",
   receberEmailEventos: false,
   receberMensagensEventos: false,
   ativo: true,
 };
 
 // ═══════════════════════════════════════════════════════════════
-// 🚀 FUNÇÃO PARA CRIAR ADMINISTRADOR FIXO
+// FUNÇÃO PARA CRIAR ADMINISTRADOR FIXO
 // ═══════════════════════════════════════════════════════════════
 const garantirAdminFixo = async () => {
   try {
@@ -56,7 +55,6 @@ const garantirAdminFixo = async () => {
       senha: senhaCriptografada,
       nivelDeAcesso: ADMIN_FIXO.nivelDeAcesso,
       telefone: ADMIN_FIXO.telefone,
-      tema: ADMIN_FIXO.tema,
       receberEmailEventos: ADMIN_FIXO.receberEmailEventos,
       receberMensagensEventos: ADMIN_FIXO.receberMensagensEventos,
       ativo: ADMIN_FIXO.ativo,
@@ -87,11 +85,6 @@ const validarTelefone = (telefone) => {
   return phoneRegex.test(telefone.replace(/\s/g, ""));
 };
 
-const validarTema = (tema) => {
-  const temasPermitidos = ["claro", "escuro", "automatico"];
-  return temasPermitidos.includes(tema);
-};
-
 const limparTelefone = (telefone) => {
   if (!telefone) return null;
   // Remove espaços e caracteres especiais, mantém apenas números e +
@@ -108,7 +101,6 @@ const cadastrarUsuario = async (req, res) => {
     senha,
     email,
     telefone,
-    tema = "claro",
     receberEmailEventos = true,
     receberMensagensEventos = true,
   } = req.body;
@@ -145,13 +137,6 @@ const cadastrarUsuario = async (req, res) => {
     });
   }
 
-  if (tema && !validarTema(tema)) {
-    return res.status(400).json({
-      erro: true,
-      mensagem: "Tema deve ser: claro, escuro ou automatico",
-    });
-  }
-
   try {
     const usuarioExistente = await Usuario.findOne({ where: { email } });
     if (usuarioExistente) {
@@ -168,7 +153,6 @@ const cadastrarUsuario = async (req, res) => {
       senha: senhaCriptografada,
       email: email.toLowerCase().trim(),
       telefone: limparTelefone(telefone),
-      tema: tema || "claro",
       receberEmailEventos: receberEmailEventos !== false,
       receberMensagensEventos: receberMensagensEventos !== false,
       nivelDeAcesso: "usuario",
@@ -195,7 +179,6 @@ const cadastrarUsuario = async (req, res) => {
         nome: novoUsuario.nome,
         email: novoUsuario.email,
         telefone: novoUsuario.telefone,
-        tema: novoUsuario.tema,
         receberEmailEventos: novoUsuario.receberEmailEventos,
         receberMensagensEventos: novoUsuario.receberMensagensEventos,
         nivelDeAcesso: novoUsuario.nivelDeAcesso,
@@ -289,7 +272,6 @@ const autenticarUsuario = async (req, res) => {
         nome: usuario.nome,
         email: usuario.email,
         telefone: usuario.telefone,
-        tema: usuario.tema,
         receberEmailEventos: usuario.receberEmailEventos,
         receberMensagensEventos: usuario.receberMensagensEventos,
         nivelDeAcesso: usuario.nivelDeAcesso,
@@ -337,7 +319,6 @@ const loginComGoogle = async (req, res) => {
         senha: senhaCriptografada,
         googleId: googleId,
         foto: foto,
-        tema: "claro", // Tema padrão
         receberEmailEventos: true,
         receberMensagensEventos: true,
         nivelDeAcesso: "usuario",
@@ -381,7 +362,6 @@ const loginComGoogle = async (req, res) => {
         nome: usuario.nome,
         email: usuario.email,
         telefone: usuario.telefone,
-        tema: usuario.tema,
         receberEmailEventos: usuario.receberEmailEventos,
         receberMensagensEventos: usuario.receberMensagensEventos,
         nivelDeAcesso: usuario.nivelDeAcesso,
@@ -418,7 +398,6 @@ const encontrarUsuario = async (req, res) => {
         "nome",
         "email",
         "telefone",
-        "tema",
         "receberEmailEventos",
         "receberMensagensEventos",
         "nivelDeAcesso",
@@ -460,7 +439,6 @@ const procurarUsuarios = async (req, res) => {
         "nome",
         "email",
         "telefone",
-        "tema",
         "receberEmailEventos",
         "receberMensagensEventos",
         "nivelDeAcesso",
@@ -537,7 +515,6 @@ const modificarDadosUsuario = async (req, res) => {
     senha,
     email,
     telefone,
-    tema,
     receberEmailEventos,
     receberMensagensEventos,
     foto,
@@ -644,16 +621,6 @@ const modificarDadosUsuario = async (req, res) => {
       dadosParaAtualizar.telefone = limparTelefone(telefone);
     }
 
-    if (tema) {
-      if (!validarTema(tema)) {
-        return res.status(400).json({
-          erro: true,
-          mensagem: "Tema deve ser: claro, escuro ou automatico",
-        });
-      }
-      dadosParaAtualizar.tema = tema;
-    }
-
     if (receberEmailEventos !== undefined) {
       dadosParaAtualizar.receberEmailEventos = Boolean(receberEmailEventos);
     }
@@ -699,7 +666,6 @@ const modificarDadosUsuario = async (req, res) => {
         "nome",
         "email",
         "telefone",
-        "tema",
         "receberEmailEventos",
         "receberMensagensEventos",
         "nivelDeAcesso",

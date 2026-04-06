@@ -116,9 +116,7 @@
 
 @media (max-width: 768px) {
   .setaCarrossel {
-    width: 30px;
-    height: 30px;
-    font-size: .8rem;
+    display: none;
   }
   .bordaImagem {
     width: 120px;

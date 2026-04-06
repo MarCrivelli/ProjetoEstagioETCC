@@ -69,11 +69,6 @@ const descricoes = [
   { value: "descricaoSaida", label: "Descrição de saída" },
 ];
 
-const temasDoSite = [
-  { value: "claro", label: "Tema claro" },
-  { value: "escuro", label: "Tema escuro" },
-];
-
 // Função para obter o label a partir do value
 export const vincularLabel = (value, optionType) => {
   if (!value) return "";
@@ -89,7 +84,6 @@ export const vincularLabel = (value, optionType) => {
     StatusMicrochipagem,
     StatusVermifugacao,
     descricoes,
-    temasDoSite,
   }[optionType];
 
   const found = options?.find((opt) => opt.value === value);
@@ -109,5 +103,4 @@ export default {
   StatusVermifugacao,
   descricoes,
   vincularLabel,
-  temasDoSite,
 };

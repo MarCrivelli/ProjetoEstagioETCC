@@ -27,8 +27,7 @@ export default function FuncoesDeAdministrador() {
   const nivelDeAcesso = [
     { value: "administrador", label: "Administrador" },
     { value: "subAdministrador", label: "Sub-administrador" },
-    { value: "contribuinte", label: "Contribuinte" },
-    { value: "usuario", label: "Usuário" }
+    { value: "contribuinte", label: "Contribuinte" }
   ];
 
   // Carregar lista de usuários quando o componente é montado

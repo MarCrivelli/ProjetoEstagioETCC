@@ -4,10 +4,8 @@ import styles from "./saudeUnica.module.css";
 
 export default function SaudeUnica() {
   return (
-    <>
-      <div className={styles.ajusteHeader}>
-        <Header />
-      </div>
+    <div className={styles.fundoPagina}>
+      <Header />
       <div className={styles.ajusteElementosDaPagina}>
         <div className={styles.seccao}>
           <h1>O que é Saúde Única?</h1>
@@ -77,6 +75,6 @@ export default function SaudeUnica() {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }

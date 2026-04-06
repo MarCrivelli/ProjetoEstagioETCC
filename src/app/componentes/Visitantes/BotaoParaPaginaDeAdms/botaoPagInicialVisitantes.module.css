@@ -20,8 +20,8 @@
 }
 
 .botaoPagInicial img {
-  width: 45%;
-  height: 45%;
+  width: 55%;
+  height: 55%;
   opacity: 0;
   transition: opacity 0.6s ease-in-out;
 }

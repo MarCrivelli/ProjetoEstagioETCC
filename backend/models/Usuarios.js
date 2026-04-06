@@ -42,14 +42,6 @@ const Usuario = connection.sequelize.define("db_usuario", {
       },
     },
   },
-  tema: {
-    type: connection.Sequelize.STRING,
-    allowNull: false,
-    defaultValue: "claro",
-    validate: {
-      isIn: [["claro", "escuro", "automatico"]], // Valores permitidos
-    },
-  },
   receberEmailEventos: {
     type: connection.Sequelize.BOOLEAN,
     allowNull: false,

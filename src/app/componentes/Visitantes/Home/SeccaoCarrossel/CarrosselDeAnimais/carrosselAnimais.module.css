@@ -197,6 +197,7 @@
   .itemCarrosselAnimal {
     padding: 0 10px 0 10px;
     min-height: 0;
+    padding-bottom: 50px;
   }
 
   .conteudoAnimal {
@@ -218,7 +219,7 @@
   }
 
   .imagemAnimal {
-    max-height: 207px;
+    max-height: 400px;
     min-height: 207px;
   }
 
@@ -232,10 +233,8 @@
   }
 
   .botaoProximo {
-    padding: 10px 20px;
-    color: rgb(255, 255, 255);
-    font-size: 0.8rem;
-    margin: 0 0 0 0;
+    margin-top: 10px;
+    font-size: .8rem;
     max-width: 200px;
   }
 
@@ -246,7 +245,7 @@
   }
 }
 
-@media (max-width: 768px){
+@media (max-width: 768px) {
   .containerCarregamento,
   .containerErro,
   .containerVazio {
@@ -260,7 +259,7 @@
 
   .mensagemErro,
   .containerCarregamento p {
-    font-size: .8rem;
+    font-size: 0.8rem;
   }
 
   .mensagemVazia {
@@ -270,6 +269,13 @@
 
   .botaoTentarNovamente {
     padding: 6px 17px;
-    font-size: .7rem;
+    font-size: 0.7rem;
+  }
+  .setaCarrossel {
+    display: none;
+  }
+  .botaoProximo {
+    padding-block: 5px;
+    width: 180px;
   }
 }

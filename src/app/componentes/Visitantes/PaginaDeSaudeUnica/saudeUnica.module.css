@@ -1,4 +1,4 @@
-.ajusteHeader {
+.fundoPagina{
   background: linear-gradient(
     to right,
     #8B322C 0%,
@@ -18,17 +18,6 @@
   row-gap: 50px;
   padding: 3% 10% 6% 10%;
   min-height: calc(100vh - 70px);
-  background: linear-gradient(
-    to right,
-    #8B322C 0%,
-    #8B322C 25%,
-    #DD5746 25%,
-    #DD5746 50%,
-    #FFC470 50%,
-    #FFC470 75%,
-    #4793AF 75%,
-    #4793AF 100%
-  );
 }
 
 .seccao {

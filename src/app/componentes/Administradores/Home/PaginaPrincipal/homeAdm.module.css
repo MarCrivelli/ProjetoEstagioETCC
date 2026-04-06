@@ -40,7 +40,6 @@
 
 .card1 {
   grid-row: 1 / 11;
-  position: relative;
   border-radius: 10px;
   padding: 0 20px 20px 20px;
 }

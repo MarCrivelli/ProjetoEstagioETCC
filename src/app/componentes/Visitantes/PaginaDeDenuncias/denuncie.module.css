@@ -1,4 +1,4 @@
-.ajusteHeader {
+.fundoPagina {
   background: linear-gradient(
     to right,
     #143D60 0%,
@@ -41,7 +41,6 @@
   box-shadow: 7px 8px 1px #173d49c2;
   border-radius: 10px;
   position: relative;
-  z-index: 1;
 }
 
 .seccao h1 {
