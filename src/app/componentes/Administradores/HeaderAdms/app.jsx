@@ -28,16 +28,6 @@ export default function HeaderAdms() {
     carregarUsuario();
   }, []);
 
-  // Função para fazer logout
-  const handleLogout = () => {
-    localStorage.removeItem("usuario");
-    localStorage.removeItem("token");
-    setUsuarioLogado(null);
-    console.log("🚪 Usuário deslogado");
-    // Opcional: redirecionar para página de login
-    // window.location.href = '/autenticar';
-  };
-
   // Fecha o menu quando a tela for redimensionada para mais de 700px
   useEffect(() => {
     const handleResize = () => {

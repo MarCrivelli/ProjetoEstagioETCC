@@ -1,9 +1,19 @@
 import Header from "../HeaderVisitantes/app";
 import Footer from "../Footer/app";
 import { Carousel } from "react-responsive-carousel";
+import carregarAnimais from "../../CarregarAnimais/carregarAnimais";
 import styles from "./adote.module.css";
 
 export default function QueroAdotar() {
+  const { animaisFiltrados, carregando, erro } = carregarAnimais({
+    // removerAnimaisQuePossuam: {
+    //   statusAdocao: "adotado",
+    // },
+  });
+
+  if (carregando) return <p>Carregando...</p>;
+  if (erro) return <p>Erro: {erro}</p>;
+
   return (
     <>
       <div className={styles.containerParallax}>
@@ -16,8 +26,27 @@ export default function QueroAdotar() {
           </section>
 
           <section className={`${styles.modulo} ${styles.conteudo}`}>
-            <Carousel>
-              
+            <Carousel
+              className={styles.carrossel}
+              showThumbs={false}
+              showStatus={false}
+              infiniteLoop={true}
+              swipeable={true}
+              emulateTouch={true}
+              preventMovementUntilSwipeScrollTolerance={true}
+              swipeScrollTolerance={40}
+            >
+              {animaisFiltrados.map((animal) => (
+                <div className={styles.painelCarrossel} key={animal.id}>
+                  <div className={styles.cardAnimal}>
+                    <img
+                      src={`http://localhost:3003/uploads/${animal.imagem}`}
+                      alt={animal.nome}
+                    />
+                    <h1>{animal.nome}</h1>
+                  </div>
+                </div>
+              ))}
             </Carousel>
           </section>
 

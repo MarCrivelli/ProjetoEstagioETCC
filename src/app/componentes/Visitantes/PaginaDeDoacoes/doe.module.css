@@ -1,5 +1,5 @@
 .fundoDaPagina{
-  background: linear-gradient(
+  /* background: linear-gradient(
     to right,
     #06202B 0%,
     #06202B 25%,
@@ -9,7 +9,7 @@
     #7AE2CF 75%,
     #F5EEDD 75%,
     #F5EEDD 100%
-  );
+  ); */
 }
 
 .ajusteElementosDaPagina {

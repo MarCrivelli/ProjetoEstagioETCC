@@ -28,7 +28,7 @@ const Animais = connection.sequelize.define(
     statusMicrochipagem: {
       type: connection.Sequelize.STRING,
       allowNull: false,
-      field: "status_microchipagem", // Define o nome da coluna no banco
+      field: "status_microchipagem", 
     },
     statusVacinacao: {
       type: connection.Sequelize.STRING,

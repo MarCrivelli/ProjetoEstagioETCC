@@ -12,10 +12,6 @@ main{
   width: 100%;
 }
 
-section.modulo.conteudo{
-  padding: 20px;
-}
-
 section.modulo.conteudo p{
   /* background-color: rgb(0, 208, 255);
   border: 3px solid black; */
@@ -89,4 +85,48 @@ section.modulo.parallax2{
 
 section.modulo.parallax3{
   background-image: url(https://institutopetbrasil.com/storage/438/Banner_B2C_01_1900x1300_01.jpg);
+}
+
+.carrossel{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(
+    to right,
+    #8b322c 0%,
+    #8b322c 25%,
+    #dd5746 25%,
+    #dd5746 50%,
+    #ffcf54 50%,
+    #ffcf54 75%,
+    #4793af 75%,
+    #4793af 100%
+  );
+  padding: 100px 0;
+}
+
+.painelCarrossel{
+  display: flex;
+  /* background-color: white;
+  border: 3px solid black; */
+  padding-block: 40px 20px;
+  border-radius: 20px;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.cardAnimal{
+  margin: 0 auto;
+  object-fit: scale-down;
+  width: 400px;
+  height: 500px;
+  background-color: white;
+}
+
+.cardAnimal img{
+  max-height: 400px;
+  border-radius: 20px;
+}
+
+.cardAnimal h1{
 }
