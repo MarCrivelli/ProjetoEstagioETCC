@@ -3,15 +3,11 @@
   flex-direction: column;
   background-color: white;
   height: 500px;
-  flex: 1 390px;
+  flex: 1 380px;
   box-shadow: 5px 5px 1px #000000ac;
   border: 2px solid black;
   padding: 10px;
   max-width: 390px;
-}
-
-.cardAnimais:last-of-type {
-  margin-right: auto;
 }
 
 .divImagem {

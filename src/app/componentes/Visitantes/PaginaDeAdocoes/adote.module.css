@@ -17,14 +17,17 @@ section.modulo.conteudo{
 }
 
 section.modulo.conteudo p{
-  background-color: rgb(0, 208, 255);
+  /* background-color: rgb(0, 208, 255);
+  border: 3px solid black; */
   padding: 30px;
-  border: 3px solid black;
+}
+
+section.modulo.conteudo p strong{
+  color: #096e00;
 }
 
 .instrucoes{
   display: flex;
-  background-color: blueviolet;
 }
 
 section.modulo.parallax{
@@ -53,7 +56,7 @@ section.modulo.parallax:after{
   width: 100%;
   position: absolute;
   z-index: 10;
-  background: linear-gradient(to bottom, rgba(0,0,0,0) 0, rgba(0,0,0,0) 40%, #000000cf 100%);
+  background: linear-gradient(to bottom, #03051b76 0, #03051b76 40%, #03051bda 100%);
 }
 
 section.modulo.parallax h1{
@@ -61,11 +64,23 @@ section.modulo.parallax h1{
   color: white;
   font-size: 5rem;
   z-index: 50;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  animation: efeitoDeslizanteTitulo .8s ease-out forwards;
+}
+
+
+@keyframes efeitoDeslizanteTitulo {
+  from {
+    transform: translateY(30vw);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0vw);
+    opacity: 1;
+  }
 }
 
 section.modulo.parallax1{
-  background-image: url(https://institutopetbrasil.com/storage/438/Banner_B2C_01_1900x1300_01.jpg);
+  background-image: url(https://institutofaunabrasil.org.br/wp-content/uploads/2024/02/Banner-site-sem-granu4.jpg);
 }
 
 section.modulo.parallax2{
