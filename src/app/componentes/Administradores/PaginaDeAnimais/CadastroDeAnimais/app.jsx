@@ -1,9 +1,9 @@
 import styles from "./cadastroDeAnimais.module.css";
 import { useState } from "react";
 import Select from "react-select";
-import opcoes from '/src/app/componentes/Administradores/OpcoesDeSelecao/opcoes';
+import opcoes from "/src/app/componentes/Administradores/OpcoesDeSelecao/opcoes";
 
-export default function CadastroDeAnimais({ animais, setAnimais, onClose }) {
+export default function CadastroDeAnimais({ onAnimalCadastrado, onClose }) {
   const [nome, setNome] = useState("");
   const [idade, setIdade] = useState("");
   const [sexo, setSexo] = useState("");
@@ -60,20 +60,22 @@ export default function CadastroDeAnimais({ animais, setAnimais, onClose }) {
       });
 
       if (resposta.ok) {
-        const novoAnimal = await resposta.json();
-        
-        // Atualiza o estado de forma imutável
-        setAnimais(prevAnimais => [...prevAnimais, novoAnimal.animal]);
-        
+        await resposta.json();
+
+        if (onAnimalCadastrado) {
+          await onAnimalCadastrado();
+        }
+
         alert("Animal cadastrado com sucesso!");
         resetForm();
-        
-        // Fecha o modal se existir
+
         if (onClose) onClose();
       } else {
         const erro = await resposta.json();
         console.error("Erro ao cadastrar animal:", erro);
-        alert(`Erro ao cadastrar o animal: ${erro.message || "Erro desconhecido"}`);
+        alert(
+          `Erro ao cadastrar o animal: ${erro.message || "Erro desconhecido"}`,
+        );
       }
     } catch (error) {
       console.error("Erro ao cadastrar animal:", error);
@@ -212,15 +214,14 @@ export default function CadastroDeAnimais({ animais, setAnimais, onClose }) {
       </div>
 
       <div className={styles.alinharBotaoInserir}>
-        <button 
-          className={styles.botaoInserir} 
+        <button
+          className={styles.botaoInserir}
           type="submit"
           disabled={isLoading}
         >
           {isLoading ? "Cadastrando..." : "Inserir animal"}
         </button>
       </div>
-      
     </form>
   );
 }

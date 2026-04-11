@@ -79,8 +79,8 @@ export default function ExibicaoDeAnimais({
               <img
                 className={styles.imagemAnimais}
                 src={
-                  animal.imagem
-                    ? `http://localhost:3003/uploads/${animal.imagem}`
+                  animal.imagemEntrada
+                    ? `http://localhost:3003/uploads/${animal.imagemEntrada}`
                     : "/pagFichasDAnimais/imagemTeste.jpg"
                 }
                 alt="Imagem do animal"

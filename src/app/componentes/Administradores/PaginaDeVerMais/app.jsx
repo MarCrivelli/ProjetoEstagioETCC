@@ -304,7 +304,7 @@ export default function VerMais() {
     const endpoint =
       tipoCampo === "imagemSaida"
         ? `http://localhost:3003/animais/${id}/imagem-saida`
-        : `http://localhost:3003/animais/${id}/imagem`;
+        : `http://localhost:3003/animais/${id}/imagem-entrada`;
 
     const dadosFormulario = new FormData();
     dadosFormulario.append(tipoCampo, imagemPendente.arquivo);
@@ -339,7 +339,7 @@ export default function VerMais() {
 
       // Upload das imagens pendentes
       if (imagemEntradaPendente) {
-        await uploadImagemParaServidor(imagemEntradaPendente, "imagem");
+        await uploadImagemParaServidor(imagemEntradaPendente, "imagemEntrada");
         setImagemEntradaPendente(null);
       }
 
@@ -445,8 +445,8 @@ export default function VerMais() {
     if (imagemEntradaPendente) {
       return imagemEntradaPendente.url;
     }
-    return dadosOriginais.imagem
-      ? `http://localhost:3003/uploads/${dadosOriginais.imagem}`
+    return dadosOriginais.imagemEntrada
+      ? `http://localhost:3003/uploads/${dadosOriginais.imagemEntrada}`
       : "/pagFichasDAnimais/imagemTeste.jpg";
   };
 
@@ -589,7 +589,7 @@ export default function VerMais() {
                     <input
                       type="file"
                       onChange={(e) =>
-                        processarUploadImagem(e.target.files[0], "imagem")
+                        processarUploadImagem(e.target.files[0], "imagemEntrada")
                       }
                       style={{ display: "none" }}
                       accept="image/*"
@@ -618,8 +618,8 @@ export default function VerMais() {
               style={{
                 backgroundImage: obterUrlImagemSaida() 
                   ? `url(${obterUrlImagemSaida()})`
-                  : dadosOriginais.imagem
-                  ? `url(http://localhost:3003/uploads/${dadosOriginais.imagem})`
+                  : dadosOriginais.imagemEntrada
+                  ? `url(http://localhost:3003/uploads/${dadosOriginais.imagemEntrada})`
                   : "none",
               }}
             >

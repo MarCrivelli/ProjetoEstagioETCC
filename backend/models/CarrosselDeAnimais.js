@@ -1,33 +1,37 @@
 const connection = require("../config/connection");
 
-const CarrosselDeAnimais = connection.sequelize.define("carrossel_animais", {
-  id: {
-    type: connection.Sequelize.INTEGER,
-    autoIncrement: true,
-    allowNull: false,
-    primaryKey: true,
+const CarrosselDeAnimais = connection.sequelize.define(
+  "carrossel_animais",
+  {
+    id: {
+      type: connection.Sequelize.INTEGER,
+      autoIncrement: true,
+      allowNull: false,
+      primaryKey: true,
+    },
+    animalId: {
+      type: connection.Sequelize.INTEGER,
+      allowNull: false,
+      references: {
+        model: "animais",
+        key: "id",
+      },
+    },
+    descricaoSaida: {
+      type: connection.Sequelize.TEXT,
+      allowNull: true,
+      field: "descricao_saida",
+    },
+    ordem: {
+      type: connection.Sequelize.INTEGER,
+      allowNull: false,
+    },
   },
-  animalId: {
-    type: connection.Sequelize.INTEGER,
-    allowNull: false,
-    references: {
-      model: 'animais',
-      key: 'id'
-    }
+  {
+    tableName: "carrossel_animais",
+    underscored: true,
+    timestamps: true,
   },
-  descricao_saida: {
-    type: connection.Sequelize.TEXT,
-    allowNull: true
-  },
-  ordem: {
-    type: connection.Sequelize.INTEGER,
-    allowNull: false
-  }
-}, {
-  tableName: 'carrossel_animais',
-  underscored: true,
-  timestamps: true // Adicione para consistência
-});
-
+);
 
 module.exports = CarrosselDeAnimais;

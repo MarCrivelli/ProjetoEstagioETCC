@@ -2,6 +2,7 @@ import styles from "./filtroDeAnimais.module.css";
 import Select from "react-select";
 import { useState, useRef } from "react";
 import opcoes from "/src/app/componentes/Administradores/OpcoesDeSelecao/opcoes";
+import { criarFiltrosAnimaisPadrao } from "../../../GerenciarDadosAnimais/FiltrarAnimais/filtrarAnimais";
 
 export default function FiltroDeAnimais({ filtros, setFiltros }) {
   const [termoPesquisa, setTermoPesquisa] = useState(filtros.nome || "");
@@ -28,18 +29,7 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
 
   const limparTodosFiltros = () => {
     setTermoPesquisa("");
-    setFiltros({
-      tipo: [],
-      idade: [],
-      sexo: [],
-      statusVacinacao: [],
-      dataVacinacao: [],
-      statusCastracao: [],
-      statusAdocao: [],
-      statusMicrochipagem: [],
-      statusVermifugacao: [],
-      nome: "",
-    });
+    setFiltros(criarFiltrosAnimaisPadrao());
 
     // Resetar os componentes Select visualmente
     tipoSelectRef.current?.clearValue();
@@ -77,7 +67,7 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
             onChange={(selectedOptions) =>
               setFiltros((prev) => ({
                 ...prev,
-                idade: selectedOptions.map((opt) => opt.value),
+                idade: (selectedOptions || []).map((opt) => opt.value),
               }))
             }
             className={styles.selectFiltrarAnimal}
@@ -96,7 +86,7 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
             onChange={(selectedOptions) =>
               setFiltros((prev) => ({
                 ...prev,
-                sexo: selectedOptions.map((opt) => opt.value),
+                sexo: (selectedOptions || []).map((opt) => opt.value),
               }))
             }
             className={styles.selectFiltrarAnimal}
@@ -115,7 +105,7 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
             onChange={(selectedOptions) =>
               setFiltros((prev) => ({
                 ...prev,
-                tipo: selectedOptions.map((opt) => opt.value),
+                tipo: (selectedOptions || []).map((opt) => opt.value),
               }))
             }
             className={styles.selectFiltrarAnimal}
@@ -136,7 +126,7 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
             onChange={(selectedOptions) =>
               setFiltros((prev) => ({
                 ...prev,
-                statusMicrochipagem: selectedOptions.map((opt) => opt.value),
+                statusMicrochipagem: (selectedOptions || []).map((opt) => opt.value),
               }))
             }
             className={styles.selectFiltrarAnimal}
@@ -159,7 +149,7 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
             onChange={(selectedOptions) =>
               setFiltros((prev) => ({
                 ...prev,
-                statusVacinacao: selectedOptions.map((opt) => opt.value),
+                statusVacinacao: (selectedOptions || []).map((opt) => opt.value),
               }))
             }
             className={styles.selectFiltrarAnimal}
@@ -178,7 +168,7 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
             onChange={(selectedOptions) =>
               setFiltros((prev) => ({
                 ...prev,
-                dataVacinacao: selectedOptions.map((opt) => opt.value),
+                dataVacinacao: (selectedOptions || []).map((opt) => opt.value),
               }))
             }
             className={styles.selectFiltrarAnimal}
@@ -197,7 +187,7 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
             onChange={(selectedOptions) =>
               setFiltros((prev) => ({
                 ...prev,
-                statusCastracao: selectedOptions.map((opt) => opt.value),
+                statusCastracao: (selectedOptions || []).map((opt) => opt.value),
               }))
             }
             className={styles.selectFiltrarAnimal}
@@ -216,7 +206,7 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
             onChange={(selectedOptions) =>
               setFiltros((prev) => ({
                 ...prev,
-                statusAdocao: selectedOptions.map((opt) => opt.value),
+                statusAdocao: (selectedOptions || []).map((opt) => opt.value),
               }))
             }
             className={styles.selectFiltrarAnimal}
@@ -237,7 +227,7 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
             onChange={(selectedOptions) =>
               setFiltros((prev) => ({
                 ...prev,
-                statusVermifugacao: selectedOptions.map((opt) => opt.value),
+                statusVermifugacao: (selectedOptions || []).map((opt) => opt.value),
               }))
             }
             className={styles.selectFiltrarAnimal}
@@ -256,10 +246,6 @@ export default function FiltroDeAnimais({ filtros, setFiltros }) {
           Limpar todos os filtros
         </button>
       </div>
-
-      {/* <div className={styles.divLimparFiltro}>
-        
-      </div> */}
     </div>
   );
 }

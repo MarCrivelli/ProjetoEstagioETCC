@@ -1,7 +1,7 @@
 import Header from "../HeaderVisitantes/app";
 import Footer from "../Footer/app";
 import { Carousel } from "react-responsive-carousel";
-import carregarAnimais from "../../CarregarAnimais/carregarAnimais";
+import carregarAnimais from "../../GerenciarDadosAnimais/CarregarAnimais/carregarAnimais";
 import styles from "./adote.module.css";
 
 export default function QueroAdotar() {
@@ -40,7 +40,7 @@ export default function QueroAdotar() {
                 <div className={styles.painelCarrossel} key={animal.id}>
                   <div className={styles.cardAnimal}>
                     <img
-                      src={`http://localhost:3003/uploads/${animal.imagem}`}
+                      src={`http://localhost:3003/uploads/${animal.imagemEntrada}`}
                       alt={animal.nome}
                     />
                     <h1>{animal.nome}</h1>

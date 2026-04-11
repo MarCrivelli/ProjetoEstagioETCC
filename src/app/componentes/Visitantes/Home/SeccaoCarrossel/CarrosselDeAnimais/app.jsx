@@ -38,13 +38,13 @@ export default function CarrosselDeAnimaisVisitantes({ ehMobile }) {
             .map(item => ({
               id: item.animal.id,
               nome: item.animal.nome || "Animal sem nome",
-              antes: item.animal.imagem 
-                ? `http://localhost:3003/uploads/${item.animal.imagem}`
+              antes: item.animal.imagemEntrada 
+                ? `http://localhost:3003/uploads/${item.animal.imagemEntrada}`
                 : "/placeholder-image.jpg",
               depois: item.animal.imagemSaida 
                 ? `http://localhost:3003/uploads/${item.animal.imagemSaida}`
                 : "/placeholder-image.jpg",
-              descricaoAntes: item.animal.descricao || "Sem descrição de entrada",
+              descricaoAntes: item.animal.descricaoEntrada || "Sem descrição de entrada",
               descricaoDepois: item.descricaoSaida || item.animal.descricaoSaida || "Sem descrição de saída"
             }))
         : [];

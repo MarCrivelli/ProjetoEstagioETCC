@@ -59,41 +59,41 @@ export default function CarrosselAnimais() {
     try {
       setCarregando(true);
       console.log("🔄 Iniciando carregamento de animais...");
-      
+
       // Carregar animais disponíveis para seleção
       const responseAnimais = await fetch(
-        "http://localhost:3003/carrossel/animais/selecao"
+        "http://localhost:3003/carrossel/animais/selecao",
       );
-      
+
       if (!responseAnimais.ok) {
         throw new Error(`Erro HTTP: ${responseAnimais.status}`);
       }
-      
+
       const dataAnimais = await responseAnimais.json();
       console.log("📦 Dados brutos dos animais:", dataAnimais);
 
       // Carregar animais já no carrossel
       const responseCarrossel = await fetch(
-        "http://localhost:3003/carrossel/animais"
+        "http://localhost:3003/carrossel/animais",
       );
-      
+
       if (!responseCarrossel.ok) {
         throw new Error(`Erro HTTP: ${responseCarrossel.status}`);
       }
-      
+
       const dataCarrossel = await responseCarrossel.json();
       console.log("🎠 Dados do carrossel:", dataCarrossel);
 
       // Extrair IDs dos animais já no carrossel
       const animaisNoCarrossel = [];
       if (dataCarrossel && Array.isArray(dataCarrossel.data)) {
-        dataCarrossel.data.forEach(item => {
+        dataCarrossel.data.forEach((item) => {
           if (item && item.animal && item.animal.id) {
             animaisNoCarrossel.push(item.animal.id);
           }
         });
       }
-      
+
       console.log("🎠 IDs dos animais já no carrossel:", animaisNoCarrossel);
 
       // Verificar se dataAnimais é um array
@@ -106,13 +106,13 @@ export default function CarrosselAnimais() {
       // ANÁLISE DETALHADA DOS DADOS - Vamos ver EXATAMENTE o que temos
       console.log("🔬 ANÁLISE COMPLETA DOS DADOS:");
       console.log("Total de animais recebidos:", dataAnimais.length);
-      
+
       dataAnimais.forEach((animal, index) => {
         console.log(`\n🐾 ======= ANIMAL ${index} =======`);
         console.log("Objeto completo:", animal);
         console.log("Tipo do objeto:", typeof animal);
         console.log("Chaves disponíveis:", Object.keys(animal || {}));
-        
+
         if (animal) {
           console.log("📋 TODOS OS CAMPOS DO ANIMAL:");
           Object.entries(animal).forEach(([key, value]) => {
@@ -125,16 +125,12 @@ export default function CarrosselAnimais() {
       // Filtrar animais disponíveis - TEMPORARIAMENTE MAIS PERMISSIVO PARA TESTE
       const animaisDisponiveis = dataAnimais.filter((animal, index) => {
         console.log(`\n🔍 ===== VALIDAÇÃO ANIMAL ${index} =====`);
-        
+
         // Verificações básicas
         if (!animal || !animal.id) {
           console.log(`❌ Animal ${index}: sem ID ou objeto nulo`);
           return false;
         }
-
-        // Para DEBUG: vamos ser mais flexíveis temporariamente
-        const temNome = !!(animal.nome || animal.name || animal.Nome || animal.Name);
-        console.log(`📝 Nome encontrado: ${temNome}`);
 
         // Verificar se não está no carrossel
         const naoEstaNoCarrossel = !animaisNoCarrossel.includes(animal.id);
@@ -142,10 +138,12 @@ export default function CarrosselAnimais() {
 
         // TEMPORÁRIO: vamos aceitar animais só com nome para ver se aparecem no Select
         const isValidTemporario = temNome && naoEstaNoCarrossel;
-        
-        console.log(`🧪 TESTE TEMPORÁRIO - Animal ${animal.id} válido: ${isValidTemporario}`);
+
+        console.log(
+          `🧪 TESTE TEMPORÁRIO - Animal ${animal.id} válido: ${isValidTemporario}`,
+        );
         console.log(`===== FIM VALIDAÇÃO ANIMAL ${index} =====\n`);
-        
+
         return isValidTemporario;
       });
 
@@ -159,9 +157,8 @@ export default function CarrosselAnimais() {
       }));
 
       console.log("🎯 Animais mapeados para Select:", animaisParaSelect);
-      
+
       setAnimais(animaisParaSelect);
-      
     } catch (error) {
       console.error("❌ Falha ao carregar animais:", error);
       setErro("Falha ao carregar animais. Tente novamente.");
@@ -186,10 +183,14 @@ export default function CarrosselAnimais() {
               ...item,
               animal: {
                 ...item.animal,
-                imagem: item.animal.imagem || null,
+                imagemEntrada: item.animal.imagemEntrada || null,
                 imagemSaida: item.animal.imagemSaida || null,
                 nome: item.animal.nome || "Animal sem nome",
-                descricao: item.animal.descricao || "Sem descrição",
+                descricaoEntrada: item.animal.descricaoEntrada || "Sem descrição de entrada",
+                descricaoSaida:
+                  item.animal.descricaoSaida ||
+                  item.descricaoSaida ||
+                  "Sem descrição de saída",
               },
             }))
         : [];
@@ -216,7 +217,7 @@ export default function CarrosselAnimais() {
 
     try {
       const response = await fetch(
-        `http://localhost:3003/animais/${selectedOption.value}`
+        `http://localhost:3003/animais/${selectedOption.value}`,
       );
       if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
 
@@ -271,7 +272,7 @@ export default function CarrosselAnimais() {
   const handleRemoverAnimal = async (slideId, nomeAnimal) => {
     if (
       !window.confirm(
-        `Tem certeza que deseja remover "${nomeAnimal}" do carrossel?`
+        `Tem certeza que deseja remover "${nomeAnimal}" do carrossel?`,
       )
     ) {
       return;
@@ -287,13 +288,13 @@ export default function CarrosselAnimais() {
           headers: {
             "Content-Type": "application/json",
           },
-        }
+        },
       );
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(
-          errorData.message || `Erro ao remover animal do carrossel`
+          errorData.message || `Erro ao remover animal do carrossel`,
         );
       }
 
@@ -317,14 +318,15 @@ export default function CarrosselAnimais() {
     } catch (error) {
       console.error("Erro ao remover animal:", error);
       setErro(
-        error.message || "Erro ao remover animal do carrossel. Tente novamente."
+        error.message ||
+          "Erro ao remover animal do carrossel. Tente novamente.",
       );
     } finally {
       setRemovendoAnimal(null);
     }
   };
 
-  // FUNÇÃO PARA ALTERNAR DADOS DO FORMULÁRIO 
+  // FUNÇÃO PARA ALTERNAR DADOS DO FORMULÁRIO
   const alternarDadosFormulario = () => {
     if (animalSelecionado) {
       setMostrarSaidaFormulario(!mostrarSaidaFormulario);
@@ -340,9 +342,15 @@ export default function CarrosselAnimais() {
 
   // FUNÇÕES DE EDIÇÃO
   const iniciarEdicaoSlide = (slide) => {
+    const dadosPreparados = {
+      ...slide.animal,
+      descricao: slide.animal.descricao || "",
+      descricaoSaida: slide.animal.descricaoSaida || "",
+    };
+
     setEditandoSlide(slide.id);
-    setDadosOriginais({ ...slide.animal });
-    setDadosEditados({ ...slide.animal });
+    setDadosOriginais(dadosPreparados);
+    setDadosEditados(dadosPreparados);
     setExistemAlteracoes(false);
     setImagemEntradaPendente(null);
     setImagemSaidaPendente(null);
@@ -353,7 +361,7 @@ export default function CarrosselAnimais() {
     setDadosEditados(null);
     setDadosOriginais(null);
     setExistemAlteracoes(false);
-    
+
     // Limpar URLs temporárias das imagens
     if (imagemEntradaPendente) {
       URL.revokeObjectURL(imagemEntradaPendente.url);
@@ -369,7 +377,8 @@ export default function CarrosselAnimais() {
     if (!original || !editado) return false;
 
     const camposIgnorados = ["createdAt", "updatedAt", "id"];
-    const temImagensPendentes = imagemEntradaPendente !== null || imagemSaidaPendente !== null;
+    const temImagensPendentes =
+      imagemEntradaPendente !== null || imagemSaidaPendente !== null;
 
     for (const campo in editado) {
       if (camposIgnorados.includes(campo)) continue;
@@ -405,7 +414,7 @@ export default function CarrosselAnimais() {
     if (!arquivo) return;
 
     const urlTemporaria = URL.createObjectURL(arquivo);
-    
+
     if (tipoCampo === "imagemSaida") {
       if (imagemSaidaPendente) {
         URL.revokeObjectURL(imagemSaidaPendente.url);
@@ -422,10 +431,15 @@ export default function CarrosselAnimais() {
     verificarSeExistemAlteracoes(dadosOriginais, dadosEditados);
   };
 
-  const uploadImagemParaServidor = async (imagemPendente, tipoCampo, animalId) => {
-    const endpoint = tipoCampo === "imagemSaida"
-      ? `http://localhost:3003/animais/${animalId}/imagem-saida`
-      : `http://localhost:3003/animais/${animalId}/imagem`;
+  const uploadImagemParaServidor = async (
+    imagemPendente,
+    tipoCampo,
+    animalId,
+  ) => {
+    const endpoint =
+      tipoCampo === "imagemSaida"
+        ? `http://localhost:3003/animais/${animalId}/imagem-saida`
+        : `http://localhost:3003/animais/${animalId}/imagem-entrada`;
 
     const dadosFormulario = new FormData();
     dadosFormulario.append(tipoCampo, imagemPendente.arquivo);
@@ -453,7 +467,11 @@ export default function CarrosselAnimais() {
       // Upload das imagens pendentes primeiro
       if (imagemEntradaPendente) {
         console.log("🖼️ Fazendo upload da imagem de entrada...");
-        await uploadImagemParaServidor(imagemEntradaPendente, "imagem", dadosEditados.id);
+        await uploadImagemParaServidor(
+          imagemEntradaPendente,
+          "imagemEntrada",
+          dadosEditados.id,
+        );
         URL.revokeObjectURL(imagemEntradaPendente.url);
         setImagemEntradaPendente(null);
         console.log("✅ Upload da imagem de entrada concluído");
@@ -461,35 +479,53 @@ export default function CarrosselAnimais() {
 
       if (imagemSaidaPendente) {
         console.log("🖼️ Fazendo upload da imagem de saída...");
-        await uploadImagemParaServidor(imagemSaidaPendente, "imagemSaida", dadosEditados.id);
+        await uploadImagemParaServidor(
+          imagemSaidaPendente,
+          "imagemSaida",
+          dadosEditados.id,
+        );
         URL.revokeObjectURL(imagemSaidaPendente.url);
         setImagemSaidaPendente(null);
         console.log("✅ Upload da imagem de saída concluído");
       }
 
-      // Salvar dados textuais - vamos tentar primeiro com todos os campos
       let dadosParaEnviar = {
         nome: dadosEditados.nome,
         descricao: dadosEditados.descricao,
-        descricaoSaida: dadosEditados.descricaoSaida
+        descricaoSaida: dadosEditados.descricaoSaida,
       };
 
-      // Se algum campo está undefined/null, vamos removê-lo
       dadosParaEnviar = Object.fromEntries(
-        Object.entries(dadosParaEnviar).filter(([key, value]) => value !== null && value !== undefined)
+        Object.entries(dadosParaEnviar).filter(
+          ([, value]) => value !== null && value !== undefined,
+        ),
       );
 
-      console.log("📤 Dados que serão enviados para o servidor:", dadosParaEnviar);
-      console.log("🌐 URL da requisição:", `http://localhost:3003/animais/${dadosEditados.id}`);
-      console.log("🔍 ID do animal:", dadosEditados.id, "Tipo:", typeof dadosEditados.id);
+      console.log(
+        "📤 Dados que serão enviados para o servidor:",
+        dadosParaEnviar,
+      );
+      console.log(
+        "🌐 URL da requisição:",
+        `http://localhost:3003/animais/${dadosEditados.id}`,
+      );
+      console.log(
+        "🔍 ID do animal:",
+        dadosEditados.id,
+        "Tipo:",
+        typeof dadosEditados.id,
+      );
 
-      const response = await fetch(`http://localhost:3003/animais/${dadosEditados.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `http://localhost:3003/animais/${dadosEditados.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(dadosParaEnviar),
         },
-        body: JSON.stringify(dadosParaEnviar),
-      });
+      );
 
       console.log("📡 Status da resposta:", response.status);
       console.log("📡 Headers da resposta:", [...response.headers.entries()]);
@@ -501,14 +537,18 @@ export default function CarrosselAnimais() {
         try {
           const responseText = await response.text();
           console.log("📡 Resposta bruta do servidor:", responseText);
-          
+
           if (responseText) {
             try {
               errorData = JSON.parse(responseText);
               console.log("📡 Dados de erro parseados:", errorData);
-              errorMessage = errorData.message || errorData.error || errorMessage;
+              errorMessage =
+                errorData.message || errorData.error || errorMessage;
             } catch (parseError) {
-              console.log("⚠️ Não foi possível parsear a resposta como JSON:", parseError);
+              console.log(
+                "⚠️ Não foi possível parsear a resposta como JSON:",
+                parseError,
+              );
               errorMessage = `Erro ${response.status}: ${responseText}`;
             }
           } else {
@@ -524,13 +564,16 @@ export default function CarrosselAnimais() {
           statusText: response.statusText,
           errorData,
           url: `http://localhost:3003/animais/${dadosEditados.id}`,
-          dadosEnviados: dadosParaEnviar
+          dadosEnviados: dadosParaEnviar,
         };
-        
+
         console.error("❌ Erro detalhado da requisição:");
         console.error("   Status:", response.status);
         console.error("   Status Text:", response.statusText);
-        console.error("   URL:", `http://localhost:3003/animais/${dadosEditados.id}`);
+        console.error(
+          "   URL:",
+          `http://localhost:3003/animais/${dadosEditados.id}`,
+        );
         console.error("   Dados enviados:", dadosParaEnviar);
         console.error("   Error Data:", errorData);
         console.error("   Objeto completo:", erroDetalhado);
@@ -538,11 +581,13 @@ export default function CarrosselAnimais() {
         // Se for erro 500, vamos tentar uma abordagem alternativa
         if (response.status === 500) {
           console.log("🔄 Tentando abordagem alternativa para erro 500...");
-          
+
           // Primeiro, vamos testar se o endpoint GET funciona
           try {
             console.log("🧪 Testando se o endpoint GET funciona...");
-            const testGet = await fetch(`http://localhost:3003/animais/${dadosEditados.id}`);
+            const testGet = await fetch(
+              `http://localhost:3003/animais/${dadosEditados.id}`,
+            );
             console.log("📡 Status do GET:", testGet.status);
             if (testGet.ok) {
               const getData = await testGet.json();
@@ -557,28 +602,33 @@ export default function CarrosselAnimais() {
             console.log("🧪 Testando com PATCH em vez de PUT...");
             const dadosMinimos = { nome: dadosEditados.nome };
             console.log("📤 Dados para PATCH:", dadosMinimos);
-            
-            const responsePatch = await fetch(`http://localhost:3003/animais/${dadosEditados.id}`, {
-              method: "PATCH",
-              headers: {
-                "Content-Type": "application/json",
+
+            const responsePatch = await fetch(
+              `http://localhost:3003/animais/${dadosEditados.id}`,
+              {
+                method: "PATCH",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(dadosMinimos),
               },
-              body: JSON.stringify(dadosMinimos),
-            });
-            
+            );
+
             console.log("📡 Status do PATCH:", responsePatch.status);
-            
+
             if (responsePatch.ok) {
-              console.log("✅ Sucesso com PATCH! O endpoint PUT pode não estar implementado.");
+              console.log(
+                "✅ Sucesso com PATCH! O endpoint PUT pode não estar implementado.",
+              );
               const responseData = await responsePatch.json();
               console.log("📡 Resposta do PATCH:", responseData);
-              
+
               await carregarAnimaisCarrossel();
               setEditandoSlide(null);
               setDadosEditados(null);
               setDadosOriginais(null);
               setExistemAlteracoes(false);
-              
+
               console.log("✅ Edição salva com sucesso usando PATCH!");
               return; // Sai da função
             } else {
@@ -593,28 +643,34 @@ export default function CarrosselAnimais() {
           try {
             console.log("🧪 Testando endpoint alternativo /animal...");
             const dadosMinimos = { nome: dadosEditados.nome };
-            
-            const responseAlt = await fetch(`http://localhost:3003/animal/${dadosEditados.id}`, {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
+
+            const responseAlt = await fetch(
+              `http://localhost:3003/animal/${dadosEditados.id}`,
+              {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify(dadosMinimos),
               },
-              body: JSON.stringify(dadosMinimos),
-            });
-            
-            console.log("📡 Status do endpoint alternativo:", responseAlt.status);
-            
+            );
+
+            console.log(
+              "📡 Status do endpoint alternativo:",
+              responseAlt.status,
+            );
+
             if (responseAlt.ok) {
               console.log("✅ Sucesso com endpoint alternativo /animal!");
               const responseData = await responseAlt.json();
               console.log("📡 Resposta:", responseData);
-              
+
               await carregarAnimaisCarrossel();
               setEditandoSlide(null);
               setDadosEditados(null);
               setDadosOriginais(null);
               setExistemAlteracoes(false);
-              
+
               console.log("✅ Edição salva com sucesso usando /animal!");
               return; // Sai da função
             } else {
@@ -622,7 +678,10 @@ export default function CarrosselAnimais() {
               console.log("❌ Erro com endpoint alternativo:", altErrorText);
             }
           } catch (altError) {
-            console.log("❌ Erro na tentativa com endpoint alternativo:", altError);
+            console.log(
+              "❌ Erro na tentativa com endpoint alternativo:",
+              altError,
+            );
           }
         }
 
@@ -638,7 +697,7 @@ export default function CarrosselAnimais() {
       setDadosEditados(null);
       setDadosOriginais(null);
       setExistemAlteracoes(false);
-      
+
       console.log("✅ Slide editado com sucesso!");
     } catch (error) {
       console.error("❌ Erro completo ao salvar edição:", error);
@@ -652,7 +711,7 @@ export default function CarrosselAnimais() {
   // Função para obter a URL da imagem (com preview se pendente)
   const obterUrlImagem = (slide, tipoImagem) => {
     const mostrarSaida = mostrarSaidaPorSlide[slide.id] || false;
-    
+
     if (editandoSlide === slide.id) {
       // Se está editando, verifica se há imagem pendente
       if (tipoImagem === "entrada" && imagemEntradaPendente) {
@@ -666,10 +725,10 @@ export default function CarrosselAnimais() {
     // Retorna a imagem baseada no estado de mostrarSaida
     if (mostrarSaida && slide.animal.imagemSaida) {
       return `http://localhost:3003/uploads/${slide.animal.imagemSaida}`;
-    } else if (!mostrarSaida && slide.animal.imagem) {
-      return `http://localhost:3003/uploads/${slide.animal.imagem}`;
+    } else if (!mostrarSaida && slide.animal.imagemEntrada) {
+      return `http://localhost:3003/uploads/${slide.animal.imagemEntrada}`;
     }
-    
+
     return "/placeholder-image.jpg";
   };
 
@@ -761,7 +820,7 @@ export default function CarrosselAnimais() {
                   src={`http://localhost:3003/uploads/${
                     mostrarSaidaFormulario
                       ? animalSelecionado.imagemSaida
-                      : animalSelecionado.imagem
+                      : animalSelecionado.imagemEntrada
                   }`}
                   alt={`${mostrarSaidaFormulario ? "Depois" : "Antes"} - ${
                     animalSelecionado.nome
@@ -784,13 +843,23 @@ export default function CarrosselAnimais() {
                   >
                     ?
                   </button>
-                  <Tooltip className={styles.tooltip} id="idSelectNome" place="top">
-                    Selecione um animal que possui todos os dados necessários para o carrossel (nome, descrição de entrada e saída, e imagem de entrada e saída).
+                  <Tooltip
+                    className={styles.tooltip}
+                    id="idSelectNome"
+                    place="top"
+                  >
+                    Selecione um animal que possui todos os dados necessários
+                    para o carrossel (nome, descrição de entrada e saída, e
+                    imagem de entrada e saída).
                   </Tooltip>
                 </div>
                 <Select
                   className={styles.selectNomeAnimal}
-                  placeholder={animais.length === 0 ? "Nenhum animal disponível" : "Selecione"}
+                  placeholder={
+                    animais.length === 0
+                      ? "Nenhum animal disponível"
+                      : "Selecione"
+                  }
                   options={animais}
                   onChange={handleSelecionarAnimal}
                   isDisabled={animais.length === 0}
@@ -805,13 +874,16 @@ export default function CarrosselAnimais() {
                   noOptionsMessage={() => "Nenhum animal encontrado"}
                 />
                 {animais.length === 0 && (
-                  <p style={{ 
-                    color: '#666', 
-                    fontSize: '14px', 
-                    marginTop: '5px',
-                    fontStyle: 'italic' 
-                  }}>
-                    Todos os animais já estão no carrossel ou não possuem todos os dados necessários.
+                  <p
+                    style={{
+                      color: "#666",
+                      fontSize: "14px",
+                      marginTop: "5px",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    Todos os animais já estão no carrossel ou não possuem todos
+                    os dados necessários.
                   </p>
                 )}
               </div>
@@ -827,7 +899,11 @@ export default function CarrosselAnimais() {
                   >
                     ?
                   </button>
-                  <Tooltip className={styles.tooltip} id="idDescricoesAnimal" place="top">
+                  <Tooltip
+                    className={styles.tooltip}
+                    id="idDescricoesAnimal"
+                    place="top"
+                  >
                     {mostrarSaidaFormulario
                       ? "A descrição de saída explica o que aconteceu com o animal após ser resgatado"
                       : "A descrição de entrada é uma breve explicação do estado em que o animal foi encontrado ao ser resgatado"}
@@ -840,8 +916,10 @@ export default function CarrosselAnimais() {
                 ) : (
                   <p className={styles.descricaoAnimal}>
                     {mostrarSaidaFormulario
-                      ? animalSelecionado.descricaoSaida || "Sem descrição de saída"
-                      : animalSelecionado.descricao || "Sem descrição de entrada"}
+                      ? animalSelecionado.descricaoSaida ||
+                        "Sem descrição de saída"
+                      : animalSelecionado.descricao ||
+                        "Sem descrição de entrada"}
                   </p>
                 )}
               </div>
@@ -870,9 +948,9 @@ export default function CarrosselAnimais() {
                 <div
                   className={styles.divBotaoTrocarDados}
                   onClick={() => !estaEditando && alternarDadosSlide(slide.id)}
-                  style={{ 
-                    cursor: estaEditando ? 'default' : 'pointer',
-                    opacity: estaEditando ? 0.5 : 1 
+                  style={{
+                    cursor: estaEditando ? "default" : "pointer",
+                    opacity: estaEditando ? 0.5 : 1,
                   }}
                 >
                   <img
@@ -892,47 +970,59 @@ export default function CarrosselAnimais() {
                     <div className={styles.imagemContainer}>
                       <img
                         className={styles.imagemAnimal}
-                        src={obterUrlImagem(slide, mostrarSaida ? "saida" : "entrada")}
+                        src={obterUrlImagem(
+                          slide,
+                          mostrarSaida ? "saida" : "entrada",
+                        )}
                         alt={`${mostrarSaida ? "Depois" : "Antes"} - ${slide.animal.nome}`}
                         onError={(e) => {
                           e.target.src = "/placeholder-image.jpg";
                           e.target.onerror = null;
                         }}
                       />
-                      
+
                       {/* Overlay para edição de imagem */}
                       {estaEditando && (
                         <>
-                          <div 
+                          <div
                             className={styles.overlayImagem}
                             onClick={() => {
                               const input = document.getElementById(
-                                mostrarSaida ? `input-saida-${slide.id}` : `input-entrada-${slide.id}`
+                                mostrarSaida
+                                  ? `input-saida-${slide.id}`
+                                  : `input-entrada-${slide.id}`,
                               );
                               input?.click();
                             }}
                           >
-                            <img 
-                              src="/pagVerMais/galeria.png" 
+                            <img
+                              src="/pagVerMais/galeria.png"
                               alt="Alterar imagem"
                               className={styles.iconeOverlay}
                             />
                           </div>
-                          
+
                           {/* Inputs escondidos para upload */}
                           <input
                             id={`input-entrada-${slide.id}`}
                             type="file"
                             accept="image/*"
                             style={{ display: "none" }}
-                            onChange={(e) => processarUploadImagem(e.target.files[0], "imagem")}
+                            onChange={(e) =>
+                              processarUploadImagem(e.target.files[0], "imagemEntrada")
+                            }
                           />
                           <input
                             id={`input-saida-${slide.id}`}
                             type="file"
                             accept="image/*"
                             style={{ display: "none" }}
-                            onChange={(e) => processarUploadImagem(e.target.files[0], "imagemSaida")}
+                            onChange={(e) =>
+                              processarUploadImagem(
+                                e.target.files[0],
+                                "imagemSaida",
+                              )
+                            }
                           />
                         </>
                       )}
@@ -965,7 +1055,11 @@ export default function CarrosselAnimais() {
                         >
                           ?
                         </button>
-                        <Tooltip className={styles.tooltip} id={`tooltip-${slide.id}`} place="top">
+                        <Tooltip
+                          className={styles.tooltip}
+                          id={`tooltip-${slide.id}`}
+                          place="top"
+                        >
                           {mostrarSaida
                             ? "Descrição de saída - o que aconteceu com o animal após ser resgatado"
                             : "Descrição de entrada - estado em que o animal foi encontrado"}
@@ -975,8 +1069,16 @@ export default function CarrosselAnimais() {
                       {estaEditando ? (
                         <textarea
                           className={styles.descricaoAnimal}
-                          name={mostrarSaida ? "descricaoSaida" : "descricao"}
-                          value={dadosEditados?.[mostrarSaida ? "descricaoSaida" : "descricao"] || ""}
+                          name={
+                            mostrarSaida ? "descricaoSaida" : "descricaoEntrada"
+                          }
+                          value={
+                            dadosEditados?.[
+                              mostrarSaida
+                                ? "descricaoSaida"
+                                : "descricaoEntrada"
+                            ] || ""
+                          }
                           onChange={capturarMudancaCampo}
                           placeholder={`Digite a descrição de ${mostrarSaida ? "saída" : "entrada"}`}
                           rows={4}
@@ -984,8 +1086,8 @@ export default function CarrosselAnimais() {
                       ) : (
                         <p className={styles.descricaoAnimal}>
                           {mostrarSaida
-                            ? slide.descricaoSaida
-                            : slide.animal.descricao}
+                            ? slide.animal.descricaoSaida
+                            : slide.animal.descricaoEntrada}
                         </p>
                       )}
                     </div>
@@ -1004,7 +1106,9 @@ export default function CarrosselAnimais() {
                       </button>
                       <button
                         className={`${styles.botaoSalvar} ${
-                          !existemAlteracoes || salvandoEdicao ? styles.desativado : ""
+                          !existemAlteracoes || salvandoEdicao
+                            ? styles.desativado
+                            : ""
                         }`}
                         onClick={() => salvarEdicaoSlide(slide.id)}
                         disabled={!existemAlteracoes || salvandoEdicao}
@@ -1054,7 +1158,7 @@ export default function CarrosselAnimais() {
           })
         ) : (
           <div className={styles.mensagemDeErro}>
-              <h2>Nenhum animal cadastrado no carrossel</h2>
+            <h2>Nenhum animal cadastrado no carrossel</h2>
           </div>
         )}
       </Carousel>

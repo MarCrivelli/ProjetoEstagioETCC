@@ -28,7 +28,7 @@ const Animais = connection.sequelize.define(
     statusMicrochipagem: {
       type: connection.Sequelize.STRING,
       allowNull: false,
-      field: "status_microchipagem", 
+      field: "status_microchipagem",
     },
     statusVacinacao: {
       type: connection.Sequelize.STRING,
@@ -50,9 +50,10 @@ const Animais = connection.sequelize.define(
       allowNull: false,
       field: "status_vermifugacao",
     },
-    imagem: {
+    imagemEntrada: {
       type: connection.Sequelize.STRING,
       allowNull: false,
+      field: "imagem_entrada",
     },
     imagemSaida: {
       type: connection.Sequelize.STRING,
@@ -64,19 +65,21 @@ const Animais = connection.sequelize.define(
       allowNull: true,
       field: "data_vacinacao",
     },
-    descricao: {
+    descricaoEntrada: {
       type: connection.Sequelize.TEXT,
       allowNull: true,
+      field: "descricao_entrada",
     },
     descricaoSaida: {
       type: connection.Sequelize.TEXT,
       allowNull: true,
+      field: "descricao_saida",
     },
   },
   {
-    tableName: "animais", // Garante que o nome da tabela será 'animais'
-    underscored: true, // Converte automaticamente camelCase para snake_case
-    timestamps: true, // Adiciona createdAt e updatedAt automaticamente
+    tableName: "animais",
+    underscored: true,
+    timestamps: true,
   }
 );
 
