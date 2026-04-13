@@ -3,6 +3,7 @@ import Footer from "../Footer/app";
 import { Carousel } from "react-responsive-carousel";
 import carregarAnimais from "../../GerenciarDadosAnimais/CarregarAnimais/carregarAnimais";
 import styles from "./adote.module.css";
+import { useState } from "react";
 
 export default function QueroAdotar() {
   const { animaisFiltrados, carregando, erro } = carregarAnimais({
@@ -10,6 +11,8 @@ export default function QueroAdotar() {
     //   statusAdocao: "adotado",
     // },
   });
+
+  const [itemCarrosselEmFoco, setItemCarrosselEmFoco] = useState(0);
 
   if (carregando) return <p>Carregando...</p>;
   if (erro) return <p>Erro: {erro}</p>;
@@ -35,16 +38,26 @@ export default function QueroAdotar() {
               emulateTouch={true}
               preventMovementUntilSwipeScrollTolerance={true}
               swipeScrollTolerance={40}
+              transitionTime={800}
+              interval={4000}
+              autoPlay={true}
+              centerMode={true}
+              centerSlidePercentage={29}
+              selectedItem={itemCarrosselEmFoco}
+              onChange={(indice) => setItemCarrosselEmFoco(indice)}
             >
-              {animaisFiltrados.map((animal) => (
-                <div className={styles.painelCarrossel} key={animal.id}>
-                  <div className={styles.cardAnimal}>
-                    <img
-                      src={`http://localhost:3003/uploads/${animal.imagemEntrada}`}
-                      alt={animal.nome}
-                    />
-                    <h1>{animal.nome}</h1>
-                  </div>
+              {animaisFiltrados.map((animal, indice) => (
+                <div
+                  key={animal.id}
+                  className={`${styles.cardAnimal} ${
+                    indice === itemCarrosselEmFoco ? styles.cardAtivo : styles.cardInativo
+                  }`}
+                >
+                  <img
+                    src={`http://localhost:3003/uploads/${animal.imagemEntrada}`}
+                    alt={animal.nome}
+                  />
+                  <h1>{animal.nome}</h1>
                 </div>
               ))}
             </Carousel>
