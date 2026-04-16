@@ -1,30 +1,30 @@
-.containerParallax{
+.containerParallax {
   width: 100%;
   margin: 0 auto;
 }
 
-main{
+main {
   display: block;
   background-color: white;
 }
 
-.conteudo{
+.conteudo {
   width: 100%;
 }
 
-section.modulo.conteudo p{
+section.modulo.conteudo p {
   padding: 30px;
 }
 
-section.modulo.conteudo p strong{
+section.modulo.conteudo p strong {
   color: #096e00;
 }
 
-.instrucoes{
+.instrucoes {
   display: flex;
 }
 
-section.modulo.parallax{
+section.modulo.parallax {
   display: flex;
   flex-direction: column;
   height: 100vh !important;
@@ -38,24 +38,27 @@ section.modulo.parallax{
   z-index: 49;
 }
 
-
-section.modulo.parallax:after{
+section.modulo.parallax:after {
   content: "";
   height: 100%;
   width: 100%;
   position: absolute;
   z-index: 10;
-  background: linear-gradient(to bottom, #03051b76 0, #03051b76 40%, #03051bda 100%);
+  background: linear-gradient(
+    to bottom,
+    #03051b76 0,
+    #03051b76 40%,
+    #03051bda 100%
+  );
 }
 
-section.modulo.parallax h1{
+section.modulo.parallax h1 {
   margin: auto;
   color: white;
   font-size: 5rem;
   z-index: 50;
-  animation: efeitoDeslizanteTitulo .8s ease-out forwards;
+  animation: efeitoDeslizanteTitulo 0.8s ease-out forwards;
 }
-
 
 @keyframes efeitoDeslizanteTitulo {
   from {
@@ -68,15 +71,15 @@ section.modulo.parallax h1{
   }
 }
 
-section.modulo.parallax1{
+section.modulo.parallax1 {
   background-image: url(https://institutofaunabrasil.org.br/wp-content/uploads/2024/02/Banner-site-sem-granu4.jpg);
 }
 
-section.modulo.parallax2{
+section.modulo.parallax2 {
   background-image: url(https://institutofaunabrasil.org.br/wp-content/uploads/2024/02/Banner-site-sem-granu4.jpg);
 }
 
-section.modulo.parallax2::before{
+section.modulo.parallax2::before {
   content: "";
   top: 0;
   transform: translateY(-20px);
@@ -98,11 +101,11 @@ section.modulo.parallax2::before{
   filter: blur(70px);
 }
 
-section.modulo.parallax3{
+section.modulo.parallax3 {
   background-image: url(https://institutopetbrasil.com/storage/438/Banner_B2C_01_1900x1300_01.jpg);
 }
 
-.carrossel{
+.carrossel {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -118,42 +121,127 @@ section.modulo.parallax3{
     #4793af 100%
   );
   padding: 100px 0;
-  overflow: visible;
+  position: relative;
 }
 
-.painelCarrossel{
+.carrossel :global(.carousel) {
+  width: 100%;
+}
+
+.carrossel :global(.slide) {
+  background: transparent !important;
   display: flex;
-  padding-block: 40px 20px;
-  border-radius: 20px;
-  width: 80%;
-  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
 }
 
-.cardAnimal{
+.itemSlide {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.cardAnimal {
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
-  object-fit: scale-down;
-  width: 400px;
-  height: 500px;
-  background-color: rgb(255, 255, 255);
+  width: 370px;
+  min-height: 520px;
+  background-color: white;
+  border: 3px solid black;
+  box-shadow: 6px 6px 1px rgba(0, 16, 47, 0.224);
   padding: 20px;
-  transition: transform 0.4s ease, opacity 0.4s ease, filter 0.4s ease;
+  transition:
+    transform 0.4s ease,
+    opacity 0.4s ease;
+}
+
+.cardAtivo {
+  transform: scale(1);
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .cardInativo {
   transform: scale(0.82);
   opacity: 0.65;
-  touch-action: none;
+  pointer-events: none;
 }
 
-.cardAnimal img{
-  border-radius: 20px;
+.cardAnimal img {
+  border-radius: 10px;
   object-fit: cover;
   width: 100%;
-  height: 90%;
+  height: 290px;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
 }
 
-.cardAnimal h1{
+.cardAnimal p {
+  padding: 0 !important;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.cardAnimal h1,
+.cardAnimal p {
   text-align: start;
+}
+
+.botaoSobre {
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 8px 18px;
+  background-color: rgb(0, 42, 255);
+  cursor: pointer;
+  margin: auto auto 0 auto;
+}
+
+.botaoSobre:hover {
+  opacity: 0.85;
+}
+
+.acoesCard {
+  display: flex;
+  width: 100%;
+  position: absolute;
+  height: 100px;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  gap: 10px;
+}
+
+.botaoNavegacao {
+  background-color: rgba(0, 3, 36, 0.7);
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  color: rgb(255, 255, 255);
+  border: 3px solid black;
+  font-weight: 800;
+  font-size: 1.3rem;
+  position: absolute;
+  transition: all 0.3s ease;
+}
+
+.botaoNavegacao:hover {
+  background-color: rgba(0, 3, 36, 0.9);
+}
+
+.botaoNavegacao:disabled {
+  display: none;
+}
+
+.botaoEsquerdo {
+  left: -120px;
+}
+
+.botaoDireito {
+  right: -120px;
 }
