@@ -86,6 +86,16 @@ export function aplicarFiltrosAnimais(animais = [], filtros = {}) {
       animal.statusVermifugacao
     );
 
+    const descricaoEntradaMatch = incluiEmLista(
+      filtros.descricaoEntrada,
+      animal.descricaoEntrada
+    );
+
+    const descricaoSaidaMatch = incluiEmLista(
+      filtros.descricaoSaida,
+      animal.descricaoSaida
+    );
+
     return (
       nomeMatch &&
       tipoMatch &&
@@ -96,7 +106,9 @@ export function aplicarFiltrosAnimais(animais = [], filtros = {}) {
       dataVacinacaoMatch &&
       castracaoMatch &&
       adocaoMatch &&
-      vermifugacaoMatch
+      vermifugacaoMatch &&
+      descricaoEntradaMatch &&
+      descricaoSaidaMatch
     );
   });
 }
@@ -107,15 +119,33 @@ export function removerAnimaisPorCampos(
 ) {
   return animais.filter((animal) => {
     return !Object.entries(removerAnimaisQuePossuam).some(([campo, valor]) => {
-      if (valor === undefined || valor === null || valor === "") {
+      if (valor === undefined || valor === null) {
         return false;
       }
 
-      if (Array.isArray(valor)) {
-        return valor.includes(animal[campo]);
+      const valorAnimal = animal[campo];
+
+      if (valor === "__vazio__") {
+        return (
+          valorAnimal === undefined ||
+          valorAnimal === null ||
+          String(valorAnimal).trim() === ""
+        );
       }
 
-      return animal[campo] === valor;
+      if (valor === "__nao_vazio__") {
+        return !(
+          valorAnimal === undefined ||
+          valorAnimal === null ||
+          String(valorAnimal).trim() === ""
+        );
+      }
+
+      if (Array.isArray(valor)) {
+        return valor.includes(valorAnimal);
+      }
+
+      return valorAnimal === valor;
     });
   });
 }
@@ -138,5 +168,7 @@ export function criarFiltrosAnimaisPadrao() {
     statusMicrochipagem: [],
     statusVermifugacao: [],
     nome: "",
+    descricaoEntrada: "",
+    descricaoSaida: "",
   };
 }

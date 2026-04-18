@@ -23,8 +23,13 @@ export default function carregarAnimais(opcoes = {}) {
       setCarregando(true);
       setErro(null);
 
-      const animais = await buscarAnimaisBackend();
-      setAnimaisCadastrados(animais);
+      const resposta = await fetch("http://localhost:3003/animais");
+      if (!resposta.ok) {
+        throw new Error(`Erro ao buscar animais: ${resposta.status}`);
+      }
+
+      const dados = await resposta.json();
+      setAnimaisCadastrados(Array.isArray(dados) ? dados : []);
     } catch (error) {
       console.error("Erro ao buscar animais:", error);
       setErro(error.message);
@@ -35,7 +40,23 @@ export default function carregarAnimais(opcoes = {}) {
   }, []);
 
   useEffect(() => {
-    recarregarAnimais();
+    const atualizarAoVoltar = () => {
+      recarregarAnimais();
+    };
+
+    const atualizarAoFicarVisivel = () => {
+      if (document.visibilityState === "visible") {
+        recarregarAnimais();
+      }
+    };
+
+    window.addEventListener("focus", atualizarAoVoltar);
+    document.addEventListener("visibilitychange", atualizarAoFicarVisivel);
+
+    return () => {
+      window.removeEventListener("focus", atualizarAoVoltar);
+      document.removeEventListener("visibilitychange", atualizarAoFicarVisivel);
+    };
   }, [recarregarAnimais]);
 
   const filtrosNormalizados = filtros || criarFiltrosAnimaisPadrao();
@@ -47,10 +68,7 @@ export default function carregarAnimais(opcoes = {}) {
       resultado = aplicarFiltrosAnimais(resultado, filtrosNormalizados);
     }
 
-    resultado = removerAnimaisPorCampos(
-      resultado,
-      removerAnimaisQuePossuam
-    );
+    resultado = removerAnimaisPorCampos(resultado, removerAnimaisQuePossuam);
 
     return resultado;
   }, [

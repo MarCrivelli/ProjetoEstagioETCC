@@ -35,12 +35,13 @@ export default function QueroAdotar() {
     };
   }, []);
 
-  const { animaisFiltrados, carregando, erro } = carregarAnimais({
+  const { animaisFiltrados, carregando, erro, recarregarAnimais } = carregarAnimais({
     removerAnimaisQuePossuam: {
-      // statusAdocao: "adotado",
-      // descricaoEntrada: null,
+      statusAdocao: "adotado",
+      descricaoEntrada: "__vazio__",
     },
   });
+  
 
   const [itemAtual, setItemAtual] = useState(0);
   const [animalAbertoId, setAnimalAbertoId] = useState(null);
@@ -180,14 +181,12 @@ export default function QueroAdotar() {
                           )}
                         </>
                       ) : (
-                        <>
+                        <div className={styles.descricaoAnimal}>
                           <h1 className={styles.nomeAnimal}>{animal.nome}</h1>
 
-                          <div className={styles.descricaoAnimal}>
                             <p>
                               {animal.descricaoEntrada}
                             </p>
-                          </div>
 
                           <button
                             type="button"
@@ -201,7 +200,7 @@ export default function QueroAdotar() {
                           >
                             Voltar
                           </button>
-                        </>
+                        </div>
                       )}
                     </div>
                   </div>

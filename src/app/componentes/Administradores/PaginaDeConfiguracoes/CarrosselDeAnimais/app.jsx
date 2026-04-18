@@ -186,7 +186,8 @@ export default function CarrosselAnimais() {
                 imagemEntrada: item.animal.imagemEntrada || null,
                 imagemSaida: item.animal.imagemSaida || null,
                 nome: item.animal.nome || "Animal sem nome",
-                descricaoEntrada: item.animal.descricaoEntrada || "Sem descrição de entrada",
+                descricaoEntrada:
+                  item.animal.descricaoEntrada || "Sem descrição de entrada",
                 descricaoSaida:
                   item.animal.descricaoSaida ||
                   item.descricaoSaida ||
@@ -692,6 +693,7 @@ export default function CarrosselAnimais() {
       console.log("✅ Resposta de sucesso do servidor:", responseData);
 
       await carregarAnimaisCarrossel();
+      await carregarAnimais();
 
       setEditandoSlide(null);
       setDadosEditados(null);
@@ -1009,7 +1011,10 @@ export default function CarrosselAnimais() {
                             accept="image/*"
                             style={{ display: "none" }}
                             onChange={(e) =>
-                              processarUploadImagem(e.target.files[0], "imagemEntrada")
+                              processarUploadImagem(
+                                e.target.files[0],
+                                "imagemEntrada",
+                              )
                             }
                           />
                           <input

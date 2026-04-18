@@ -146,6 +146,17 @@ section.modulo.parallax3 {
   transition:
     transform 0.4s ease,
     opacity 0.4s ease;
+  animation: animacaoFluidaCard 1.5s ease-in-out;
+}
+
+@keyframes animacaoFluidaCard{
+  0%{
+    display: none;
+    opacity: 0;
+  }
+  100%{
+    display: flex;
+  }
 }
 
 .cardAtivo {
@@ -197,6 +208,12 @@ section.modulo.parallax3 {
   opacity: 0.85;
 }
 
+.descricaoAnimal{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .acoesCard {
   display: flex;
   width: 100%;
@@ -224,6 +241,7 @@ section.modulo.parallax3 {
 
 .botaoNavegacao:hover {
   background-color: rgba(0, 3, 36, 0.9);
+  transform: scale(1.1);
 }
 
 .botaoNavegacao:disabled {
