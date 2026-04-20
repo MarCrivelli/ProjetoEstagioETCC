@@ -393,7 +393,7 @@ export default function VerMais() {
     if (descricaoSelecionada.value === "descricaoSaida") {
       return "descricaoSaida";
     }
-    return "descricao";
+    return "descricaoEntrada";
   };
 
   const obterValorDescricaoAtual = () => {

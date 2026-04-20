@@ -39,6 +39,12 @@ export default function carregarAnimais(opcoes = {}) {
     }
   }, []);
 
+  // ✅ NOVO: carregar assim que entrar na página
+  useEffect(() => {
+    recarregarAnimais();
+  }, [recarregarAnimais]);
+
+  // ✅ MANTIDO (mas agora funcionando corretamente)
   useEffect(() => {
     const atualizarAoVoltar = () => {
       recarregarAnimais();

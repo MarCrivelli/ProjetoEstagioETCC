@@ -121,10 +121,13 @@ section.modulo.parallax3 {
 }
 
 .carrossel :global(.slide) {
-  background: transparent;
   display: flex;
-  align-items: center;
   pointer-events: none;
+}
+
+.carrossel.poucos :global(.slider-wrapper),
+.carrossel.poucos :global(.slider) {
+  transform: none !important;
 }
 
 .itemSlide {
@@ -149,12 +152,12 @@ section.modulo.parallax3 {
   animation: animacaoFluidaCard 1.5s ease-in-out;
 }
 
-@keyframes animacaoFluidaCard{
-  0%{
+@keyframes animacaoFluidaCard {
+  0% {
     display: none;
     opacity: 0;
   }
-  100%{
+  100% {
     display: flex;
   }
 }
@@ -208,7 +211,7 @@ section.modulo.parallax3 {
   opacity: 0.85;
 }
 
-.descricaoAnimal{
+.descricaoAnimal {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -275,6 +278,8 @@ section.modulo.parallax3 {
     right: -60px;
   }
 }
+
+
 
 @media (max-width: 480px) {
   .botaoNavegacao {

@@ -7,7 +7,6 @@ import opcoes from "/src/app/componentes/Administradores/OpcoesDeSelecao/opcoes"
 import { Carousel } from "react-responsive-carousel";
 
 export default function QueroAdotar() {
-
   const [centerSlidePercentage, setCenterSlidePercentage] = useState(26);
 
   useEffect(() => {
@@ -35,17 +34,16 @@ export default function QueroAdotar() {
     };
   }, []);
 
-  const { animaisFiltrados, carregando, erro, recarregarAnimais } = carregarAnimais({
-    removerAnimaisQuePossuam: {
-      statusAdocao: "adotado",
-      descricaoEntrada: "__vazio__",
-    },
-  });
-  
+  const { animaisFiltrados, carregando, erro, recarregarAnimais } =
+    carregarAnimais({
+      removerAnimaisQuePossuam: {
+        statusAdocao: "adotado",
+        descricaoEntrada: "__vazio__",
+      },
+    });
 
   const [itemAtual, setItemAtual] = useState(0);
   const [animalAbertoId, setAnimalAbertoId] = useState(null);
-  if (carregando) return <p>Carregando...</p>;
   if (erro) return <p>Erro: {erro}</p>;
 
   const ultimoIndice = animaisFiltrados.length - 1;
@@ -69,7 +67,9 @@ export default function QueroAdotar() {
       valorAtual > 0 ? valorAtual - 1 : valorAtual,
     );
   };
-  
+
+  const poucosAnimais = animaisFiltrados.length <= 3;
+  const isMobile = window.innerWidth <= 768;
 
   return (
     <>
@@ -84,7 +84,9 @@ export default function QueroAdotar() {
 
           <section className={`${styles.modulo} ${styles.conteudo}`}>
             <Carousel
-              className={styles.carrossel}
+              className={`${styles.carrossel} ${
+                poucosAnimais && !isMobile ? styles.poucos : ""
+              }`}
               selectedItem={itemAtual}
               onChange={(indice) => {
                 setItemAtual(indice);
@@ -95,11 +97,13 @@ export default function QueroAdotar() {
               showIndicators={false}
               showArrows={false}
               infiniteLoop={false}
-              swipeable={false}
-              emulateTouch={false}
-              // autoPlay={true}
+              swipeable={isMobile || !poucosAnimais}
+              emulateTouch={isMobile || !poucosAnimais}
+              autoPlay={true}
               centerMode={true}
-              centerSlidePercentage={centerSlidePercentage}
+              centerSlidePercentage={
+                poucosAnimais && isMobile ? 80 : centerSlidePercentage
+              }
               transitionTime={800}
               interval={4000}
             >
@@ -120,12 +124,13 @@ export default function QueroAdotar() {
                             src={`http://localhost:3003/uploads/${animal.imagemEntrada}`}
                             alt={animal.nome}
                             draggable={false}
+                            loading="lazy"
                           />
 
                           <h1>{animal.nome}</h1>
 
                           <p>
-                            <strong>Idade:{" "}</strong>
+                            <strong>Idade: </strong>
                             {opcoes.vincularLabel(
                               animal.idade?.toString(),
                               "idadeAnimais",
@@ -133,12 +138,12 @@ export default function QueroAdotar() {
                           </p>
 
                           <p>
-                            <strong>Sexo:{" "}</strong>
+                            <strong>Sexo: </strong>
                             {opcoes.vincularLabel(animal.sexo, "sexoDoAnimal")}
                           </p>
 
                           <p>
-                            <strong>Status de castração:{" "}</strong>
+                            <strong>Status de castração: </strong>
                             {opcoes.vincularLabel(
                               animal.statusCastracao,
                               "StatusCastracao",
@@ -184,9 +189,7 @@ export default function QueroAdotar() {
                         <div className={styles.descricaoAnimal}>
                           <h1 className={styles.nomeAnimal}>{animal.nome}</h1>
 
-                            <p>
-                              {animal.descricaoEntrada}
-                            </p>
+                          <p>{animal.descricaoEntrada}</p>
 
                           <button
                             type="button"
