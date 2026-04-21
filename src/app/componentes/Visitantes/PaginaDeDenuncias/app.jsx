@@ -94,7 +94,7 @@ export default function Denuncie() {
   };
   return (
     <div className={styles.fundoPagina}>
-      <Header tipo={"modoDark"}/>
+      <Header/>
       <div className={styles.ajusteElementosDaPagina}>
         <div className={styles.seccao}>
           <h1>

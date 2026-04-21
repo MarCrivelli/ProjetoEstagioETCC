@@ -8,10 +8,6 @@ main {
   background-color: white;
 }
 
-.conteudo {
-  width: 100%;
-}
-
 .instrucoes {
   display: flex;
 }
@@ -30,7 +26,7 @@ section.modulo.parallax {
   z-index: 49;
 }
 
-section.modulo.parallax:after {
+section.modulo.parallax::before{
   content: "";
   height: 100%;
   width: 100%;
@@ -71,28 +67,6 @@ section.modulo.parallax2 {
   background-image: url(https://institutofaunabrasil.org.br/wp-content/uploads/2024/02/Banner-site-sem-granu4.jpg);
 }
 
-section.modulo.parallax2::before {
-  content: "";
-  top: 0;
-  transform: translateY(-20px);
-  position: relative;
-  width: 100%;
-  height: 60px;
-  background: linear-gradient(
-    to right,
-    #8b322c 0%,
-    #8b322c 25%,
-    #dd5746 25%,
-    #dd5746 50%,
-    #ffcf54 50%,
-    #ffcf54 75%,
-    #4793af 75%,
-    #4793af 100%
-  );
-  opacity: 1;
-  filter: blur(70px);
-}
-
 section.modulo.parallax3 {
   background-image: url(https://institutopetbrasil.com/storage/438/Banner_B2C_01_1900x1300_01.jpg);
 }
@@ -114,6 +88,39 @@ section.modulo.parallax3 {
   );
   padding: 100px 0;
   position: relative;
+  z-index: 100;
+}
+
+.carrossel::before,
+.carrossel::after {
+  content: "";
+  
+  position: absolute;
+  width: 100%;
+  height: 20px;
+  background: linear-gradient(
+    to right,
+    #8b322c 0%,
+    #8b322c 25%,
+    #dd5746 25%,
+    #dd5746 50%,
+    #ffcf54 50%,
+    #ffcf54 75%,
+    #4793af 75%,
+    #4793af 100%
+  );
+  filter: blur(60px);
+  z-index: 100;
+}
+
+.carrossel::before {
+  top: 0;
+  transform: translateY(-20px);
+}
+
+.carrossel::after {
+  bottom: 0;
+  transform: translateY(20px);
 }
 
 .carrossel :global(.carousel) {
@@ -257,6 +264,25 @@ section.modulo.parallax3 {
 
 .botaoDireito {
   right: -120px;
+}
+
+.conteudo{
+  display: flex;
+  flex-wrap: wrap;
+  padding: 40px 20%;
+  gap: 20px;
+  justify-content: center;
+  background-color: #0080ff;
+}
+
+.conteudo .bloco{
+  display: flex;
+  flex: 1 calc(50%);
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+  height: 400px;
+  max-width: 400px;
 }
 
 @media (max-width: 1780px) {

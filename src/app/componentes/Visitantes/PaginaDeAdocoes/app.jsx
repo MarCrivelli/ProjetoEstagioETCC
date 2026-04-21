@@ -82,7 +82,7 @@ export default function QueroAdotar() {
             <h1>Animais disponíveis para a adoção</h1>
           </section>
 
-          <section className={`${styles.modulo} ${styles.conteudo}`}>
+          <section className={styles.modulo}>
             <Carousel
               className={`${styles.carrossel} ${
                 poucosAnimais && !isMobile ? styles.poucos : ""
@@ -210,6 +210,66 @@ export default function QueroAdotar() {
                 );
               })}
             </Carousel>
+          </section>
+
+          <section
+            className={`${styles.modulo} ${styles.parallax} ${styles.parallax2}`}
+          >
+            <h1>Critérios de adoção</h1>
+          </section>
+
+          <section className={`${styles.modulo} ${styles.conteudo}`}>
+            <div className={styles.bloco}>
+              <h1>Avaliação Comportamental</h1>
+              <p></p>
+            </div>
+            <div className={styles.bloco}>
+              <h1>Ficha limpa</h1>
+              <p></p>
+            </div>
+            <div className={styles.bloco}>
+              <h1>Ambiente Adequado</h1>
+              <p></p>
+            </div>
+            <div className={styles.bloco}>
+              <h1>Rotina Adequada</h1>
+              <p></p>
+            </div>
+            <div className={styles.bloco}>
+              <h1>Financeiro</h1>
+              <p></p>
+            </div>
+          </section>
+
+          <section
+            className={`${styles.modulo} ${styles.parallax} ${styles.parallax3}`}
+          >
+            <h1>
+              Quais são as circunstâncias não favoráveis para se ter um pet?
+            </h1>
+          </section>
+
+          <section className={`${styles.modulo} ${styles.conteudo}`}>
+            <div className={styles.bloco}>
+              <h1>Avaliação Comportamental</h1>
+              <p></p>
+            </div>
+            <div className={styles.bloco}>
+              <h1>Ficha limpa</h1>
+              <p></p>
+            </div>
+            <div className={styles.bloco}>
+              <h1>Ambiente Adequado</h1>
+              <p></p>
+            </div>
+            <div className={styles.bloco}>
+              <h1>Rotina Adequada</h1>
+              <p></p>
+            </div>
+            <div className={styles.bloco}>
+              <h1>Financeiro</h1>
+              <p></p>
+            </div>
           </section>
         </main>
       </div>
