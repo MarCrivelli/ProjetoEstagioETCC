@@ -182,7 +182,6 @@
   transform: scale(1.04);
 }
 
-/* Variações de cards por cor */
 .card1 {
   background-color: var(--cor-primaria);
 }

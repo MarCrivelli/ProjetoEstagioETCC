@@ -220,24 +220,24 @@ export default function QueroAdotar() {
 
           <section className={`${styles.modulo} ${styles.conteudo}`}>
             <div className={styles.bloco}>
-              <h1>Avaliação Comportamental</h1>
-              <p></p>
+              <h2>Avaliação Comportamental</h2>
+              <p>&nbsp;Um critério muito importante é a avaliação de como o futuro &quot;pai de pet&quot; interage com os animais, pois a primeira impressão deixada é de suma importância para a avaliação.</p>
             </div>
             <div className={styles.bloco}>
-              <h1>Ficha limpa</h1>
-              <p></p>
+              <h2>Ficha Limpa</h2>
+              <p>&nbsp;Estamos sempre atentos a denúncias de maus-tratos e podemos impedir a adoção de qualquer animal caso chegue ao nosso conhecimento um histórico de agressividade ou abandono.</p>
             </div>
             <div className={styles.bloco}>
-              <h1>Ambiente Adequado</h1>
-              <p></p>
+              <h2>Lar adequado</h2>
+              <p>&nbsp;Antes de adotar um animal, é preciso ter ciência de que é necessário um ambiente adequado para recebê-lo, pois do contrário, eles podem adoecer ou ficar muito agitados, mesmo que seus donos cuidem bem. Quintais ou gaiolas grandes e um ambiente limpo são critérios decisivos para a aprovação ou rejeição da adoção do animal.</p>
             </div>
             <div className={styles.bloco}>
-              <h1>Rotina Adequada</h1>
-              <p></p>
+              <h2>Rotina Adequada</h2>
+              <p>&nbsp;Os animais domésticos precisam de atenção e cuidados diários para se manterem felizes e consequentemente saudáveis, portanto, é necessário que os donos tenham tempo para passear, dar banho, alimentá-lo e tratá-lo de doenças/ferimentos.</p>
             </div>
             <div className={styles.bloco}>
-              <h1>Financeiro</h1>
-              <p></p>
+              <h2>Financeiro</h2>
+              <p>&nbsp;Cuidar de um animal exige um certo gasto para mantê-los, sendo necessário uma ração adequada, coleira e guia para o passeio e entender que o animal ocasionalmente poderá ficar doente e é responsabilidade do dono tratar.</p>
             </div>
           </section>
 
@@ -251,23 +251,23 @@ export default function QueroAdotar() {
 
           <section className={`${styles.modulo} ${styles.conteudo}`}>
             <div className={styles.bloco}>
-              <h1>Avaliação Comportamental</h1>
+              <h2></h2>
               <p></p>
             </div>
             <div className={styles.bloco}>
-              <h1>Ficha limpa</h1>
+              <h2></h2>
               <p></p>
             </div>
             <div className={styles.bloco}>
-              <h1>Ambiente Adequado</h1>
+              <h2></h2>
               <p></p>
             </div>
             <div className={styles.bloco}>
-              <h1>Rotina Adequada</h1>
+              <h2></h2>
               <p></p>
             </div>
             <div className={styles.bloco}>
-              <h1>Financeiro</h1>
+              <h2></h2>
               <p></p>
             </div>
           </section>
