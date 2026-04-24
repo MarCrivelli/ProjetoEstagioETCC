@@ -26,7 +26,7 @@ section.modulo.parallax {
   z-index: 49;
 }
 
-section.modulo.parallax::before{
+section.modulo.parallax::before {
   content: "";
   height: 100%;
   width: 100%;
@@ -46,6 +46,7 @@ section.modulo.parallax h1 {
   font-size: 5rem;
   z-index: 50;
   animation: efeitoDeslizanteTitulo 0.8s ease-out forwards;
+  padding: 20px;
 }
 
 @keyframes efeitoDeslizanteTitulo {
@@ -75,7 +76,7 @@ section.modulo.parallax3 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(
+  /* background: linear-gradient(
     to right,
     #8b322c 0%,
     #8b322c 25%,
@@ -85,16 +86,44 @@ section.modulo.parallax3 {
     #ffcf54 75%,
     #4793af 75%,
     #4793af 100%
-  );
+  ); */
+  background: linear-gradient(40deg, #0080ff, #00eeff);
   padding: 100px 0;
   position: relative;
   z-index: 100;
+  overflow: hidden;
 }
 
-.carrossel::before,
+.carrossel::before{
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-image: url(/imagensDeFundo/fundoPatas_BrancoTotal.png);
+  background-repeat: repeat; /* Faz com que a imagem se repita */
+  background-size: 1000px 1000px; /* Define o tamanho da imagem (largura x altura) */
+  background-position: top left; /* A posição inicial da repetição é no canto superior esquerdo */
+  z-index: -1;
+  opacity: 1;
+  animation: aumentarPatas ease-in-out 10s infinite alternate;
+}
+
+@keyframes aumentarPatas {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.3);
+  }
+}
+
+
+/* .carrossel::before,
 .carrossel::after {
   content: "";
-  
+
   position: absolute;
   width: 100%;
   height: 20px;
@@ -111,7 +140,7 @@ section.modulo.parallax3 {
   );
   filter: blur(60px);
   z-index: 100;
-}
+} */
 
 .carrossel::before {
   top: 0;
@@ -142,6 +171,7 @@ section.modulo.parallax3 {
   display: flex;
   justify-content: flex-start;
   padding: 0 20px;
+  
 }
 
 .cardAnimal {
@@ -266,19 +296,31 @@ section.modulo.parallax3 {
   right: -120px;
 }
 
-.conteudo{
+.conteudo {
   display: flex;
   flex-wrap: wrap;
-  padding: 100px;
+  padding: 100px 20px;
   gap: 40px;
   justify-content: center;
   z-index: 100;
-  background: linear-gradient(40deg, #0080ff, #00eeff);
   position: relative;
   overflow: hidden;
+  background: linear-gradient(
+    to right,
+    #ffcf54 0%,
+    #ffcf54 20%,
+    #06b700 20%,
+    #06b700 40%,
+    #ff7300 40%,
+    #ff7300 60%,
+    #ff005d 60%,
+    #ff005d 80%,
+    #5500ff 80%,
+    #5500ff 100%
+  );
 }
 
-.conteudo::before{
+.conteudo::before {
   content: "";
   position: absolute;
   width: 100%;
@@ -291,41 +333,71 @@ section.modulo.parallax3 {
   background-position: top left; /* A posição inicial da repetição é no canto superior esquerdo */
   z-index: 10;
   opacity: 1;
-  animation: aumentarPatas ease-in-out 10s infinite alternate;
 }
 
-@keyframes aumentarPatas {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(1.3);
-  }
-}
 
-.conteudo .bloco{
+
+.conteudo .bloco {
   display: flex;
-  flex: 1 calc(600px - 100px);
+  flex: 1 calc(400px - 100px);
   flex-direction: column;
   align-items: center;
   background-color: rgb(255, 255, 255);
-  border: 3px solid rgb(255, 196, 0);
-  box-shadow: 5px 5px 1px rgb(227, 174, 0);
+  border: 3px solid rgb(0, 0, 0);
+  box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.582);
   border-radius: 10px;
-  height: 300px;
-  max-width: 600px;
+  height: auto;
+  max-width: 400px;
   padding: 20px;
-  row-gap: 20px;
   z-index: 100;
+  transition:transform  ease-in-out .5s;
 }
 
-.conteudo .bloco h2{
-  font-size: 2.3rem;
+.conteudo .bloco:hover{
+  transform: scale(1.1);
 }
 
-.conteudo .bloco p{
+.conteudo .bloco img{
+  width: 100px;
+  height: 100px;
+}
+
+.conteudo .bloco h2 {
+  text-align: center;
+  font-size: 2.2rem;
+  -webkit-text-stroke-width: 0.08rem;
+  margin-bottom: 20px;
+}
+
+.conteudo .bloco:nth-of-type(1) h2{
+  color: #ffcf54;
+  -webkit-text-stroke-color: #cd9300;
+}
+
+.conteudo .bloco:nth-of-type(2) h2{
+  color: #06b700;
+  -webkit-text-stroke-color: #047400;
+}
+
+.conteudo .bloco:nth-of-type(3) h2{
+  color: #ff7300;
+  -webkit-text-stroke-color: #a34900;
+}
+
+.conteudo .bloco:nth-of-type(4) h2{
+  color: #ff005d;
+  -webkit-text-stroke-color: #850031;
+}
+
+.conteudo .bloco:nth-of-type(5) h2{
+  color: #5500ff;
+  -webkit-text-stroke-color: #270076;
+}
+
+.conteudo .bloco p {
   text-align: justify;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 @media (max-width: 1780px) {
@@ -339,6 +411,10 @@ section.modulo.parallax3 {
 }
 
 @media (max-width: 1400px) {
+  section.modulo.parallax h1 {
+    font-size: 4rem;
+  }
+
   .botaoEsquerdo {
     left: -60px;
   }
@@ -348,9 +424,51 @@ section.modulo.parallax3 {
   }
 }
 
+@media (max-width: 840px) {
+  .conteudo .bloco {
+    max-width: 100%;
+  }
+}
 
+@media (max-width: 768px) {
+  section.modulo.parallax h1 {
+    font-size: 3rem;
+  }
+  .conteudo {
+    padding: 60px 20px;
+    background: linear-gradient(
+    to bottom,
+    #ffcf54 0%,
+    #ffcf54 20%,
+    #06b700 20%,
+    #06b700 40%,
+    #ff7300 40%,
+    #ff7300 60%,
+    #ff005d 60%,
+    #ff005d 80%,
+    #5500ff 80%,
+    #5500ff 100%
+  );
+  }
+  .conteudo .bloco {
+    flex: 1 calc(300px - 20px);
+    box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.582);
+    padding: 20px;
+  }
+  .conteudo .bloco h2 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+  }
+
+  .conteudo .bloco p {
+    font-size: 0.8rem;
+  }
+}
 
 @media (max-width: 480px) {
+  section.modulo.parallax h1 {
+    font-size: 2.5rem;
+  }
   .botaoNavegacao {
     width: 35px;
     height: 35px;
