@@ -73,180 +73,202 @@ export default function QueroAdotar() {
 
   return (
     <>
-      <div className={styles.containerParallax}>
-        <main>
-          <section
-            className={`${styles.modulo} ${styles.parallax} ${styles.parallax1}`}
+      <main>
+        <section
+          className={`${styles.secao} ${styles.parallax} ${styles.parallax1}`}
+        >
+          <Header />
+          <h1>Animais disponíveis para a adoção</h1>
+        </section>
+
+        <section className={styles.secao}>
+          <Carousel
+            className={`${styles.carrossel} ${
+              poucosAnimais && !isMobile ? styles.poucos : ""
+            }`}
+            selectedItem={itemAtual}
+            onChange={(indice) => {
+              setItemAtual(indice);
+              setAnimalAbertoId(null);
+            }}
+            showThumbs={false}
+            showStatus={false}
+            showIndicators={false}
+            showArrows={false}
+            infiniteLoop={false}
+            swipeable={isMobile || !poucosAnimais}
+            emulateTouch={isMobile || !poucosAnimais}
+            centerMode={true}
+            centerSlidePercentage={
+              poucosAnimais && isMobile ? 80 : centerSlidePercentage
+            }
+            transitionTime={800}
+            interval={4000}
           >
-            <Header />
-            <h1>Animais disponíveis para a adoção</h1>
-          </section>
+            {animaisFiltrados.map((animal, indice) => {
+              const emFoco = indice === itemAtual;
+              const mostrandoDescricao = animal.id === animalAbertoId;
 
-          <section className={styles.modulo}>
-            <Carousel
-              className={`${styles.carrossel} ${
-                poucosAnimais && !isMobile ? styles.poucos : ""
-              }`}
-              selectedItem={itemAtual}
-              onChange={(indice) => {
-                setItemAtual(indice);
-                setAnimalAbertoId(null);
-              }}
-              showThumbs={false}
-              showStatus={false}
-              showIndicators={false}
-              showArrows={false}
-              infiniteLoop={false}
-              swipeable={isMobile || !poucosAnimais}
-              emulateTouch={isMobile || !poucosAnimais}
-              autoPlay={true}
-              centerMode={true}
-              centerSlidePercentage={
-                poucosAnimais && isMobile ? 80 : centerSlidePercentage
-              }
-              transitionTime={800}
-              interval={4000}
-            >
-              {animaisFiltrados.map((animal, indice) => {
-                const emFoco = indice === itemAtual;
-                const mostrandoDescricao = animal.id === animalAbertoId;
+              return (
+                <div key={animal.id} className={styles.itemSlide}>
+                  <div
+                    className={`${styles.cardAnimal} ${
+                      emFoco ? styles.cardAtivo : styles.cardInativo
+                    }`}
+                  >
+                    {!mostrandoDescricao ? (
+                      <>
+                        <img
+                          src={`http://localhost:3003/uploads/${animal.imagemEntrada}`}
+                          alt={animal.nome}
+                          draggable={false}
+                          loading="lazy"
+                        />
 
-                return (
-                  <div key={animal.id} className={styles.itemSlide}>
-                    <div
-                      className={`${styles.cardAnimal} ${
-                        emFoco ? styles.cardAtivo : styles.cardInativo
-                      }`}
-                    >
-                      {!mostrandoDescricao ? (
-                        <>
-                          <img
-                            src={`http://localhost:3003/uploads/${animal.imagemEntrada}`}
-                            alt={animal.nome}
-                            draggable={false}
-                            loading="lazy"
-                          />
+                        <h1>{animal.nome}</h1>
 
-                          <h1>{animal.nome}</h1>
-
-                          <p>
-                            <strong>Idade: </strong>
-                            {opcoes.vincularLabel(
-                              animal.idade?.toString(),
-                              "idadeAnimais",
-                            )}
-                          </p>
-
-                          <p>
-                            <strong>Sexo: </strong>
-                            {opcoes.vincularLabel(animal.sexo, "sexoDoAnimal")}
-                          </p>
-
-                          <p>
-                            <strong>Status de castração: </strong>
-                            {opcoes.vincularLabel(
-                              animal.statusCastracao,
-                              "StatusCastracao",
-                            )}
-                          </p>
-
-                          <button
-                            type="button"
-                            className={styles.botaoSobre}
-                            onMouseDown={(e) => e.stopPropagation()}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              setAnimalAbertoId(animal.id);
-                            }}
-                          >
-                            Sobre
-                          </button>
-
-                          {emFoco && (
-                            <div className={styles.acoesCard}>
-                              <button
-                                type="button"
-                                className={`${styles.botaoNavegacao} ${styles.botaoEsquerdo}`}
-                                onClick={irParaAnterior}
-                                disabled={itemAtual === 0}
-                              >
-                                &lt;
-                              </button>
-
-                              <button
-                                type="button"
-                                className={`${styles.botaoNavegacao} ${styles.botaoDireito}`}
-                                onClick={irParaProximo}
-                                disabled={itemAtual === ultimoIndice}
-                              >
-                                &gt;
-                              </button>
-                            </div>
+                        <p>
+                          <strong>Idade: </strong>
+                          {opcoes.vincularLabel(
+                            animal.idade?.toString(),
+                            "idadeAnimais",
                           )}
-                        </>
-                      ) : (
-                        <div className={styles.descricaoAnimal}>
-                          <h1 className={styles.nomeAnimal}>{animal.nome}</h1>
+                        </p>
 
-                          <p>{animal.descricaoEntrada}</p>
+                        <p>
+                          <strong>Sexo: </strong>
+                          {opcoes.vincularLabel(animal.sexo, "sexoDoAnimal")}
+                        </p>
 
-                          <button
-                            type="button"
-                            className={styles.botaoVoltar}
-                            onMouseDown={(e) => e.stopPropagation()}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              setAnimalAbertoId(null);
-                            }}
-                          >
-                            Voltar
-                          </button>
-                        </div>
-                      )}
-                    </div>
+                        <p>
+                          <strong>Status de castração: </strong>
+                          {opcoes.vincularLabel(
+                            animal.statusCastracao,
+                            "StatusCastracao",
+                          )}
+                        </p>
+
+                        <button
+                          type="button"
+                          className={styles.botaoSobre}
+                          onMouseDown={(e) => e.stopPropagation()}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setAnimalAbertoId(animal.id);
+                          }}
+                        >
+                          Sobre
+                        </button>
+
+                        {emFoco && (
+                          <div className={styles.acoesCard}>
+                            <button
+                              type="button"
+                              className={`${styles.botaoNavegacao} ${styles.botaoEsquerdo}`}
+                              onClick={irParaAnterior}
+                              disabled={itemAtual === 0}
+                            >
+                              &lt;
+                            </button>
+
+                            <button
+                              type="button"
+                              className={`${styles.botaoNavegacao} ${styles.botaoDireito}`}
+                              onClick={irParaProximo}
+                              disabled={itemAtual === ultimoIndice}
+                            >
+                              &gt;
+                            </button>
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <div className={styles.descricaoAnimal}>
+                        <h1 className={styles.nomeAnimal}>{animal.nome}</h1>
+
+                        <p>{animal.descricaoEntrada}</p>
+
+                        <button
+                          type="button"
+                          className={styles.botaoVoltar}
+                          onMouseDown={(e) => e.stopPropagation()}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setAnimalAbertoId(null);
+                          }}
+                        >
+                          Voltar
+                        </button>
+                      </div>
+                    )}
                   </div>
-                );
-              })}
-            </Carousel>
-          </section>
+                </div>
+              );
+            })}
+          </Carousel>
+        </section>
 
-          <section
-            className={`${styles.modulo} ${styles.parallax} ${styles.parallax2}`}
-          >
-            <h1>Critérios de adoção</h1>
-          </section>
+        <section
+          className={`${styles.secao} ${styles.parallax} ${styles.parallax2}`}
+        >
+          <h1>Critérios de adoção</h1>
+        </section>
 
-          <section className={`${styles.modulo} ${styles.conteudo}`}>
-            <div className={styles.bloco}>
-              <img src="/pagAdocao/avaliacao.png"></img>
-              <h2>Avaliação Comportamental</h2>
-              <p>&nbsp;Um critério muito importante é a avaliação de como o futuro &quot;pai de pet&quot; interage com os animais, pois a primeira impressão deixada é de suma importância para a avaliação.</p>
-            </div>
-            <div className={styles.bloco}>
-              <img src="/pagAdocao/ficha.png"></img>
-              <h2>Ficha Limpa</h2>
-              <p>&nbsp;Estamos sempre atentos a denúncias de maus-tratos e podemos impedir a adoção de qualquer animal caso chegue ao nosso conhecimento um histórico de agressividade ou abandono.</p>
-            </div>
-            <div className={styles.bloco}>
-              <img src="/pagAdocao/lar.png"></img>
-              <h2>Lar adequado</h2>
-              <p>&nbsp;Antes de adotar um animal, é preciso ter ciência de que é necessário um ambiente adequado para recebê-lo, pois do contrário, eles podem adoecer ou ficar muito agitados, mesmo que seus donos cuidem bem. Quintais ou gaiolas grandes e um ambiente limpo são critérios decisivos para a aprovação ou rejeição da adoção do animal.</p>
-            </div>
-            <div className={styles.bloco}>
-              <img src="/pagAdocao/rotina.png"></img>
-              <h2>Rotina Adequada</h2>
-              <p>&nbsp;Os animais domésticos precisam de atenção e cuidados diários para se manterem felizes e consequentemente saudáveis, portanto, é necessário que os donos tenham tempo para passear, dar banho, alimentá-lo e tratá-lo de doenças/ferimentos.</p>
-            </div>
-            <div className={styles.bloco}>
-              <img src="/pagAdocao/financeiro.png"></img>
-              <h2>Financeiro</h2>
-              <p>&nbsp;Cuidar de um animal exige um certo gasto para mantê-los, sendo necessário uma ração adequada, coleira e guia para o passeio e entender que o animal ocasionalmente poderá ficar doente e é responsabilidade do dono tratar.</p>
-            </div>
-          </section>
-        </main>
-      </div>
+        <section className={`${styles.secao} ${styles.conteudo}`}>
+          <div className={styles.bloco}>
+            <img src="/pagAdocao/avaliacao.png"></img>
+            <h2>Avaliação Comportamental</h2>
+            <p>
+              &nbsp;Um critério muito importante é a avaliação de como o futuro
+              &quot;pai de pet&quot; interage com os animais, pois a primeira
+              impressão deixada é de suma importância para a avaliação.
+            </p>
+          </div>
+          <div className={styles.bloco}>
+            <img src="/pagAdocao/ficha.png"></img>
+            <h2>Ficha Limpa</h2>
+            <p>
+              &nbsp;Estamos sempre atentos a denúncias de maus-tratos e podemos
+              impedir a adoção de qualquer animal caso chegue ao nosso
+              conhecimento um histórico de agressividade ou abandono.
+            </p>
+          </div>
+          <div className={styles.bloco}>
+            <img src="/pagAdocao/lar.png"></img>
+            <h2>Lar adequado</h2>
+            <p>
+              &nbsp;Antes de adotar um animal, é preciso ter ciência de que é
+              necessário um ambiente adequado para recebê-lo, pois do contrário,
+              eles podem adoecer ou ficar muito agitados, mesmo que seus donos
+              cuidem bem. Quintais ou gaiolas grandes e um ambiente limpo são
+              critérios decisivos para a aprovação ou rejeição da adoção do
+              animal.
+            </p>
+          </div>
+          <div className={styles.bloco}>
+            <img src="/pagAdocao/rotina.png"></img>
+            <h2>Rotina Adequada</h2>
+            <p>
+              &nbsp;Os animais domésticos precisam de atenção e cuidados diários
+              para se manterem felizes e consequentemente saudáveis, portanto, é
+              necessário que os donos tenham tempo para passear, dar banho,
+              alimentá-lo e tratá-lo de doenças/ferimentos.
+            </p>
+          </div>
+          <div className={styles.bloco}>
+            <img src="/pagAdocao/financeiro.png"></img>
+            <h2>Financeiro</h2>
+            <p>
+              &nbsp;Cuidar de um animal exige um certo gasto para mantê-los,
+              sendo necessário uma ração adequada, coleira e guia para o passeio
+              e entender que o animal ocasionalmente poderá ficar doente e é
+              responsabilidade do dono tratar.
+            </p>
+          </div>
+        </section>
+      </main>
 
       <Footer />
     </>

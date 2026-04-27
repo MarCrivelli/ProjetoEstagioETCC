@@ -1,18 +1,4 @@
-.containerParallax {
-  width: 100%;
-  margin: 0 auto;
-}
-
-main {
-  display: block;
-  background-color: white;
-}
-
-.instrucoes {
-  display: flex;
-}
-
-section.modulo.parallax {
+section.secao.parallax {
   display: flex;
   flex-direction: column;
   height: 100vh !important;
@@ -26,7 +12,7 @@ section.modulo.parallax {
   z-index: 49;
 }
 
-section.modulo.parallax::before {
+section.secao.parallax::before {
   content: "";
   height: 100%;
   width: 100%;
@@ -40,7 +26,7 @@ section.modulo.parallax::before {
   );
 }
 
-section.modulo.parallax h1 {
+section.secao.parallax h1 {
   margin: auto;
   color: white;
   font-size: 5rem;
@@ -60,15 +46,15 @@ section.modulo.parallax h1 {
   }
 }
 
-section.modulo.parallax1 {
+section.secao.parallax1 {
   background-image: url(https://institutofaunabrasil.org.br/wp-content/uploads/2024/02/Banner-site-sem-granu4.jpg);
 }
 
-section.modulo.parallax2 {
+section.secao.parallax2 {
   background-image: url(https://institutofaunabrasil.org.br/wp-content/uploads/2024/02/Banner-site-sem-granu4.jpg);
 }
 
-section.modulo.parallax3 {
+section.secao.parallax3 {
   background-image: url(https://institutopetbrasil.com/storage/438/Banner_B2C_01_1900x1300_01.jpg);
 }
 
@@ -76,17 +62,6 @@ section.modulo.parallax3 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* background: linear-gradient(
-    to right,
-    #8b322c 0%,
-    #8b322c 25%,
-    #dd5746 25%,
-    #dd5746 50%,
-    #ffcf54 50%,
-    #ffcf54 75%,
-    #4793af 75%,
-    #4793af 100%
-  ); */
   background: linear-gradient(40deg, #0080ff, #00eeff);
   padding: 100px 0;
   position: relative;
@@ -94,7 +69,7 @@ section.modulo.parallax3 {
   overflow: hidden;
 }
 
-.carrossel::before{
+.carrossel::before {
   content: "";
   position: absolute;
   width: 100%;
@@ -118,29 +93,6 @@ section.modulo.parallax3 {
     transform: scale(1.3);
   }
 }
-
-
-/* .carrossel::before,
-.carrossel::after {
-  content: "";
-
-  position: absolute;
-  width: 100%;
-  height: 20px;
-  background: linear-gradient(
-    to right,
-    #8b322c 0%,
-    #8b322c 25%,
-    #dd5746 25%,
-    #dd5746 50%,
-    #ffcf54 50%,
-    #ffcf54 75%,
-    #4793af 75%,
-    #4793af 100%
-  );
-  filter: blur(60px);
-  z-index: 100;
-} */
 
 .carrossel::before {
   top: 0;
@@ -171,7 +123,6 @@ section.modulo.parallax3 {
   display: flex;
   justify-content: flex-start;
   padding: 0 20px;
-  
 }
 
 .cardAnimal {
@@ -300,7 +251,7 @@ section.modulo.parallax3 {
   display: flex;
   flex-wrap: wrap;
   padding: 100px 20px;
-  gap: 40px;
+  gap: 57px;
   justify-content: center;
   z-index: 100;
   position: relative;
@@ -335,8 +286,6 @@ section.modulo.parallax3 {
   opacity: 1;
 }
 
-
-
 .conteudo .bloco {
   display: flex;
   flex: 1 calc(400px - 100px);
@@ -347,17 +296,17 @@ section.modulo.parallax3 {
   box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.582);
   border-radius: 10px;
   height: auto;
-  max-width: 400px;
+  max-width: 350px;
   padding: 20px;
   z-index: 100;
-  transition:transform  ease-in-out .5s;
+  transition: transform ease-in-out 0.5s;
 }
 
-.conteudo .bloco:hover{
+.conteudo .bloco:hover {
   transform: scale(1.1);
 }
 
-.conteudo .bloco img{
+.conteudo .bloco img {
   width: 100px;
   height: 100px;
 }
@@ -369,27 +318,27 @@ section.modulo.parallax3 {
   margin-bottom: 20px;
 }
 
-.conteudo .bloco:nth-of-type(1) h2{
+.conteudo .bloco:nth-of-type(1) h2 {
   color: #ffcf54;
   -webkit-text-stroke-color: #cd9300;
 }
 
-.conteudo .bloco:nth-of-type(2) h2{
+.conteudo .bloco:nth-of-type(2) h2 {
   color: #06b700;
   -webkit-text-stroke-color: #047400;
 }
 
-.conteudo .bloco:nth-of-type(3) h2{
+.conteudo .bloco:nth-of-type(3) h2 {
   color: #ff7300;
   -webkit-text-stroke-color: #a34900;
 }
 
-.conteudo .bloco:nth-of-type(4) h2{
+.conteudo .bloco:nth-of-type(4) h2 {
   color: #ff005d;
   -webkit-text-stroke-color: #850031;
 }
 
-.conteudo .bloco:nth-of-type(5) h2{
+.conteudo .bloco:nth-of-type(5) h2 {
   color: #5500ff;
   -webkit-text-stroke-color: #270076;
 }
@@ -411,7 +360,7 @@ section.modulo.parallax3 {
 }
 
 @media (max-width: 1400px) {
-  section.modulo.parallax h1 {
+  section.secao.parallax h1 {
     font-size: 4rem;
   }
 
@@ -431,24 +380,25 @@ section.modulo.parallax3 {
 }
 
 @media (max-width: 768px) {
-  section.modulo.parallax h1 {
+  section.secao.parallax h1 {
     font-size: 3rem;
   }
   .conteudo {
     padding: 60px 20px;
     background: linear-gradient(
-    to bottom,
-    #ffcf54 0%,
-    #ffcf54 20%,
-    #06b700 20%,
-    #06b700 40%,
-    #ff7300 40%,
-    #ff7300 60%,
-    #ff005d 60%,
-    #ff005d 80%,
-    #5500ff 80%,
-    #5500ff 100%
-  );
+      to bottom,
+      #ffcf54 0%,
+      #ffcf54 20%,
+      #06b700 20%,
+      #06b700 40%,
+      #ff7300 40%,
+      #ff7300 60%,
+      #ff005d 60%,
+      #ff005d 80%,
+      #5500ff 80%,
+      #5500ff 100%
+    );
+    gap: 40px;
   }
   .conteudo .bloco {
     flex: 1 calc(300px - 20px);
@@ -466,7 +416,7 @@ section.modulo.parallax3 {
 }
 
 @media (max-width: 480px) {
-  section.modulo.parallax h1 {
+  section.secao.parallax h1 {
     font-size: 2.5rem;
   }
   .botaoNavegacao {
@@ -503,5 +453,9 @@ section.modulo.parallax3 {
   .botaoSobre,
   .botaoVoltar {
     padding: 4px 18px;
+  }
+
+  .conteudo {
+    gap: 30px;
   }
 }

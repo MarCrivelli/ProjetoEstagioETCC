@@ -1,93 +1,225 @@
-.fundoDaPagina{
-  /* background: linear-gradient(
-    to right,
-    #06202B 0%,
-    #06202B 25%,
-    #077A7D 25%,
-    #077A7D 50%,
-    #7AE2CF 50%,
-    #7AE2CF 75%,
-    #F5EEDD 75%,
-    #F5EEDD 100%
-  ); */
-}
-
-.ajusteElementosDaPagina {
+section.secao.parallax {
   display: flex;
   flex-direction: column;
-  row-gap: 50px;
-  padding: 3% 10% 6% 10%;
-  min-height: calc(100vh - 70px);
-}
-
-.seccao {
-  display: flex;
-  flex-direction: column;
-  row-gap: 30px;
-  background-color: white;
-  padding: 7% 8%;
-  border: 2px solid black;
-  box-shadow: 7px 8px 1px #173d49c2;
-  border-radius: 10px;
+  height: 100vh !important;
+  width: 100%;
   position: relative;
-  z-index: 1;
+  overflow: hidden;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  z-index: 49;
 }
 
-.seccao h1 {
-  font-size: 2.3rem;
+section.secao.parallax::before {
+  content: "";
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 10;
+  background: linear-gradient(
+    to bottom,
+    #03051b76 0,
+    #03051b76 40%,
+    #03051bda 100%
+  );
 }
 
-.seccao p,
-.seccao .strong {
-  font-size: 1.15rem;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  text-align: justify;
+section.secao.parallax h1 {
+  margin: auto;
+  color: white;
+  font-size: 5rem;
+  z-index: 50;
+  animation: efeitoDeslizanteTitulo 0.8s ease-out forwards;
+  padding: 20px;
 }
 
-.strong {
-  font-weight: 700;
+@keyframes efeitoDeslizanteTitulo {
+  from {
+    transform: translateY(30vw);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0vw);
+    opacity: 1;
+  }
 }
 
-.seccao p {
-  margin-bottom: 0;
+section.secao.parallax1 {
+  background-image: url(https://institutofaunabrasil.org.br/wp-content/uploads/2024/02/Banner-site-sem-granu4.jpg);
 }
 
-.lista{
-  margin-top: 5px;
-  font-weight: 500;
+section.secao.parallax2 {
+  background-image: url(https://institutofaunabrasil.org.br/wp-content/uploads/2024/02/Banner-site-sem-granu4.jpg);
+}
+
+section.secao.parallax3 {
+  background-image: url(https://institutopetbrasil.com/storage/438/Banner_B2C_01_1900x1300_01.jpg);
+}
+
+.conteudo {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 100px 20px;
+  gap: 40px;
+  justify-content: center;
+  z-index: 100;
+  position: relative;
+  overflow: hidden;
+}
+
+.conteudo1::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-image: url(/imagensDeFundo/fundoPatas_BrancoTotal.png);
+  background-repeat: repeat; /* Faz com que a imagem se repita */
+  background-size: 1000px 1000px; /* Define o tamanho da imagem (largura x altura) */
+  background-position: top left; /* A posição inicial da repetição é no canto superior esquerdo */
+  z-index: 10;
+  opacity: 1;
+}
+
+.conteudo1{
+  background: linear-gradient(40deg, #5500ff, #8000ff);
+}
+
+.conteudo2{
+  background: linear-gradient(
+    to right,
+    #8b322c 0%,
+    #8b322c 25%,
+    #dd5746 25%,
+    #dd5746 50%,
+    #ffc470 50%,
+    #ffc470 75%,
+    #4793af 75%,
+    #4793af 100%
+  );
+}
+
+.painel{
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  z-index: 1000;
+  padding: 40px 20px;
+  border: 3px solid black;
+  border-radius: 10px;
 }
 
 .QRCode{
-  width: 100%;
-  max-width: 190px;
+  width: 140px;
+  height: 140px;
+}
+
+
+@media (max-width: 1780px) {
+  .botaoEsquerdo {
+    left: -80px;
+  }
+
+  .botaoDireito {
+    right: -80px;
+  }
+}
+
+@media (max-width: 1400px) {
+  section.secao.parallax h1 {
+    font-size: 4rem;
+  }
+
+  .botaoEsquerdo {
+    left: -60px;
+  }
+
+  .botaoDireito {
+    right: -60px;
+  }
+}
+
+@media (max-width: 840px) {
+  .conteudo .bloco {
+    max-width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
-  .ajusteElementosDaPagina {
-    padding: 50px 5%;
+  section.secao.parallax h1 {
+    font-size: 3rem;
   }
-  .ajusteElementosDaPagina::after {
-    right: -20px;
-    top: 30px;
-    transform: rotate(10deg);
+  .conteudo {
+    padding: 60px 20px;
+    background: linear-gradient(
+    to bottom,
+    #ffcf54 0%,
+    #ffcf54 20%,
+    #06b700 20%,
+    #06b700 40%,
+    #ff7300 40%,
+    #ff7300 60%,
+    #ff005d 60%,
+    #ff005d 80%,
+    #5500ff 80%,
+    #5500ff 100%
+  );
+  }
+  .conteudo .bloco {
+    flex: 1 calc(300px - 20px);
+    box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.582);
+    padding: 20px;
+  }
+  .conteudo .bloco h2 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
   }
 
-  .seccao {
-    padding: 35px 8%;
-    box-shadow: 4px 5px 1px #173d49c2;
-  }
-
-  .seccao h1 {
-    font-size: 1.4rem;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-
-  .seccao p,
-  .seccao .strong {
+  .conteudo .bloco p {
     font-size: 0.8rem;
   }
-  .seccao p {
-    margin-bottom: 10px;
+}
+
+@media (max-width: 480px) {
+  section.secao.parallax h1 {
+    font-size: 2.5rem;
+  }
+  .botaoNavegacao {
+    width: 35px;
+    height: 35px;
+    font-size: 0.8rem;
+  }
+
+  .botaoEsquerdo {
+    left: -45px;
+  }
+
+  .botaoDireito {
+    right: -45px;
+  }
+  .cardAnimal {
+    width: 370px;
+    min-height: 460px;
+  }
+  .cardAnimal img {
+    width: 100%;
+    height: 250px;
+  }
+
+  .cardAnimal h1,
+  .nomeAnimal {
+    font-size: 1.8rem;
+  }
+
+  .cardAnimal p,
+  .descricaoAnimal p {
+    font-size: 0.8rem;
+  }
+  .botaoSobre,
+  .botaoVoltar {
+    padding: 4px 18px;
   }
 }
