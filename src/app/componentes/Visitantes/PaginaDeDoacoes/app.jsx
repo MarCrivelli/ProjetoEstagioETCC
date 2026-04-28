@@ -17,11 +17,11 @@ export default function QueroAdotar() {
           className={`${styles.secao} ${styles.conteudo} ${styles.conteudo1}`}
         >
           <div className={styles.painel}>
-            <p>
-              <strong className={styles.strong}>1- </strong>Você pode fazer uma
-              doação em dinheiro escaneando o QR code abaixo. Qualquer quantia é
-              bem vinda, doe o que puder.
-            </p>
+            <h2>
+              Escaneando o QR-Code abaixo, você poderá fazer uma doação em
+              dinheiro para o número PIX do Instituto Esperança. Qualquer valor
+              é bem-vindo!
+            </h2>
             <img
               src="/QRCodeDoacao/QRCodeTeste.png"
               className={styles.QRCode}

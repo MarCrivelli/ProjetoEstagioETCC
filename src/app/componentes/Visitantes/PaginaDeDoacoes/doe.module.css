@@ -61,7 +61,6 @@ section.secao.parallax3 {
 .conteudo {
   display: flex;
   flex-wrap: wrap;
-  padding: 100px 20px;
   gap: 40px;
   justify-content: center;
   z-index: 100;
@@ -69,52 +68,44 @@ section.secao.parallax3 {
   overflow: hidden;
 }
 
-.conteudo1::before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background-image: url(/imagensDeFundo/fundoPatas_BrancoTotal.png);
-  background-repeat: repeat; /* Faz com que a imagem se repita */
-  background-size: 1000px 1000px; /* Define o tamanho da imagem (largura x altura) */
-  background-position: top left; /* A posição inicial da repetição é no canto superior esquerdo */
+.conteudo1{
+  justify-content: flex-start;
   z-index: 10;
-  opacity: 1;
+  height: 70vh;
+  background-image: url(/pagDoacao/fundoOndas.svg);
+  background-repeat: no-repeat; 
+  background-size: cover;
+  background-position: top left;
 }
 
-.conteudo1{
-  background: linear-gradient(40deg, #5500ff, #8000ff);
-}
 
 .conteudo2{
-  background: linear-gradient(
-    to right,
-    #8b322c 0%,
-    #8b322c 25%,
-    #dd5746 25%,
-    #dd5746 50%,
-    #ffc470 50%,
-    #ffc470 75%,
-    #4793af 75%,
-    #4793af 100%
-  );
+  background-image: url(/pagDoacao/fundoExplosao.svg);
+  background-repeat: no-repeat; 
+  background-size: cover;
+  background-position: top left;
+  padding: 200px 100px;
 }
 
 .painel{
   display: flex;
   flex-direction: column;
-  background-color: white;
   z-index: 1000;
   padding: 40px 20px;
-  border: 3px solid black;
-  border-radius: 10px;
+  width: 45%;
+}
+
+.painel h2{
+  font-size: 1.45rem;
+  font-weight: 400;
+  text-align: justify;
 }
 
 .QRCode{
-  width: 140px;
-  height: 140px;
+  width: 200px;
+  height: 200px;
+  margin: auto;
+  border: 1px solid black;
 }
 
 
@@ -151,22 +142,6 @@ section.secao.parallax3 {
 @media (max-width: 768px) {
   section.secao.parallax h1 {
     font-size: 3rem;
-  }
-  .conteudo {
-    padding: 60px 20px;
-    background: linear-gradient(
-    to bottom,
-    #ffcf54 0%,
-    #ffcf54 20%,
-    #06b700 20%,
-    #06b700 40%,
-    #ff7300 40%,
-    #ff7300 60%,
-    #ff005d 60%,
-    #ff005d 80%,
-    #5500ff 80%,
-    #5500ff 100%
-  );
   }
   .conteudo .bloco {
     flex: 1 calc(300px - 20px);
