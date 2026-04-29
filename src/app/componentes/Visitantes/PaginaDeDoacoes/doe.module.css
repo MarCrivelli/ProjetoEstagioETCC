@@ -63,73 +63,118 @@ section.secao.parallax3 {
   flex-wrap: wrap;
   gap: 40px;
   justify-content: center;
-  z-index: 100;
   position: relative;
   overflow: hidden;
 }
 
-.conteudo1{
+.conteudo1 {
   justify-content: flex-start;
   z-index: 10;
-  height: 70vh;
-  background-image: url(/pagDoacao/fundoOndas.svg);
-  background-repeat: no-repeat; 
-  background-size: cover;
-  background-position: top left;
+  min-height: 60vh;
+  background-color: #ffb522;
+  padding: 100px 50px;
 }
 
+.conteudo1::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(/pagDoacao/fundoOndas.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top left;
+  z-index: 10;
+}
 
-.conteudo2{
+.conteudo1::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url(/imagensDeFundo/fundoPatas_BrancoTotal.png);
+  background-repeat: repeat; /* Faz com que a imagem se repita */
+  background-size: 500px 500px; /* Define o tamanho da imagem (largura x altura) */
+  background-position: top left;
+  background-attachment: fixed;
+  opacity: 0.4;
+  z-index: -1;
+}
+
+.conteudo2 {
   background-image: url(/pagDoacao/fundoExplosao.svg);
-  background-repeat: no-repeat; 
+  background-repeat: no-repeat;
   background-size: cover;
   background-position: top left;
   padding: 200px 100px;
 }
 
-.painel{
+.painel {
   display: flex;
   flex-direction: column;
-  z-index: 1000;
-  padding: 40px 20px;
-  width: 45%;
+  z-index: 100;
 }
 
-.painel h2{
-  font-size: 1.45rem;
-  font-weight: 400;
+.conteudo1 .painel {
+  max-width: 670px;
+}
+
+.conteudo1 .painel h1 {
+  color: #ffffff;
+  -webkit-text-stroke-color: #000000;
+  -webkit-text-stroke-width: 0.08rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 4rem;
+}
+
+.conteudo1 .painel h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
   text-align: justify;
+  padding-inline: 40px;
 }
 
-.QRCode{
+.conteudo1 .painel img {
   width: 200px;
   height: 200px;
-  margin: auto;
-  border: 1px solid black;
+  margin: 10% auto auto auto;
+  border: 4px solid black;
 }
 
+.conteudo1 .painel input {
+  border-radius: 5em;
+  margin: 20px auto 0 auto;
+  width: 100%;
+  max-width: 400px;
+  border: 3px solid black;
+  padding: 3px 0 3px 7px;
+  overflow-y: hidden;
+}
 
-@media (max-width: 1780px) {
-  .botaoEsquerdo {
-    left: -80px;
-  }
+.conteudo2 .painel{
+  color: white;
+  max-width: 1100px;
+}
 
-  .botaoDireito {
-    right: -80px;
-  }
+.conteudo2 .painel h1{
+  font-size: 4rem;
+  text-align: center;
+  margin-bottom: 100px;
+}
+
+.conteudo2 .painel h2{
+  font-size: 2rem;
+  font-weight: 400;
 }
 
 @media (max-width: 1400px) {
   section.secao.parallax h1 {
     font-size: 4rem;
-  }
-
-  .botaoEsquerdo {
-    left: -60px;
-  }
-
-  .botaoDireito {
-    right: -60px;
   }
 }
 
@@ -140,61 +185,36 @@ section.secao.parallax3 {
 }
 
 @media (max-width: 768px) {
-  section.secao.parallax h1 {
+  section.secao.parallax h1,
+  .conteudo1 .painel h1,
+  .conteudo2 .painel h1 {
     font-size: 3rem;
   }
-  .conteudo .bloco {
-    flex: 1 calc(300px - 20px);
-    box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.582);
-    padding: 20px;
-  }
-  .conteudo .bloco h2 {
-    font-size: 1.6rem;
-    margin-bottom: 10px;
+
+  .conteudo1 {
+    padding: 200px 20px 100px 20px;
   }
 
-  .conteudo .bloco p {
-    font-size: 0.8rem;
+  .conteudo1::before {
+    background-image: url(/pagDoacao/fundoOndas_Celular.svg);
+  }
+  .conteudo1 .painel h2 {
+    font-size: 1rem;
+  }
+  .conteudo1 .painel img {
+    width: 140px;
+    height: 140px;
+    margin-top: 40px;
+  }
+  .conteudo1 .painel input {
+    padding: 1px 0 1px 7px;
+    height: 26px;
   }
 }
 
 @media (max-width: 480px) {
-  section.secao.parallax h1 {
+  section.secao.parallax h1,
+  .conteudo1 .painel h1 {
     font-size: 2.5rem;
-  }
-  .botaoNavegacao {
-    width: 35px;
-    height: 35px;
-    font-size: 0.8rem;
-  }
-
-  .botaoEsquerdo {
-    left: -45px;
-  }
-
-  .botaoDireito {
-    right: -45px;
-  }
-  .cardAnimal {
-    width: 370px;
-    min-height: 460px;
-  }
-  .cardAnimal img {
-    width: 100%;
-    height: 250px;
-  }
-
-  .cardAnimal h1,
-  .nomeAnimal {
-    font-size: 1.8rem;
-  }
-
-  .cardAnimal p,
-  .descricaoAnimal p {
-    font-size: 0.8rem;
-  }
-  .botaoSobre,
-  .botaoVoltar {
-    padding: 4px 18px;
   }
 }

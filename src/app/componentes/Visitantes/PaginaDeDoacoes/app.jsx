@@ -17,15 +17,16 @@ export default function QueroAdotar() {
           className={`${styles.secao} ${styles.conteudo} ${styles.conteudo1}`}
         >
           <div className={styles.painel}>
+            <h1>Escaneie o QR-Code abaixo.</h1>
             <h2>
-              Escaneando o QR-Code abaixo, você poderá fazer uma doação em
-              dinheiro para o número PIX do Instituto Esperança. Qualquer valor
-              é bem-vindo!
+              Ao escanear, você poderá fazer uma doação para o número PIX do
+              Instituto Esperança. Qualquer valor é bem-vindo!
             </h2>
             <img
               src="/QRCodeDoacao/QRCodeTeste.png"
-              className={styles.QRCode}
             ></img>
+
+            <input type="string"/>
           </div>
         </section>
 
@@ -39,15 +40,11 @@ export default function QueroAdotar() {
           className={`${styles.secao} ${styles.conteudo} ${styles.conteudo2}`}
         >
           <div className={styles.painel}>
-            <div className={styles.alinharTitulo}>
               <h1>
-                Você pode mandar suprimentos ou equipamentos para o{" "}
-                <span>nosso Instituto,</span> onde o avaliaremos e utilizaremos
-                para o cuidado de nossos animais.
+                Você também pode mandar suprimentos ou equipamentos para nós!
               </h1>
               <h2>Itens que nós aceitamos:</h2>
-            </div>
-            <ul className={styles.lista}>
+            <ul>
               <li>Ração &#40;para gatos ou cachorros&#41;;</li>
               <li>Cone veterinário;</li>
               <li>Coleira;</li>
