@@ -22,11 +22,9 @@ export default function QueroAdotar() {
               Ao escanear, você poderá fazer uma doação para o número PIX do
               Instituto Esperança. Qualquer valor é bem-vindo!
             </h2>
-            <img
-              src="/QRCodeDoacao/QRCodeTeste.png"
-            ></img>
+            <img src="/QRCodeDoacao/QRCodeTeste.png"></img>
 
-            <input type="string"/>
+            <input type="string" />
           </div>
         </section>
 
@@ -40,25 +38,64 @@ export default function QueroAdotar() {
           className={`${styles.secao} ${styles.conteudo} ${styles.conteudo2}`}
         >
           <div className={styles.painel}>
-              <h1>
-                Você também pode mandar suprimentos ou equipamentos para nós!
-              </h1>
-              <h2>Itens que nós aceitamos:</h2>
-            <ul>
-              <li>Ração &#40;para gatos ou cachorros&#41;;</li>
-              <li>Cone veterinário;</li>
-              <li>Coleira;</li>
-              <li>
-                Caminha de cachorro ou cobertores &#40;pode ser usado&#41;.
-              </li>
-            </ul>
-            <p>
+            <h1>
+              Você também pode mandar suprimentos ou equipamentos para nós!
+            </h1>
+            <h2>
+              Desde que esteja em boas condições, o Instituto Esperança aceita a
+              doação de itens que podem ser úteis nos cuidados diários com os
+              nossos animais. Veja abaixo alguns os itens que nós aceitamos:
+            </h2>
+            <div className={styles.alinharContainerIcones}>
+              <div className={styles.containerIcones}>
+                <img src="/pagDoacao/caminha.png"></img>
+                <p>
+                  <strong>Caminha de animais:</strong> Todos os nossos animais
+                  dormem em camas para animais com tamanhos de acordo com o
+                  porte deles, para que possam ter o máximo de conforto e
+                  dignidade, porém, eventualmente acontece delas rasgarem ou de
+                  mais animais chegarem e não ter caminhas suficientes para
+                  todos.
+                </p>
+              </div>
+              <div className={styles.containerIcones}>
+                <img src="/pagDoacao/coleira.png"></img>
+                <p>
+                  <strong>Coleira:</strong> Coleiras são muito úteis no momento
+                  de colocar o cone veterinário, pois elas dão sustentação ao
+                  cone. Além disso, na hora de entregar o animal nós podemos o
+                  entregar com sua coleira, caso ele possua.
+                </p>
+              </div>
+              <div className={styles.containerIcones}>
+                <img src="/pagDoacao/cone.png"></img>
+                <p>
+                  <strong>Cone Veterinário:</strong> Eventualmente nós
+                  resgatamos animais doentes, que por sua vez, precisam do cone
+                  para conseguirem se recuperar totalmente, portanto, cones para
+                  animais de pequeno, médio e grande porte são sempre
+                  bem-vindos.
+                </p>
+              </div>
+              <div className={styles.containerIcones}>
+                <img src="/pagDoacao/racao.png"></img>
+                <p>
+                  <strong>Ração:</strong> Assim como nós, os animais também
+                  precisam se alimentar e com tantos animais, a nossa demanda de
+                  ração não para. Aceitamos ração para cachorros e gatos, sem
+                  preferências.
+                </p>
+              </div>
+            </div>
+            <h2>
               <strong className={styles.strong}>Importante:</strong> A ração
               precisa estar totalmente fechada e na embalagem original, pois do
-              contrário não aceitaremos. Além disso, não doe caminhas ou
-              cobertores usados de seu pet caso o mesmo esteja com doenças ou
+              contrário não aceitaremos &#40;risco de contaminação ou
+              envenenamento&#41;. Além disso, não doe caminhas ou cobertores
+              usados pets que estejam ou estiveram recentemente com doenças ou
               infecções contagiosas, como sarna ou cinomose, por exemplo.
-            </p>
+              Pedimos a sua compreenção.
+            </h2>
           </div>
         </section>
       </main>

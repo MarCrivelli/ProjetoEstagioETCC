@@ -54,10 +54,6 @@ section.secao.parallax2 {
   background-image: url(https://institutofaunabrasil.org.br/wp-content/uploads/2024/02/Banner-site-sem-granu4.jpg);
 }
 
-section.secao.parallax3 {
-  background-image: url(https://institutopetbrasil.com/storage/438/Banner_B2C_01_1900x1300_01.jpg);
-}
-
 .conteudo {
   display: flex;
   flex-wrap: wrap;
@@ -156,25 +152,63 @@ section.secao.parallax3 {
   overflow-y: hidden;
 }
 
-.conteudo2 .painel{
+.conteudo2 .painel {
   color: white;
   max-width: 1100px;
+  gap: 20px;
 }
 
-.conteudo2 .painel h1{
+.conteudo2 .painel h1 {
   font-size: 4rem;
   text-align: center;
-  margin-bottom: 100px;
+  margin-bottom: calc(40px - 20px);
+  text-transform: uppercase;
 }
 
-.conteudo2 .painel h2{
-  font-size: 2rem;
+.conteudo2 .painel h2 {
+  font-size: 1.2rem;
   font-weight: 400;
+}
+
+.alinharContainerIcones {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+}
+
+.containerIcones {
+  display: flex;
+  gap: 20px;
+}
+
+.containerIcones img {
+  height: 100px;
+  width: 100px;
+  padding: 15px;
+  background-color: #f0f0f0;
+  border-radius: 50%;
+  overflow: visible;
+}
+
+.containerIcones p {
+  font-size: 1.1rem;
+}
+
+.conteudo2 .painel h2,
+.containerIcones p {
+  text-align: justify;
 }
 
 @media (max-width: 1400px) {
   section.secao.parallax h1 {
     font-size: 4rem;
+  }
+  .conteudo2 .painel h1 {
+    font-size: 3.5rem;
+  }
+  .conteudo2 {
+    padding: 100px 50px;
   }
 }
 
@@ -210,11 +244,28 @@ section.secao.parallax3 {
     padding: 1px 0 1px 7px;
     height: 26px;
   }
+  .alinharContainerIcones {
+    gap: 60px;
+    margin-block: 50px;
+  }
+  .containerIcones {
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 @media (max-width: 480px) {
   section.secao.parallax h1,
-  .conteudo1 .painel h1 {
+  .conteudo1 .painel h1,
+  .conteudo2 .painel h1 {
     font-size: 2.5rem;
   }
+  .conteudo2 .painel h2 {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+  .containerIcones p {
+  font-size: 0.9rem;
+}
 }
