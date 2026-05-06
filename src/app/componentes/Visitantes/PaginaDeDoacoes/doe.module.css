@@ -27,6 +27,7 @@ section.secao.parallax::before {
 }
 
 section.secao.parallax h1 {
+  text-align: center;
   margin: auto;
   color: white;
   font-size: 5rem;
@@ -209,12 +210,6 @@ section.secao.parallax2 {
   }
   .conteudo2 {
     padding: 100px 50px;
-  }
-}
-
-@media (max-width: 840px) {
-  .conteudo .bloco {
-    max-width: 100%;
   }
 }
 

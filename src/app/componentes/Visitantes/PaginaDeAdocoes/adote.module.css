@@ -27,6 +27,7 @@ section.secao.parallax::before {
 }
 
 section.secao.parallax h1 {
+  text-align: center;
   margin: auto;
   color: white;
   font-size: 5rem;

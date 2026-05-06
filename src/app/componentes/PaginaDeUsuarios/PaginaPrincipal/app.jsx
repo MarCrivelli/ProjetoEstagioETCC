@@ -1,5 +1,4 @@
 "use client";
-import styles from "./paginaPrincipal.module.css";
 import { useState, useEffect } from "react";
 import BotaoParaPaginaDeAdms from "../../Visitantes/BotaoParaPaginaDeAdms/app";
 import CadastroELogin from "../CadastroELogin/app";
@@ -184,9 +183,9 @@ export default function GerenciarUsuario() {
   // Mostrar loading enquanto verifica autenticação
   if (carregandoVerificacao) {
     return (
-      <div className={styles.appContainer}>
+      <div >
         <BotaoParaPaginaDeAdms />
-        <div className={styles.loadingContainer}>
+        <div>
           <p>Verificando autenticação...</p>
         </div>
       </div>
@@ -194,7 +193,7 @@ export default function GerenciarUsuario() {
   }
 
   return (
-    <div className={styles.appContainer}>
+    <div>
       <BotaoParaPaginaDeAdms />
       
       {usuarioLogado ? (

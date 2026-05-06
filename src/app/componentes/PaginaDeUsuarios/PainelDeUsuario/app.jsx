@@ -7,7 +7,6 @@ import Select from "react-select";
 //================ Minhas importações ================//
 import styles from "./painelUsuario.module.css";
 import HeaderVisitantes from "../../Visitantes/HeaderVisitantes/app";
-import Footer from "../../Visitantes/Footer/app";
 import opcoes from "/src/app/componentes/Administradores/OpcoesDeSelecao/opcoes";
 
 export default function PainelUsuario({
@@ -17,10 +16,10 @@ export default function PainelUsuario({
 }) {
   //================ Estados do botões com switch ================//
   const [emailAtivado, setEmailAtivado] = useState(
-    usuarioLogado?.receberEmailEventos || false
+    usuarioLogado?.receberEmailEventos || false,
   );
   const [whatsappAtivado, setWhatsappAtivado] = useState(
-    usuarioLogado?.receberMensagensEventos || false
+    usuarioLogado?.receberMensagensEventos || false,
   );
 
   //================ Estados para exclusão de conta ================//
@@ -184,7 +183,7 @@ export default function PainelUsuario({
         }
       } else {
         console.error(
-          `Erro: ${dados.mensagem || "Erro ao conectar com Google"}`
+          `Erro: ${dados.mensagem || "Erro ao conectar com Google"}`,
         );
       }
     } catch (erro) {
@@ -264,7 +263,7 @@ export default function PainelUsuario({
 
       console.log(
         "Enviando requisição para:",
-        `${urlApi}/usuarios/${usuarioLogado.id}`
+        `${urlApi}/usuarios/${usuarioLogado.id}`,
       );
       console.log("Token presente:", !!token);
 
@@ -289,7 +288,7 @@ export default function PainelUsuario({
         }
       } else {
         console.error(
-          `Erro: ${dados.mensagem || "Erro ao atualizar configuração"}`
+          `Erro: ${dados.mensagem || "Erro ao atualizar configuração"}`,
         );
       }
     } catch (erro) {
@@ -330,7 +329,7 @@ export default function PainelUsuario({
         }
       } else {
         console.error(
-          `Erro: ${dados.mensagem || "Erro ao atualizar configuração"}`
+          `Erro: ${dados.mensagem || "Erro ao atualizar configuração"}`,
         );
       }
     } catch (erro) {
@@ -364,7 +363,7 @@ export default function PainelUsuario({
 
     if (
       !window.confirm(
-        "Esta ação é irreversível! Tem certeza que deseja excluir sua conta permanentemente?"
+        "Esta ação é irreversível! Tem certeza que deseja excluir sua conta permanentemente?",
       )
     ) {
       return;
@@ -410,14 +409,17 @@ export default function PainelUsuario({
   const renderizarBotaoGoogle = () => {
     if (usuarioLogado?.id) {
       // Usuário já está conectado
-      
+
       return (
-        <button className={`${styles.botaoDadoGoogle} ${styles.contaConectada}`} disabled>
-            <img
-              className={styles.iconeLog}
-              src="/pagAutenticacao/Google.png"
-              alt="Google"
-            />
+        <button
+          className={`${styles.botaoDadoGoogle} ${styles.contaConectada}`}
+          disabled
+        >
+          <img
+            className={styles.iconeLog}
+            src="/pagAutenticacao/Google.png"
+            alt="Google"
+          />
           <label className={styles.textoBotaoLog}>Conectado</label>
         </button>
       );
@@ -541,14 +543,13 @@ export default function PainelUsuario({
           </button>
         </div>
       </div>
-  
+
       <div className={styles.alinharDadoEDescricaoDado}>
         <p className={styles.descricaoDado}>Contas conectadas</p>
 
         <div className={`${styles.espacamentoDado} ${styles.seccaoContas}`}>
           {renderizarBotaoGoogle()}
         </div>
-
       </div>
       <div className={styles.alinharDadoEDescricaoDado}>
         <p className={styles.descricaoDado}>Sair da conta</p>
@@ -576,10 +577,25 @@ export default function PainelUsuario({
   );
 
   return (
-    <div className={styles.fundoDaPagina}>
-      <HeaderVisitantes />
+    <>
+      <div className={styles.fundoDaPagina}>
+        <HeaderVisitantes />
+        <div className={`${styles.fundoBloco} ${styles.fundoBloco1}`}>
+          <h1 className={styles.tituloPainel}>Dados de usuário</h1>
+          <div className={styles.bloco}>
+            {ConteudoDadosUsuario}
+          </div>
+        </div>
+      </div>
 
-      <div className={styles.ajustePainelUsuario}>
+      <div className={`${styles.fundoBloco} ${styles.fundoBloco2}`}>
+        <h1 className={styles.tituloPainel}>Configurações</h1>
+        <div className={styles.bloco}>
+          {ConteudoConfiguracoes}
+        </div>
+      </div>
+
+      {/* <div className={styles.ajustePainelUsuario}>
         <div className={styles.painelUsuario}>
           <h1 className={styles.tituloPainel}>Painel de Usuário</h1>
 
@@ -595,7 +611,7 @@ export default function PainelUsuario({
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Overlay de Exclusão de Conta */}
       {overlayExclusaoAtivo && (
@@ -604,10 +620,8 @@ export default function PainelUsuario({
             <h2 className={styles.tituloExclusao}>Excluir Conta</h2>
             <p className={styles.avisoExclusao}>
               Para confirmar a exclusão da sua conta, insira seu nome{" "}
-              <span>&#40;{usuarioLogado.nome}&#41;</span>{" "} 
-              e e-mail {" "}
-              <span>&#40;{usuarioLogado.email}&#41;</span>{" "}
-              nos campos abaixo:
+              <span>&#40;{usuarioLogado.nome}&#41;</span> e e-mail{" "}
+              <span>&#40;{usuarioLogado.email}&#41;</span> nos campos abaixo:
             </p>
 
             <form
@@ -659,8 +673,6 @@ export default function PainelUsuario({
           </div>
         </div>
       )}
-
-      <Footer />
-    </div>
+    </>
   );
 }
