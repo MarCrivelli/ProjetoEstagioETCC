@@ -106,35 +106,14 @@
   object-fit: scale-down;
 }
 
-.alinharSessoes {
+.tabs{
   display: flex;
-  flex-direction: column;
-  row-gap: 50px;
   width: 100%;
 }
 
-.sessao {
+.tab {
   display: flex;
   flex-direction: column;
-  border-radius: 10px;
-  border: 1px solid #b3b3b348;
-}
-
-.sessao > h1 {
-  text-align: center;
-  padding-block: 15px;
-  border-bottom: 1px solid #b3b3b348;
-  font-size: 1.9rem;
-}
-
-.tituloAcordeao {
-  width: 100%;
-  text-align: center;
-  font-size: 1.8rem;
-  color: black;
-  margin-bottom: 0;
-  font-weight: 330;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .acessoNegado {

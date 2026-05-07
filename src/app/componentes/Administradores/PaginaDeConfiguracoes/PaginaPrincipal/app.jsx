@@ -2,6 +2,8 @@
 import styles from "./configuracoes.module.css";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
 
 //================ Minhas importações ================//
 import HeaderAdms from "../../HeaderAdms/app";
@@ -47,7 +49,7 @@ export default function Configuracoes() {
       setUsuarioLogado(null);
       console.log("🚪 Usuário deslogado");
       alert("Logout realizado com sucesso!");
-      
+
       // Redirecionar para página inicial após deslogar
       navigate("/");
     }
@@ -56,12 +58,12 @@ export default function Configuracoes() {
   // Função para obter o nome do nível de acesso formatado
   const obterNomeNivelAcesso = (nivel) => {
     const niveis = {
-      'administrador': 'Administrador(a)',
-      'subAdministrador': 'Sub-administrador(a)',
-      'contribuinte': 'Contribuinte',
-      'usuario': 'Usuário'
+      administrador: "Administrador(a)",
+      subAdministrador: "Sub-administrador(a)",
+      contribuinte: "Contribuinte",
+      usuario: "Usuário",
     };
-    return niveis[nivel] || 'Usuário';
+    return niveis[nivel] || "Usuário";
   };
 
   // Função para verificar se deve renderizar o componente
@@ -71,12 +73,12 @@ export default function Configuracoes() {
     const nivel = usuarioLogado.nivelDeAcesso;
 
     switch (componente) {
-      case 'funcoesAdm':
-        return nivel === 'administrador';
-      case 'carrosselDoadores':
-        return nivel === 'administrador' || nivel === 'subAdministrador';
-      case 'carrosselAnimais':
-        return nivel === 'administrador' || nivel === 'subAdministrador';
+      case "funcoesAdm":
+        return nivel === "administrador";
+      case "carrosselDoadores":
+        return nivel === "administrador" || nivel === "subAdministrador";
+      case "carrosselAnimais":
+        return nivel === "administrador" || nivel === "subAdministrador";
       default:
         return false;
     }
@@ -95,14 +97,13 @@ export default function Configuracoes() {
   return (
     <div className={styles.fundoPagina}>
       <HeaderAdms />
-      <RolarPCima />
       <BotaoPagInicial />
       <div className={styles.fundoPainel}>
         <div className={styles.painel}>
           <div className={styles.inicioPainel}>
             <div className={styles.topoInicioPainel}>
               <h1 className={styles.contaAtual}>Conta atual:</h1>
-              <div 
+              <div
                 className={styles.alinharDeslogue}
                 onClick={handleLogout}
                 style={{ cursor: "pointer" }}
@@ -126,42 +127,52 @@ export default function Configuracoes() {
                 {usuarioLogado ? usuarioLogado.nome : "Carregando..."}
               </h1>
               <p className={styles.funcaoUsuario}>
-                {usuarioLogado ? obterNomeNivelAcesso(usuarioLogado.nivelDeAcesso) : "Carregando..."}
+                {usuarioLogado
+                  ? obterNomeNivelAcesso(usuarioLogado.nivelDeAcesso)
+                  : "Carregando..."}
               </p>
             </div>
           </div>
 
-          <div className={styles.alinharSessoes}>
-            {/* Seção de Funções de Administrador */}
-            <div className={styles.sessao}>
-              <h1>Funções de administrador</h1>
-              {podeRenderizar('funcoesAdm') ? (
-                <FuncoesDeAdministrador />
-              ) : (
-                <MensagemAcessoNegado titulo="Funções de administrador" />
-              )}
-            </div>
-
-            {/* Seção de Carrossel de Doadores */}
-            <div className={styles.sessao}>
-              <h1>Carrossel de doadores</h1>
-              {podeRenderizar('carrosselDoadores') ? (
-                <CarrosselDeDoadores />
-              ) : (
-                <MensagemAcessoNegado titulo="Carrossel de doadores" />
-              )}
-            </div>
-
-            {/* Seção de Carrossel de Animais */}
-            <div className={styles.sessao}>
-              <h1>Carrossel de animais</h1>
-              {podeRenderizar('carrosselAnimais') ? (
+          <Tabs
+            defaultActiveKey="primeiroTopico"
+            id="uncontrolled-tab-example"
+            className={styles.tabs}
+          >
+            <Tab
+              eventKey="primeiroTopico"
+              title="Carrossel de animais"
+              className={styles.tab}
+            >
+              {podeRenderizar("carrosselAnimais") ? (
                 <CarrosselAnimaisAutonomo />
               ) : (
                 <MensagemAcessoNegado titulo="Carrossel de animais" />
               )}
-            </div>
-          </div>
+            </Tab>
+            <Tab
+              eventKey="segundoTopico"
+              title="Carrossel de doadores"
+              className={styles.tab}
+            >
+              {podeRenderizar("carrosselDoadores") ? (
+                <CarrosselDeDoadores />
+              ) : (
+                <MensagemAcessoNegado titulo="Carrossel de doadores" />
+              )}
+            </Tab>
+            <Tab
+              eventKey="terceiroTopico"
+              title="Funções de administrador"
+              className={styles.tab}
+            >
+              {podeRenderizar("funcoesAdm") ? (
+                <FuncoesDeAdministrador />
+              ) : (
+                <MensagemAcessoNegado titulo="Funções de administrador" />
+              )}
+            </Tab>
+          </Tabs>
         </div>
       </div>
     </div>

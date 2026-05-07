@@ -1,15 +1,7 @@
-.carrossel,
-.erro,
-.carregando {
-  background-color: rgb(255, 255, 255);
-  border: 3px solid black;
-  border-radius: 10px;
-}
-
 .fundoCarrossel {
   display: flex;
-  justify-content: center;
-  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
   background: linear-gradient(
     to right,
     #ffae00 0%,
@@ -21,11 +13,17 @@
     #ffdb81 75%,
     #ffdb81 100%
   );
-  padding: 5% 4%;
+  padding: 100px 80px;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
-  height: auto;
-  width: 100%;
+}
+
+.carrossel,
+.erro,
+.carregando {
+  background-color: rgb(255, 255, 255);
+  border: 3px solid black;
+  border-radius: 10px;
 }
 
 .carrossel {
@@ -113,7 +111,7 @@
 
 .containerImagem {
   max-width: 724px;
-  min-width: 360px; 
+  min-width: 360px;
   width: auto;
   height: 460px;
 }

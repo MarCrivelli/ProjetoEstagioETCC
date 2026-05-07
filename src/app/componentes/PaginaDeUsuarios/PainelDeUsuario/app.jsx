@@ -486,7 +486,7 @@ export default function PainelUsuario({
         <p className={styles.descricaoDado}>E-mail</p>
         <div className={styles.espacamentoDado}>
           <input
-            className={styles.inputDado}
+            className={`${styles.inputDado} ${styles.dadoEmail}`}
             placeholder={usuarioLogado.email}
             disabled
           />
@@ -594,24 +594,6 @@ export default function PainelUsuario({
           {ConteudoConfiguracoes}
         </div>
       </div>
-
-      {/* <div className={styles.ajustePainelUsuario}>
-        <div className={styles.painelUsuario}>
-          <h1 className={styles.tituloPainel}>Painel de Usuário</h1>
-
-          <div className={styles.containerBlocos}>
-            <div className={styles.bloco}>
-              <h1 className={styles.tituloBloco}>Dados de usuário</h1>
-              {ConteudoDadosUsuario}
-            </div>
-
-            <div className={styles.bloco}>
-              <h1 className={styles.tituloBloco}>Configurações</h1>
-              {ConteudoConfiguracoes}
-            </div>
-          </div>
-        </div>
-      </div> */}
 
       {/* Overlay de Exclusão de Conta */}
       {overlayExclusaoAtivo && (
