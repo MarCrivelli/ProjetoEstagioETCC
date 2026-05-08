@@ -1,15 +1,8 @@
 .fundoPagina {
-  background: linear-gradient(
-    to right,
-    #243642 0%,
-    #243642 25%,
-    #387478 25%,
-    #387478 50%,
-    #629584 50%,
-    #629584 75%,
-    #e2f1e7 75%,
-    #e2f1e7 100%
-  );
+  background-image: url(/homeAdms/fundoRadar.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top left;
 }
 
 .fundoPainel {
@@ -34,13 +27,22 @@
   flex-direction: column;
   align-items: center;
   background-color: white;
-  border: 2px solid black;
+  border: 2px solid #6c003b;
   border-radius: 10px;
+}
+
+.tituloCards {
+  display: flex;
+  justify-content: center;
+  padding-block: 10px;
+  font-size: 2rem;
+  text-align: center;
+  width: 100%;
+  flex: 1;
 }
 
 .card1 {
   grid-row: 1 / 11;
-  border-radius: 10px;
   padding: 0 20px 20px 20px;
 }
 
@@ -52,13 +54,6 @@
 .card3 {
   grid-row: 3 / 11;
   padding: 5px 20px 20px 20px;
-}
-
-.tituloCards {
-  padding-block: 10px;
-  font-size: 2rem;
-  text-align: center;
-  width: 100%;
 }
 
 .tituloLembrete {
@@ -80,6 +75,10 @@
     padding: 25px;
   }
 
+  .tituloLembrete {
+    font-size: 2.2rem;
+  }
+
   .card1 {
     width: 100%;
     grid-column: 1 / 10;
@@ -96,12 +95,7 @@
     grid-column: 1 / 10;
     grid-row: 9 / 11;
   }
-
-  .tituloLembrete {
-    font-size: 2.2rem;
-    width: 100%;
-    text-align: center;
-  }
+  
 }
 
 @media (max-width: 700px) {

@@ -238,6 +238,7 @@ export default function FuncoesDeAdministrador() {
 
   return (
     <div className={styles.conteudoFuncoesAdm}>
+      
       {/* Excluir usuário */}
       <div className={styles.blocoFuncao}>
         <div className={styles.funcao}>

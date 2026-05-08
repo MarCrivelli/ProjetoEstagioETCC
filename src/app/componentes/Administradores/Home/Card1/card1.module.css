@@ -1,15 +1,29 @@
 .containerLembretes {
   display: flex;
-  width: 100%;
+  flex-direction: column;
   height: 100%;
   padding: 0 10px 0 10px;
   background-color: #191919;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   border-radius: 10px;
   position: relative;
-  flex-wrap: wrap;
-  flex-grow: 1;
+  z-index: 100;
+}
+
+.containerLembretes:before{
+  content: "";
+  position: absolute;
+  background-image: url(/imagensDeFundo/fundoPatas_BrancoTotal.png);
+  background-repeat: repeat;
+  background-size: 400px;
+  background-position: top left;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: .1
 }
 
 .containerLembretes::-webkit-scrollbar {
@@ -17,7 +31,7 @@
 }
 
 .containerLembretes::-webkit-scrollbar-track {
-  background: #007bff;
+  background: #ffc100;
   border-radius: 10px;
 }
 
@@ -49,21 +63,22 @@
 }
 
 .lembreteCarregado {
-  /* Sem animação, apenas aparecer normalmente */
   opacity: 1;
   transform: translateY(0px);
 }
 
 .lembreteItem {
+  
   display: flex;
-  align-items: center;
+  height: auto;
   padding: 8px;
   margin: 7px 0;
-  background-color: #00475a4d;
+  background-color: #11262c;
   border-radius: 5px;
   position: relative;
   color: white;
   width: 100%;
+  overflow: hidden;
 }
 
 .lembreteData {
@@ -108,30 +123,41 @@
 .botaoAdicionar {
   display: flex;
   position: absolute;
-  right: -13px;
+  right: -40px;
   top: 50%;
   transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
+  padding: 0 0 0 1px ;
   border-radius: 50%;
-  background-color: #009dff;
+  background-color: #ffc100;
   color: white;
   border: none;
-  font-size: 1.5rem;
-  font-weight: bold;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  transition: all 0.2s;
+  border-left: 1px solid #ba8b00;
+  border-right: 1px solid #ffd75f;
+  transition: transform 0.2s;
   z-index: 10;
   padding-bottom: 5px;
 }
 
 .botaoAdicionar:hover {
   transform: translateY(-50%) scale(1.1);
-  background-color: #55beff;
+  background-color: #ffd453;
+}
+
+.botaoAdicionar::before{
+  content: "+";
+  position: absolute;
+  font-size: 2.5rem;
+  -webkit-text-stroke-color: #ba8b00;
+  -webkit-text-stroke-width: 0.08rem;
+  font-weight: 1000;
+  top: -1rem;
+  left: .28rem;
 }
 
 .modal {
@@ -156,7 +182,7 @@
   width: 400px;
   max-width: 90%;
   gap: 20px;
-  animation: deslizarModal 0.5s ease-out forwards;
+  animation: deslizarModal 0.5s ease-out forwards all;
 }
 
 @keyframes deslizarModal {

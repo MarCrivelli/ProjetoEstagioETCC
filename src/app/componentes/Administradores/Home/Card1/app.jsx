@@ -44,7 +44,7 @@ export default function Card1({
         </div>
 
         <button className={styles.botaoAdicionar} onClick={abrirFormulario}>
-          +
+          
         </button>
         
       </div>

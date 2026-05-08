@@ -111,9 +111,9 @@
 
 .containerImagem {
   max-width: 724px;
-  min-width: 360px;
   width: auto;
   height: 460px;
+  flex: 1;
 }
 
 .imagemContainer {
