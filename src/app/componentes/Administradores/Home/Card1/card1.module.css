@@ -2,13 +2,14 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 0 10px 0 10px;
+  padding: 15px 10px 15px 10px;
   background-color: #191919;
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: hidden;
   border-radius: 10px;
   position: relative;
   z-index: 100;
+  gap: 20px;
 }
 
 .containerLembretes:before{
@@ -68,17 +69,13 @@
 }
 
 .lembreteItem {
-  
   display: flex;
   height: auto;
   padding: 8px;
-  margin: 7px 0;
   background-color: #11262c;
   border-radius: 5px;
-  position: relative;
   color: white;
   width: 100%;
-  overflow: hidden;
 }
 
 .lembreteData {
@@ -114,46 +111,45 @@
 }
 
 .containerWrapper {
+  display: flex;
   position: relative;
   width: 100%;
   height: 100%;
-  margin: 0 auto;
+  padding-inline: 17px;
+  overflow-x: hidden
 }
 
 .botaoAdicionar {
   display: flex;
   position: absolute;
-  right: -40px;
+  right: .299rem;
   top: 50%;
   transform: translateY(-50%);
-  width: 38px;
-  height: 38px;
-  padding: 0 0 0 1px ;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  background-color: #ffc100;
+  background-color: #0077ff;
   color: white;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-left: 1px solid #ba8b00;
-  border-right: 1px solid #ffd75f;
   transition: transform 0.2s;
-  z-index: 10;
+  z-index: 100;
   padding-bottom: 5px;
 }
 
 .botaoAdicionar:hover {
   transform: translateY(-50%) scale(1.1);
-  background-color: #ffd453;
+  background-color: #2a8dff;
 }
 
 .botaoAdicionar::before{
   content: "+";
   position: absolute;
   font-size: 2.5rem;
-  -webkit-text-stroke-color: #ba8b00;
+  -webkit-text-stroke-color: #00489a;
   -webkit-text-stroke-width: 0.08rem;
   font-weight: 1000;
   top: -1rem;
