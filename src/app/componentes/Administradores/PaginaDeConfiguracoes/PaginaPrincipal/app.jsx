@@ -11,7 +11,7 @@ import BotaoPagInicial from "../../BotaoPagInicialAdms/app";
 import FuncoesDeAdministrador from "../FuncoesAdm/app";
 import CarrosselDeDoadores from "../CarrosselDeDoadores/app";
 import CarrosselAnimaisAutonomo from "../CarrosselDeAnimais/app";
-import RolarPCima from "../../../BotaoScroll/app";
+
 
 export default function Configuracoes() {
   const [usuarioLogado, setUsuarioLogado] = useState(null);

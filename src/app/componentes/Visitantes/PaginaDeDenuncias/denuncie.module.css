@@ -68,14 +68,14 @@ section.secao.parallax2 {
   z-index: 10;
   min-height: 60vh;
   padding: 100px 90px;
-  background-image: url(/pagDenuncias/fundoLavaQuadrada.svg);
+  background-image: url(/imagensDeFundo/fundoLavaQuadrada.svg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top left;
 }
 
 .conteudo2 {
-  background-image: url(/pagDoacao/fundoExplosao.svg);
+  background-image: url(/imagensDeFundo/fundoExplosao.svg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top left;
@@ -201,6 +201,6 @@ section.secao.parallax2 {
   }
   .conteudo1 {
     padding-inline: 20px;
-    background-image: url(/pagDenuncias/fundoLavaQuadrada_Celular.svg);
+    background-image: url(/imagensDeFundo/fundoLavaQuadrada_Celular.svg);
   }
 }

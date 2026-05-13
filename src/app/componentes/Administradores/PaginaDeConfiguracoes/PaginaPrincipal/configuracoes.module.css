@@ -115,6 +115,10 @@
   justify-content: flex-start;
 }
 
+.container .nav .nav-link{
+  background-color: red;
+}
+
 .acessoNegado {
   background-color: #f8f9fa;
   border: 2px dashed #dee2e6;

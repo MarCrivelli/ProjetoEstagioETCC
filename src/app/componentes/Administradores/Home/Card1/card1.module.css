@@ -112,7 +112,6 @@
 
 .containerWrapper {
   display: flex;
-  position: relative;
   width: 100%;
   height: 100%;
   padding-inline: 17px;
@@ -122,9 +121,9 @@
 .botaoAdicionar {
   display: flex;
   position: absolute;
-  right: .299rem;
-  top: 50%;
-  transform: translateY(-50%);
+  right: 12px;
+  top: 10px;
+  padding-left: 38px;
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -137,12 +136,11 @@
   justify-content: center;
   transition: transform 0.2s;
   z-index: 100;
-  padding-bottom: 5px;
 }
 
 .botaoAdicionar:hover {
-  transform: translateY(-50%) scale(1.1);
-  background-color: #2a8dff;
+  transform: scale(1.1);
+  opacity: .9;
 }
 
 .botaoAdicionar::before{

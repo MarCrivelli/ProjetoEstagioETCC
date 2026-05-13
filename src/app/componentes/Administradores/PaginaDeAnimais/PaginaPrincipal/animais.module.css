@@ -1,15 +1,8 @@
 .fundoPagina {
-  background: linear-gradient(
-    to right,
-    #4800cd 0%,
-    #4800cd 25%,
-    #713dff 25%,
-    #713dff 50%,
-    #9067ff 50%,
-    #9067ff 75%,
-    #a888ff 75%,
-    #a888ff 100%
-  );
+  background-image: url(/imagensDeFundo/fundoOndaRosa.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top left;
 }
 
 .modoSelecaoAtivo {
@@ -28,14 +21,12 @@
 .painel {
   display: flex;
   flex-wrap: wrap;
-  background-color: white;
   width: 100%;
   gap: 50px;
   row-gap: 50px;
   padding: 40px;
-  border: 3px solid black;
   border-radius: 20px;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .botoesFlutuantes {
@@ -51,7 +42,7 @@
 
 .botaoAcao {
   position: relative;
-  background-color: #4300ae;
+  background-color: #ff008c;
   border: none;
   border-radius: 50%;
   cursor: pointer;
@@ -63,8 +54,8 @@
 }
 
 .botaoAcao:hover {
-  background-color: #6200ff;
-  transform: translateY(-2px);
+  background-color: #ff5fb7;
+  transform: scale(1.1);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -276,6 +267,9 @@ aplicadas: */
 }
 
 @media (max-width: 766px) {
+  .fundoPagina {
+    background-image: url(/imagensDeFundo/fundoOndaRosa_Celular.svg);
+  }
   .painel {
     min-height: 100vh;
     padding: 40px 10px 40px 10px;
@@ -321,7 +315,6 @@ aplicadas: */
   .modalContent h2 {
     font-size: 1.4rem;
     width: 100%;
-    
   }
   .modalOverlay {
     padding-block: 100px;

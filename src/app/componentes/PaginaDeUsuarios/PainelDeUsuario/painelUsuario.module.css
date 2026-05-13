@@ -1,5 +1,5 @@
 .fundoDaPagina {
-  background-image: url(/pagPainelUsuario/fundoOceano.svg);
+  background-image: url(/imagensDeFundo/fundoOceano.svg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top left;
@@ -14,7 +14,7 @@
   width: 100%;
   height: 100vh;
   position: absolute;
-  background-image: url(/pagPainelUsuario/fundoOnda_Luz.svg);
+  background-image: url(/imagensDeFundo/fundoOnda_Luz.svg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top left;
@@ -28,7 +28,7 @@
   width: 100%;
   height: 100vh;
   position: absolute;
-  background-image: url(/pagPainelUsuario/fundoOnda.svg);
+  background-image: url(/imagensDeFundo/fundoOnda.svg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top left;

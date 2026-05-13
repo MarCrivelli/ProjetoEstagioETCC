@@ -45,6 +45,7 @@
 .card1 {
   grid-row: 1 / 11;
   padding-bottom: 20px;
+  position: relative;
 }
 
 .card2 {
