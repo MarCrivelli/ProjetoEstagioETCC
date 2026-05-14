@@ -16,6 +16,8 @@ import CarrosselAnimaisAutonomo from "../CarrosselDeAnimais/app";
 export default function Configuracoes() {
   const [usuarioLogado, setUsuarioLogado] = useState(null);
   const navigate = useNavigate();
+  
+  const [abaAtiva, setAbaAtiva] = useState("primeiroTopico");
 
   useEffect(() => {
     const carregarUsuario = () => {
@@ -136,12 +138,16 @@ export default function Configuracoes() {
 
           <Tabs
             defaultActiveKey="primeiroTopico"
+            onSelect={(key) => setAbaAtiva(key)}
+            activeKey={abaAtiva}
             id="uncontrolled-tab-example"
+            transition={true}
             className={styles.tabs}
           >
             <Tab
               eventKey="primeiroTopico"
               title="Carrossel de animais"
+              tabClassName={abaAtiva === "primeiroTopico" ? styles.tabAtivo : styles.tabPadrao}
               className={styles.tab}
             >
               {podeRenderizar("carrosselAnimais") ? (
@@ -153,6 +159,7 @@ export default function Configuracoes() {
             <Tab
               eventKey="segundoTopico"
               title="Carrossel de doadores"
+              tabClassName={abaAtiva === "segundoTopico" ? styles.tabAtivo : styles.tabPadrao}
               className={styles.tab}
             >
               {podeRenderizar("carrosselDoadores") ? (
@@ -164,6 +171,7 @@ export default function Configuracoes() {
             <Tab
               eventKey="terceiroTopico"
               title="Funções de administrador"
+              tabClassName={abaAtiva === "terceiroTopico" ? styles.tabAtivo : styles.tabPadrao}
               className={styles.tab}
             >
               {podeRenderizar("funcoesAdm") ? (

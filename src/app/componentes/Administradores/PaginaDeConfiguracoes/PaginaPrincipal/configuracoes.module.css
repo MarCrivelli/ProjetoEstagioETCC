@@ -1,15 +1,8 @@
 .fundoPagina {
-  background: linear-gradient(
-    to right,
-    #06202b 0%,
-    #06202b 25%,
-    #077a7d 25%,
-    #077a7d 50%,
-    #7ae2cf 50%,
-    #7ae2cf 75%,
-    #f5eedd 75%,
-    #f5eedd 100%
-  );
+  background-image: url(/imagensDeFundo/fundoListrado.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top left;
 }
 
 .fundoPainel {
@@ -27,10 +20,8 @@
   width: 100%;
   max-width: 1515px;
   min-height: 100%;
-  background-color: white;
   border-radius: 20px;
   padding: 20px 40px 40px 40px;
-  border: 2px solid black;
 }
 
 .inicioPainel {
@@ -43,6 +34,7 @@
   justify-content: flex-start;
   padding: 10px;
   margin-bottom: 50px;
+  color: rgb(255, 255, 255);
 }
 
 .topoInicioPainel {
@@ -64,7 +56,8 @@
   object-fit: cover;
   border-radius: 50%;
   padding: 2px;
-  border: 2px solid black;
+  border: 4px solid black;
+  background-color: rgb(255, 255, 255);
 }
 
 .nomeUsuario {
@@ -74,7 +67,6 @@
 
 .funcaoUsuario {
   text-align: center;
-  color: black;
   font-size: 1.1rem;
 }
 
@@ -108,15 +100,59 @@
 .tabs{
   display: flex;
   width: 100%;
+  background-color: #0077ff;
+  padding: 5px;
+  border-radius: 8px 8px 0 0;
+  row-gap: 10px;
+  border: 3px solid black;
 }
 
-.tab {
-  display: flex;
-  justify-content: flex-start;
+.tab{
+  padding: 20px !important;
+  background-color: rgb(255, 255, 255);
+  border: 3px solid black !important;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
 
-.container .nav .nav-link{
-  background-color: red;
+.tabPadrao {
+  color: #555 !important;
+  background-color: #ffffff !important;
+  border: none !important;
+  margin-right: 8px;
+  border-radius: 8px !important;
+  padding: .466rem 18px !important;
+  transition: transform 0.3s ease;
+}
+
+.tabPadrao:not(:last-of-type){
+}
+
+.tabPadrao:hover {
+  color: #000 !important;
+  transform: scale(1.03);
+}
+
+.tabAtivo {
+  color: white !important;
+  background-color: #0088ff !important;
+  border: none !important;
+  border-radius: 10px !important;
+  font-weight: bold;
+  margin-right: 8px;
+  box-shadow: 2px 2px 0px rgba(0, 52, 77, 0.72);
+  transition: background 0.3s ease;
+  animation: aparecerSuave 0.5s ease-in-out;
+}
+
+@keyframes aparecerSuave {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .acessoNegado {
