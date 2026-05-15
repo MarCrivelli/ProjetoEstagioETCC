@@ -6,12 +6,6 @@
   justify-content: space-between;
   z-index: 100;
   position: relative;
-  transition: ease-in-out background 0.2s;
-  transition-delay: 0.05s;
-}
-
-.headerAdms:hover {
-  background-color: #0d0907;
 }
 
 .linkLogo {
@@ -58,13 +52,11 @@
 
 .linkSubPaginas,
 .hamburguerAdms {
-  color: rgb(208, 208, 208);
-  transition: all ease-in-out 0.2s;
+  color: rgb(240, 240, 240);
+  transition: transform ease-in-out 0.2s;
 }
 
-.linkSubPaginas:hover,
-.hamburguerAdms:hover {
-  color: rgb(230, 230, 230);
+.linkSubPaginas:hover {
   transform: scale(1.03);
 }
 

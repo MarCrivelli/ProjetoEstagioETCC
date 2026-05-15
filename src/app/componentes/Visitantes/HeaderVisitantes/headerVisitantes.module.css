@@ -209,31 +209,12 @@
   width: 30px;
 }
 
-/* ========== ESTILOS PARA TIPO PADRÃO ========== */
-.headerPadrao {
-  background-color: transparent;
-}
-
-.headerPadrao:hover {
-  background-color: #0d0907;
-}
-
-.linksPadrao {
-  color: rgb(230, 230, 230);
-  opacity: 0.8;
+.linksPadrao,
+.hamburguerPadrao {
+  color: rgb(240, 240, 240);
 }
 
 .linksPadrao:hover {
-  opacity: 1;
-  transform: scale(1.03);
-}
-
-.hamburguerPadrao {
-  color: rgb(208, 208, 208);
-}
-
-.hamburguerPadrao:hover {
-  color: rgb(230, 230, 230);
   transform: scale(1.03);
 }
 

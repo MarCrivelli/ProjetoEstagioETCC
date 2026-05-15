@@ -19,9 +19,6 @@
   flex-direction: column;
   width: 100%;
   max-width: 1515px;
-  min-height: 100%;
-  border-radius: 20px;
-  padding: 20px 40px 40px 40px;
 }
 
 .inicioPainel {
@@ -72,6 +69,8 @@
 
 .contaAtual {
   font-size: 1.6rem;
+  -webkit-text-stroke-color: #000000;
+  -webkit-text-stroke-width: 0.02rem;
 }
 
 .alinharDeslogue {
@@ -80,16 +79,21 @@
   height: 35px;
   justify-content: center;
   align-items: center;
+  background-color: rgb(255, 0, 85);
+  border-radius: 2em;
+  padding: 3px 12px;
+  transition: transform ease-in-out .2s;
 }
 
 .alinharDeslogue:hover {
   cursor: pointer;
+  transform: scale(1.05);
 }
 
 .textoDeslogue {
   font-size: 1.6rem;
   margin: 0;
-  color: red;
+  color: rgb(253, 253, 253);
 }
 
 .iconeSair {
@@ -97,22 +101,18 @@
   object-fit: scale-down;
 }
 
-.tabs{
+.tabs {
   display: flex;
   width: 100%;
-  background-color: #0077ff;
-  padding: 5px;
-  border-radius: 8px 8px 0 0;
+  padding: 5px 5px 10px 5px;
   row-gap: 10px;
-  border: 3px solid black;
+  border: none;
 }
 
-.tab{
-  padding: 20px !important;
-  background-color: rgb(255, 255, 255);
+.tab {
   border: 3px solid black !important;
-  border-bottom-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+  border-radius: 0px;
+  overflow: hidden;
 }
 
 .tabPadrao {
@@ -121,11 +121,11 @@
   border: none !important;
   margin-right: 8px;
   border-radius: 8px !important;
-  padding: .466rem 18px !important;
+  padding: 0.466rem 18px !important;
   transition: transform 0.3s ease;
 }
 
-.tabPadrao:not(:last-of-type){
+.tabPadrao:not(:last-of-type) {
 }
 
 .tabPadrao:hover {
@@ -221,21 +221,7 @@
   opacity: 0.3;
 }
 
-@media (max-width: 768px) {
-  .acessoNegado,
-  .acessoNegadoElegante {
-    padding: 1.5rem;
-    min-height: 120px;
-  }
-  
-  .tituloAcessoNegado {
-    font-size: 1.25rem;
-  }
-  
-  .mensagemAcessoNegado {
-    font-size: 0.9rem;
-  }
-}
+
 
 @media (max-width: 1100px) {
   .fundoPainel {
@@ -250,16 +236,39 @@
     flex-direction: column;
     width: 100%;
     justify-content: space-between;
-    border-bottom: 1px solid #b3b3b3;
   }
   .nomeUsuario {
     font-size: 1.6rem;
   }
+  .alinharDeslogue {
+    border-radius: 50%;
+    padding: 23px 10px;
+  }
+
   .textoDeslogue {
     display: none;
   }
   .corpoAcordeao {
     padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .tab {
+    padding: 0 !important;
+  }
+  .acessoNegado,
+  .acessoNegadoElegante {
+    padding: 1.5rem;
+    min-height: 120px;
+  }
+
+  .tituloAcessoNegado {
+    font-size: 1.25rem;
+  }
+
+  .mensagemAcessoNegado {
+    font-size: 0.9rem;
   }
 }
 
