@@ -192,63 +192,58 @@ export default function Denuncie() {
         >
           <div className={styles.painel}>
             <h1>
-              Você também pode mandar suprimentos ou equipamentos para nós!
+              É muito comum haver dúvidas na hora de registrar uma denúncia,
+              então aqui vão algumas situações que exigem denúncia:
             </h1>
-            <h2>
-              Desde que esteja em boas condições, o Instituto Esperança aceita a
-              doação de itens que podem ser úteis nos cuidados diários com os
-              nossos animais. Veja abaixo alguns os itens que nós aceitamos:
-            </h2>
-            <div className={styles.alinharContainerIcones}>
-              <div className={styles.containerIcones}>
-                <img src="/pagDoacao/caminha.png"></img>
-                <p>
-                  <strong>Caminha de animais:</strong> Todos os nossos animais
-                  dormem em camas para animais com tamanhos de acordo com o
-                  porte deles, para que possam ter o máximo de conforto e
-                  dignidade, porém, eventualmente acontece delas rasgarem ou de
-                  mais animais chegarem e não ter caminhas suficientes para
-                  todos.
-                </p>
-              </div>
-              <div className={styles.containerIcones}>
-                <img src="/pagDoacao/coleira.png"></img>
-                <p>
-                  <strong>Coleira:</strong> Coleiras são muito úteis no momento
-                  de colocar o cone veterinário, pois elas dão sustentação ao
-                  cone. Além disso, na hora de entregar o animal nós podemos o
-                  entregar com sua coleira, caso ele possua.
-                </p>
-              </div>
-              <div className={styles.containerIcones}>
-                <img src="/pagDoacao/cone.png"></img>
-                <p>
-                  <strong>Cone Veterinário:</strong> Eventualmente nós
-                  resgatamos animais doentes, que por sua vez, precisam do cone
-                  para conseguirem se recuperar totalmente, portanto, cones para
-                  animais de pequeno, médio e grande porte são sempre
-                  bem-vindos.
-                </p>
-              </div>
-              <div className={styles.containerIcones}>
-                <img src="/pagDoacao/racao.png"></img>
-                <p>
-                  <strong>Ração:</strong> Assim como nós, os animais também
-                  precisam se alimentar e com tantos animais, a nossa demanda de
-                  ração não para. Aceitamos ração para cachorros e gatos, sem
-                  preferências.
-                </p>
-              </div>
-            </div>
-            <h2>
-              <strong className={styles.strong}>Importante:</strong> A ração
-              precisa estar totalmente fechada e na embalagem original, pois do
-              contrário não aceitaremos &#40;risco de contaminação ou
-              envenenamento&#41;. Além disso, não doe caminhas ou cobertores
-              usados pets que estejam ou estiveram recentemente com doenças ou
-              infecções contagiosas, como sarna ou cinomose, por exemplo.
-              Pedimos a sua compreenção.
-            </h2>
+            <ol>
+              <li>
+                <strong>Cárcere:</strong> nenhum animal deve ficar o tempo
+                inteiro preso, seja em correntes ou gaiolas. Os animais devem
+                ser soltos por ao menos 3 horas todos os dias e é recomendado o
+                passeio com cães e gatos pelo menos 2 vezes na semana, com fins
+                de reduzir o estresse do animal. Além disso, enquanto o animal
+                estiver preso ele precisa ficar em um local com sombra, água e
+                comida ao alcance, corrente com pelo menos 2 metros de
+                comprimento para o animal se poder se mover e uma coleira
+                frouxa, animal.
+              </li>
+              <li>
+                <strong>Negligência:</strong> animais precisam de cuidados
+                constantes, ainda mais se ficarem dentro de casa, pois não podem
+                ou não tem habilidade para procurar água e comida sozinhos. É
+                preciso fornecer a quantidade recomendada de ração de acordo com
+                o porte do animal, água o tempo todo, um lugar coberto para não
+                pegarem chuva ou sol, visitas ao veterinário &#40;quando
+                necessário&#41; e passeios e banhos semanais.
+              </li>
+              <li>
+                <strong>Agressões:</strong> apesar de ser normalizado por
+                algumas pessoas, bater, espancar ou agredir animais afim de
+                corrigir mal comportamento, é sim um motivo para denúncia e pode
+                fazer com que o dono perca a tutela do animal.
+              </li>
+              <li>
+                <strong>Exploração:</strong> quaisquer tipos de exploração
+                animal é motivo de denúncia. Neste caso, o termo
+                &quot;exploração&quot; pode se encaixar em: explorar para fins
+                lucrativos, não cuidando da saúde do animal e fazendo-o ir além
+                de seus limites &#40;um exemplo é o que acontece com animais que
+                são resgatados de círcos clandestinos&#41;. E explorar para fins
+                próprios, como realizar tarefas pesadas ou atos sexuais.
+              </li>
+              <li>
+                <strong>Envenenamento:</strong> dar de propósito substâncias
+                tóxicas, álcool, drogas, cigarro e outros é mais do que um bom
+                motivo para realizar uma denúncia, pois podem causar convunções,
+                falha nos órgãos e até a morte de animais.
+              </li>
+              <li>
+                <strong>Crueldade:</strong> comportamentos cruéis, como
+                machucar, afogar, ou até mesmo forçar situações em que deixam o
+                animal com medo, apenas por diversão, também é passível de
+                denúncia.
+              </li>
+            </ol>
           </div>
         </section>
       </main>
@@ -257,107 +252,3 @@ export default function Denuncie() {
     </>
   );
 }
-
-// import Header from "../HeaderVisitantes/app";
-// import Footer from "../Footer/app";
-//
-//
-//
-
-// export default function Denuncie() {
-//   const [estadoSelecionado, setEstadoSelecionado] = useState(null);
-
-//   const handleChange = (selectedOption) => {
-//     setEstadoSelecionado(selectedOption);
-//   };
-//   return (
-//     <div className={styles.fundoPagina}>
-//       <Header/>
-//       <div className={styles.ajusteElementosDaPagina}>
-//         <div className={styles.seccao}>
-//           <h1>
-//             Presenciou alguma situação e quer denunciá-la para as autoridades
-//             locais? Saiba como:
-//           </h1>
-//           <p>
-//             <strong className={styles.strong}>Dica 1: </strong>É importante
-//             manter a calma nesses momentos e não fazer nada com as próprias
-//             mãos, a não ser que seja estritamente necessário, pois do contrário,
-//             em alguns casos, pode acabar resultando em agressões físicas ou até
-//             a morte, tanto para o animal quanto para você!
-//           </p>
-//           <div className={styles.topicosFuncionais}>
-//             <p>
-//               <strong className={styles.strong}>Dica 2: </strong>Todo estado
-//               possui uma delegacia virtual no qual você possa acessar para
-//               denunciar, no anonimato ou não, diferentes tipos de situações,
-//               incluindo situações referentes a causa animal. Se você não souber
-//               o link da delegacia de seu estado, selecione seu estado na caixa
-//               abaixo:
-//             </p>
-
-//           </div>
-//           <p>
-//             <strong className={styles.strong}>Dica 3: </strong> Você pode ligar
-//             para a polícia ambiental ou militar para essas situações também,
-//             especialmente se a ocorrência envolver animais silvestres
-//             &#40;animais que não são domesticos, que vivem na natureza&#41;.
-//           </p>
-//         </div>
-
-//         <div className={styles.seccao}>
-//           <h1>Quais situações são válidas para realizar uma denúncia?</h1>
-//           <p>
-//             <strong className={styles.strong}>1 - Cativeiro: </strong> nenhum
-//             animal deve ficar o tempo inteiro preso, seja em correntes ou
-//             gaiolas. Os animais devem ser soltos por ao menos 3 horas todos os
-//             dias e é recomendado o passeio com cães e gatos pelo menos 2 vezes
-//             na semana, com fins de reduzir o estresse do animal. Além disso,
-//             enquanto o animal estiver preso ele precisa ficar em um local com
-//             sombra, água e comida ao alcance, corrente com pelo menos 2 metros
-//             de comprimento para o animal se poder se mover e uma coleira frouxa,
-//             que permita você colocar dois dedos entre a mesma o pescoço do
-//             animal.
-//           </p>
-//           <p>
-//             <strong className={styles.strong}>2- Negligência: </strong>
-//             animais precisam de cuidados constantes, ainda mais se ficarem
-//             dentro de casa, pois não podem ou não tem habilidade para procurar
-//             água e comida sozinhos. É preciso fornecer a quantidade recomendada
-//             de ração de acordo com o porte do animal, água o tempo todo, um
-//             lugar coberto para não pegarem chuva ou sol, visitas ao veterinário
-//             &#40;quando necessário&#41; e passeios e banhos semanais.
-//           </p>
-//           <p>
-//             <strong className={styles.strong}>3- Agressões: </strong> apesar de
-//             ser normalizado por algumas pessoas, bater, espancar ou agredir o
-//             animal de qualquer forma, causando lesões ou dor, é sim um motivo
-//             para denúncia e pode fazer com que o dono perca a tutela do animal.
-//           </p>
-//           <p>
-//             <strong className={styles.strong}>4- Exploração: </strong> quaisquer
-//             tipos de exploração animal é motivo de denúncia. Neste caso, o termo
-//             &quot;exploração&quot; pode se encaixar em: explorar para fins
-//             lucrativos, não cuidando da saúde do animal e fazendo-o ir além de
-//             seus limites &#40;um exemplo é o que acontece com animais que são
-//             resgatados de círcos clandestinos&#41;. E explorar para fins
-//             próprios, como realizar tarefas pesadas ou atos sexuais.
-//           </p>
-//           <p>
-//             <strong className={styles.strong}>5- Envenenamento: </strong> dar de
-//             propósito substâncias tóxicas, álcool, drogas, cigarro e outros é
-//             mais do que um bom motivo para realizar uma denúncia, pois podem
-//             causar convunções, falha nos órgãos e até a morte de animais.
-//           </p>
-//           <p>
-//             <strong className={styles.strong}>6- Crueldade: </strong>{" "}
-//             comportamentos cruéis, como machucar, afogar, ou até mesmo forçar
-//             situações em que deixam o animal com medo, apenas por diversão,
-//             também é passível de denúncia.
-//           </p>
-//         </div>
-//       </div>
-//       <Footer />
-//     </div>
-//   );
-// }
