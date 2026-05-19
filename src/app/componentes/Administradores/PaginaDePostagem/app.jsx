@@ -7,8 +7,13 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Link } from "react-router-dom";
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
 
 export default function ProgramarPostagem() {
+
+  const [abaAtiva, setAbaAtiva] = useState("primeiroTopico");
+
   // Estados para os filtros selecionados
   const [filtrosSelecionados, setFiltrosSelecionados] = useState({
     idade: [],
@@ -59,10 +64,62 @@ export default function ProgramarPostagem() {
     <div className={styles.fundoPagina}>
       <CabecalhoAdministrativo />
       <BotaoPaginaInicial />
-
       <div className={styles.fundoPainel}>
         <div className={styles.painel}>
           <div className={styles.introducaoPagina}>
+            <h1>Programar postagem no Instagram / Facebook</h1>
+            <p>
+              Faça postagens diretamente pelo site de maneira fácil e rápida! Logo abaixo estarão <span>&quot;Filtros pré-selecionados&quot;</span>{" "}
+              contém um formulário que permite que sejam feitas postagens com os
+              animais que estão cadastrados no site. Tudo que precisa ser feito
+              é selecionar os filtros pré-definidos que buscaram automaticamente
+              todos os animais que contém as características desejadas para a
+              postagem
+            </p>
+          </div>
+          <Tabs
+            defaultActiveKey="primeiroTopico"
+            id="uncontrolled-tab-example"
+            onSelect={(key) => setAbaAtiva(key)}
+            activeKey={abaAtiva}
+            className={styles.tabs}
+          >
+            <Tab
+              eventKey="primeiroTopico"
+              title="Filtros pré-selecionados"
+              tabClassName={abaAtiva === "primeiroTopico" ? styles.botaoTabSelecionado : styles.botaoTabNaoSelecionado}
+              className={styles.conteudoTab}
+            >
+              <p>
+                Todo estado possui uma delegacia virtual na qual você pode
+                acessar para denunciar, no anonimato ou não, diferentes tipos de
+                situações, incluindo situações referentes a causa animal. Se
+                você não souber o link da delegacia de seu estado, selecione seu
+                estado na caixa abaixo:
+              </p>
+              
+            </Tab>
+            <Tab
+              eventKey="segundoTopico"
+              title="Seleção Manual"
+              tabClassName={abaAtiva === "segundoTopico" ? styles.botaoTabSelecionado : styles.botaoTabNaoSelecionado}
+              className={styles.conteudoTab}
+            >
+                <h1>Seleção Manual</h1>
+                <p>
+                  Deseja ignorar os filtros e selecionar manualmente os animais
+                  que você gostaria que fizessem parte da postagem?{" "}
+                  <Link
+                    to="/fichas_de_animais?modoPostagem=true"
+                    className={styles.linkSelecaoAvulsa}
+                  >
+                    Clique aqui
+                  </Link>{" "}
+                  para começar a seleção.
+                </p>
+            </Tab>
+          </Tabs>
+          {/* <div className={styles.introducaoPagina}>
             <h1>Programar postagem no Instagram / Facebook</h1>
             <p>
               Faça postagens diretamente pelo site de maneira fácil e rápida! O
@@ -79,7 +136,7 @@ export default function ProgramarPostagem() {
             <h1>Filtros pré-selecionados</h1>
 
             <div className={styles.containerFiltros}>
-              {/* Filtro de Idade */}
+              
               <div className={styles.filtro}>
                 <label>Idade dos animais para a postagem</label>
                 <Select
@@ -92,7 +149,6 @@ export default function ProgramarPostagem() {
                 />
               </div>
 
-              {/* Filtro de Tipo de Animal */}
               <div className={styles.filtro}>
                 <label>Tipo de animal</label>
                 <Select
@@ -104,7 +160,6 @@ export default function ProgramarPostagem() {
                 />
               </div>
 
-              {/* Filtro de Sexo */}
               <div className={styles.filtro}>
                 <label>Sexo dos animais</label>
                 <Select
@@ -116,7 +171,6 @@ export default function ProgramarPostagem() {
                 />
               </div>
 
-              {/* Filtro de Status de Vacinação */}
               <div className={styles.filtro}>
                 <label>Status de vacinação</label>
                 <Select
@@ -128,7 +182,6 @@ export default function ProgramarPostagem() {
                 />
               </div>
 
-              {/* Filtro de Status de Castração */}
               <div className={styles.filtro}>
                 <label>Status de castração</label>
                 <Select
@@ -140,7 +193,6 @@ export default function ProgramarPostagem() {
                 />
               </div>
 
-              {/* Filtro de Status de Adoção */}
               <div className={styles.filtro}>
                 <label>Status de adoção</label>
                 <Select
@@ -152,7 +204,6 @@ export default function ProgramarPostagem() {
                 />
               </div>
 
-              {/* Filtro de Status de Microchipagem */}
               <div className={styles.filtro}>
                 <label>Status de microchipagem</label>
                 <Select
@@ -164,7 +215,6 @@ export default function ProgramarPostagem() {
                 />
               </div>
 
-              {/* Filtro de Status de Vermifugação */}
               <div className={styles.filtro}>
                 <label>Status de vermifugação</label>
                 <Select
@@ -188,6 +238,13 @@ export default function ProgramarPostagem() {
 
                 {filtrosSelecionados.opcaoPublicacao?.value === "agendar" && (
                   <div className={styles.seletorDataContainer}>
+                    <input
+                      type="date"
+                      name="dataInicio"
+                      value={filtrosSelecionados.dataPostagem}
+                      onChange={handleChangeData}
+                      required
+                    />
                     <DatePicker
                       selected={filtrosSelecionados.dataPostagem}
                       onChange={handleChangeData}
@@ -207,7 +264,6 @@ export default function ProgramarPostagem() {
                 <div className={styles.containerBotaoPostagem}>
                   <button>Postar</button>
                 </div>
-
               </div>
             </div>
           </div>
@@ -225,7 +281,7 @@ export default function ProgramarPostagem() {
               </Link>{" "}
               para começar a seleção.
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -225,7 +225,7 @@ section.secao.parallax2 {
   }
 
   .conteudo1::before {
-    background-image: url(/pagDoacao/fundoOndas_Celular.svg);
+    background-image: url(/imagensDeFundo/fundoOndas_Celular.svg);
   }
   .conteudo1 .painel h2 {
     font-size: 1rem;

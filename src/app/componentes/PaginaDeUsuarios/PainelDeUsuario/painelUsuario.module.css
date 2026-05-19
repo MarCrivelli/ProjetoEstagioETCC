@@ -4,38 +4,33 @@
   background-size: cover;
   background-position: top left;
   background-attachment: fixed;
-  height: 90vh;
+  height: 100vh;
+  overflow-y: hidden;
 }
 
-.fundoDaPagina::before{
+.fundoDaPagina::before,
+.fundoDaPagina::after {
   content: "";
-  bottom: 0;
+  top: 20px;
   left: 0;
   width: 100%;
   height: 100vh;
   position: absolute;
-  background-image: url(/imagensDeFundo/fundoOnda_Luz.svg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top left;
-  z-index: 1;
+  z-index: 2;
 }
 
-.fundoDaPagina::after{
-  content: "";
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  position: absolute;
-  background-image: url(/imagensDeFundo/fundoOnda.svg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: top left;
-  z-index: 1;
+.fundoDaPagina::before {
+  background-image: url(/imagensDeFundo/fundoAreia_Contorno.svg);
 }
 
-.fundoBloco{
+.fundoDaPagina::after {
+  background-image: url(/imagensDeFundo/fundoAreia.svg);
+}
+
+.fundoBloco {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -44,24 +39,60 @@
   position: relative;
 }
 
-.fundoBloco1{
-  padding-block: 40px 100px
+.fundoBloco1 {
+  justify-content: flex-start;
+  padding-block: 40px 200px;
+  height: 100%;
+  max-height: 78vh;
 }
 
-.tituloPainel{
+.fundoBloco1::before,
+.fundoBloco1::after {
+  content: "";
+  bottom: -100vh;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  background-image: url(/imagensDeFundo/fundoBolhas.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top left;
+  background-attachment: fixed;
+  z-index: 1;
+  animation: subirBolhas 18s infinite linear forwards;
+  transition: ease-in;
+}
+
+.fundoBloco1::after {
+  animation-delay: 9s;
+}
+
+@keyframes subirBolhas {
+  0% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-200vh);
+    opacity: 0;
+  }
+}
+
+.tituloPainel {
   text-align: center;
   text-transform: uppercase;
   -webkit-text-stroke-width: 0.08rem;
   font-size: 4rem;
+  z-index: 5;
 }
 
-.fundoBloco1 .tituloPainel{
+.fundoBloco1 .tituloPainel {
   color: white;
   -webkit-text-stroke-color: #1c1268;
 }
 
-.fundoBloco2{
-  padding-block: 20px 150px;
+.fundoBloco2 {
+  padding-block: 0 150px;
   z-index: 90;
   background-color: #ffe5b7;
 }
@@ -102,9 +133,9 @@
 }
 
 .descricaoDado,
-.inputDado{
-  font-size: .8rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.inputDado {
+  font-size: 0.8rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .descricaoDado {
@@ -150,11 +181,11 @@
   outline: none;
 }
 
-.dadoEmail{
+.dadoEmail {
   max-width: 90%;
 }
 
-.botaoDadoGoogle{
+.botaoDadoGoogle {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -165,23 +196,23 @@
   padding: 3px 3px 3px 6px;
 }
 
-.contaConectada{
+.contaConectada {
   border: 1px solid rgba(0, 0, 0, 0.298);
   font-weight: 500;
 }
 
-.textoBotaoLog{
+.textoBotaoLog {
   width: 100%;
   text-align: center;
   color: rgba(31, 31, 31, 0.71);
 }
 
-.iconeLog{
+.iconeLog {
   width: 20px;
   height: 20px;
 }
 
-.seccaoContas{
+.seccaoContas {
   flex-direction: column;
   gap: 10px;
 }
@@ -244,7 +275,7 @@
   max-width: 200px;
 }
 
-.overlayExclusao{
+.overlayExclusao {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -257,7 +288,7 @@
   z-index: 100;
 }
 
-.cardExclusao{
+.cardExclusao {
   display: flex;
   flex-direction: column;
   height: 90vh;
@@ -269,28 +300,28 @@
   padding: 0 20px 20px 20px;
 }
 
-.tituloExclusao{
+.tituloExclusao {
   text-align: center;
   padding-block: 20px 30px;
   color: rgb(255, 0, 98);
 }
 
-.avisoExclusao{
+.avisoExclusao {
   background-color: #0048ff2e;
   color: #0022797f;
   border-left: 5px solid #005eff;
-  border-radius: .3rem;
+  border-radius: 0.3rem;
   padding: 7px 5px;
-  font-size: .8rem;
+  font-size: 0.8rem;
   font-weight: 500;
   font-style: italic;
 }
 
-.avisoExclusao span{
+.avisoExclusao span {
   color: #002279da;
 }
 
-.formularioExclusao{
+.formularioExclusao {
   display: flex;
   flex-direction: column;
   padding-top: 20px;
@@ -298,57 +329,68 @@
   flex-grow: 1;
 }
 
-.formularioExclusao input{
+.formularioExclusao input {
   padding: 7px 2px 7px 4px;
   border-radius: 6px;
   border: 1px solid #b3b3b3;
 }
 
-.formularioExclusao input:focus{
+.formularioExclusao input:focus {
   border-color: rgb(255, 0, 98);
 }
 
-.botoesExclusao{
+.botoesExclusao {
   display: flex;
   gap: 20px;
   margin: auto 0 0 auto;
 }
 
-.botoesExclusao button{
+.botoesExclusao button {
   padding: 6px 13px;
   border: none;
-  border-radius: .5rem;
-  transition: all ease-in-out .3s;
+  border-radius: 0.5rem;
+  transition: all ease-in-out 0.3s;
   color: rgb(255, 255, 255);
 }
 
-.botoesExclusao button:hover{
+.botoesExclusao button:hover {
   transform: scale(1.05);
 }
 
-.botaoExclusaoSecundario{
+.botaoExclusaoSecundario {
   background-color: rgb(78, 78, 78);
-  opacity: .5;
+  opacity: 0.5;
 }
 
-.botaoExclusaoSecundario:hover{
+.botaoExclusaoSecundario:hover {
   opacity: 1;
 }
 
-.botaoExclusaoPrincipal{
+.botaoExclusaoPrincipal {
   background-color: rgb(255, 0, 98);
 }
 
-.botaoExclusaoPrincipal:hover{
+.botaoExclusaoPrincipal:hover {
   background-color: rgb(255, 0, 21);
 }
 
 @media (max-width: 768px) {
+  .fundoBloco {
+    padding-inline: 30px;
+    gap: 10px;
+  }
   .tituloPainel {
-    font-size: 1.8rem;
+    font-size: 2.3rem;
   }
   .alinharDadoEDescricaoDado {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .iconeUsuario {
+    height: 50px;
+  }
+  .descricaoDado,
+  .espacamentoDado {
+    width: 100%;
   }
 }
