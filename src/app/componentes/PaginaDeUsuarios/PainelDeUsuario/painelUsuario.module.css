@@ -6,6 +6,7 @@
   background-attachment: fixed;
   height: 100vh;
   overflow-y: hidden;
+  z-index: 1;
 }
 
 .fundoDaPagina::before,
