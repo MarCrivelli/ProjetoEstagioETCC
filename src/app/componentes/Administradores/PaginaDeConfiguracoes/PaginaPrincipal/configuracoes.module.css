@@ -11,7 +11,7 @@
   justify-content: center;
   min-height: calc(100vh - 70px);
   height: auto;
-  padding: 2%;
+  padding: 2% 2% 120px 2%;
 }
 
 .painel {
@@ -110,8 +110,7 @@
 }
 
 .tab {
-  border: 3px solid black !important;
-  border-radius: 0px;
+  border-radius: 10px;
   overflow: hidden;
 }
 
@@ -123,9 +122,6 @@
   border-radius: 8px !important;
   padding: 0.466rem 18px !important;
   transition: transform 0.3s ease;
-}
-
-.tabPadrao:not(:last-of-type) {
 }
 
 .tabPadrao:hover {

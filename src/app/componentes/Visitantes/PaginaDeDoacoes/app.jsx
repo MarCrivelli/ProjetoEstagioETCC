@@ -1,8 +1,18 @@
+"use client";
+
+import { useState } from "react";
 import Header from "../HeaderVisitantes/app";
 import Footer from "../Footer/app";
 import styles from "./doe.module.css";
 
-export default function QueroAdotar() {
+export default function ComoDoar() {
+  const [qrCopiado, setQrCopiado] = useState(false);
+
+  async function copiarQRCode() {
+  await navigator.clipboard.writeText("TESTEEEEE A DASDA DS.");
+  setQrCopiado(true);
+}
+
   return (
     <>
       <main>
@@ -24,7 +34,12 @@ export default function QueroAdotar() {
             </h2>
             <img src="/QRCodeDoacao/QRCodeTeste.png"></img>
 
-            <input type="string" />
+            <button
+              onClick={copiarQRCode}
+              className={qrCopiado ? styles.QRCodeCopiado : ""}
+            >
+              {qrCopiado ? "QR-Code copiado!" : "Clique aqui para copiar o QR-Code"}
+            </button>
           </div>
         </section>
 
