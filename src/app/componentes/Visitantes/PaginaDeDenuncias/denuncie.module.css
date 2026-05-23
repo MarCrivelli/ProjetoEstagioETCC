@@ -92,7 +92,7 @@ section.secao.parallax2 {
   background-image: url(/imagensDeFundo/lua.png);
   background-repeat: no-repeat;
   background-size: cover;
-  animation: spin 21s linear infinite;
+  animation: girarLua 21s linear infinite;
   transition: all 0.6s ease-out;
 }
 
@@ -107,38 +107,55 @@ section.secao.parallax2 {
 
 .painel {
   display: flex;
-  flex-direction: column;
   z-index: 100;
 }
 
 .conteudo1 .painel {
-  width: 60%;
-  background-color: white;
+  width: 100%;
+  gap: 100px;
+  row-gap: 30px;
+  padding-inline: 7%;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.conteudo1 .painel .card{
+  max-width: 350px;
+  background-color: rgb(255, 255, 255);
+  flex: 1 400px;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 20px;
 }
 
-.tabs {
+.conteudo1 .painel .card:hover{
+  transform: translate(90px);
+  background-color: red;
 }
 
-.tab {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding-top: 10px;
+.conteudo1 .painel .card h1{
+  background: linear-gradient(to bottom, #baff5b, #34c39c);
+  background-clip: text;
+  color: transparent;
+  -webkit-text-stroke-color: #3a6300;
+  -webkit-text-stroke-width: 0.08rem;
 }
 
-.tab p {
-  font-size: 1.6rem;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+.conteudo1 .painel .card p{
+  color: #140021;
+  font-size: 1.2rem;
+  font-weight: 300;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: justify;
 }
+
 
 .selectEstados {
   max-width: 300px;
-  margin-top: 20px;
+  overflow-y: visible;
 }
 
 .conteudo2 .painel {
+  flex-direction: column;
   color: #ffffff;
   max-width: 1100px;
   gap: 20px;
@@ -182,13 +199,9 @@ section.secao.parallax2 {
     font-size: 4rem;
   }
   .conteudo1 .painel {
-    width: 80%;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
+    
   }
   .conteudo2 .painel h1 {
-    font-size: 3.5rem;
   }
   .conteudo2 {
     padding: 100px 50px;

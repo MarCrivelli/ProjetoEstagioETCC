@@ -25,6 +25,7 @@
 
 .fundoDaPagina::before {
   background-image: url(/imagensDeFundo/fundoAreia_Contorno.svg);
+  filter: drop-shadow(8px 1px 1px rgb(212, 171, 89));
 }
 
 .fundoDaPagina::after {
@@ -63,6 +64,7 @@
   z-index: 1;
   animation: subirBolhas 18s infinite linear forwards;
   transition: ease-in;
+  filter: drop-shadow(3px 2px 1px #001f5a);
 }
 
 .fundoBloco1::after {
@@ -90,12 +92,14 @@
 .fundoBloco1 .tituloPainel {
   color: white;
   -webkit-text-stroke-color: #1c1268;
+  filter: drop-shadow(5px 1px 0 rgba(0, 30, 255, 0.374));
 }
 
 .fundoBloco2 {
   padding-block: 0 150px;
   z-index: 90;
   background-color: #ffe5b7;
+  
 }
 
 .fundoBloco2 .tituloPainel {
@@ -103,6 +107,7 @@
   -webkit-text-stroke-color: #908168;
   background-clip: text;
   background-color: white;
+  filter: drop-shadow(5px 1px 0 #cf8a1251);
 }
 
 .bloco {

@@ -113,71 +113,56 @@ export default function Denuncie() {
           className={`${styles.secao} ${styles.conteudo} ${styles.conteudo1}`}
         >
           <div className={styles.painel}>
-            <Tabs
-              defaultActiveKey="primeiroTopico"
-              id="uncontrolled-tab-example"
-              className={styles.tabs}
-            >
-              <Tab
-                eventKey="primeiroTopico"
-                title="Delegacia Virtual"
-                className={styles.tab}
-              >
+            <div className={styles.card}>
+              <h1>Delegacia virtual</h1>
+              <p>
+                Todo estado possui uma delegacia virtual na qual você pode
+                acessar para denunciar, no anonimato ou não, diferentes tipos de
+                situações, incluindo situações referentes a causa animal. Se
+                você não souber o link da delegacia de seu estado, selecione seu
+                estado na caixa abaixo:
+              </p>
+              <Select
+                options={delegaciasVirtuaisDeEstadosBrasileiros}
+                onChange={handleChange}
+                placeholder="Selecione seu estado"
+                className={styles.selectEstados}
+              />
+              {/* Mostra o link se um estado foi selecionado */}
+              {estadoSelecionado && (
                 <p>
-                  Todo estado possui uma delegacia virtual na qual você pode
-                  acessar para denunciar, no anonimato ou não, diferentes tipos
-                  de situações, incluindo situações referentes a causa animal.
-                  Se você não souber o link da delegacia de seu estado,
-                  selecione seu estado na caixa abaixo:
+                  Para acessar a delegacia virtual de {estadoSelecionado.label},
+                  clique aqui:{" "}
+                  <a
+                    href={estadoSelecionado.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.link}
+                  >
+                    {estadoSelecionado.link}
+                  </a>
                 </p>
-                <Select
-                  options={delegaciasVirtuaisDeEstadosBrasileiros}
-                  onChange={handleChange}
-                  placeholder="Selecione seu estado"
-                  className={styles.selectEstados}
-                />
-                {/* Mostra o link se um estado foi selecionado */}
-                {estadoSelecionado && (
-                  <p>
-                    Para acessar a delegacia virtual de{" "}
-                    {estadoSelecionado.label}, clique aqui:{" "}
-                    <a
-                      href={estadoSelecionado.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.link}
-                    >
-                      {estadoSelecionado.link}
-                    </a>
-                  </p>
-                )}
-              </Tab>
-              <Tab
-                eventKey="segundoTopico"
-                title="Ao Presenciar"
-                className={styles.tab}
-              >
-                <p>
-                  É importante manter a calma nesses momentos e não fazer nada
-                  com as próprias mãos, a não ser que seja estritamente
-                  necessário, pois do contrário, em alguns casos, pode acabar
-                  resultando em agressões físicas ou até a morte, tanto para o
-                  animal quanto para você!
-                </p>
-              </Tab>
-              <Tab
-                eventKey="terceiroTopico"
-                title="A quem telefonar?"
-                className={styles.tab}
-              >
-                <p>
-                  Você pode ligar para a polícia ambiental ou militar para essas
-                  situações também, especialmente se a ocorrência envolver
-                  animais silvestres &#40;animais que não são domesticos, que
-                  vivem na natureza&#41;.
-                </p>
-              </Tab>
-            </Tabs>
+              )}
+            </div>
+            <div className={styles.card}>
+              <h1>Ao presenciar</h1>
+              <p>
+                É importante manter a calma nesses momentos e não fazer nada com
+                as próprias mãos, a não ser que seja estritamente necessário,
+                pois do contrário, em alguns casos, pode acabar resultando em
+                agressões físicas ou até a morte, tanto para o animal quanto
+                para você!
+              </p>
+            </div>
+            <div className={styles.card}>
+              <h1>A quem ligar?</h1>
+              <p>
+                Você pode ligar para a polícia ambiental ou militar para essas
+                situações também, especialmente se a ocorrência envolver animais
+                silvestres &#40;animais que não são domesticos, que vivem na
+                natureza&#41;.
+              </p>
+            </div>
           </div>
         </section>
 
