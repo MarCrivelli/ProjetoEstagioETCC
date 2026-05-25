@@ -10,6 +10,7 @@
   position: relative;
   z-index: 100;
   gap: 20px;
+  min-width: 100%;
 }
 
 .containerLembretes:before{

@@ -96,7 +96,7 @@ section.secao.parallax2 {
   transition: all 0.6s ease-out;
 }
 
-@keyframes spin {
+@keyframes girarLua {
   from {
     transform: rotate(0deg);
   }
@@ -120,6 +120,8 @@ section.secao.parallax2 {
 }
 
 .conteudo1 .painel .card{
+  display: flex;
+  flex-direction: column;
   max-width: 350px;
   background-color: rgb(255, 255, 255);
   flex: 1 400px;
@@ -128,26 +130,39 @@ section.secao.parallax2 {
 }
 
 .conteudo1 .painel .card:hover{
-  transform: translate(90px);
   background-color: red;
 }
 
+.conteudo1 .painel .card img{
+  width: 180px;
+  margin-inline: auto;
+}
+
 .conteudo1 .painel .card h1{
-  background: linear-gradient(to bottom, #baff5b, #34c39c);
-  background-clip: text;
-  color: transparent;
-  -webkit-text-stroke-color: #3a6300;
+  text-align: center;
   -webkit-text-stroke-width: 0.08rem;
+  color: transparent;
+}
+
+.conteudo1 .painel .card h1:nth-child(1){
+ background: linear-gradient(to bottom, #00fffb, #348fc3);
+  -webkit-text-stroke-color: #004e63;
+  background-clip: text;
+}
+
+.conteudo1 .painel .card h1:nth-of-type(2){
+ background: linear-gradient(to bottom, #ffc800, #c39f34);
+  -webkit-text-stroke-color: #634c00;
+  background-clip: text;
 }
 
 .conteudo1 .painel .card p{
   color: #140021;
   font-size: 1.2rem;
-  font-weight: 300;
+  font-weight: 700;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: justify;
 }
-
 
 .selectEstados {
   max-width: 300px;

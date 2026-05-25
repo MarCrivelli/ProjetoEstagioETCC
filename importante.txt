@@ -52,6 +52,15 @@ Links dos ícones que precisam ser atribuídos:
 <a href="https://www.flaticon.com/free-icons/full-moon" title="full moon icons">Full moon icons created by vectorsmarket15 - Flaticon</a>
 Sites que peguei alguns componentes utilizados:
 
+18. Policial
+<a href="https://www.flaticon.com/free-icons/police" title="police icons">Police icons created by Freepik - Flaticon</a>
+
+19. Binóculo
+<a href="https://www.flaticon.com/free-icons/find" title="find icons">Find icons created by Freepik - Flaticon</a>
+
+20. Atendente
+<a href="https://www.flaticon.com/free-icons/operator" title="operator icons">Operator icons created by kliwir art - Flaticon</a>
+
 https://react-select.com/home
 
 https://react-bootstrap.github.io/docs/components/tabs

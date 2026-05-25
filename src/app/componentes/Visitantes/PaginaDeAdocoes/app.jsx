@@ -221,7 +221,7 @@ export default function QueroAdotar() {
             <img src="/pagAdocao/avaliacao.png"></img>
             <h2>Avaliação Comportamental</h2>
             <p>
-              &nbsp;Um critério muito importante é a avaliação de como o futuro
+              Um critério muito importante é a avaliação de como o futuro
               &quot;pai de pet&quot; interage com os animais, pois a primeira
               impressão deixada é de suma importância para a avaliação.
             </p>
@@ -230,7 +230,7 @@ export default function QueroAdotar() {
             <img src="/pagAdocao/ficha.png"></img>
             <h2>Ficha Limpa</h2>
             <p>
-              &nbsp;Estamos sempre atentos a denúncias de maus-tratos e podemos
+              Estamos sempre atentos a denúncias de maus-tratos e podemos
               impedir a adoção de qualquer animal caso chegue ao nosso
               conhecimento um histórico de agressividade ou abandono.
             </p>
@@ -239,7 +239,7 @@ export default function QueroAdotar() {
             <img src="/pagAdocao/lar.png"></img>
             <h2>Lar adequado</h2>
             <p>
-              &nbsp;Antes de adotar um animal, é preciso ter ciência de que é
+              Antes de adotar um animal, é preciso ter ciência de que é
               necessário um ambiente adequado para recebê-lo, pois do contrário,
               eles podem adoecer ou ficar muito agitados, mesmo que seus donos
               cuidem bem. Quintais ou gaiolas grandes e um ambiente limpo são
@@ -251,7 +251,7 @@ export default function QueroAdotar() {
             <img src="/pagAdocao/rotina.png"></img>
             <h2>Rotina Adequada</h2>
             <p>
-              &nbsp;Os animais domésticos precisam de atenção e cuidados diários
+              Os animais domésticos precisam de atenção e cuidados diários
               para se manterem felizes e consequentemente saudáveis, portanto, é
               necessário que os donos tenham tempo para passear, dar banho,
               alimentá-lo e tratá-lo de doenças/ferimentos.
@@ -261,7 +261,7 @@ export default function QueroAdotar() {
             <img src="/pagAdocao/financeiro.png"></img>
             <h2>Financeiro</h2>
             <p>
-              &nbsp;Cuidar de um animal exige um certo gasto para mantê-los,
+              Cuidar de um animal exige um certo gasto para mantê-los,
               sendo necessário uma ração adequada, coleira e guia para o passeio
               e entender que o animal ocasionalmente poderá ficar doente e é
               responsabilidade do dono tratar.
