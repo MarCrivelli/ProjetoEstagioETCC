@@ -237,6 +237,7 @@ export default function PaginaInicialAdministradores() {
             <h1 className={styles.tituloCards}>Inserir Arquivo</h1>
             <Card3 />
           </div>
+          
         </div>
       </div>
     </div>

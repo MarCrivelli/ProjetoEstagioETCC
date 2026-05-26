@@ -1,3 +1,11 @@
+.containerWrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding-inline: 17px;
+  overflow-x: hidden;
+}
+
 .containerLembretes {
   display: flex;
   flex-direction: column;
@@ -47,6 +55,10 @@
   background-color: #008cff;
 }
 
+.lembreteNovoAdicionado {
+  animation: animacaoDeNovoLembrete 0.7s ease-out forwards;
+}
+
 @keyframes animacaoDeNovoLembrete {
   from {
     transform: translateY(649px);
@@ -58,10 +70,6 @@
     opacity: 1;
     position: relative;
   }
-}
-
-.lembreteNovoAdicionado {
-  animation: animacaoDeNovoLembrete 0.7s ease-out forwards;
 }
 
 .lembreteCarregado {
@@ -109,14 +117,6 @@
 .lembreteItem:hover .lembreteLixeira {
   opacity: 1;
   visibility: visible;
-}
-
-.containerWrapper {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  padding-inline: 17px;
-  overflow-x: hidden
 }
 
 .botaoAdicionar {

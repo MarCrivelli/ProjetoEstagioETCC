@@ -67,11 +67,12 @@ section.secao.parallax2 {
 .conteudo1 {
   z-index: 10;
   min-height: 60vh;
-  padding: 100px 90px;
+  padding: 150px 90px;
   background-image: url(/imagensDeFundo/fundoLavaQuadrada.svg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top left;
+  background-color: #140021;
 }
 
 .conteudo2 {
@@ -119,54 +120,67 @@ section.secao.parallax2 {
   justify-content: center;
 }
 
-.conteudo1 .painel .card{
+.conteudo1 .painel .card {
   display: flex;
   flex-direction: column;
-  max-width: 350px;
-  background-color: rgb(255, 255, 255);
   flex: 1 400px;
   padding: 20px;
   border-radius: 20px;
-}
-
-.conteudo1 .painel .card:hover{
-  background-color: red;
-}
-
-.conteudo1 .painel .card img{
-  width: 180px;
-  margin-inline: auto;
-}
-
-.conteudo1 .painel .card h1{
-  text-align: center;
-  -webkit-text-stroke-width: 0.08rem;
-  color: transparent;
-}
-
-.conteudo1 .painel .card h1:nth-child(1){
- background: linear-gradient(to bottom, #00fffb, #348fc3);
-  -webkit-text-stroke-color: #004e63;
-  background-clip: text;
-}
-
-.conteudo1 .painel .card h1:nth-of-type(2){
- background: linear-gradient(to bottom, #ffc800, #c39f34);
-  -webkit-text-stroke-color: #634c00;
-  background-clip: text;
-}
-
-.conteudo1 .painel .card p{
+  background-image: url(/pagDenuncias/estiloCards.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top left;
   color: #140021;
-  font-size: 1.2rem;
-  font-weight: 700;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 4px -4px 30px #14002176;
+  min-height: 440px;
+}
+
+.conteudo1 .painel .card .divImagem {
+  display: flex;
+  width: 100%;
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.conteudo1 .painel .card .divImagem::before {
+  content: "";
+  position: absolute;
+  background-color: #ffffff;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 100px;
+  z-index: 1;
+  border-radius: 50%;
+}
+
+.conteudo1 .painel .card img {
+  width: 140px;
+  margin-inline: auto;
+  border-radius: 50%;
+  overflow: visible;
+  z-index: 10;
+}
+
+.conteudo1 .painel .card h1 {
+  text-align: center;
+  -webkit-text-stroke-color: #ffffff;
+  -webkit-text-stroke-width: 0.03rem;
+  z-index: 10;
+}
+
+.conteudo1 .painel .card p {
+  font-size: 1rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   text-align: justify;
+  z-index: 10;
 }
 
 .selectEstados {
   max-width: 300px;
   overflow-y: visible;
+  margin-top: 10px;
 }
 
 .conteudo2 .painel {
@@ -176,8 +190,7 @@ section.secao.parallax2 {
   gap: 20px;
 }
 
-.conteudo2 .painel h1
-.conteudo2 .painel ol li{
+.conteudo2 .painel h1 .conteudo2 .painel ol li {
   text-align: justify;
 }
 
@@ -213,9 +226,6 @@ section.secao.parallax2 {
   section.secao.parallax h1 {
     font-size: 4rem;
   }
-  .conteudo1 .painel {
-    
-  }
   .conteudo2 .painel h1 {
   }
   .conteudo2 {
@@ -233,6 +243,31 @@ section.secao.parallax2 {
   section.secao.parallax h1 {
     font-size: 3rem;
   }
+  .conteudo1 .painel {
+    row-gap: 50px;
+    padding-inline: 0;
+  }
+  .conteudo1 .painel .card {
+    padding: 20px;
+    min-height: 300px;
+  }
+  .conteudo1 .painel .card .divImagem {
+    margin-bottom: 20px;
+  }
+  .conteudo1 .painel .card .divImagem::before {
+    padding: 80px;
+  }
+  .conteudo1 .painel .card img {
+    width: 120px;
+  }
+  .conteudo1 .painel .card h1 {
+    font-size: 2rem;
+    -webkit-text-stroke-width: 0.01rem;
+  }
+
+  .conteudo1 .painel .card p {
+    font-size: 0.8rem;
+  }
   .conteudo2 {
     background-image: url(/imagensDeFundo/fundoMontanhaEscura_Celular.svg);
     padding: 100px 40px;
@@ -244,7 +279,7 @@ section.secao.parallax2 {
     font-size: 2.5rem;
   }
   .conteudo1 {
-    padding-inline: 20px;
+    padding: 100px 20px;
     background-image: url(/imagensDeFundo/fundoLavaQuadrada_Celular.svg);
   }
 }

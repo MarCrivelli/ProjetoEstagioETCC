@@ -114,7 +114,9 @@ export default function Denuncie() {
         >
           <div className={styles.painel}>
             <div className={styles.card}>
-              <img src="/pagDenuncias/policial.png"/>
+              <div className={styles.divImagem}>
+                <img src="/pagDenuncias/policial.png" />
+              </div>
               <h1>Delegacia virtual</h1>
               <p>
                 Todo estado possui uma delegacia virtual na qual você pode
@@ -146,7 +148,9 @@ export default function Denuncie() {
               )}
             </div>
             <div className={styles.card}>
-              <img src="/pagDenuncias/binoculo.png"/>
+              <div className={styles.divImagem}>
+                <img src="/pagDenuncias/binoculo.png" />
+              </div>
               <h1>Ao presenciar</h1>
               <p>
                 É importante manter a calma nesses momentos e não fazer nada com
@@ -157,7 +161,9 @@ export default function Denuncie() {
               </p>
             </div>
             <div className={styles.card}>
-              <img src="/pagDenuncias/atendente.png"/>
+              <div className={styles.divImagem}>
+                <img src="/pagDenuncias/atendente.png" />
+              </div>
               <h1>A quem ligar?</h1>
               <p>
                 Você pode ligar para a polícia ambiental ou militar para essas
