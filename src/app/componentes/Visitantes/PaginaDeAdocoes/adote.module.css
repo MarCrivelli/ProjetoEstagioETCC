@@ -251,101 +251,98 @@ section.secao.parallax3 {
 .conteudo {
   display: flex;
   flex-wrap: wrap;
-  padding: 100px 20px;
-  gap: 57px;
   justify-content: center;
   z-index: 100;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(
-    to right,
-    #ffcf54 0%,
-    #ffcf54 20%,
-    #06b700 20%,
-    #06b700 40%,
-    #ff7300 40%,
-    #ff7300 60%,
-    #ff005d 60%,
-    #ff005d 80%,
-    #5500ff 80%,
-    #5500ff 100%
-  );
-}
-
-.conteudo::before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background-image: url(/imagensDeFundo/fundoPatas_BrancoTotal.png);
-  background-repeat: repeat; /* Faz com que a imagem se repita */
-  background-size: 600px; /* Define o tamanho da imagem (largura x altura) */
-  background-position: top left; /* A posição inicial da repetição é no canto superior esquerdo */
-  z-index: 10;
-  opacity: .4;
 }
 
 .conteudo .bloco {
   display: flex;
-  flex: 1 calc(400px - 100px);
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  background-color: rgb(255, 255, 255);
-  box-shadow: 5px 5px 1px rgba(0, 0, 0, 0.582);
-  border-radius: 10px;
+  flex: 1 500px;
   height: auto;
-  max-width: 350px;
-  padding: 20px;
-  z-index: 100;
-  transition: transform ease-in-out 0.5s;
+  padding: 80px 80px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top left;
+  border: 4px solid rgb(0, 0, 0);
 }
 
-.conteudo .bloco:hover {
+.bloco:nth-of-type(1) {
+  background-image: url(/pagDoacao/estiloCards1.svg);
+}
+.bloco:nth-of-type(2) {
+  background-image: url(/pagDoacao/estiloCards2.svg);
+}
+.bloco:nth-of-type(3) {
+  background-image: url(/pagDoacao/estiloCards3.svg);
+}
+.bloco:nth-of-type(4) {
+  background-image: url(/pagDoacao/estiloCards4.svg);
+}
+.bloco:nth-of-type(5) {
+  background-image: url(/pagDoacao/estiloCards5.svg);
+}
+
+.conteudo .bloco .cardInformativo {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 408px;
+  min-height: 440px;
+  height: auto;
+  transition: transform ease-in-out 0.3s;
+  padding: 20px;
+}
+
+.conteudo .bloco .cardInformativo:hover {
   transform: scale(1.1);
 }
 
-.conteudo .bloco img {
+.conteudo .bloco .cardInformativo img {
   width: 100px;
   height: 100px;
 }
 
-.conteudo .bloco h2 {
+.conteudo .bloco .cardInformativo h2 {
   text-align: center;
   font-size: 2.2rem;
-  -webkit-text-stroke-width: 0.08rem;
-  margin-bottom: 20px;
+  -webkit-text-stroke-width: 0.05rem;
+  margin-bottom: 10px;
+  color: white;
 }
 
 .conteudo .bloco:nth-of-type(1) h2 {
-  color: #ffcf54;
   -webkit-text-stroke-color: #cd9300;
 }
 
 .conteudo .bloco:nth-of-type(2) h2 {
-  color: #06b700;
   -webkit-text-stroke-color: #047400;
 }
 
 .conteudo .bloco:nth-of-type(3) h2 {
-  color: #ff7300;
   -webkit-text-stroke-color: #a34900;
 }
 
 .conteudo .bloco:nth-of-type(4) h2 {
-  color: #ff005d;
   -webkit-text-stroke-color: #850031;
 }
 
 .conteudo .bloco:nth-of-type(5) h2 {
-  color: #5500ff;
   -webkit-text-stroke-color: #270076;
 }
 
-.conteudo .bloco p {
+.conteudo .bloco .cardInformativo p {
   text-align: justify;
   font-size: 1.1rem;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: rgba(0, 0, 0, 0.321);;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -384,26 +381,12 @@ section.secao.parallax3 {
     font-size: 3rem;
   }
   .conteudo {
-    padding: 60px 20px;
-    background: linear-gradient(
-      to bottom,
-      #ffcf54 0%,
-      #ffcf54 20%,
-      #06b700 20%,
-      #06b700 40%,
-      #ff7300 40%,
-      #ff7300 60%,
-      #ff005d 60%,
-      #ff005d 80%,
-      #5500ff 80%,
-      #5500ff 100%
-    );
-    gap: 40px;
+    gap: 0px;
   }
   .conteudo .bloco {
     flex: 1 calc(300px - 20px);
     box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.582);
-    padding: 20px;
+    padding: 60px 20px;
   }
   .conteudo .bloco h2 {
     font-size: 1.6rem;
@@ -454,8 +437,10 @@ section.secao.parallax3 {
   .botaoVoltar {
     padding: 4px 18px;
   }
-
-  .conteudo {
-    gap: 30px;
+  .conteudo .bloco .cardInformativo h2 {
+    font-size: 2rem;
+  }
+  .conteudo .bloco .cardInformativo p {
+    font-size: 0.8rem;
   }
 }

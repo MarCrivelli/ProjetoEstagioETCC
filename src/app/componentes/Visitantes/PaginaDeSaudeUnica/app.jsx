@@ -4,9 +4,29 @@ import styles from "./saudeUnica.module.css";
 
 export default function SaudeUnica() {
   return (
-    <div className={styles.fundoPagina}>
-      <Header />
-      <div className={styles.ajusteElementosDaPagina}>
+    <>
+      <main>
+        <section
+          className={`${styles.secao} ${styles.parallax} ${styles.parallax1}`}
+        >
+          <Header />
+          <h1>O que é Saúde Única?</h1>
+        </section>
+
+        <section
+          className={`${styles.secao} ${styles.conteudo} ${styles.conteudo1}`}
+        ></section>
+
+        <section
+          className={`${styles.secao} ${styles.parallax} ${styles.parallax2}`}
+        >
+          <h1>Em quais ocasiões a saúde humana, animal e ambiental se interligam?</h1>
+        </section>
+        <section
+          className={`${styles.secao} ${styles.conteudo} ${styles.conteudo2}`}
+        ></section>
+      </main>
+      {/* <div className={styles.ajusteElementosDaPagina}>
         <div className={styles.seccao}>
           <h1>O que é Saúde Única?</h1>
           <p>
@@ -73,8 +93,8 @@ export default function SaudeUnica() {
             também é passível de denúncia.
           </p>
         </div>
-      </div>
+      </div>*/}
       <Footer />
-    </div>
+    </>
   );
 }

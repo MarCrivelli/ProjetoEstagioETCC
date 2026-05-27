@@ -1,90 +1,84 @@
-.fundoPagina{
+section.secao.parallax {
+  display: flex;
+  flex-direction: column;
+  height: 100vh !important;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  z-index: 49;
+}
+
+section.secao.parallax::before {
+  content: "";
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  z-index: 10;
   background: linear-gradient(
-    to right,
-    #8B322C 0%,
-    #8B322C 25%,
-    #DD5746 25%,
-    #DD5746 50%,
-    #FFC470 50%,
-    #FFC470 75%,
-    #4793AF 75%,
-    #4793AF 100%
+    to bottom,
+    #03051b76 0,
+    #03051b76 40%,
+    #03051bda 100%
   );
 }
 
-.ajusteElementosDaPagina {
-  display: flex;
-  flex-direction: column;
-  row-gap: 50px;
-  padding: 3% 10% 6% 10%;
-  min-height: calc(100vh - 70px);
+section.secao.parallax h1 {
+  text-align: center;
+  margin: auto;
+  color: white;
+  font-size: 5rem;
+  z-index: 50;
+  animation: efeitoDeslizanteTitulo 0.8s ease-out forwards;
+  padding: 20px;
 }
 
-.seccao {
+@keyframes efeitoDeslizanteTitulo {
+  from {
+    transform: translateY(30vw);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0vw);
+    opacity: 1;
+  }
+}
+
+section.secao.parallax1 {
+  background-image: url(https://institutofaunabrasil.org.br/wp-content/uploads/2024/02/Banner-site-sem-granu4.jpg);
+}
+
+section.secao.parallax2 {
+  background-image: url(https://institutofaunabrasil.org.br/wp-content/uploads/2024/02/Banner-site-sem-granu4.jpg);
+}
+
+.conteudo {
   display: flex;
-  flex-direction: column;
-  row-gap: 30px;
-  background-color: white;
-  padding: 7% 8%;
-  border: 2px solid black;
-  box-shadow: 7px 8px 1px #173d49c2;
-  border-radius: 10px;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
   position: relative;
-  z-index: 1;
+  overflow: hidden;
 }
 
-.seccao h1 {
-  font-size: 2.3rem;
+.conteudo1 {
+  z-index: 10;
+  min-height: 60vh;
+  padding: 150px 90px;
+  background-image: url(/imagensDeFundo/fundoLavaQuadrada.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top left;
+  background-color: #140021;
 }
 
-.seccao p,
-.seccao .strong {
-  font-size: 1.15rem;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  text-align: justify;
-}
-
-.strong {
-  font-weight: 700;
-}
-
-.seccao p {
-  margin-bottom: 0;
-}
-
-.selectEstados {
-  max-width: 250px;
-  width: 100%;
-  margin-top: 10px;
-}
-
-.link {
-  color: currentColor;
-}
-
-@media (max-width: 768px) {
-  .ajusteElementosDaPagina {
-    padding: 50px 5%;
-  }
-  .ajusteElementosDaPagina::after {
-    right: -20px;
-    top: 30px;
-    transform: rotate(10deg);
-  }
-
-  .seccao {
-    padding: 35px 8%;
-    box-shadow: 4px 5px 1px #173d49c2;
-  }
-
-  .seccao h1 {
-    font-size: 1.4rem;
-    text-align: center;
-    margin-bottom: 1%;
-  }
-
-  .seccao p,
-  .seccao .strong {
-    font-size: 0.8rem;
-  }
+.conteudo2 {
+  background-image: url(/imagensDeFundo/fundoMontanhaEscura.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top left;
+  padding: 100px 40px;
 }
