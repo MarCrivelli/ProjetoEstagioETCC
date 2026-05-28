@@ -181,6 +181,7 @@ section.secao.parallax2 {
   max-width: 300px;
   overflow-y: visible;
   margin-top: 10px;
+  z-index: 10000000000;
 }
 
 .conteudo2 .painel {

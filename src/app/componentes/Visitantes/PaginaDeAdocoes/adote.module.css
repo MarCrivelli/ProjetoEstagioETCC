@@ -255,6 +255,9 @@ section.secao.parallax3 {
   z-index: 100;
   position: relative;
   overflow: hidden;
+  gap: 16px;
+  padding-block: 16px;
+  background-color: black;
 }
 
 .conteudo .bloco {
@@ -263,11 +266,10 @@ section.secao.parallax3 {
   align-items: center;
   flex: 1 500px;
   height: auto;
-  padding: 80px 80px;
+  padding: 40px 80px 80px 80px;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top left;
-  border: 4px solid rgb(0, 0, 0);
 }
 
 .bloco:nth-of-type(1) {
@@ -296,7 +298,7 @@ section.secao.parallax3 {
   min-height: 440px;
   height: auto;
   transition: transform ease-in-out 0.3s;
-  padding: 20px;
+  padding: 0 20px 20px 20px;
 }
 
 .conteudo .bloco .cardInformativo:hover {
@@ -304,8 +306,8 @@ section.secao.parallax3 {
 }
 
 .conteudo .bloco .cardInformativo img {
-  width: 100px;
-  height: 100px;
+  width: 100%;
+  max-width: 150px;
 }
 
 .conteudo .bloco .cardInformativo h2 {
@@ -342,7 +344,7 @@ section.secao.parallax3 {
   color: white;
   padding: 10px;
   border-radius: 10px;
-  background-color: rgba(0, 0, 0, 0.321);;
+  background-color: rgba(0, 0, 0, 0.321);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -380,12 +382,8 @@ section.secao.parallax3 {
   section.secao.parallax h1 {
     font-size: 3rem;
   }
-  .conteudo {
-    gap: 0px;
-  }
   .conteudo .bloco {
     flex: 1 calc(300px - 20px);
-    box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.582);
     padding: 60px 20px;
   }
   .conteudo .bloco h2 {
@@ -437,8 +435,14 @@ section.secao.parallax3 {
   .botaoVoltar {
     padding: 4px 18px;
   }
+  .conteudo .bloco .cardInformativo {
+    padding: 0;
+  }
+  .conteudo .bloco .cardInformativo img {
+    max-width: 80px;
+  }
   .conteudo .bloco .cardInformativo h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
   .conteudo .bloco .cardInformativo p {
     font-size: 0.8rem;

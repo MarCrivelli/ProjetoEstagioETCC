@@ -3,8 +3,6 @@ import Footer from "../Footer/app";
 import styles from "./denuncie.module.css";
 import Select from "react-select";
 import { useState } from "react";
-import Tab from "react-bootstrap/Tab";
-import Tabs from "react-bootstrap/Tabs";
 
 export default function Denuncie() {
   const [estadoSelecionado, setEstadoSelecionado] = useState(null);

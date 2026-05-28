@@ -27,14 +27,14 @@ Links dos ícones que precisam ser atribuídos:
 9. Dinheiro roxo
 <a href="https://www.flaticon.com/free-icons/budget" title="budget icons">Budget icons created by Freepik - Flaticon</a>
 
-10. Casa Azul
+10. Casa Laranja
 <a href="https://www.flaticon.com/free-icons/real-estate" title="real estate icons">Real estate icons created by Smashicons - Flaticon</a>
 
 11. Pessoa com detalhes em verde
 <a href="https://www.flaticon.com/free-icons/good-person" title="good person icons">Good person icons created by nangicon - Flaticon</a>
 
 12. Papel com detalhes em amarelo
-<a href="https://www.flaticon.com/free-icons/check-list" title="check list icons">Check list icons created by Freepik - Flaticon</a>
+<a href="https://www.flaticon.com/free-icons/checklist" title="checklist icons">Checklist icons created by Freepik - Flaticon</a>
 
 13. Ração de Cachorro
 <a href="https://www.flaticon.com/free-icons/dog-food" title="dog-food icons">Dog-food icons created by monkik - Flaticon</a>
