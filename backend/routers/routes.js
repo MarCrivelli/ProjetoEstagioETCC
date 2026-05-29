@@ -9,6 +9,7 @@ const carrosselAnimaisController = require('../controllers/carrosselDeAnimaisCon
 const doadorController = require('../controllers/doadorController')
 const avisoController = require('../controllers/avisoController'); 
 const usuarioController = require('../controllers/usuarioController');
+const documentosController = require("../controllers/documentosController");
 
 // Importar middlewares de autenticação
 const {
@@ -229,5 +230,34 @@ routes.use('*', (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
+
+// ============================================================================
+// ROTAS DE DOCUMENTOS
+// ============================================================================
+
+// Listar documentos com paginação
+routes.get(
+  "/documentos",
+  verificarToken,
+  administradorOuSub,
+  documentosController.listarDocumentos
+);
+
+// Cadastrar documento Word ou Excel
+routes.post(
+  "/documentos",
+  verificarToken,
+  administradorOuSub,
+  upload.single("arquivo"),
+  documentosController.cadastrarDocumento
+);
+
+// Deletar documento
+routes.delete(
+  "/documentos/:id",
+  verificarToken,
+  administradorOuSub,
+  documentosController.deletarDocumento
+);
 
 module.exports = routes;
