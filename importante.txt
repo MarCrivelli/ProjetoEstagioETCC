@@ -61,6 +61,12 @@ Sites que peguei alguns componentes utilizados:
 20. Atendente
 <a href="https://www.flaticon.com/free-icons/operator" title="operator icons">Operator icons created by kliwir art - Flaticon</a>
 
+21. Foguete
+<a href="https://www.flaticon.com/free-icons/rocket" title="rocket icons">Rocket icons created by Freepik - Flaticon</a>
+
+22. Fogo
+<a href="https://www.flaticon.com/free-icons/flame" title="flame icons">Flame icons created by ultimatearm - Flaticon</a>
+
 https://react-select.com/home
 
 https://react-bootstrap.github.io/docs/components/tabs

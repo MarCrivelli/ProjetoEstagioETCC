@@ -67,12 +67,77 @@ section.secao.parallax2 {
 .conteudo1 {
   z-index: 10;
   min-height: 60vh;
-  padding: 150px 90px;
-  background-image: url(/imagensDeFundo/fundoLavaQuadrada.svg);
+  padding: 150px 20px;
+  /* background: linear-gradient(
+    to bottom,
+    #220554 0%,
+    #220554 8.3%,
+    #83005f 8.3%,
+    #83005f 16.6%,
+    #cd1d52 16.6%,
+    #cd1d52 24.9%,
+    #fb6a35 24.9%,
+    #fb6a35 33.2%,
+    #ffb801 33.2%,
+    #ffb801 41.5%,
+    #ffd800 41.5%,
+    #ffd800 58.1%,
+    #ffb801 58.1%,
+    #ffb801 66.4%,
+    #fb6a35 66.4%,
+    #fb6a35 74.7%,
+    #cd1d52 74.7%,
+    #cd1d52 83%,
+    #83005f 83%,
+    #83005f 91.3%,
+    #220554 91.3%,
+    #220554 99.6%,
+    #170027 99.6%,
+    #170027 100%
+  ); */
+  background-image: url(/imagensDeFundo/fundoMontanhaEscura.svg);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top left;
-  background-color: #140021;
+}
+
+.conteudo1 .painel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  max-width: 1100px;
+  padding: 60px 40px;
+  z-index: 10;
+  background-color: #ffffff;
+}
+
+.conteudo1 .painel p {
+  font-size: 1.5rem;
+  font-weight: 200;
+  color: rgb(0, 0, 0);
+  text-align: justify;
+}
+
+.foguete,
+.fogo{
+  position: absolute;
+}
+
+.foguete {
+  transform: rotate(-40deg);
+  top: 28px;
+  right: 13%;
+  z-index: 10;
+  width: 100px;
+}
+
+.fogo {
+  transform: rotate(145deg);
+  top: calc(28px + 22px);
+  right: calc(13% - 128px);
+  width: 100px;
+  height: 400px;
 }
 
 .conteudo2 {
