@@ -68,8 +68,8 @@ section.secao.parallax2 {
   z-index: 10;
   min-height: 60vh;
   padding: 150px 20px;
-  /* background: linear-gradient(
-    to bottom,
+  background: linear-gradient(
+    135deg,
     #220554 0%,
     #220554 8.3%,
     #83005f 8.3%,
@@ -94,11 +94,11 @@ section.secao.parallax2 {
     #220554 99.6%,
     #170027 99.6%,
     #170027 100%
-  ); */
-  background-image: url(/imagensDeFundo/fundoMontanhaEscura.svg);
+  );
+  /* background-image: url(/imagensDeFundo/fundoMontanhaEscura.svg);
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: top left;
+  background-position: top left; */
 }
 
 .conteudo1 .painel {
@@ -120,7 +120,7 @@ section.secao.parallax2 {
 }
 
 .foguete,
-.fogo{
+.fogo {
   position: absolute;
 }
 
@@ -145,5 +145,18 @@ section.secao.parallax2 {
   background-repeat: no-repeat;
   background-size: cover;
   background-position: top left;
-  padding: 100px 40px;
+  padding: 100px 20%;
+}
+
+.card {
+  background-color: white;
+  padding: 40px;
+  border-radius: 20px;
+  flex: 1 400px;
+
+  --progresso: 0;
+
+  opacity: calc(0.4 + var(--progresso) * 0.6);
+  transform: scale(calc(0.8 + var(--progresso) * 0.2));
+  transition: opacity 0.15s linear, transform 0.15s linear;
 }
