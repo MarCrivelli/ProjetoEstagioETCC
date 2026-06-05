@@ -42,18 +42,19 @@ export default function SaudeUnica() {
         >
           <div className={styles.painel}>
             <p>
-              A Saúde Única é uma abordagem integrada e interdisciplinar
-              proposta por organizações internacionais, como a Organização
+              A <strong>Saúde Única é uma abordagem integrada e interdisciplinar
+              proposta por organizações internacionais,</strong> como a Organização
               Mundial da Saúde &#40;OMS&#41;, a Organização Mundial da Saúde
               Animal &#40;OIE&#41; e a Organização das Nações Unidas para
-              Alimentação e Agricultura &#40;FAO&#41;, que reconhece que a saúde
-              humana, a saúde animal e a saúde ambiental estão interligadas. Ou
+              Alimentação e Agricultura &#40;FAO&#41;, <strong>que reconhece que a saúde
+              humana, a saúde animal e a saúde ambiental estão interligadas</strong>. Ou
               seja, para garantir a saúde das pessoas, é necessário também
               cuidar dos animais e do meio ambiente.
             </p>
           </div>
-          <img className={styles.foguete} src="/pagSaudeUnica/rocket.png" />
-          <img className={styles.fogo} src="/pagSaudeUnica/fire.png" />
+          <img
+            src="/pagSaudeUnica/arvore.png"
+          />
         </section>
 
         <section

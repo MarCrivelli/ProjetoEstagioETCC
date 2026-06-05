@@ -59,7 +59,7 @@ section.secao.parallax2 {
   display: flex;
   flex-wrap: wrap;
   gap: 40px;
-  justify-content: center;
+  
   position: relative;
   overflow: hidden;
 }
@@ -67,77 +67,46 @@ section.secao.parallax2 {
 .conteudo1 {
   z-index: 10;
   min-height: 60vh;
-  padding: 150px 20px;
-  background: linear-gradient(
-    135deg,
-    #220554 0%,
-    #220554 8.3%,
-    #83005f 8.3%,
-    #83005f 16.6%,
-    #cd1d52 16.6%,
-    #cd1d52 24.9%,
-    #fb6a35 24.9%,
-    #fb6a35 33.2%,
-    #ffb801 33.2%,
-    #ffb801 41.5%,
-    #ffd800 41.5%,
-    #ffd800 58.1%,
-    #ffb801 58.1%,
-    #ffb801 66.4%,
-    #fb6a35 66.4%,
-    #fb6a35 74.7%,
-    #cd1d52 74.7%,
-    #cd1d52 83%,
-    #83005f 83%,
-    #83005f 91.3%,
-    #220554 91.3%,
-    #220554 99.6%,
-    #170027 99.6%,
-    #170027 100%
-  );
-  /* background-image: url(/imagensDeFundo/fundoMontanhaEscura.svg);
+  padding: 60px;
+  background-image: url(/imagensDeFundo/fundoPontiagudo.svg);
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: top left; */
+  background-position: top left;
+  justify-content: flex-start;
 }
 
 .conteudo1 .painel {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   border-radius: 20px;
-  max-width: 1100px;
-  padding: 60px 40px;
+  max-width: 900px;
+  padding: 40px;
   z-index: 10;
   background-color: #ffffff;
+  filter: drop-shadow(10px 10px 0 #110b1c80);
 }
 
 .conteudo1 .painel p {
-  font-size: 1.5rem;
-  font-weight: 200;
-  color: rgb(0, 0, 0);
+  font-size: 1.8rem;
+  font-weight: 350;
+  color: #110b1cbf;
   text-align: justify;
 }
 
-.foguete,
-.fogo {
+.conteudo1 .painel strong {
+  text-decoration: underline;
+  color: #2a0f5c;
+  font-weight: 900;
+}
+
+.conteudo1 img{
+  content: "";
   position: absolute;
-}
-
-.foguete {
-  transform: rotate(-40deg);
-  top: 28px;
-  right: 13%;
-  z-index: 10;
-  width: 100px;
-}
-
-.fogo {
-  transform: rotate(145deg);
-  top: calc(28px + 22px);
-  right: calc(13% - 128px);
-  width: 100px;
-  height: 400px;
+  width: 500px;
+  height: 500px;
+  bottom: -40px;
+  right: 0px;
 }
 
 .conteudo2 {
@@ -158,5 +127,7 @@ section.secao.parallax2 {
 
   opacity: calc(0.4 + var(--progresso) * 0.6);
   transform: scale(calc(0.8 + var(--progresso) * 0.2));
-  transition: opacity 0.15s linear, transform 0.15s linear;
+  transition:
+    opacity 0.15s linear,
+    transform 0.15s linear;
 }

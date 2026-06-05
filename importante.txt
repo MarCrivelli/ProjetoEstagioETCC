@@ -61,11 +61,11 @@ Sites que peguei alguns componentes utilizados:
 20. Atendente
 <a href="https://www.flaticon.com/free-icons/operator" title="operator icons">Operator icons created by kliwir art - Flaticon</a>
 
-21. Foguete
-<a href="https://www.flaticon.com/free-icons/rocket" title="rocket icons">Rocket icons created by Freepik - Flaticon</a>
+22. Árvore
+<a href="https://www.flaticon.com/free-icons/bonsai" title="bonsai icons">Bonsai icons created by justicon - Flaticon</a>
 
-22. Fogo
-<a href="https://www.flaticon.com/free-icons/flame" title="flame icons">Flame icons created by ultimatearm - Flaticon</a>
+23. Borda floral
+<a href="https://www.flaticon.com/free-icons/floral" title="floral icons">Floral icons created by Freepik - Flaticon</a>
 
 https://react-select.com/home
 
